@@ -5,9 +5,6 @@ It gives India's MSMEs one pipeline to track what's owed, what's overdue, and
 what they could finance today — with the evidence and interest numbers that make
 a delayed-payment or TReDS claim actually stand.
 
-This repo is now a **PayKaro-only project**. The former WooCommerce theme and the
-Cartly design-system tooling have been removed; only the application and its docs
-remain.
 
 ## What it does
 
