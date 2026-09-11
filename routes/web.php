@@ -74,7 +74,7 @@ Route::get('/auth/google/callback', [GoogleOAuthController::class, 'callback'])-
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     Route::post('/alerts/read', [AlertController::class, 'markRead'])->name('alerts.read');
