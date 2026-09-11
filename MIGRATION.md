@@ -109,7 +109,10 @@ businesses and their 18 invoices, and the 404-not-403 isolation contract.
 - `php artisan test` — see `tests/`; the arithmetic is pinned in `tests/Unit/ReceivablesTest.php`
   and the rest is exercised over HTTP (pipeline, isolation, Google provisioning, pages).
 - `.github/workflows/ci.yml` runs Pint, the suite, and a boot job that migrates, seeds,
-  serves and curls `/`, `/login`, `/pricing`, `/assets/app.css` plus the legacy redirects.
+  serves and curls `/`, `/login`, `/pricing`, `/assets/app.css` plus the legacy
+  redirects. (Adding or changing anything under `.github/workflows` needs a GitHub
+  token with the `workflows` scope, so this file may sit one commit behind the rest of
+  the port — check `git log .github/workflows/ci.yml` before trusting CI to cover it.)
 - In the agent sandbox there is no native PHP and Packagist is unreachable, so the app
   could not be booted here: the PHP layer was checked with `bridge/lint.mjs` (a php-wasm
   `php -l`) and the Blade layer structurally (component/route/method cross-checks). Running

@@ -38,9 +38,15 @@
 
     @if (config('paykaro.demo'))
         <div class="auth-alt" style="margin-top:.9rem;line-height:1.7;">
-            Demo logins (password <strong>demo1234</strong>):<br>
-            <a href="#" onclick="document.getElementById('email').value='sunita@shreeprecision.in';document.getElementById('password').value='demo1234';return false;">sunita@shreeprecision.in</a> ·
-            <a href="#" onclick="document.getElementById('email').value='farhan@metrowceramics.in';document.getElementById('password').value='demo1234';return false;">farhan@metrowceramics.in</a>
+            Demo workspace · both owners use password <strong>demo1234</strong>:
+            <code>sunita@shreeprecision.in</code> (15 invoices) and
+            <code>farhan@metrowceramics.in</code> (3).
+            <div style="margin-top:.5rem;">
+                <button class="pkg-btn pkg-btn--link pkg-btn--sm" type="button"
+                        onclick="document.getElementById('email').value='sunita@shreeprecision.in';document.getElementById('password').value='demo1234';document.getElementById('email').focus();">
+                    Fill Sunita's login
+                </button>
+            </div>
         </div>
     @endif
 </x-layouts.auth>
