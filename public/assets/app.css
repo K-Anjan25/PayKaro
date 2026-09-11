@@ -896,3 +896,17 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .auth-alt a { color:var(--n-blue); font-weight:700; }
 .auth-alt a:hover { text-decoration:underline; }
 @media (max-width:940px){ .auth-side { display:none; } .auth-form { padding:2rem 1.3rem; } }
+
+/* ============================================================================
+   Form state + confirmations (Laravel port)
+   ==========================================================================
+   The flat-PHP app reported failures as a bare ?err=invalid callout, so field
+   level feedback and a positive "saved" tone are new to the design system.
+   Both reuse the existing ink/coral/success tokens.
+   ========================================================================== */
+.pkg-field-error { display:block; margin-top:.3rem; font-size:.74rem; font-weight:600; color:var(--n-coral-strong); }
+.pkg-field-hint { display:block; margin-top:.3rem; font-size:.72rem; color:var(--n-ink-mute); }
+.pkg-input--invalid { border-color:var(--n-coral); }
+.pkg-input--invalid:focus { border-color:var(--n-coral-strong); box-shadow:0 0 0 3px var(--n-coral-soft); }
+.pkg-callout--sage { background:rgba(29,111,79,.10); border-color:rgba(29,111,79,.34); }
+.pkg-callout--sage strong { color:var(--n-success); }

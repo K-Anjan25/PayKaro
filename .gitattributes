@@ -4,3 +4,9 @@
 *.png binary
 *.jpg binary
 *.ico binary
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
