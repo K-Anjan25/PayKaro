@@ -150,7 +150,9 @@ final class WorkspacePagesTest extends TestCase
         $response->assertOk()->assertSee('INV-KAV-1')->assertDontSee('INV-KAV-2');
 
         // Only one result, so no pager — but the tab link must still carry q.
-        $response->assertSee('q=KAV');
+        // `escape: false`, because an href that keeps two params reads
+        // `q=KAV&status=accepted` in the markup only after unescaping.
+        $response->assertSee('q=KAV', escape: false);
     }
 
     public function test_the_finance_queue_separates_ready_from_blocked(): void
