@@ -27,10 +27,7 @@ final class PublicPagesTest extends TestCase
             ->assertSee('Make every')
             ->assertSee('Raised → accepted → financed → settled')
             ->assertSee('TReDS-ready finance queue')
-            // The tagline is rendered through {{ }}, so the config's raw `&`
-            // arrives as `&amp;` — assert it with escaping off rather than
-            // hard-coding the entity.
-            ->assertSee('MSME invoice & receivables tracker', escape: false);
+            ->assertSee('MSME invoice & receivables tracker');
     }
 
     public function test_the_landing_page_links_the_news_it_advertises(): void

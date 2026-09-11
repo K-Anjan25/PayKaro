@@ -282,9 +282,9 @@
 	<div>
 		<h4>Legal</h4>
 		<ul>
-			<li><a href="/terms">Terms</a></li>
-			<li><a href="/privacy">Privacy</a></li>
-			<li><a href="/security">Security</a></li>
+			<li><a href="{{ route('terms') }}">Terms</a></li>
+			<li><a href="{{ route('privacy') }}">Privacy</a></li>
+			<li><a href="{{ route('security') }}">Security</a></li>
 		</ul>
 	</div>
 </div>

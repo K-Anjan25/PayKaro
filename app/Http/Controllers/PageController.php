@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Legal;
 use App\Support\News;
 use App\Support\Pricing;
 use Illuminate\Http\RedirectResponse;
@@ -36,12 +37,28 @@ class PageController extends Controller
     }
 
     /**
-     * `/terms`, `/privacy` and `/security` were aliases into the help page; kept
-     * as aliases so footer links from the old pages still land somewhere.
+     * The legal set. Content lives in App\Support\Legal as data — three pages
+     * with one layout, so a rate change or a new stored field is a single,
+     * reviewable edit instead of a copy-paste sweep across templates.
+     *
+     * Each Legal::*() array is shaped exactly as <x-legal-layout>'s props, so the
+     * same data drives all three pages: the keys *are* the props.
+     *
+     * @return array{title: string, lede: string, sections: list<array<string, mixed>>}
      */
-    public function legal(): RedirectResponse
+    public function terms(): View
     {
-        return redirect()->route('help');
+        return view('components.legal-layout', Legal::terms());
+    }
+
+    public function privacy(): View
+    {
+        return view('components.legal-layout', Legal::privacy());
+    }
+
+    public function security(): View
+    {
+        return view('components.legal-layout', Legal::security());
     }
 
     public function article(string $slug): View|RedirectResponse

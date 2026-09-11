@@ -124,7 +124,8 @@
                         </div>
                         <div class="pkg-field" style="margin:0">
                             <label class="pkg-label" for="payment_paid_on">Paid on</label>
-                            <input class="pkg-input" id="payment_paid_on" name="paid_on" type="date" value="{{ old('paid_on', now()->toDateString()) }}">
+                            <input class="pkg-input" id="payment_paid_on" name="paid_on" type="date"
+                                   max="{{ now()->toDateString() }}" value="{{ old('paid_on', now()->toDateString()) }}">
                             @error('paid_on')<span class="pkg-field-error">{{ $message }}</span>@enderror
                         </div>
                         <div class="pkg-field" style="margin:0">
@@ -182,6 +183,12 @@
                             <label class="pkg-label" for="amount_disbursed">Disbursed (₹)</label>
                             <input class="pkg-input num" id="amount_disbursed" name="amount_disbursed" type="number" step="0.01" min="0" value="{{ old('amount_disbursed', round($invoice->total_amount, 2)) }}">
                             @error('amount_disbursed')<span class="pkg-field-error">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="pkg-field" style="margin:0">
+                            <label class="pkg-label" for="financing_disbursed_on">Disbursed on</label>
+                            <input class="pkg-input" id="financing_disbursed_on" name="disbursed_on" type="date"
+                                   max="{{ now()->toDateString() }}" value="{{ old('disbursed_on', now()->toDateString()) }}">
+                            @error('disbursed_on')<span class="pkg-field-error">{{ $message }}</span>@enderror
                         </div>
                         <div>
                             <button class="pkg-btn pkg-btn--primary pkg-btn--sm" type="submit">Finance this</button>

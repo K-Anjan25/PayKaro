@@ -113,6 +113,24 @@ businesses and their 18 invoices, and the 404-not-403 isolation contract.
   redirects. (Adding or changing anything under `.github/workflows` needs a GitHub
   token with the `workflows` scope, so this file may sit one commit behind the rest of
   the port — check `git log .github/workflows/ci.yml` before trusting CI to cover it.)
+## Added on top of parity
+
+Two things arrived after the cutover, both deliberately inside the existing rules:
+
+- **Calendar popups.** `resources/views/partials/datepicker.blade.php` decorates every
+  `<input type="date">` with a themed month popup (arrow/PageUp/Home keys, Today and Clear,
+  `min`/`max` honoured). Included from all three layouts and idempotent behind
+  `window.__pkgDatepicker`, so it costs no build step and no duplicate nodes. Native
+  `type=date` semantics remain the fallback, and the popup reads and writes the field's own
+  `YYYY-MM-DD` — it is never a second source of truth. Calendar maths is UTC-day arithmetic
+  because a local `Date` can move a due date across a DST or timezone boundary.
+  The financing form also gained the `disbursed_on` field the request already accepted.
+- **Legal pages.** `/terms`, `/privacy` and `/security` were `Route::redirect()` calls into
+  `/help` while the footer advertised them. They now render real documents from
+  `App\Support\Legal` through one shared component, written to be *checkable* against this
+  repository — including the parts that are missing (no CSP/HSTS headers, no encryption at
+  rest, no MFA), since a security page that hides those is worse than no page.
+
 - In the agent sandbox there is no native PHP and Packagist is unreachable, so the app
   could not be booted here: the PHP layer was checked with `bridge/lint.mjs` (a php-wasm
   `php -l`) and the Blade layer structurally (component/route/method cross-checks). Running

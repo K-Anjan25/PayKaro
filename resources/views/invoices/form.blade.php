@@ -49,7 +49,7 @@
                     <label class="pkg-label" for="invoice_date">Invoice date</label>
                     <input class="pkg-input @error('invoice_date') pkg-input--invalid @enderror" id="invoice_date"
                            type="date" name="invoice_date" required value="{{ old('invoice_date', $invoiceDate) }}"
-                           oninput="pkDue()">
+                           max="{{ now()->toDateString() }}" oninput="pkDue()">
                     @error('invoice_date')<span class="pkg-field-error">{{ $message }}</span>@enderror
                 </div>
 

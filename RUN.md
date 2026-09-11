@@ -125,7 +125,9 @@ which mocks Socialite rather than dialling Google).
 ## Routes
 
 Public: `/` landing · `/pricing` · `/help` · `/contact` · `/news` → `/#news` ·
-`/news/{slug}` · `/terms|/privacy|/security` → `/help` · `/up` (health).
+`/news/{slug}` · `/terms` · `/privacy` · `/security` (legal set, content in
+`app/Support/Legal.php`, one layout at `resources/views/components/legal-layout.blade.php`) ·
+`/up` (health).
 
 Auth: `/login` `/signup` (GET+POST) · `/auth/google` `/auth/google/callback` · `POST /logout`.
 

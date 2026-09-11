@@ -24,6 +24,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
+    @include('partials.datepicker')
 </head>
 <body class="pkg">
 <div class="pkg-shell">
@@ -98,7 +99,10 @@
         </main>
         <footer class="pkg-footer">
             © {{ now()->year }} {{ config('app.name') }} · {{ config('paykaro.tagline') }} ·
-            <a href="{{ route('pricing') }}" style="color:var(--n-blue);font-weight:700;">See pricing</a>
+            <a href="{{ route('pricing') }}" style="color:var(--n-blue);font-weight:700;">See pricing</a> ·
+            <a href="{{ route('privacy') }}" style="color:var(--n-ink-mute);">Privacy</a> ·
+            <a href="{{ route('security') }}" style="color:var(--n-ink-mute);">Security</a> ·
+            <a href="{{ route('terms') }}" style="color:var(--n-ink-mute);">Terms</a>
         </footer>
     </div>
 </div>

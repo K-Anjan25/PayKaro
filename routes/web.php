@@ -34,10 +34,12 @@ Route::get('/pricing', [PageController::class, 'pricing'])->name('pricing');
 Route::get('/help', [PageController::class, 'help'])->name('help');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
-// Footer aliases that the flat-PHP app pointed at the help page.
-Route::redirect('/terms', '/help');
-Route::redirect('/privacy', '/help');
-Route::redirect('/security', '/help');
+// The legal set. The flat-PHP app had these as footer text with no page behind
+// them; they now have real content, and the paths are unchanged so any existing
+// link (or bookmark) lands on the right document instead of the help page.
+Route::get('/terms', [PageController::class, 'terms'])->name('terms');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('/security', [PageController::class, 'security'])->name('security');
 
 Route::get('/news', fn () => redirect('/#news'))->name('news.index');
 Route::get('/news/{slug}', [PageController::class, 'article'])->name('news.show');
