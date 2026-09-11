@@ -6,7 +6,7 @@ PayKaro is a Laravel 12 application on PHP 8.3. Nothing needs a database server:
 ## Local
 
 ```bash
-composer install
+composer install     # from the committed composer.lock
 cp .env.example .env
 php artisan key:generate
 
@@ -15,7 +15,20 @@ php artisan migrate --seed
 php artisan serve --host=0.0.0.0 --port=8080
 ```
 
-`migrate --seed` prints the demo logins and is idempotent — it skips itself the moment
+On Windows (PowerShell 5.1 — no `&&`, so one command per line; `composer` must be on
+`PATH` via `composer.bat`, or call `php "$env:LOCALAPPDATA\Programs\composer.phar"` directly):
+
+```powershell
+composer install                          # installs from the committed composer.lock
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+php artisan key:generate
+php artisan migrate:fresh --seed          # creates database\paykaro.sqlite as needed
+php artisan test
+php artisan serve
+```
+
+`migrate --seed` prints the demo logins (`sunita@shreeprecision.in`, `farhan@metrowceramics.in`,
+password `demo1234`) and is idempotent — it skips itself the moment
 any user exists, so re-running it never doubles the demo book. To start over:
 
 ```bash
