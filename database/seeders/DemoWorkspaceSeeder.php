@@ -37,8 +37,11 @@ class DemoWorkspaceSeeder extends Seeder
 
     public function run(): void
     {
-        if (User::query()->exists()) {
-            $this->command?->info('Users already present — skipping the demo seed.');
+        if (($existing = User::query()->count()) > 0) {
+            // The usual reason a first run looks "seeded but empty": somebody
+            // signed up on /signup before this ran, so the guard below fired.
+            $this->command?->warn("Database already has {$existing} user(s) — skipping the demo seed.");
+            $this->command?->line('  To get the two demo tenants instead: php artisan migrate:fresh --seed');
 
             return;
         }

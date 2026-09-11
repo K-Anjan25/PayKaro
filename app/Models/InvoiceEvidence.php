@@ -21,6 +21,15 @@ class InvoiceEvidence extends Model
 {
     use HasFactory;
 
+    /**
+     * Mandatory, not cosmetic: "evidence" is an *uncountable* noun, so Eloquent's
+     * inflector resolves InvoiceEvidence to `invoice_evidence` — identical to its
+     * singular form — and every query would target a table that does not exist.
+     * The real name is inherited from the legacy schema (schema.sql) and the
+     * migration of the same name.
+     */
+    protected $table = 'invoice_evidences';
+
     public $timestamps = false;
 
     protected $fillable = [

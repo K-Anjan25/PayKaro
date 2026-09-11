@@ -39,7 +39,7 @@ trait CreatesWorkspace
      */
     protected function tredsBuyer(User $user): Buyer
     {
-        return $this->buyer($user, ['treds_onboarded' => TredsOnboarding::Yes]);
+        return $this->buyerAs($user, ['treds_onboarded' => TredsOnboarding::Yes]);
     }
 
     protected function invoice(User $user, Buyer $buyer, array $attributes = []): Invoice
