@@ -361,8 +361,11 @@ final class InvoicePipelineTest extends TestCase
             'status' => InvoiceStatus::Accepted,
         ]);
 
+        // Filing a claim lands on the evidence packet, not back on the invoice:
+        // the deadline and the documents are the next thing the supplier needs,
+        // and the controller says so (see DisputeController::store).
         $this->post(route('invoices.disputes.store', $invoice), ['forum' => 'msefc'])
-            ->assertRedirect(route('invoices.show', $invoice));
+            ->assertRedirect(route('invoices.claim', $invoice));
 
         $invoice->refresh();
         $dispute = Dispute::query()->sole();
@@ -399,6 +402,14 @@ final class InvoicePipelineTest extends TestCase
             'total_amount' => 118000,
             'status' => InvoiceStatus::Accepted,
         ]);
+
+        // The packet tabulates one row per *evidence row that exists*, so it can
+        // only name a gap the fixture actually left open. Tick the checklist
+        // (required items missing, everything the packet reads present) before
+        // asserting both halves of the label.
+        foreach (EvidenceType::cases() as $type) {
+            $invoice->evidences()->create(['type' => $type, 'present' => false]);
+        }
 
         $this->put(route('invoices.evidence', $invoice), ['type' => 'po', 'present' => 1]);
 

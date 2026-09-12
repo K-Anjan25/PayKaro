@@ -82,6 +82,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/alerts/read', [AlertController::class, 'markRead'])->name('alerts.read');
 
     // Invoices: the pipeline.
+    //
+    // The legacy `/invoices/new` address has to be registered *before* the resource,
+    // or `invoices/{invoice}` matches it first with `{invoice} = new`, the implicit
+    // binding finds nothing, and the alias answers 404.
+    Route::redirect('/invoices/new', '/invoices/create');
+
     Route::resource('invoices', InvoiceController::class)
         ->only(['index', 'create', 'store', 'show', 'edit', 'update'])
         ->parameters(['invoices' => 'invoice']);

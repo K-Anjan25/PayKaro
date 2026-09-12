@@ -213,14 +213,16 @@ final class WorkspacePagesTest extends TestCase
             'udyam_no' => 'udyam-ts-12-0000123',
             'bank_name' => 'HDFC Bank',
             'bank_acc_no' => '50100012345678',
-            'bank_ifsc' => 'hfdc0001234',
+            'bank_ifsc' => 'hdfc0001234',
             'treds_registered' => 1,
         ])->assertRedirect(route('settings.edit'));
 
         $business = $owner->business->refresh();
 
         $this->assertSame('Shree Precision Works Pvt Ltd', $business->name);
-        $this->assertSame('36AACS1234F1Z5', $business->gstin, 'identity fields are upper-cased for the claim forms');
+        // Upper-cased as posted: "aaacs1234f" has three A's, and the claim forms
+        // have to quote the GSTIN exactly as the invoice does.
+        $this->assertSame('36AAACS1234F1Z5', $business->gstin, 'identity fields are upper-cased for the claim forms');
         $this->assertSame('AAACS1234F', $business->pan);
         $this->assertSame('UDYAM-TS-12-0000123', $business->udyam_no);
         $this->assertSame('HDFC0001234', $business->bank_ifsc);
@@ -338,7 +340,9 @@ final class WorkspacePagesTest extends TestCase
 
         $invoice->refresh();
 
-        $this->assertSame(0, $invoice->interest());
+        // `interest()` is typed `: float`, so a settled invoice returns 0.0 —
+        // `assertSame(0, …)` compares an int against it and fails on type alone.
+        $this->assertSame(0.0, $invoice->interest());
         $this->assertSame(0.0, $invoice->balance());
         $this->assertSame(0, $invoice->overdueDays());
         $this->assertNotNull($invoice->paid_date);

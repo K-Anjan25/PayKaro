@@ -50,15 +50,14 @@ final class AuthenticationTest extends TestCase
 
     public function test_a_wrong_password_is_rejected(): void
     {
-        $user = $this->workspace();
+        $user = $this->workspaceFixture();
 
         $this->from('/login')->post('/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
-        ])->assertRedirect('/login');
+        ])->assertRedirect('/login')->assertSessionHasErrors('email');
 
         $this->assertGuest();
-        $this->assertSessionHasErrors('email');
     }
 
     public function test_an_unknown_email_is_rejected_with_the_same_message(): void
@@ -71,7 +70,9 @@ final class AuthenticationTest extends TestCase
 
     public function test_six_failed_attempts_lock_the_email_out(): void
     {
-        $user = $this->workspace();
+        // `workspaceFixture()`, not `workspace()`: the point is that a *guest*
+        // gets locked out, and `workspace()` would have signed this test in.
+        $user = $this->workspaceFixture();
 
         $attempt = fn () => $this->post('/login', [
             'email' => $user->email,
@@ -117,10 +118,13 @@ final class AuthenticationTest extends TestCase
         $this->post('/login', ['email' => $user->email, 'password' => 'anything'])
             ->assertSessionHasErrors('email');
 
-        $this->assertStringContainsString(
-            'sign in with Google',
-            session('errors')->first('email'),
-        );
+        $message = (string) session('errors')->first('email');
+
+        // The copy names the account type and the way out. (It reads "signs in with
+        // Google" — the account signs in, not the person — so the old assertion,
+        // looking for "sign in with Google", could never match.)
+        $this->assertStringContainsString('signs in with Google', $message);
+        $this->assertStringContainsString('Google button', $message);
 
         $this->assertGuest();
     }
@@ -159,7 +163,8 @@ final class AuthenticationTest extends TestCase
 
     public function test_a_duplicate_email_is_a_field_error_rather_than_a_server_error(): void
     {
-        $existing = $this->workspace();
+        // Again a guest: the form under test is only reachable when signed out.
+        $existing = $this->workspaceFixture();
 
         $this->from('/signup')->post('/signup', [
             'name' => 'Someone Else',

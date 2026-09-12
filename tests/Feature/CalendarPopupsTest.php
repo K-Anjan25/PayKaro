@@ -25,15 +25,26 @@ final class CalendarPopupsTest extends TestCase
 
     public function test_the_invoice_form_gets_a_calendar_and_caps_at_today(): void
     {
-        $this->workspace(UserRole::Owner);
+        $owner = $this->workspace(UserRole::Owner);
+
+        // A buyer has to exist or the form never renders: with an empty book the
+        // page shows its "Add a buyer first" state instead, and every assertion
+        // below would be made against a empty-state page that has no date field.
+        $this->buyerAs($owner);
 
         $html = $this->get(route('invoices.create'))->assertOk()->getContent();
 
         $this->assertSame(1, substr_count($html, 'id="pkg-cal"'), 'exactly one popup node per page');
         $this->assertStringContainsString('__pkgDatepicker', $html);
-        $this->assertStringContainsString('name="invoice_date" type="date"', $html);
-        $this->assertStringContainsString('max="'.now()->toDateString().'"', $html);
         $this->assertStringContainsString('Open calendar', $html, 'the field needs a reachable trigger, not only a click target');
+
+        // The field is a native date input with today as its ceiling. Assert the
+        // *tag*, not an attribute order: the markup sets `type` before `name`, and
+        // a substring assertion that pins the order fails on a harmless shuffle.
+        $this->assertMatchesRegularExpression('/<input[^>]*name="invoice_date"[^>]*>/', $html);
+        preg_match('/<input[^>]*name="invoice_date"[^>]*>/', $html, $field);
+        $this->assertStringContainsString('type="date"', $field[0]);
+        $this->assertStringContainsString('max="'.now()->toDateString().'"', $field[0]);
     }
 
     public function test_payment_and_financing_dates_are_pickable_on_the_invoice_page(): void

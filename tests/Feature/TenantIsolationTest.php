@@ -26,27 +26,39 @@ final class TenantIsolationTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * An invoice *with* an alert, because the alert is what the scoping assertions
-     * read. Creating it through `Invoice::factory()` deliberately skips
-     * `InvoiceWorkflow::create()` — the service is what raises the buyer-onboarding
-     * alert — so a factory-built invoice carries none, and the test was asserting
-     * that a side effect of a code path it never ran had happened. Creating the
-     * alert next to the invoice keeps the fixture honest: this test is about which
-     * tenant's rows are visible, not about whether the pipeline notifies.
+     * An invoice belonging to `$owner`'s business, with no alert.
+     *
+     * Two fixtures used to live here and both were traps:
+     *
+     *  - the number was a hard-coded `INV-SECRET-1` for *every* tenant, so the
+     *    "the list never shows another workspace" assertions had to be satisfied by
+     *    a page that shows one `INV-SECRET-1` and hides the other. A leak would
+     *    have shown the number twice, which `assertDontSee` cannot tell apart from
+     *    a page that shows it once. A per-tenant sequence makes the assertion mean
+     *    what it says.
+     *  - it raised a TReDS alert so the alert-scoping tests had something to read.
+     *    That coupling is gone: `test_alerts_are_scoped_and_dismissal_touches_only_this_business`
+     *    creates the alert it needs, and the other tests get a plain invoice.
      */
-    private function invoiceOf(User $owner): Invoice
+    private function invoiceOf(User $owner, ?string $number = null): Invoice
     {
-        $buyer = $this->buyerAs($owner, ['name' => 'Metro Ceramics Ltd']);
+        $buyer = $this->buyerAs($owner);
 
-        $invoice = Invoice::factory()->forBuyer($buyer)->create(['number' => 'INV-SECRET-1']);
+        return Invoice::factory()->forBuyer($buyer)->create([
+            'number' => $number ?? 'INV-SECRET-'.(Invoice::withoutGlobalScope(TenantScope::class)->count() + 1),
+        ]);
+    }
 
-        $invoice->business->alerts()->create([
+    /**
+     * An unread alert on `$owner`'s business, for the tests that read the list.
+     */
+    private function alertFor(Invoice $invoice, User $owner): Alert
+    {
+        return $owner->business->alerts()->create([
             'invoice_id' => $invoice->id,
             'type' => AlertType::Treds->value,
             'message' => 'Buyer is not TReDS-onboarded — confirm before the invoice churns.',
         ]);
-
-        return $invoice;
     }
 
     public function test_a_foreign_invoice_reads_as_absent_rather_than_forbidden(): void
@@ -183,41 +195,47 @@ final class TenantIsolationTest extends TestCase
 
     public function test_invoice_numbers_only_have_to_be_unique_inside_a_business(): void
     {
+        // The other tenant already holds a number; mine may reuse it, because the
+        // unique index is per business — and that is what this asserts. (The count
+        // is taken from inside my own tenant: `Invoice::query()` is scoped by
+        // `TenantScope`, so counting it would only ever see my one row.)
         $other = $this->otherWorkspace();
-        $this->invoiceOf($other);
+        $theirNumber = $this->invoiceOf($other)->number;
 
         $me = $this->workspace();
         $buyer = $this->buyerAs($me, ['name' => 'Same Number Co']);
 
         $this->post(route('invoices.store'), [
-            'number' => 'INV-SECRET-1',
+            'number' => $theirNumber,
             'buyer_id' => $buyer->id,
             'invoice_date' => now()->toDateString(),
             'base_amount' => 25000,
         ])->assertSessionHasNoErrors();
 
-        $this->assertSame(2, Invoice::query()->count());
+        $this->assertSame(1, Invoice::query()->count());
+        $this->assertSame(
+            2,
+            Invoice::query()->withoutGlobalScope(TenantScope::class)->where('number', $theirNumber)->count(),
+        );
     }
 
     public function test_alerts_are_scoped_and_dismissal_touches_only_this_business(): void
     {
+        // One unread alert per tenant, created explicitly: the fixture no longer
+        // raises alerts as a side effect of building an invoice.
         $other = $this->otherWorkspace();
-        $this->invoiceOf($other);
+        $this->alertFor($this->invoiceOf($other), $other);
 
         $me = $this->workspace();
-        $this->buyerAs($me, ['name' => 'Not Onboarded Ltd', 'treds_onboarded' => TredsOnboarding::No]);
+        $mine = $this->alertFor($this->invoiceOf($me), $me);
 
-        Alert::query()->delete();
-
-        $foreignAlerts = Alert::query()->count();
-
-        $this->invoiceOf($me);
-
-        $this->assertSame(1, Alert::query()->count() - $foreignAlerts);
+        // Only my alert is visible from inside my workspace.
+        $this->assertSame(1, Alert::query()->count());
 
         $this->post(route('alerts.read'))->assertRedirect(route('dashboard'));
 
         $this->assertSame(0, Alert::query()->unread()->count());
+        $this->assertNotNull($mine->refresh()->read_at);
 
         // Dismissing "all" means all of *this* business's alerts: the other
         // workspace keeps its unread copy.

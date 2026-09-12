@@ -92,6 +92,10 @@ final class SchemaTableNamesTest extends TestCase
             'invoice_date' => now()->subDays(60)->toDateString(),
             'base_amount' => 100000,
             'tax_amount' => 18000,
+            // The factory sums base + tax into `total_amount` from values *it*
+            // generated; overriding the two parts without the total leaves the
+            // row internally inconsistent, and the dashboard reads the total.
+            'total_amount' => 118000,
             'status' => InvoiceStatus::Accepted,
         ]);
 

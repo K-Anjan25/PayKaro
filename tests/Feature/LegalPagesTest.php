@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Support\Legal;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Concerns\CreatesWorkspace;
 use Tests\TestCase;
@@ -17,6 +19,7 @@ use Tests\TestCase;
 final class LegalPagesTest extends TestCase
 {
     use CreatesWorkspace;
+    use RefreshDatabase;
 
     public static function documents(): array
     {
@@ -46,8 +49,10 @@ final class LegalPagesTest extends TestCase
         $terms->assertSee('not a payment gateway');
         // No analytics/beacons, and the outbound request that does exist.
         $privacy->assertSee('Google Fonts', escape: false);
-        // The honest list, not just the flattering one.
-        $security->assertSee('does NOT give you', escape: false)->assertSee('no content security policy', escape: false);
+        // The honest list, not just the flattering one. Matched without its leading
+        // word: the gap is named in a bullet now ("No content security policy…"),
+        // and the assertion is about the gap being documented, not about its case.
+        $security->assertSee('does NOT give you', escape: false)->assertSee('content security policy', escape: false);
         $security->assertSee('composer audit');
     }
 
@@ -122,17 +127,36 @@ final class LegalPagesTest extends TestCase
 
     public function test_the_landing_and_app_footers_link_the_legal_set(): void
     {
-        $landing = $this->get('/')->assertOk();
+        $landing = $this->linkedPaths($this->get('/')->assertOk());
 
         foreach (['/terms', '/privacy', '/security'] as $uri) {
-            $landing->assertSee('href="'.$uri.'"', escape: false);
+            $this->assertContains($uri, $landing, 'the landing footer should link '.$uri);
         }
 
         // Signed-in users get the same documents from inside the workspace.
         $this->workspace();
-        $this->get('/dashboard')
-            ->assertOk()
-            ->assertSee('href="'.route('privacy').'"', escape: false)
-            ->assertSee('href="'.route('security').'"', escape: false);
+        $workspace = $this->linkedPaths($this->get('/dashboard')->assertOk());
+
+        foreach (['/terms', '/privacy', '/security'] as $uri) {
+            $this->assertContains($uri, $workspace, 'the workspace footer should link '.$uri);
+        }
+    }
+
+    /**
+     * The paths a page links to — so the assertion is about *where* a link goes,
+     * not how it is spelled. Both footers build their hrefs with `route()`, which
+     * makes them absolute and prefixes the test's APP_URL; pinning the literal
+     * `href="/terms"` asserted the URL's shape rather than the link's existence.
+     *
+     * @return array<int, string>
+     */
+    private function linkedPaths(TestResponse $response): array
+    {
+        preg_match_all('/href="([^"]+)"/', $response->getContent(), $matches);
+
+        return array_values(array_unique(array_map(
+            fn (string $href): string => parse_url($href, PHP_URL_PATH) ?: '/',
+            $matches[1],
+        )));
     }
 }

@@ -66,7 +66,9 @@ class PageController extends Controller
         $article = News::find($slug);
 
         if ($article === null) {
-            return redirect(route('landing').'#news');
+            // Same anchor the /news alias uses — and built the same way, so the two
+            // cannot drift into one-with-a-slash and one-without.
+            return redirect('/#news');
         }
 
         return view('marketing.article', ['article' => $article]);

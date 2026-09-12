@@ -58,4 +58,20 @@ trait CreatesWorkspace
 
         return User::factory()->for($business)->create();
     }
+
+    /**
+     * A workspace without signing anyone in.
+     *
+     * `workspace()` ends in `actingAs()`, which is what every *workspace* test
+     * wants — but it makes the caller the current user, and the auth tests are
+     * about what an anonymous visitor is shown. Using `workspace()` there left
+     * them already signed in, so `/login` and `/signup` short-circuited on the
+     * guest middleware and the credentials under test were never checked.
+     */
+    protected function workspaceFixture(UserRole $role = UserRole::Owner): User
+    {
+        $business = Business::factory()->create();
+
+        return User::factory()->for($business)->create(['role' => $role]);
+    }
 }

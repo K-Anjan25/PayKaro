@@ -67,8 +67,7 @@ final class PublicPagesTest extends TestCase
 
     public function test_an_unknown_news_slug_lands_on_the_news_section(): void
     {
-        $this->get('/news/not-a-real-story')
-            ->assertRedirect('/#news');
+        $this->get('/news/not-a-real-story')->assertRedirect('/#news');
     }
 
     public function test_the_news_index_jumps_to_the_landing_section(): void
@@ -76,11 +75,13 @@ final class PublicPagesTest extends TestCase
         $this->get('/news')->assertRedirect('/#news');
     }
 
-    public function test_the_legal_aliases_still_point_at_help(): void
+    public function test_the_legal_documents_are_pages_not_aliases(): void
     {
-        foreach (['/terms', '/privacy', '/security'] as $path) {
-            $this->get($path)->assertRedirect('/help');
-        }
+        // These three used to redirect to /help. They are real documents now, and
+        // the footer links them, so a redirect here would be a regression.
+        $this->get('/terms')->assertOk()->assertSee('Terms of use');
+        $this->get('/privacy')->assertOk()->assertSee('Privacy');
+        $this->get('/security')->assertOk()->assertSee('Security');
     }
 
     public function test_the_workspace_links_are_offered_to_guests_but_guarded(): void

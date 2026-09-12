@@ -165,7 +165,7 @@ final class Legal
                 ],
                 [
                     'heading' => 'What this application does NOT give you',
-                    'body' => "Be precise here, because the honest list is short and useful — each gap below is a decision about scope, not an oversight, and several are yours to close in your own deployment.",
+                    'body' => 'Be precise here, because the honest list is short and useful — each gap below is a decision about scope, not an oversight, and several are yours to close in your own deployment.',
                     'list' => [
                         'No content security policy, no HSTS, no `X-Frame-Options` or `X-Content-Type-Options` header, no permission policy: the app ships no response-hardening middleware of its own.',
                         'No encryption at rest — SQLite is a plain file, and there are no encrypted columns.',
