@@ -117,8 +117,11 @@ Route::middleware('auth')->group(function () {
     | Legacy query-string addresses, kept alive: the flat-PHP app linked
     | `/invoice?id=7`, `/invoice?edit=7` and `/claim?id=7`, and those URLs get
     | shared in email and WhatsApp threads long after a migration.
+    |
+    | The other legacy address, `/invoices/new`, is the one entry in this set that
+    | is *not* here: it has to be matched before `invoices/{invoice}`, so it lives
+    | a few lines up, beside the resource.
     */
     Route::get('/invoice', [PageController::class, 'legacyInvoice']);
     Route::get('/claim', [PageController::class, 'legacyClaim']);
-    Route::redirect('/invoices/new', '/invoices/create');
 });
