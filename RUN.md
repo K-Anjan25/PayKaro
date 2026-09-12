@@ -5,6 +5,17 @@ PayKaro is a Laravel 12 application on PHP 8.3. Nothing needs a database server:
 
 ## Local
 
+Before pushing a dependency change, check the lock against the PHP CI actually runs:
+
+```
+node bridge/check-lock.mjs 8.3.33
+```
+
+It exits non-zero and names every locked package whose `php` floor CI cannot satisfy — the
+failure a locally-green `composer install` cannot show you, because a lock always agrees
+with the machine that produced it.
+
+
 ```bash
 composer install     # from the committed composer.lock
 cp .env.example .env
