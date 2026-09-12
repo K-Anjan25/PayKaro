@@ -58,7 +58,10 @@
         background:transparent; color:var(--n-ink-soft); font-size:1rem; line-height:1; cursor:pointer; }
     .pkg-cal-nav:hover { background:var(--n-blue-soft); color:var(--n-blue); border-color:var(--n-blue); }
 
-    .pkg-cal-dows, .pkg-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+    /* minmax(0,1fr): the popup is clamped to the viewport on a phone, and a bare 1fr
+       track would refuse to shrink below the widest day label, pushing cells past the
+       rounded border instead of compressing. */
+    .pkg-cal-dows, .pkg-cal-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:2px; }
     .pkg-cal-dows span { text-align:center; font-size:.64rem; font-weight:700; letter-spacing:.05em;
         text-transform:uppercase; color:var(--n-ink-mute); padding-bottom:.25rem; }
 

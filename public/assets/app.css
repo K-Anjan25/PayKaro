@@ -347,8 +347,9 @@ html.dark {
 /* Grid and flex items are `auto`-sized by default, which is the mechanism behind
    almost every overflow in this file: the track refuses to shrink below its
    widest unbreakable child. `min-width:0` opts the children back in to shrinking.
-   Not `> * { … }` — that would flatten the intentional `width:100%` tables and
-   the aspect-ratio calendar cells that rely on their own sizing. */
+   `min-width:0` is not inherited, so the tracks get their own list below rather
+   than a global `> * { … }`, which would flatten the intentional `width:100%`
+   tables and the aspect-ratio calendar cells that rely on their own sizing. */
 .pkg-grid > *, .pkg-detail-grid > *, .pkg-invoicemeta > *, .pkg-kpi > *, .cards-row > *,
 .sec-head > *, .legal-body > *, .legal-head > *, .page-footer .container > * { min-width:0; }
 

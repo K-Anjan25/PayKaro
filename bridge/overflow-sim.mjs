@@ -11,17 +11,19 @@
  *     widest unbreakable token; `minmax(0,1fr)` is what lets it shrink;
  *   - `overflow:hidden` on a scroll container turns "scroll" into "clip";
  *   - a `max-content` grid track is sized by the very text that may be too wide;
- *   - a popup with `width:17.5rem` and no `max-width` hangs off a 390px phone.
+ *   - a popup with a fixed width and no max-width hangs off a 390px phone.
  *
  * So rather than pretend to lay text out, this asserts the rules that decide
- * whether anything can overflow, at the widths where the design breaks. Every
- * finding names a selector and a reason a browser would agree with. It is a
- * lint-with-context, not a rendering engine — and it is honest about that: pass
- * here means "no known structural hazard", not "pixel perfect".
+ * whether anything can overflow. Every finding names a selector and a reason a
+ * browser would agree with. It is a lint-with-context, not a rendering engine:
+ * a pass means "no known structural hazard", never "pixel perfect".
  *
- * It is written to be run against a *broken* sheet as a control:
- *   CSS=/tmp/old.css node bridge/overflow-sim.mjs
- * which is the only way to know the checks can fail at all.
+ * RUN THE CONTROL. A checker whose parser quietly returns nothing reports nothing,
+ * which is a green run over a broken file — so this aborts below 60 parsed rules,
+ * prints how many it read, and is written to be pointed at a known-bad sheet:
+ *
+ *   CSS=/tmp/before.css INCLUDE=/dev/null node bridge/overflow-sim.mjs   -> 8+ hazards
+ *   node bridge/overflow-sim.mjs                                          -> 0
  *
  * usage: node bridge/overflow-sim.mjs
  * env:   CSS=…/app.css  INCLUDE=…/datepicker.blade.php  (for control runs)
@@ -32,8 +34,9 @@ const CSS = process.env.CSS || '/home/user/PayKaro/public/assets/app.css';
 const INCLUDE = process.env.INCLUDE || '/home/user/PayKaro/resources/views/partials/datepicker.blade.php';
 
 /* ----------------------------------------------------------- what may be wide */
-// Real unbreakable runs from the shipped markup and copy, not synthetic 'x'*30:
-// a token only causes a bug if the app actually contains one.
+// Real unbreakable runs from the shipped markup and copy, not 'x'*30: a token
+// only causes a bug if the app actually contains one. Widths are shown for
+// triage; no check below depends on them.
 const TOKENS = [
     'SESSION_SECURE_COOKIE=true',
     'sunita@shreeprecision.in',
@@ -42,13 +45,13 @@ const TOKENS = [
     'GOOGLE_CLIENT_SECRET',
     'TredsOnboarding::PendingBuyerOnboard',
 ];
-const CH_PX = 7.4;                    // ≈ .86rem DM Sans average glyph. Only used to rank
-const px = w => (w.length * CH_PX).toFixed(0);   // findings by "how bad", never to decide one.
+const CH_PX = 7.4;                                   // ≈ .86rem DM Sans average glyph
+const px = t => String(Math.round(t.length * CH_PX)).padStart(4);
 
 /* ---------------------------------------------------------------- css parsing */
-/* Comments go first, always: this sheet's banner comments contain `{`, and a
-   parser that counts braces without stripping comments reads the whole file as
-   one swallowed block and reports a satisfyingly empty 0 findings. */
+/* Comments must go first: this sheet's banner comments contain `{`, and a
+   brace-counting parser that doesn't strip them reads the file as one huge block,
+   parses two rules, and reports a satisfying zero findings. */
 function stripComments(css) {
     let out = '', i = 0;
     while (i < css.length) {
@@ -59,48 +62,36 @@ function stripComments(css) {
 }
 
 /* @keyframes bodies are declarations-with-braces (`0%,100%{opacity:1}`), which a
-   generic "skip to the matching }" walk gets exactly one level wrong: it swallows
-   the first inner block, then reads `50%{…}` as a rule and the *next* real
-   selector onward as a body — the whole scan desyncs and quietly parses 2 rules
-   out of 570. A parser that under-parses this badly still reports "no findings",
-   which is how a broken tool passes. Drop them before parsing. */
+   generic "skip to the matching }" walk gets one level wrong. Dropping them whole
+   is both simpler and safe — no layout rule lives inside one. */
 function dropAtRules(css) {
     let out = '', i = 0;
     while (i < css.length) {
         const at = css.indexOf('@', i);
         if (at < 0) { out += css.slice(i); break; }
-        out += css.slice(i, at);                  // <-- the text *before* the at-rule
+        out += css.slice(i, at);                    // the text *before* the at-rule
         const head = /^@(keyframes|font-face|supports)/.exec(css.slice(at));
-        if (!head) { out += css[at]; i = at + 1; continue; }   // e.g. `@x` inside a string
+        if (!head) { out += css[at]; i = at + 1; continue; }
         let depth = 0, j = css.indexOf('{', at);
         for (; j < css.length; j++) {
             if (css[j] === '{') depth++;
             else if (css[j] === '}') { depth--; if (!depth) { j++; break; } }
         }
-        i = j;                                    // whole at-rule removed
+        i = j;
     }
     return out;
 }
 
-/* One flat scan with an explicit stack of {selector, body-start, depth} frames.
-   A stack rather than recursion: recursion has to *prettend* the parent's open
-   block has already been consumed, and getting that wrong makes the rule after a
-   closed `@media` inherit the query (media=900) and then be filtered out as
-   "not applicable at 1440" — which reads as "this rule does not exist". */
+/* One flat scan with an explicit stack of open blocks. A stack rather than
+   recursion: recursion has to pretend the parent's block was already consumed,
+   and getting that wrong makes the rule after a closed `@media` inherit the query
+   (media=900) and then be filtered out as "not applicable at 1440" — which reads
+   as "this rule does not exist". */
 function rules(raw) {
     const css = dropAtRules(stripComments(raw));
     const out = [];
-    const stack = [];                       // {kind:'sel'|'media', sel, media, bodyFrom, depth}
+    const stack = [];                       // {kind:'sel'|'media', sel, media, bodyFrom}
     let i = 0, tokenStart = 0;
-    const close = () => {
-        const f = stack.pop();
-        if (!f) return;
-        if (f.kind === 'sel') {
-            const sel = f.sel.trim().replace(/\s+/g, ' ');
-            if (sel && !sel.startsWith('@')) out.push({ sel, body: css.slice(f.bodyFrom, i), media: f.media });
-        }
-        i++;
-    };
     const mediaAt = () => { for (let k = stack.length - 1; k >= 0; k--) if (stack[k].kind === 'media') return stack[k].media; return null; };
     while (i < css.length) {
         const ch = css[i];
@@ -111,13 +102,16 @@ function rules(raw) {
                 const mw = /max-width:\s*([\d.]+)(px|rem)?/.exec(m[1]);
                 stack.push({ kind: 'media', media: mw ? (mw[2] === 'rem' || !mw[2] ? +mw[1] * 16 : +mw[1]) : null });
             } else {
-                stack.push({ kind: 'sel', sel: text, bodyFrom: i + 1, depth: 1, media: mediaAt() });
+                stack.push({ kind: 'sel', sel: text, bodyFrom: i + 1, media: mediaAt() });
             }
             i++; tokenStart = i;
         } else if (ch === '}') {
-            close(); tokenStart = i;
-        } else if (ch === ';' && !stack.length) {
-            tokenStart = i + 1; i++;           // stray top-level at-rule statement
+            const f = stack.pop();
+            if (f && f.kind === 'sel') {
+                const sel = f.sel.trim().replace(/\s+/g, ' ');
+                if (sel && !sel.startsWith('@')) out.push({ sel, body: css.slice(f.bodyFrom, i), media: f.media });
+            }
+            i++; tokenStart = i;
         } else {
             i++;
         }
@@ -140,7 +134,7 @@ const active = (r, w) => r.media === null || r.media >= w;
 const matches = (r, sel) => parts(r).some(p => {
     if (p === sel) return true;
     if (!sel.includes(' ')) return false;
-    return p === sel || p.endsWith(' ' + sel) || p.endsWith(', ' + sel);
+    return p.endsWith(' ' + sel);
 });
 const ruleFor = (sel, re, w = 1440) => all.find(r => active(r, w) && matches(r, sel) && (!re || re.test(r.body))) || null;
 const propOf = (sel, prop, w = 1440) => {
@@ -152,7 +146,7 @@ const propOf = (sel, prop, w = 1440) => {
     }
     return val;
 };
-// An fr track list is guarded only if *every* fr unit sits inside minmax(0,…).
+// A fr track list is guarded only if *every* fr unit sits inside minmax(0,…).
 const trackGuard = t => {
     if (!t) return 'absent';
     const frs = t.match(/[\d.]*fr/g) || [];
@@ -165,18 +159,55 @@ let fail = 0, notes = 0;
 const bad = (msg, detail = '') => { fail++; console.log(`  FAIL ${msg}${detail ? `\n          ${detail}` : ''}`); };
 const ok = msg => { notes++; console.log(`  ok   ${msg}`); };
 
+/* A parser that finds nothing produces a green run that means nothing, so refuse
+   to report on a sheet that clearly did not parse. */
+if (all.length < 60) {
+    console.log(`\n  ABORT: parsed only ${all.length} rule(s) from ${CSS}.`);
+    console.log('         The parser or the file is wrong, and a pass in that state is meaningless.');
+    process.exit(2);
+}
+console.log(`\nparsed ${all.length} rules (${sheetRules.length} from the sheet, ${all.length - sheetRules.length} from the include)`);
+
 const VIEWPORTS = [1440, 1024, 768, 390];
 const TRACK_SELS = ['.pkg-grid--4', '.pkg-grid--3', '.pkg-grid--2', '.cards-row', '.pkg-invoicemeta',
     '.pkg-detail-grid', '.sec-head', '.legal-body', '.legal-head', '.hero-inner', '.page-footer .container',
     '.legal-toc ol'];
 
-// A parser that silently finds nothing produces a green run that means nothing,
-// so refuse to report success unless the sheet actually parsed.
-if (all.length < 60) {
-    console.log(`\n  ABORT: parsed only ${all.length} rule(s) from ${CSS} — the parser or the file is wrong,`);
-    console.log('         and a pass in that state would be meaningless.');
-    process.exit(2);
+console.log('\n-- grid tracks that may not shrink (blow-out risk) --');
+{
+    let hits = 0;
+    for (const w of VIEWPORTS) {
+        for (const sel of TRACK_SELS) {
+            const v = propOf(sel, 'grid-template-columns', w);
+            const g = trackGuard(v);
+            if (g.startsWith('partial')) {
+                hits++;
+                bad(`${sel} has unguarded fr tracks at ${w}px`, `grid-template-columns:${v}`);
+            }
+        }
+    }
+    if (!hits) ok(`all ${TRACK_SELS.length} measured grids keep minmax(0,…) at ${VIEWPORTS.join('/')}px`);
+
+    /* Then sweep *every* grid in the sheet, not just the curated list above: a list
+       can only catch what its author already thought to look for, which is exactly
+       how the responsive overrides slipped through in the first place. */
+    const loose = [];
+    for (const r of all) {
+        const m = /grid-template-columns:\s*([^;}]+)/.exec(r.body);
+        if (!m) continue;
+        const v = m[1].trim();
+        if (/auto-fill|auto-fit/.test(v)) continue;         // self-limiting by construction
+        if (trackGuard(v).startsWith('partial')) loose.push({ sel: r.sel, v, media: r.media });
+    }
+    if (loose.length) {
+        for (const g of loose.slice(0, 8)) {
+            bad(`${g.sel} has unguarded fr tracks`,
+                `grid-template-columns:${g.v}${g.media ? `  (@media max-width:${g.media}px)` : ''}`);
+        }
+        if (loose.length > 8) bad(`…and ${loose.length - 8} more unguarded grids in the sheet`);
+    } else ok('no grid anywhere in the sheet has an unguarded fr track');
 }
+
 console.log('\n-- scroll containers that clip instead of scrolling --');
 {
     const clipped = VIEWPORTS.filter(w => {
@@ -217,21 +248,21 @@ console.log('\n-- max-content tracks (text sizing its own container) --');
 console.log('\n-- fixed-size popups vs the viewport --');
 {
     const r = ruleFor('.pkg-cal', /width/);
-    if (!r) { notes++; console.log('  --   .pkg-cal not present in this sheet (control run)'); }
+    if (!r) notes++, console.log('  --   .pkg-cal not in this sheet (control run)');
     else if (!/max-width:\s*calc\(100vw/.test(r.body)) bad('.pkg-cal can exceed the viewport', r.body.trim().replace(/\s+/g, ' ').slice(0, 120));
     else ok('.pkg-cal is clamped to calc(100vw − 1.5rem)');
-    // A clamp only helps if the JS that positions the popup re-measures afterwards.
+    // A clamp only helps if the JS positioning the popup re-measures afterwards.
     if (inc) {
-        if (/pop\.offsetWidth/.test(inc) && !/window\.innerWidth\s*-\s*pop\.offsetWidth/.test(inc)) {
+        if (/window\.innerWidth\s*-\s*pop\.offsetWidth/.test(inc)) {
+            bad('place() computes left from the *declared* width', 'the clamped popup can still hang off the right edge');
+        } else if (/pop\.offsetWidth/.test(inc)) {
             ok('place() re-measures after the clamp instead of trusting the declared width');
-        } else if (/window\.innerWidth\s*-\s*pop\.offsetWidth/.test(inc)) {
-            bad('place() still computes left from the *declared* width', 'the clamped popup can hang off the right edge');
         }
     }
 }
 
 console.log('\n-- tokens that triggered this (width if unbroken) --');
-for (const t of [...TOKENS].sort((a, b) => b.length - a.length)) console.log(`  ${px(t).padStart(4)}px  ${t}`);
+for (const t of [...TOKENS].sort((a, b) => b.length - a.length)) console.log(`  ${px(t)}px  ${t}`);
 
 console.log(`\n${fail ? `${fail} hazard(s) remain` : 'no structural overflow hazards'} — ${notes} check(s) passed`);
 process.exit(fail ? 1 : 0);
