@@ -13,7 +13,7 @@
     workspace. This popup reads the input's own `YYYY-MM-DD` value and writes it
     back, so it never becomes a second source of truth — and with JS off, the
     native field still works.
---}}>
+--}}
 
 <div class="pkg-cal" id="pkg-cal" role="dialog" aria-modal="false" aria-label="Choose a date" hidden>
     <div class="pkg-cal-head">
@@ -47,8 +47,8 @@
     .pkg-calbtn:focus-visible { outline:2px solid var(--n-blue); outline-offset:2px; }
     .pkg-calbtn.is-open { border-color:var(--n-blue); color:var(--n-blue); background:var(--n-blue-soft); }
 
-    .pkg-cal { position:absolute; z-index:60; width:17.5rem; background:var(--n-paper);
-        border:1px solid var(--n-line); border-radius:14px; box-shadow:0 18px 42px rgba(15,29,46,.22);
+    .pkg-cal { position:absolute; z-index:60; width:17.5rem; max-width:calc(100vw - 1.5rem);
+        background:var(--n-paper); border:1px solid var(--n-line); border-radius:14px; box-shadow:0 18px 42px rgba(15,29,46,.22);
         padding:.7rem .75rem .6rem; font-family:var(--n-font); color:var(--n-ink); }
     .pkg-cal[hidden] { display:none; }
 
@@ -94,7 +94,7 @@
         'July', 'August', 'September', 'October', 'November', 'December'];
     var open = null;            // the date input the popup is bound to
     var view = null;          // [year, month0] of the rendered grid
-    var justFilled = false;   // suppress the click that a picker-driven value change causes
+    var filledBy = null;      // the field our own last write focused, to swallow its echo click
 
     // All calendar maths is done on UTC day numbers. A local Date would let a
     // DST shift or a timezone boundary move a "2026-04-21" by a day, which is
@@ -102,19 +102,29 @@
     function pad(n) { return (n < 10 ? '0' : '') + n; }
     function ymd(t) { return t[0] + '-' + pad(t[1] + 1) + '-' + pad(t[2]); }
     function parse(s) {
-        var m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(s || '');
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
         return m ? [ +m[1], +m[2] - 1, +m[3] ] : null;
     }
-    function startOfDay(d) { return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()); }
+    // Everything downstream reads a date as a [year, month0, day] triple, so a
+    // Date must be converted back rather than passed on: `ymd(new Date(...))`
+    // reads `t[0]` off a Date and produces "undefined-NaN-undefined", which is
+    // exactly what the leading (previous-month) cells used to render.
+    function parts(ms) {
+        var d = new Date(ms);
+        return [d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()];
+    }
     function shift(t, days) {
-        return new Date(Date.UTC(t[0], t[1], t[2] + days));
+        return parts(Date.UTC(t[0], t[1], t[2] + days));
     }
     function today() {
-        var n = new Date();
+        // A single Date.now() read: local getFullYear/Month/Date is the *user's*
+        // calendar day, which is what a field like "paid on" means, and it makes
+        // "today" one patchable point for bridge/datepicker-harness.mjs.
+        var n = new Date(Date.now());
         return [n.getFullYear(), n.getMonth(), n.getDate()];
     }
-    function firstDow(t) {  // 0 = Monday, matching the grid header
-        return (Date.UTC(t[0], t[1], 1) / 86400000 + 4) % 7;
+    function firstDow(t) {  // 0 = Monday, matching the Mo Tu We Th Fr Sa Su header
+        return (new Date(Date.UTC(t[0], t[1], 1)).getUTCDay() + 6) % 7;
     }
 
     function bounds() {
@@ -127,6 +137,7 @@
     }
 
     function render() {
+        if (!open || !view) { return; }
         var b = bounds();
         var anchor = [view[0], view[1], 1];
         var lead = firstDow(view);
@@ -166,66 +177,105 @@
         if (top + h > window.innerHeight - 8 && r.top - h - 6 > 8) {
             top = r.top - h - 6;      // flip above when the field sits near the bottom
         }
-        var left = Math.min(Math.max(8, r.left), window.innerWidth - pop.offsetWidth - 8);
+        // Re-measure after the max-width clamp may have narrowed the popup, and
+        // if even that does not fit, sit 8px from the viewport edge rather than
+        // letting place() push the whole page wider than the screen.
+        var w = pop.offsetWidth;
+        var left = Math.max(8, Math.min(r.left, window.innerWidth - w - 8));
         pop.style.top = (top + window.scrollY) + 'px';
         pop.style.left = (left + window.scrollX) + 'px';
     }
 
     function openFor(input) {
+        if (!input || !input.isConnected) { return; }
         open = input;
         pop.hidden = false;
         var v = parse(input.value) || today();
-        view = [v[0], v[1], 1];
+        // Paging to November and then typing a November date must not yank the
+        // grid back to today's month: only follow the value when it sits outside
+        // the month already on screen (the `input` listener below does the same).
+        var showing = view && view[0] === v[0] && view[1] === v[1];
+        view = showing ? view : [v[0], v[1], 1];
         render();
         place();
-        trigger().classList.add('is-open');
-        grid.querySelector('.pkg-cal-day.is-sel:not([disabled])')?.focus()
-            || grid.querySelector('.pkg-cal-day:not([disabled])')?.focus();
+        var btn = trigger();
+        if (btn) { btn.classList.add('is-open'); }
+        (grid.querySelector('.pkg-cal-day.is-sel:not([disabled])')
+            || grid.querySelector('.pkg-cal-day.is-today:not([disabled])')
+            || grid.querySelector('.pkg-cal-day:not([disabled])'))?.focus();
     }
 
     function close(back) {
         if (!open) { return; }
         var input = open;
         open = null;
+        view = null;          // never outlive the field it was built from
         pop.hidden = true;
         document.querySelectorAll('.pkg-calbtn.is-open').forEach(function (b) { b.classList.remove('is-open'); });
-        if (back !== false) { input.focus(); }
+        if (back !== false && input.isConnected && document.activeElement !== input) { input.focus(); }
     }
 
     function trigger() {
-        return open.__pkgCalBtn || document.querySelector('.pkg-calbtn[data-cal-for="' + open.id + '"]');
+        if (!open) { return null; }
+        if (open.__pkgCalBtn) { return open.__pkgCalBtn; }
+        // No id means no way to find the button; the calendar still works, it
+        // just has no trigger to light up.
+        if (!open.id) { return null; }
+        return document.querySelector('.pkg-calbtn[data-cal-for="' + open.id + '"]');
     }
 
     function commit(value) {
-        justFilled = true;
-        open.value = value;
+        if (!open) { return; }
+        var field = open;
+        filledBy = field;
+        field.value = value;
         // 'input' not 'change': the invoice form previews GST/total/due date from
         // oninput, and a picker that skipped it would show a stale due date.
-        open.dispatchEvent(new Event('input', { bubbles: true }));
-        open.dispatchEvent(new Event('change', { bubbles: true }));
+        field.dispatchEvent(new Event('input', { bubbles: true }));
+        field.dispatchEvent(new Event('change', { bubbles: true }));
         close();
-        setTimeout(function () { justFilled = false; }, 0);
     }
 
     function monthBy(delta) {
+        if (!open || !view) { return; }
         var d = new Date(Date.UTC(view[0], view[1] + delta, 1));
         view = [d.getUTCFullYear(), d.getUTCMonth(), 1];
         render();
     }
 
+    // Typing into the field while the popup is open should move the grid, exactly
+    // as Chrome's native picker does: the value is the source of truth, the grid
+    // is a view of it. Without this, paging to November then typing 2026-11-04
+    // leaves you looking at a highlighted day in a month you are no longer in.
+    document.addEventListener('input', function (e) {
+        if (!open || e.target !== open) { return; }
+        var v = parse(open.value);
+        if (!v || (view && v[0] === view[0] && v[1] === view[1])) { return; }
+        view = [v[0], v[1], 1];
+        render();
+    }, true);
+
+    window.__pkgCalShow = function (input) { openFor(input); };
     window.__pkgCalKeys = function (e) {
-        if (!open) { return true; }
+        if (!open || !view) { return true; }
+        // A field the user cleared (or that was never filled) has no selection to
+        // move: keep the arrows for the grid and let the popup decide the month.
+        if (!(parse(open.value) || today())) { return true; }
         var sel = parse(open.value) || today();
         var b = bounds();
         var jump = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
 
-        if (e.key === 'Escape') { e.preventDefault(); close(); return false; }
+        if (e.key === 'Escape') { if (pop.hidden) { return true; } e.preventDefault(); close(); return false; }
         if (e.key === 'Tab') { close(false); return true; }
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+            // Enter submits a <form>. Only take over when the popup is actually
+            // open on this field; otherwise the keypress must reach the browser
+            // so the rest of the form still behaves normally.
+            if (pop.hidden) { return true; }
             e.preventDefault();
             var focused = document.activeElement;
             if (focused && focused.dataset && focused.dataset.calDay) { commit(focused.dataset.calDay); }
-            else { commit(ymd(sel)); }
+            else if (open.value !== '') { commit(ymd(sel)); }   // empty field: nothing to choose
             return false;
         }
         if (jump[e.key]) {
@@ -244,8 +294,13 @@
     };
 
     pop.addEventListener('click', function (e) {
+        if (!open) { return; }   // the node outlives every session (it lives on body)
         var day = e.target.closest('[data-cal-day]');
-        if (day) { commit(day.dataset.calDay); return; }
+        if (day) {
+            if (day.disabled) { return; }   // out-of-bounds days are unchoosable, not just greyed
+            commit(day.dataset.calDay);
+            return;
+        }
         var nav = e.target.closest('[data-cal-nav]');
         if (nav) { monthBy(parseInt(nav.dataset.calNav, 10)); return; }
         var act = e.target.closest('[data-cal-act]');
@@ -265,7 +320,12 @@
         }
         var input = e.target.closest('input[type=date]');
         if (input) {
-            if (justFilled || open === input) { return; }
+            // Swallow only the click that our own write produced: close() hands
+            // focus back to this field, and a browser fires a click on the
+            // focused control when the pointer is released over it. A counter or
+            // timestamp would do, but "this exact field, still bound, still
+            // focused" is the actual condition and survives a clock that jumps.
+            if (filledBy === input && input === document.activeElement) { filledBy = null; return; }
             close(false);
             openFor(input);
             return;
@@ -292,13 +352,10 @@
             if (input.dataset.pkgCal === '1') { return; }
             input.dataset.pkgCal = '1';
 
-            var field = input.closest('.pkg-field');
             var wrap = document.createElement('div');
             wrap.className = 'pkg-calwrap';
-            if (field) {
-                field.insertBefore(wrap, input);
-                wrap.appendChild(input);
-            }
+            input.parentNode.insertBefore(wrap, input);
+            wrap.appendChild(input);
 
             var btn = document.createElement('button');
             btn.type = 'button';
