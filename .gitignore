@@ -26,3 +26,7 @@ Thumbs.db
 
 # The zero-config demo database, created by `php artisan migrate`.
 /database/*.sqlite
+# Ignore it anywhere, not just under database/: a working database that lands
+# in a commit carries real rows, and makes tests and diffs non-reproducible.
+/data/*.sqlite
+*.sqlite

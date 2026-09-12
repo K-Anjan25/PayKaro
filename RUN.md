@@ -165,6 +165,24 @@ With no credentials configured the whole feature switches itself off: no button,
 routes. That is also how the test suite exercises it (see `tests/Feature/GoogleSignInTest.php`,
 which mocks Socialite rather than dialling Google).
 
+## Which PHP the dependencies resolve for
+
+`composer.json` pins `config.platform.php` to `8.3.0`. Composer normally resolves against
+whichever PHP your CLI runs, so on 8.4 a `composer update` re-locks `symfony/clock`,
+`css-selector`, `event-dispatcher`, `string` and `translation` to v8 — floor `>=8.4.1` —
+and `composer install` then fails on every 8.3 machine, CI included. The pin makes all of
+us resolve the set CI installs, and it matters because the lock file is committed.
+
+If you change it, re-resolve rather than just re-hashing:
+
+```
+composer update            # correct: picks new versions for the pinned platform
+composer update --lock     # wrong here: rewrites the hash, keeps the 8.4-only versions
+```
+
+`require.php` stays `^8.3`: 8.4 is fine to *run* on, it just must not decide the lock.
+Nothing else in the dependency set needs 8.4, so relocking on 8.3 is a complete fix.
+
 ## Routes
 
 Public: `/` landing · `/pricing` · `/help` · `/contact` · `/news` → `/#news` ·
