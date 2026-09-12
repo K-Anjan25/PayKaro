@@ -7,7 +7,7 @@
 				<h1 class="display" style="font-size:clamp(2rem,4vw,3rem);margin-top:.5rem;">How can we help you?</h1>
 			</div>
 		</div>
-		<div class="cards-row" style="grid-template-columns:repeat(3,1fr);margin-top:2rem;">
+		<div class="cards-row" style="grid-template-columns:repeat(auto-fill,minmax(min(16.5rem,100%),1fr));margin-top:2rem;">
 			<article class="feature-card">
 				<div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/><path d="M14 2v5h5"/><path d="M12 11v6M9 14h6"/></svg></div>
 				<h3>Getting started</h3>

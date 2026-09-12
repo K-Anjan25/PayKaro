@@ -125,6 +125,24 @@ Two things arrived after the cutover, both deliberately inside the existing rule
   `YYYY-MM-DD` — it is never a second source of truth. Calendar maths is UTC-day arithmetic
   because a local `Date` can move a due date across a DST or timezone boundary.
   The financing form also gained the `disbursed_on` field the request already accepted.
+  Its behaviour is covered by `bridge/datepicker-harness.mjs` (see `RUN.md`), not by the
+  PHP suite — that harness is what found the four defects in the first version.
+- **Overflow pass on the shared sheet.** Three separate causes, one class of bug:
+  `public/assets/app.css` guarded its grid tracks with `minmax(0,1fr)` in the base rules
+  but the responsive overrides re-wrote them as bare `1fr`, which silently re-armed the
+  blow-out at exactly the widths where text is most likely to run over; `.pkg-tablewrap`
+  used `overflow:hidden`, so wide tables lost their right-hand columns instead of
+  scrolling; and the legal prose had no measure or word-break, so `SESSION_SECURE_COOKIE=true`
+  and `sunita@shreeprecision.in` widened their own column. `.page`/`.pkg` now set
+  `overflow-wrap:anywhere` once (inherited), the tracks are `minmax(0,1fr)` at every
+  breakpoint, tables scroll, `.legal-prose` is capped at `70ch`, and the calendar popup is
+  clamped to `calc(100vw - 1.5rem)` with `place()` re-measuring after the clamp.
+- **A stray `>` printed on every page.** The datepicker include's opening Blade comment
+  closed as `--}}>` instead of `--}}`; since the include is rendered in `<head>` by all
+  three layouts, the orphan `>` was hoisted into `<body>` and painted above the header.
+  No linter, `php -l`, or CSS check can see that one — it is only visible in a browser,
+  or by reading the include as text. `bridge/overflow-sim.mjs` (see `RUN.md`) now checks
+  the structural half of this class of bug, and reports 32 hazards on the pre-fix sheet.
 - **Legal pages.** `/terms`, `/privacy` and `/security` were `Route::redirect()` calls into
   `/help` while the footer advertised them. They now render real documents from
   `App\Support\Legal` through one shared component, written to be *checkable* against this

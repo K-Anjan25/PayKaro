@@ -63,6 +63,49 @@ php artisan test --filter=ReceivablesTest
 `sync` queue and a fixed `APP_KEY`, so no `.env` and no `key:generate` are needed to run
 the suite — which is what CI relies on.
 
+### The JS harness
+
+The date-field calendar popup is inline script with no build step, so nothing in the PHP
+suite can reach it. `bridge/datepicker-harness.mjs` mounts the include's own markup and
+script in jsdom and drives it (click, arrow, type), deriving every month length and cell
+count from the real calendar rather than hard-coded dates:
+
+```bash
+cd bridge && npm i jsdom          # dev-only, deliberately not in package.json
+node bridge/datepicker-harness.mjs
+PIN_TODAY=2024-02-29 node bridge/datepicker-harness.mjs   # edge days too
+```
+
+It earned its place: it caught a `parse()` regex that could never match (`/^\d{4}…/` in the
+source, so a literal backslash), a `Date` leaking into a `[y,m,d]` reader, an off-by-one
+weekday offset against the widget's own Monday-first header, and a null dereference that
+killed the popup whenever a field had been replaced by a re-render. `node --check` passed
+through every one of those.
+
+A green run does not cover visual alignment or the native picker — jsdom performs no
+layout. Check those in a browser.
+
+### The overflow sim
+
+Layout can't be tested in jsdom, but the *rules* that decide whether anything can
+overflow can be. `bridge/overflow-sim.mjs` parses `public/assets/app.css` (plus the
+datepicker include's own `<style>`) and asserts the structural facts that CSS overflow
+bugs are made of: every `fr` track is `minmax(0,…)`, scroll containers scroll instead
+of clipping, `overflow-wrap` is inherited from the page roots, no track is sized by
+`max-content` text, and the fixed-width popup has a viewport clamp.
+
+```bash
+node bridge/overflow-sim.mjs                                  # current sheet
+CSS=public/assets/app.css.before INCLUDE=/dev/null node bridge/overflow-sim.mjs   # control
+```
+
+Always run the control too. A checker that parses nothing reports nothing, so the tool
+aborts if it reads fewer than 60 rules and the control run is what proves the checks can
+fail — on the pre-fix sheet it reports 32 hazards; on the current one, zero. Most of
+those 32 were the same single mistake repeated: the base rules guarded their tracks with
+`minmax(0,1fr)` but the responsive overrides re-wrote them as bare `1fr`, re-arming the
+blow-out at exactly the widths where text is most likely to spill.
+
 ## Configuration
 
 Everything the app can be told lives in `.env` / `config/paykaro.php`:
