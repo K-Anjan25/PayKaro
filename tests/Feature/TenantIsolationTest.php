@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\AlertType;
 use App\Enums\TredsOnboarding;
 use App\Models\Alert;
 use App\Models\Buyer;
@@ -24,11 +25,28 @@ final class TenantIsolationTest extends TestCase
     use CreatesWorkspace;
     use RefreshDatabase;
 
+    /**
+     * An invoice *with* an alert, because the alert is what the scoping assertions
+     * read. Creating it through `Invoice::factory()` deliberately skips
+     * `InvoiceWorkflow::create()` — the service is what raises the buyer-onboarding
+     * alert — so a factory-built invoice carries none, and the test was asserting
+     * that a side effect of a code path it never ran had happened. Creating the
+     * alert next to the invoice keeps the fixture honest: this test is about which
+     * tenant's rows are visible, not about whether the pipeline notifies.
+     */
     private function invoiceOf(User $owner): Invoice
     {
         $buyer = $this->buyerAs($owner, ['name' => 'Metro Ceramics Ltd']);
 
-        return Invoice::factory()->forBuyer($buyer)->create(['number' => 'INV-SECRET-1']);
+        $invoice = Invoice::factory()->forBuyer($buyer)->create(['number' => 'INV-SECRET-1']);
+
+        $invoice->business->alerts()->create([
+            'invoice_id' => $invoice->id,
+            'type' => AlertType::Treds->value,
+            'message' => 'Buyer is not TReDS-onboarded — confirm before the invoice churns.',
+        ]);
+
+        return $invoice;
     }
 
     public function test_a_foreign_invoice_reads_as_absent_rather_than_forbidden(): void

@@ -71,10 +71,11 @@ final class SchemaTableNamesTest extends TestCase
         $owner = $this->workspace(UserRole::Owner);
         $buyer = $this->buyerAs($owner, ['treds_onboarded' => TredsOnboarding::Yes]);
 
-        $invoice = $this->invoice($owner, $buyer, ['status' => InvoiceStatus::Accepted])
-            ->tap(fn (Invoice $i) => collect(EvidenceType::cases())->each(
-                fn (EvidenceType $type) => $i->evidences()->create(['type' => $type, 'present' => $type->isRequired()])
-            ));
+        $invoice = $this->invoice($owner, $buyer, ['status' => InvoiceStatus::Accepted]);
+
+        foreach (EvidenceType::cases() as $type) {
+            $invoice->evidences()->create(['type' => $type, 'present' => $type->isRequired()]);
+        }
 
         $this->assertSame('invoice_evidences', (new InvoiceEvidence)->getTable());
         $this->assertCount(5, $invoice->evidences);
@@ -87,22 +88,22 @@ final class SchemaTableNamesTest extends TestCase
         $owner = $this->workspace(UserRole::Owner);
         $buyer = $this->buyerAs($owner, ['treds_onboarded' => TredsOnboarding::Yes]);
 
-        $this->invoice($owner, $buyer, [
+        $invoice = $this->invoice($owner, $buyer, [
             'invoice_date' => now()->subDays(60)->toDateString(),
             'base_amount' => 100000,
             'tax_amount' => 18000,
             'status' => InvoiceStatus::Accepted,
-        ])->tap(function (Invoice $invoice) {
-            foreach (EvidenceType::required() as $type) {
-                $invoice->evidences()->create(['type' => $type, 'present' => true]);
-            }
+        ]);
 
-            $invoice->payments()->create([
-                'amount' => 40000,
-                'paid_on' => now()->toDateString(),
-                'method' => 'NEFT',
-            ]);
-        });
+        foreach (EvidenceType::required() as $type) {
+            $invoice->evidences()->create(['type' => $type, 'present' => true]);
+        }
+
+        $invoice->payments()->create([
+            'amount' => 40000,
+            'paid_on' => now()->toDateString(),
+            'method' => 'NEFT',
+        ]);
 
         $summary = app(Dashboard::class)->overview();
 

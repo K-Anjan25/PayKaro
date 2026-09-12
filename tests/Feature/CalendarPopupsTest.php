@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\TredsOnboarding;
 use App\Enums\UserRole;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Concerns\CreatesWorkspace;
 use Tests\TestCase;
 
@@ -20,6 +21,7 @@ use Tests\TestCase;
 final class CalendarPopupsTest extends TestCase
 {
     use CreatesWorkspace;
+    use RefreshDatabase;
 
     public function test_the_invoice_form_gets_a_calendar_and_caps_at_today(): void
     {

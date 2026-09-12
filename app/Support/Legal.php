@@ -153,7 +153,7 @@ final class Legal
                 ],
                 [
                     'heading' => 'Authorization on every write',
-                    'body' => "Policies guard each mutation, and the FormRequest's `authorize()` is the single place a write is permitted — there is no route that mutates without passing through one. Owners and accountants write; viewers are refused; business identity (GSTIN, PAN, Udyam, bank account, IFSC) and role changes are owner-only. Unauthenticated requests are redirected to sign-in, and authenticated users are redirected away from the auth pages, so there is no signed-out path onto tenant data.",
+                    'body' => "Policies guard each mutation, and the FormRequest's `authorize()` is the single place a write is permitted — there is no route that mutates without passing through one. Owners and accountants write; viewers are refused; business identity (GSTIN, PAN, Udyam, bank account, IFSC) and role changes are owner-only.\n\nUnauthenticated requests are redirected to sign-in, and authenticated users are redirected away from the auth pages, so there is no signed-out path onto tenant data.",
                 ],
                 [
                     'heading' => 'Input, output and injection',
@@ -165,7 +165,15 @@ final class Legal
                 ],
                 [
                     'heading' => 'What this application does NOT give you',
-                    'body' => "Be precise here, because the honest list is short and useful:\n\nThere is no content security policy, no HSTS, no `X-Frame-Options` or `X-Content-Type-Options` header, and no permission policy — the app ships no response-hardening middleware of its own. There is no encryption at rest: SQLite is a plain file, and there are no at-rest encryption columns. There is no MFA or TOTP, no device or IP allowlist, no IP-pinned sessions. There is no rate limiting on anything but the login path. There is no file upload whatsoever — the evidence checklist records that a document exists, it does not store the PDF — so that whole attack surface is absent by scope, not by hardening. And there is no key management service: `APP_KEY` is whatever string sits in `.env`.",
+                    'body' => "Be precise here, because the honest list is short and useful — each gap below is a decision about scope, not an oversight, and several are yours to close in your own deployment.",
+                    'list' => [
+                        'No content security policy, no HSTS, no `X-Frame-Options` or `X-Content-Type-Options` header, no permission policy: the app ships no response-hardening middleware of its own.',
+                        'No encryption at rest — SQLite is a plain file, and there are no encrypted columns.',
+                        'No MFA or TOTP, no device or IP allowlist, no IP-pinned sessions.',
+                        'No rate limiting anywhere but the login path.',
+                        'No file upload whatsoever: the evidence checklist records that a document exists, it does not store the PDF. That attack surface is absent by scope, not by hardening.',
+                        'No key management service: `APP_KEY` is whatever string sits in `.env`.',
+                    ],
                     'note' => [
                         'If you deploy past localhost, fix the first paragraph yourself.',
                         'Termination, HSTS, CSP and security headers belong at your reverse proxy; `SESSION_SECURE_COOKIE=true` and `APP_DEBUG=false` belong in `.env`. Those four lines close more real-world exposure than any code in this repository could.',

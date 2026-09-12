@@ -65,6 +65,12 @@ the "File before" line are there to serve.
 
 ## Tests
 
+The fixture `APP_KEY` in `phpunit.xml` must decode to exactly 32 bytes: `AES-256-CBC`
+requires it, and during testing the framework does not load `.env` at all, so that entry is
+the *only* key the suite ever sees. A wrong length there is invisible on a machine with a
+generated `.env` and looks like 99 unrelated failures on a clean one.
+
+
 ```bash
 php artisan test                     # whole suite (SQLite :memory:, RefreshDatabase)
 php artisan test --filter=ReceivablesTest

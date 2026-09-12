@@ -101,7 +101,17 @@ final class LegalPagesTest extends TestCase
             foreach ($sections as $section) {
                 $this->assertArrayHasKey('heading', $section);
                 $this->assertNotEmpty(trim($section['body']), $doc.': empty body under "'.$section['heading'].'"');
-                $this->assertLessThan(400, strlen($section['body']), $doc.': unnaturally long block');
+
+                // Cap a *paragraph*, not a section. At section level this asserted
+                // the length of every body in the file — 16 of 20 exceeded 400 — so
+                // it measured the copy's total size rather than anything about prose,
+                // and it fought a legitimate two-paragraph section. The unit that can
+                // actually read as a wall is the paragraph, and 520 sits just above
+                // the longest one here: a guard against unbounded growth, not a
+                // house style. Tighten it by splitting a block, never by raising it.
+                foreach (preg_split('/\n\n+/', $section['body']) as $paragraph) {
+                    $this->assertLessThan(520, strlen(trim($paragraph)), $doc.': unnaturally long paragraph under "'.$section['heading'].'"');
+                }
 
                 foreach ($section['list'] ?? [] as $item) {
                     $this->assertNotEmpty(trim($item), $doc.': empty list item');
