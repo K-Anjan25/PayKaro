@@ -8,6 +8,7 @@ PayKaro is a Laravel 12 application on PHP 8.3. Nothing needs a database server:
 Before pushing a dependency change, check the lock against the PHP CI actually runs:
 
 ```
+node bridge/check-lock.mjs          # target defaults to composer.json's platform pin
 node bridge/check-lock.mjs 8.3.33
 ```
 

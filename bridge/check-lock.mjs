@@ -12,7 +12,6 @@
 import fs from 'node:fs';
 
 const LOCK = process.env.LOCK || 'composer.lock';
-const CI_PHP = process.argv[2] || '8.3.0';
 const cmp = (a, b) => {
     const pa = a.replace(/[^\d.].*$/, '').split('.').map(Number);
     const pb = b.split('.').map(Number);
@@ -23,6 +22,21 @@ const cmp = (a, b) => {
 let lock;
 try { lock = JSON.parse(fs.readFileSync(LOCK, 'utf8')); }
 catch (e) { console.error(`cannot read ${LOCK}: ${e.message}`); process.exit(2); }
+
+/* Default the target to composer.json's own `config.platform.php`: that pin is what CI
+   resolves against, so asking the operator to retype it invites the two from drifting
+   apart — and a stale argument here would report a clean lock that CI still rejects. */
+let composer = null;
+try { composer = JSON.parse(fs.readFileSync(process.env.COMPOSER_JSON || 'composer.json', 'utf8')); }
+catch { /* no composer.json next to it (control runs against a bare lock) */ }
+
+let target = process.argv[2] || null, source = 'argument';
+if (!target) {
+    target = composer?.config?.platform?.php ?? null;
+    source = 'composer.json config.platform.php';
+}
+if (!target) { target = '8.3.0'; source = 'default'; }
+const CI_PHP = target;
 
 const all = [...(lock.packages ?? []), ...(lock['packages-dev'] ?? [])];
 const offenders = all.filter(p => {
@@ -38,8 +52,11 @@ const offenders = all.filter(p => {
 });
 
 const pin = lock['platform-overrides']?.php;
-console.log(`lock: ${all.length} packages · CI platform php ${CI_PHP} · platform-overrides ${pin ?? '(none)'}`);
-if (!pin) console.log('  note: no platform pin in composer.json — this lock can drift on any machine with another PHP.');
+console.log(`lock: ${all.length} packages · target php ${CI_PHP} (from ${source}) · lock platform-overrides ${pin ?? '(none)'}`);
+if (!pin && !composer?.config?.platform?.php) {
+    console.log('  note: no platform pin anywhere — this lock can drift on any machine with another PHP.');
+}
+if (pin && cmp(pin, CI_PHP) !== 0) console.log(`  note: composer.json pins ${CI_PHP} but the lock was resolved for ${pin} — re-run \`composer update\`.`);
 if (offenders.length) {
     for (const p of offenders) console.log(`  INCOMPATIBLE  ${p.name} ${p.version}  requires php ${p.require.php}`);
     console.log(`\n${offenders.length} package(s) CI's ${CI_PHP} cannot install. Run: composer update`);
