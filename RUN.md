@@ -221,16 +221,46 @@ Legacy addresses the flat-PHP app used, still honoured: `/invoices/new` →
 `/invoices/create`, `/invoice?id=N` → `/invoices/N`, `/invoice?edit=N` → `/invoices/N/edit`,
 `/claim?id=N` → `/invoices/N/claim`.
 
-## Sandbox notes (no native PHP)
+## Sandbox (no native PHP)
 
-This repo's agent sandbox has no `php` or `composer` binary and cannot reach Packagist,
-so the app cannot be booted there — verification in the sandbox is structural plus the
-php-wasm syntax checker kept for that purpose:
+The agent sandbox has Node but no `php`/`composer` binary and no Packagist access, so the
+app is booted inside `@php-wasm/node` — PHP 8.3 compiled to WebAssembly — behind a small
+Node HTTP bridge. Laravel runs unmodified: `public/index.php` is the front controller and
+the bridge does only what a web server would.
 
 ```bash
-cd bridge && npm install
-VITEST=1 node lint.mjs ../app/Services/Receivables.php   # any repo .php file(s)
+cd bridge
+npm ci                                    # @php-wasm/node, pinned in package-lock.json
+node serve.mjs                            # http://127.0.0.1:8080
 ```
 
-`php artisan test`, `migrate --seed` and the live preview all require a real PHP 8.3
-runtime — i.e. CI, or your machine.
+First boot copies `.env.example` → `.env`, generates an `APP_KEY`, runs `migrate --seed`
+and then serves; later boots go straight to serving, and `PAYKARO_SKIP_SEED=1` skips the
+database step entirely. The logins are the demo businesses the seeder prints, password
+`demo1234`.
+
+`bridge/serve.mjs`:
+
+- runs one request at a time through the front controller and states the SAPI variables a
+  web server would (`SCRIPT_NAME`, `DOCUMENT_ROOT`, `REQUEST_URI`, `HTTPS`) — php-wasm
+  otherwise reports the request path as the *script* name, and Laravel derives a bogus
+  base path from that, prefixing every route and URL;
+- serves `public/` itself for anything that exists on disk and is not PHP;
+- passes the visitor's origin down as `APP_URL` (from `X-Forwarded-Host`), so `asset()`,
+  `route()` and redirects point at the sandbox preview host instead of at `localhost`.
+
+Two runtime limitations are accommodated rather than fixed:
+
+- **`SESSION_DRIVER=database`**, rewritten in `.env` on boot. Laravel's *file* session
+  driver reads through `Filesystem::sharedGet()`, which needs `flock($handle, LOCK_SH)`;
+  WebAssembly refuses shared locks, that read comes back empty, and every request would
+  mint a fresh CSRF token — so `POST /login` answers `419 Page Expired` forever. The
+  `sessions` table is already part of the app's own migrations. On a real server `file`
+  (or Redis) stays the right driver; this is the runtime, not the app.
+- **No `intl`/`zip`/`curl` extensions** in the wasm build. Nothing the app itself renders
+  needs them — `bridge/check-lock.mjs` is the one script that wants `intl`, and it is run
+  on a machine that has it.
+
+`php artisan test` runs in this runtime too — that is how the port's failures were
+diagnosed and re-run in the sandbox — but CI remains the authority: real PHP 8.3, a real
+Composer, the whole suite.
