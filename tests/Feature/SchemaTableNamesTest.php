@@ -15,6 +15,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceEvidence;
 use App\Models\Payment;
 use App\Models\User;
+use App\Services\Dashboard;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -103,7 +104,7 @@ final class SchemaTableNamesTest extends TestCase
             ]);
         });
 
-        $summary = app(\App\Services\Dashboard::class)->overview();
+        $summary = app(Dashboard::class)->overview();
 
         $this->assertSame(78000.0, round($summary->total, 2));
 

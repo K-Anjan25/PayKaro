@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\AgeingBucket;
+use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -57,7 +58,7 @@ class Dashboard
             $total += $balance;
             $interest += $invoice->interest();
 
-            if ($invoice->overdueDays() > 0 && $invoice->status !== \App\Enums\InvoiceStatus::Settled) {
+            if ($invoice->overdueDays() > 0 && $invoice->status !== InvoiceStatus::Settled) {
                 $overdue += $balance;
                 $overdueCount++;
             }

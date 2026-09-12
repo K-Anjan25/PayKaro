@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Support\Legal;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Concerns\CreatesWorkspace;
 use Tests\TestCase;
 
@@ -25,7 +27,7 @@ final class LegalPagesTest extends TestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('documents')]
+    #[DataProvider('documents')]
     public function test_each_document_renders(string $uri, string $title): void
     {
         $this->get($uri)
@@ -68,7 +70,7 @@ final class LegalPagesTest extends TestCase
     {
         // Feed the layout deliberately unsafe content: if any of its four props
         // ever rendered raw, this returns a live element instead of text.
-        \Illuminate\Support\Facades\Route::get('/__legal-escaping-probe', function () {
+        Route::get('/__legal-escaping-probe', function () {
             return view('components.legal-layout', [
                 'title' => 'Probe <img src=x onerror=alert(1)>',
                 'kicker' => '<script>alert(1)</script>',

@@ -7,6 +7,7 @@ use App\Models\Alert;
 use App\Models\Buyer;
 use App\Models\Invoice;
 use App\Models\User;
+use App\Tenancy\TenantScope;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Concerns\CreatesWorkspace;
 use Tests\TestCase;
@@ -204,7 +205,7 @@ final class TenantIsolationTest extends TestCase
         // workspace keeps its unread copy.
         $this->assertSame(
             1,
-            Alert::query()->withoutGlobalScope(\App\Tenancy\TenantScope::class)->where('business_id', $other->business_id)->unread()->count(),
+            Alert::query()->withoutGlobalScope(TenantScope::class)->where('business_id', $other->business_id)->unread()->count(),
         );
     }
 

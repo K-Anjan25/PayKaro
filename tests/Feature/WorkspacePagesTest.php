@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Enums\AlertType;
 use App\Enums\InvoiceStatus;
 use App\Enums\TredsOnboarding;
-use App\Enums\AlertType;
 use App\Models\Alert;
 use App\Models\Business;
 use App\Models\Buyer;

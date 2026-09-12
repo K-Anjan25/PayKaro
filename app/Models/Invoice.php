@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * One invoice — the asset the whole product revolves around.
@@ -311,10 +312,10 @@ class Invoice extends Model
      * Evidence rows in checklist order, from an already-loaded collection:
      * required documents first, optional ones after.
      *
-     * @param  \Illuminate\Support\Collection<int, InvoiceEvidence>  $evidences
-     * @return \Illuminate\Support\Collection<int, InvoiceEvidence>
+     * @param  Collection<int, InvoiceEvidence>  $evidences
+     * @return Collection<int, InvoiceEvidence>
      */
-    public static function sortChecklist(\Illuminate\Support\Collection $evidences): \Illuminate\Support\Collection
+    public static function sortChecklist(Collection $evidences): Collection
     {
         $order = array_flip(EvidenceType::requiredValues());
 

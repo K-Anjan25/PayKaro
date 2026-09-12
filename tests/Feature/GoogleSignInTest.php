@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Business;
-use Closure;
 use App\Models\User;
+use Closure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
@@ -63,7 +63,7 @@ final class GoogleSignInTest extends TestCase
 
     private function googleUser(string $id, ?string $email, string $name): GoogleUser
     {
-        $googleUser = new GoogleUser();
+        $googleUser = new GoogleUser;
 
         $googleUser->id = $id;
         $googleUser->email = $email;

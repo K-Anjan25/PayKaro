@@ -47,7 +47,7 @@ final class Legal
                     'body' => "The rows in your database are yours. There is no lock-in mechanism, no export format only we can read, and no remote state: the whole book is one SQLite file at `database/paykaro.sqlite`, or whatever tables you point `DB_*` at, and every field in it was typed by you or derived from what you typed by a documented rule.\n\nBecause the derivation rules are in the open, you can recompute due dates, interest, ageing and readiness anywhere else and get the same answers.",
                 ],
                 [
-                    'heading' => "Limits of the tool — please read this one",
+                    'heading' => 'Limits of the tool — please read this one',
                     'body' => "PayKaro computes statutory interest, the MSMED due window, and the MSEFC filing deadline arithmetically, from the numbers in `config/paykaro.php`. Those figures are configuration, not counsel: a rate change, a notification, or a contract term that differs from the default will not announce itself here.\n\nTreat every date and rupee the software shows as a working figure to verify against the Act and your purchase order before it goes into a filing. To the maximum extent the law allows, the authors are not liable for financing decisions, claim outcomes, penalties or lost interest arising from use of this software. It is provided as is, without warranty of any kind.",
                     'note' => [
                         'No promise about systems you do not run.',
@@ -56,7 +56,7 @@ final class Legal
                 ],
                 [
                     'heading' => 'Licence',
-                    'body' => "The code is released under the MIT licence, as declared in `LICENSE` and `composer.json`. You may use it commercially, fork it, rebrand a private deployment, or sell hosting around it. Attribution is not required, and no licence is granted to the name PayKaro beyond what the copyright notice implies.",
+                    'body' => 'The code is released under the MIT licence, as declared in `LICENSE` and `composer.json`. You may use it commercially, fork it, rebrand a private deployment, or sell hosting around it. Attribution is not required, and no licence is granted to the name PayKaro beyond what the copyright notice implies.',
                 ],
                 [
                     'heading' => 'Third-party sign-in and third-party text',
@@ -64,11 +64,11 @@ final class Legal
                 ],
                 [
                     'heading' => 'The demo workspace',
-                    'body' => "With `PAYKARO_DEMO=true` — the default — `migrate --seed` writes two fictional businesses with eighteen fictional invoices so the product is immediately legible. Those rows are not real counterparties and must never be mistaken for them: for a live workspace, set `PAYKARO_DEMO=false`, start from an empty database, and replace the sample identities outright.",
+                    'body' => 'With `PAYKARO_DEMO=true` — the default — `migrate --seed` writes two fictional businesses with eighteen fictional invoices so the product is immediately legible. Those rows are not real counterparties and must never be mistaken for them: for a live workspace, set `PAYKARO_DEMO=false`, start from an empty database, and replace the sample identities outright.',
                 ],
                 [
                     'heading' => 'Changes, availability and ending this',
-                    'body' => "There is no unilateral amendment: changes to these terms arrive as commits to this file, and your deployment runs whatever you checked out. No uptime promise is made, because nobody is running your server. And since nothing holds your data, ending your use of PayKaro is a filesystem operation — stop serving the app, and delete the database file.",
+                    'body' => 'There is no unilateral amendment: changes to these terms arrive as commits to this file, and your deployment runs whatever you checked out. No uptime promise is made, because nobody is running your server. And since nothing holds your data, ending your use of PayKaro is a filesystem operation — stop serving the app, and delete the database file.',
                 ],
             ],
         ];
@@ -85,7 +85,7 @@ final class Legal
             'sections' => [
                 [
                     'heading' => 'What is stored, in your own database',
-                    'body' => "PayKaro needs to remember a receivable well enough to prove it. That means names and identifiers, and it is worth being specific rather than vague about them.",
+                    'body' => 'PayKaro needs to remember a receivable well enough to prove it. That means names and identifiers, and it is worth being specific rather than vague about them.',
                     'list' => [
                         'People and business: name, email address, role, bcrypt password hash, an optional avatar URL, and for business identity — GSTIN, PAN, Udyam number, bank name, account number, IFSC, plus a TReDS-registered flag.',
                         'Buyers: name, GSTIN, type (CPSU, PSU, private) and TReDS onboarding status.',
@@ -128,7 +128,7 @@ final class Legal
                 ],
                 [
                     'heading' => 'Changes to this page',
-                    'body' => "This page is part of the repository. If a future version stores something new, the diff to this file is where you will find out; a privacy notice that cannot be diffed is a marketing asset. As an operator, rewrite it to match your deployment before pointing real users at it.",
+                    'body' => 'This page is part of the repository. If a future version stores something new, the diff to this file is where you will find out; a privacy notice that cannot be diffed is a marketing asset. As an operator, rewrite it to match your deployment before pointing real users at it.',
                 ],
             ],
         ];
@@ -173,7 +173,7 @@ final class Legal
                 ],
                 [
                     'heading' => 'Configuration you are responsible for',
-                    'body' => "The shipped `.env.example` is tuned for a zero-config local demo, which is precisely the wrong posture for a public deployment. Before serving this to anyone else:",
+                    'body' => 'The shipped `.env.example` is tuned for a zero-config local demo, which is precisely the wrong posture for a public deployment. Before serving this to anyone else:',
                     'list' => [
                         'Set `APP_ENV=production` and `APP_DEBUG=false` — debug pages echo environment values and stack frames to whoever can reach the app.',
                         'Generate a fresh `php artisan key:generate`; never reuse the key of another deployment.',
@@ -185,7 +185,7 @@ final class Legal
                 ],
                 [
                     'heading' => 'Dependencies',
-                    'body' => "The runtime surface is deliberately small — `laravel/framework`, `laravel/socialite`, `laravel/tinker`, plus dev-only faker, Pint, Mockery and PHPUnit — and versions are pinned by a committed `composer.lock`, so a build resolves to exact packages rather than a moving range. That is where the trust boundary sits: a dependency CVE is a real risk here, so run `composer audit` in your pipeline and patch Laravel and Socialite as you would patch PHP itself.",
+                    'body' => 'The runtime surface is deliberately small — `laravel/framework`, `laravel/socialite`, `laravel/tinker`, plus dev-only faker, Pint, Mockery and PHPUnit — and versions are pinned by a committed `composer.lock`, so a build resolves to exact packages rather than a moving range. That is where the trust boundary sits: a dependency CVE is a real risk here, so run `composer audit` in your pipeline and patch Laravel and Socialite as you would patch PHP itself.',
                 ],
                 [
                     'heading' => 'How to verify any of this',

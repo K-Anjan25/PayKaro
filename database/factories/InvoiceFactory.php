@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\InvoiceStatus;
 use App\Enums\EvidenceType;
+use App\Enums\InvoiceStatus;
 use App\Models\Buyer;
 use App\Models\Invoice;
 use App\Services\Receivables;

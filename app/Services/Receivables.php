@@ -162,7 +162,7 @@ final class Receivables
      * because an overdue invoice is the one a financier wants first.
      *
      * @param  int  $presentRequiredEvidence  how many of the required documents are ticked
-     * @param  int  $requiredEvidenceCount    how many the workspace requires (4)
+     * @param  int  $requiredEvidenceCount  how many the workspace requires (4)
      */
     public function readiness(
         int $presentRequiredEvidence,

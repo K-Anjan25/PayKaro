@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Enums\AuthProvider;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * A person in exactly one business.

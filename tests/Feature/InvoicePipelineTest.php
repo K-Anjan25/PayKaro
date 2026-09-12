@@ -460,5 +460,4 @@ final class InvoicePipelineTest extends TestCase
         $this->assertSame(36000.0, (float) $invoice->tax_amount);
         $this->assertSame(236000.0, (float) $invoice->total_amount);
     }
-
 }

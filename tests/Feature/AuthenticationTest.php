@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\UserRole;
+use App\Models\Business;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Concerns\CreatesWorkspace;
@@ -110,7 +111,7 @@ final class AuthenticationTest extends TestCase
 
     public function test_a_google_only_account_is_told_how_to_sign_in_instead_of_crashing(): void
     {
-        $business = \App\Models\Business::factory()->create();
+        $business = Business::factory()->create();
         $user = User::factory()->google()->for($business)->create();
 
         $this->post('/login', ['email' => $user->email, 'password' => 'anything'])
@@ -217,5 +218,4 @@ final class AuthenticationTest extends TestCase
         $this->get('/auth/google/callback?code=whatever')
             ->assertNotFound();
     }
-
 }

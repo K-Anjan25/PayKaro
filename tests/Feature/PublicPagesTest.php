@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Buyer;
 use App\Models\Invoice;
 use App\Support\News;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -94,7 +95,7 @@ final class PublicPagesTest extends TestCase
     public function test_legacy_invoice_urls_redirect_to_the_restful_ones(): void
     {
         $user = $this->workspace();
-        $buyer = \App\Models\Buyer::factory()->create();
+        $buyer = Buyer::factory()->create();
         $invoice = Invoice::factory()->forBuyer($buyer)->create();
 
         $this->get('/invoice?id='.$invoice->id)
