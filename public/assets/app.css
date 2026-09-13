@@ -87,6 +87,18 @@ html.dark {
 .pkg button { font-family:inherit; }
 .num { font-variant-numeric:tabular-nums; font-feature-settings:"tnum"; letter-spacing:-0.01em; }
 
+/* Overflow guards.
+   A grid/flex track is `auto`-sized, which means it can never be narrower than
+   its content's *unbreakable* minimum — so one long token (`BCRYPT_ROUNDS`,
+   `sunita@shreeprecision.in`, a route path) widens its column past the viewport
+   and the page grows a horizontal scrollbar. `anywhere` lowers that minimum so
+   the track can shrink, and the token breaks instead of escaping. Applied at the
+   two roots (`.page` = marketing/legal, `.pkg` = the app) so it inherits
+   everywhere; `overflow-wrap` is inherited, `min-width:0` is not, so the tracks
+   get their own list further down. */
+.page, .pkg { overflow-wrap:anywhere; }
+.pkg-cal, .legal-toc, .hero-trust, .pkg-util-inner, .pkg-tl-step, .pkg-progress-label { overflow-wrap:anywhere; }
+
 /* ============================================================================
    Top header — utility bar + main bar + accent line.
    Replaces the dark sidebar.
@@ -105,7 +117,8 @@ html.dark {
 	padding:.5rem 1.25rem;
 	display:flex;
 	align-items:center;
-	gap:1.25rem;
+	gap:.4rem 1.25rem;
+	flex-wrap:wrap;      /* narrow phones: let the links drop rather than run off */
 }
 .pkg-util a { color:#cfd9e7; transition:color .15s; }
 .pkg-util a:hover { color:var(--n-gold); }
@@ -153,6 +166,8 @@ html.dark {
 
 /* Brand lockup */
 .pkg-brand { display:flex; align-items:center; gap:.65rem; padding-right:1.4rem; }
+.pkg-brand { min-width:0; }
+.pkg-head-right { display:flex; align-items:center; gap:.5rem; flex:0 1 auto; min-width:0; }
 .pkg-brand-logo { width:2.4rem; height:2.4rem; border-radius:.65rem; background:var(--n-blue); color:var(--n-gold); display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
 .pkg-brand-logo svg { display:block; width:100%; height:100%; }
 .pkg-brand-text { line-height:1.05; }
@@ -329,10 +344,20 @@ html.dark {
 .pkg-pipe-pct { border-radius:999px; padding:.16rem .55rem; font-size:.7rem; font-weight:700; }
 .pkg-pipe-total { display:flex; justify-content:space-between; padding-top:.7rem; margin-top:.4rem; font-size:.9rem; font-weight:800; border-top:1px solid var(--n-line); color:var(--n-ink); }
 
+/* Grid and flex items are `auto`-sized by default, which is the mechanism behind
+   almost every overflow in this file: the track refuses to shrink below its
+   widest unbreakable child. `min-width:0` opts the children back in to shrinking.
+   `min-width:0` is not inherited, so the tracks get their own list below rather
+   than a global `> * { … }`, which would flatten the intentional `width:100%`
+   tables and the aspect-ratio calendar cells that rely on their own sizing. */
+.pkg-grid > *, .pkg-detail-grid > *, .pkg-invoicemeta > *, .pkg-kpi > *, .cards-row > *,
+.sec-head > *, .legal-body > *, .legal-head > *, .page-footer .container > * { min-width:0; }
+
 /* ============================================================================
    Table
    ========================================================================== */
-.pkg-tablewrap { padding:0; overflow:hidden; }
+/* Was overflow:hidden, which silently cut the right-hand columns off wide tables. */
+.pkg-tablewrap { padding:0; overflow-x:auto; }
 .pkg-tablewrap .pkg-cardhead { padding:1.05rem 1.25rem 0; }
 .pkg-table { width:100%; border-collapse:collapse; font-size:.86rem; }
 .pkg-table th { text-align:left; font-size:.7rem; color:var(--n-ink-mute); font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:.75rem 1rem; border-bottom:1px solid var(--n-line); background:var(--n-paper-2); }
@@ -509,8 +534,10 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
    Responsive — top header collapses to a mobile-friendly form.
    ========================================================================== */
 @media (max-width:1180px) {
-	.pkg-grid--4 { grid-template-columns:repeat(2,1fr); }
-	.pkg-grid--3 { grid-template-columns:repeat(2,1fr); }
+	/* minmax(0,1fr), not 1fr: these override the guarded base rules above, and a
+	   bare 1fr re-introduces exactly the blow-out the base rules exist to prevent. */
+	.pkg-grid--4 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+	.pkg-grid--3 { grid-template-columns:repeat(2,minmax(0,1fr)); }
 	.pkg-searchbox { display:none; }
 }
 @media (max-width:980px) {
@@ -523,9 +550,9 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 	.pkg-util-inner { font-size:.7rem; padding:.4rem .9rem; gap:.8rem; }
 	.pkg-util-sep:nth-of-type(3) { display:none; }
 	.pkg-util .pkg-util-hide { display:none; }
-	.pkg-grid--4,.pkg-grid--3,.pkg-grid--2 { grid-template-columns:1fr; }
-	.pkg-detail-grid { grid-template-columns:1fr; }
-	.pkg-invoicemeta { grid-template-columns:repeat(2,1fr); }
+	.pkg-grid--4,.pkg-grid--3,.pkg-grid--2 { grid-template-columns:minmax(0,1fr); }
+	.pkg-detail-grid { grid-template-columns:minmax(0,1fr); }
+	.pkg-invoicemeta { grid-template-columns:repeat(2,minmax(0,1fr)); }
 	.pkg-search input { width:6rem; }
 	.pkg-h1 { font-size:1.55rem; }
 	.pkg-main { padding:1.1rem .9rem 2rem; }
@@ -581,7 +608,7 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 		linear-gradient(90deg, rgba(11,59,122,.05) 1px, transparent 1px);
 	background-size:36px 36px;
 }
-.hero-inner { display:grid; grid-template-columns:1.05fr .95fr; gap:3rem; padding:4rem 0 5rem; align-items:center; }
+.hero-inner { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:3rem; padding:4rem 0 5rem; align-items:center; }
 .hero-eyebrow {
 	display:inline-flex;
 	align-items:center;
@@ -650,7 +677,7 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .hero-card-2 .hero-card-note { color:rgba(255,255,255,.8); }
 
 @media (max-width:980px) {
-	.hero-inner { grid-template-columns:1fr; gap:2rem; padding:2.5rem 0 3rem; }
+	.hero-inner { grid-template-columns:minmax(0,1fr); gap:2rem; padding:2.5rem 0 3rem; }
 	.hero-art { min-height:22rem; }
 	.hero-image { height:22rem; }
 	.hero-bars { left:-.6rem; }
@@ -662,13 +689,13 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
    STAT BAR (full-bleed dark band right under the hero)
    ========================================================================== */
 .statbar { background:var(--n-blue-deep); color:#fff; padding:1.5rem 0; }
-.statbar-inner { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+.statbar-inner { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1.5rem; }
 .statbar-item { padding:0 1.25rem; border-right:1px solid rgba(255,255,255,.14); }
 .statbar-item:last-child { border-right:0; }
 .statbar-item .v { font-family:var(--n-display); font-size:1.7rem; font-weight:600; color:var(--n-gold); letter-spacing:-.02em; }
 .statbar-item .l { font-size:.82rem; color:rgba(255,255,255,.7); margin-top:.2rem; }
 @media (max-width:780px) {
-	.statbar-inner { grid-template-columns:repeat(2,1fr); }
+	.statbar-inner { grid-template-columns:repeat(2,minmax(0,1fr)); }
 	.statbar-item { padding:0 .75rem 0 0; }
 	.statbar-item:nth-child(2) { border-right:0; }
 	.statbar-item:nth-child(3),.statbar-item:nth-child(4) { border-top:1px solid rgba(255,255,255,.14); padding-top:1rem; margin-top:.5rem; }
@@ -683,14 +710,18 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .sec-dark h2, .sec-dark h3, .sec-dark .display { color:#fff; }
 .sec-dark .lede { color:rgba(255,255,255,.78); }
 .sec-dark .eyebrow { color:var(--n-gold); }
-.sec-head { display:grid; gap:1.5rem; grid-template-columns:.8fr 1.2fr; align-items:end; margin-bottom:2.5rem; }
+.sec-head { display:grid; gap:1.5rem; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); align-items:end; margin-bottom:2.5rem; }
 .sec-head .display { font-size:clamp(1.8rem,3.4vw,2.8rem); margin-top:.5rem; }
-@media (max-width:780px) { .sec-head { grid-template-columns:1fr; } }
+@media (max-width:780px) { .sec-head { grid-template-columns:minmax(0,1fr); } }
 
 /* Workflow / feature row */
-.cards-row { display:grid; gap:1rem; grid-template-columns:repeat(4,1fr); }
-@media (max-width:1080px) { .cards-row { grid-template-columns:repeat(2,1fr); } }
-@media (max-width:600px) { .cards-row { grid-template-columns:1fr; } }
+/* auto-fill + a min track: the earlier `repeat(4,1fr)` + two media queries was
+   overridden by inline `repeat(3,1fr)` on two pages, which cancelled the collapse
+   rule and left three ~105px columns on a phone. auto-fill cannot be cancelled
+   that way and needs no per-count override. */
+.cards-row { display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(min(15rem,100%),minmax(0,1fr))); }
+
+
 .feature-card {
 	background:var(--n-paper);
 	border:1px solid var(--n-line);
@@ -716,9 +747,9 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .step-card p { margin-top:.4rem; font-size:.86rem; line-height:1.55; color:var(--n-ink-soft); }
 
 /* 2-up "image + text" sections */
-.split { display:grid; gap:3rem; grid-template-columns:.94fr 1.06fr; align-items:center; }
+.split { display:grid; gap:3rem; grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr); align-items:center; }
 .split--reversed > :first-child { order:2; }
-@media (max-width:980px) { .split { grid-template-columns:1fr; } .split--reversed > :first-child { order:0; } }
+@media (max-width:980px) { .split { grid-template-columns:minmax(0,1fr); } .split--reversed > :first-child { order:0; } }
 .split .display { font-size:clamp(1.8rem,3.2vw,2.6rem); margin-top:.5rem; }
 .split .lede { margin-top:1.2rem; font-size:1.05rem; line-height:1.6; }
 .split-art {
@@ -749,9 +780,9 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .queue-row .amt { margin-left:auto; font-weight:700; }
 
 /* News card grid (UFL "News" style) */
-.news-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-@media (max-width:1080px) { .news-grid { grid-template-columns:repeat(2,1fr); } }
-@media (max-width:720px) { .news-grid { grid-template-columns:1fr; } }
+.news-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; }
+@media (max-width:1080px) { .news-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:720px) { .news-grid { grid-template-columns:minmax(0,1fr); } }
 .news-card { background:var(--n-paper); border:1px solid var(--n-line); border-radius:14px; overflow:hidden; transition:transform .2s, box-shadow .2s, border-color .2s; }
 .news-card:hover { transform:translateY(-4px); box-shadow:0 18px 36px rgba(15,29,46,.12); border-color:var(--n-blue); }
 .news-card .img { aspect-ratio: 470/310; overflow:hidden; background:var(--n-paper-2); }
@@ -792,8 +823,8 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .headlines .stars { color:var(--n-ink-mute); font-size:.9rem; margin-top:.4rem; letter-spacing:.05em; }
 
 /* Impact / "Momentum" section */
-.impact { display:grid; grid-template-columns:1fr 1.4fr; gap:3rem; align-items:center; }
-@media (max-width:980px) { .impact { grid-template-columns:1fr; } }
+.impact { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:3rem; align-items:center; }
+@media (max-width:980px) { .impact { grid-template-columns:minmax(0,1fr); } }
 .impact-art { position:relative; border-radius:18px; overflow:hidden; box-shadow:0 30px 60px rgba(15,29,46,.25); }
 .impact-art img { width:100%; height:auto; display:block; }
 .impact-art .glaze { position:absolute; inset:0; background:linear-gradient(180deg,transparent 50%, rgba(11,29,63,.7) 100%); }
@@ -805,8 +836,8 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .impact-stat .n { color:rgba(255,255,255,.85); font-size:.9rem; line-height:1.5; }
 
 /* "Don't miss a moment" CTA strip */
-.dontmiss { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:1.6rem; }
-@media (max-width:780px) { .dontmiss { grid-template-columns:1fr; } }
+.dontmiss { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; margin-top:1.6rem; }
+@media (max-width:780px) { .dontmiss { grid-template-columns:minmax(0,1fr); } }
 .dontmiss a { background:var(--n-paper); border:1px solid var(--n-line); border-radius:12px; padding:1.1rem 1.2rem; font-weight:700; color:var(--n-ink); transition:all .2s; display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
 .dontmiss a:hover { border-color:var(--n-blue); color:var(--n-blue); background:var(--n-paper); }
 .dontmiss a::after { content:"→"; transition:transform .15s; }
@@ -819,8 +850,8 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 
 /* Footer */
 .page-footer { background:var(--n-blue-deep); color:rgba(255,255,255,.78); padding:2.5rem 0 1.5rem; }
-.page-footer .container { display:grid; gap:1.5rem; grid-template-columns:1.2fr repeat(3,1fr); }
-@media (max-width:780px) { .page-footer .container { grid-template-columns:1fr 1fr; } }
+.page-footer .container { display:grid; gap:1.5rem; grid-template-columns:minmax(0,1.2fr) repeat(3,minmax(0,1fr)); }
+@media (max-width:780px) { .page-footer .container { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .page-footer h4 { color:#fff; font-family:var(--n-font); font-size:.78rem; text-transform:uppercase; letter-spacing:.14em; margin-bottom:.8rem; }
 .page-footer ul { list-style:none; margin:0; padding:0; }
 .page-footer li { padding:.25rem 0; font-size:.86rem; }
@@ -831,8 +862,8 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 /* ============================================================================
    Testimonial
    ========================================================================== */
-.testimonials { display:grid; gap:1.2rem; grid-template-columns:repeat(2,1fr); }
-@media (max-width:780px) { .testimonials { grid-template-columns:1fr; } }
+.testimonials { display:grid; gap:1.2rem; grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media (max-width:780px) { .testimonials { grid-template-columns:minmax(0,1fr); } }
 .testimonial { background:var(--n-paper); border:1px solid var(--n-line); border-radius:14px; padding:1.7rem; }
 .testimonial blockquote { font-family:var(--n-display); font-size:1.4rem; line-height:1.35; color:var(--n-ink); margin:0; }
 .testimonial figcaption { display:flex; align-items:center; gap:.75rem; margin-top:1.4rem; padding-top:1.2rem; border-top:1px solid var(--n-line); }
@@ -843,8 +874,8 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 /* ============================================================================
    Pricing
    ========================================================================== */
-.price-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-@media (max-width:980px) { .price-grid { grid-template-columns:1fr; } }
+.price-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; }
+@media (max-width:980px) { .price-grid { grid-template-columns:minmax(0,1fr); } }
 .price-card { background:var(--n-paper); border:1px solid var(--n-line); border-radius:18px; padding:2rem 1.8rem; display:flex; flex-direction:column; }
 .price-card.is-hot { background:var(--n-blue); color:#fff; border-color:var(--n-blue); box-shadow:0 30px 60px rgba(11,59,122,.28); }
 .price-card .label { font-size:.72rem; text-transform:uppercase; letter-spacing:.14em; font-weight:800; color:var(--n-blue); }
@@ -896,3 +927,67 @@ html.dark .pkg-badge--danger { color:var(--n-coral); }
 .auth-alt a { color:var(--n-blue); font-weight:700; }
 .auth-alt a:hover { text-decoration:underline; }
 @media (max-width:940px){ .auth-side { display:none; } .auth-form { padding:2rem 1.3rem; } }
+
+/* ============================================================================
+   Form state + confirmations (Laravel port)
+   ==========================================================================
+   The flat-PHP app reported failures as a bare ?err=invalid callout, so field
+   level feedback and a positive "saved" tone are new to the design system.
+   Both reuse the existing ink/coral/success tokens.
+   ========================================================================== */
+.pkg-field-error { display:block; margin-top:.3rem; font-size:.74rem; font-weight:600; color:var(--n-coral-strong); }
+.pkg-field-hint { display:block; margin-top:.3rem; font-size:.72rem; color:var(--n-ink-mute); }
+.pkg-input--invalid { border-color:var(--n-coral); }
+.pkg-input--invalid:focus { border-color:var(--n-coral-strong); box-shadow:0 0 0 3px var(--n-coral-soft); }
+.pkg-callout--sage { background:rgba(29,111,79,.10); border-color:rgba(29,111,79,.34); }
+.pkg-callout--sage strong { color:var(--n-success); }
+
+/* ── Legal pages (Terms · Privacy · Security) ───────────────────────────── */
+.legal-sec { padding:4.5rem 0 4rem; }
+.legal-h1 { font-size:clamp(2rem,3.6vw,2.9rem); margin-top:.4rem; line-height:1.12; }
+.legal-lede { max-width:52ch; margin-top:.85rem; color:var(--n-ink-soft); }
+.legal-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:1.5rem 2rem;
+    align-items:end; padding-bottom:1.6rem; margin-bottom:2.2rem; border-bottom:1px solid var(--n-line); }
+.legal-stamp { margin:0; text-align:right; font-size:.74rem; line-height:1.65; color:var(--n-ink-mute); }
+.legal-body { display:grid; grid-template-columns:minmax(0,13.5rem) minmax(0,1fr); gap:2.75rem; align-items:start; }
+
+.legal-toc { position:sticky; top:5rem; }
+.legal-toc-h { margin:0 0 .5rem; font-size:.68rem; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--n-ink-mute); }
+.legal-toc ol { margin:0; padding:0 0 0 1.05rem; border-left:1px solid var(--n-line);
+    list-style:none; counter-reset:toc; }
+.legal-toc li { margin:0 0 .4rem; counter-increment:toc; }
+.legal-toc li a::before { content:counter(toc,decimal-leading-zero) " "; font-size:.66rem;
+    font-weight:700; color:var(--n-gold-strong); }
+.legal-toc a { color:var(--n-ink-soft); font-size:.8rem; text-decoration:none; display:block; }
+.legal-toc a:hover { color:var(--n-blue); text-decoration:underline; }
+.legal-toc-links { display:flex; flex-wrap:wrap; gap:.35rem .7rem; margin-top:1.15rem; padding-top:.9rem;
+    border-top:1px solid var(--n-line-2); }
+.legal-toc-links a { font-size:.75rem; font-weight:700; color:var(--n-blue); text-decoration:none; }
+.legal-toc-links a:hover { text-decoration:underline; }
+
+/* The container is 78rem; unbounded, this column ran to ~120 characters a line
+   and pushed prose to the edge of the viewport. */
+.legal-prose { max-width:70ch; }
+.legal-prose p { font-size:.92rem; line-height:1.75; color:var(--n-ink-soft); margin:.7rem 0; }
+.legal-part { padding-bottom:1.9rem; margin-bottom:1.9rem; border-bottom:1px solid var(--n-line-2); }
+.legal-part:last-child { border-bottom:0; margin-bottom:0; padding-bottom:0; }
+.legal-part h2 { font-family:var(--n-display); font-size:1.22rem; margin:0 0 .4rem; color:var(--n-ink); }
+.legal-part ul { margin:.7rem 0 0; padding-left:1.15rem; }
+.legal-part li { font-size:.9rem; line-height:1.66; color:var(--n-ink-soft); margin-bottom:.42rem; }
+.legal-part li code, .legal-part p code { background:var(--n-paper-2); border:1px solid var(--n-line-2);
+    border-radius:5px; padding:.05rem .28rem; font-size:.82em;
+    overflow-wrap:anywhere;   /* a config key is one word: `SESSION_SECURE_COOKIE=true`
+                                 refused to break and pushed the bordered chip past the column */ }
+.legal-note { display:block; background:var(--n-paper-2); border-left:.22rem solid var(--n-gold);
+    border-radius:0 10px 10px 0; padding:.8rem .95rem; margin-top:.95rem !important; font-size:.87rem;
+    line-height:1.65; color:var(--n-ink-soft); }
+.legal-note strong { display:block; color:var(--n-ink); font-size:.85rem; margin-bottom:.15rem; }
+
+@media (max-width:60rem) {
+    .legal-head, .legal-body { grid-template-columns:minmax(0,1fr); }
+    .legal-prose { max-width:none; }   /* single column: the measure guard has nothing to protect */
+    .legal-stamp { text-align:left; }
+    .legal-toc { position:static; }
+    .legal-toc ol { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(12rem,100%),minmax(0,1fr))); gap:.15rem .8rem; }
+}
