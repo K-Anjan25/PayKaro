@@ -238,6 +238,16 @@ function readBody(req) {
 }
 
 const server = http.createServer(async (req, res) => {
+	/*
+	 * Browsers abort requests constantly — a reload, a cancelled navigation, a
+	 * closing iframe — and a socket that dies mid-response emits on the response
+	 * rather than throwing here. Without a listener that is an unhandled 'error'
+	 * event, which ends the process: the preview would go dark because a visitor
+	 * pressed Escape. Swallow both sides; the connection is gone anyway.
+	 */
+	req.on('error', () => {});
+	res.on('error', () => {});
+
 	try {
 		const url = new URL(req.url || '/', 'http://internal');
 		const headers = headerObject(req.headers);
@@ -292,6 +302,19 @@ const server = http.createServer(async (req, res) => {
 		res.setHeader('Content-Type', 'text/plain; charset=utf-8');
 		res.end('Bridge error: ' + ((error && error.message) || String(error)));
 	}
+});
+
+/**
+ * A malformed request (bad HTTP framing, half-open socket) must not take the
+ * server down with it — the preview is one process, so it answers 400 and moves on.
+ */
+server.on('clientError', (error, socket) => {
+	if (error.code === 'ECONNRESET' || !socket.writable) {
+		socket.destroy();
+		return;
+	}
+
+	socket.end('HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n');
 });
 
 /* ------------------------------------------------------------------ */
@@ -392,6 +415,20 @@ async function artisan(args) {
 	if (output) console.log(output);
 	if (result.errors) console.error('[artisan]', String(result.errors).slice(0, 800));
 }
+
+/*
+ * Last line of defence. A preview that exits on one bad request is worse than a
+ * preview that logs it, and php-wasm reports failures by rejecting promises deep
+ * inside a request — surviving those is the difference between "one page 500s"
+ * and "the sandbox has no preview any more".
+ */
+process.on('unhandledRejection', (reason) => {
+	console.error('[bridge] unhandled rejection (still serving):', reason && reason.stack ? reason.stack : reason);
+});
+
+process.on('uncaughtException', (error) => {
+	console.error('[bridge] uncaught exception (still serving):', error && error.stack ? error.stack : error);
+});
 
 await ensureCertificateAuthority();
 
