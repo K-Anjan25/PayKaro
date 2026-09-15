@@ -1088,7 +1088,9 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 }
 .app-head-main {
 	display:grid;
-	grid-template-columns:auto minmax(18rem, 1fr) auto;
+	/* minmax(0,…) so the header can shrink; the search field carries the
+	   18rem minimum itself (it is hidden below 980px anyway). */
+	grid-template-columns:auto minmax(0, 1fr) auto;
 	align-items:center;
 	gap:1.2rem;
 	padding-top:1rem;
@@ -1107,6 +1109,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	display:flex;
 	align-items:center;
 	gap:.75rem;
+	min-width:18rem;
 	padding:.78rem 1rem;
 	background:var(--n-paper);
 	border:1px solid var(--n-line);
@@ -1358,11 +1361,21 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	margin-bottom:1rem;
 	align-items:start;
 }
+/* Shrinkable tracks, with the comfortable minimum on the *item*: a
+   `minmax(18rem,…)` track cannot shrink at all, which is the blow-out risk
+   bridge/overflow-sim.mjs exists to catch. Every one of these splits collapses to
+   a single column at 980px, so no minimum ever binds below the width where the
+   two columns fit anyway. */
 .overview-split,
-.finance-summary-grid { grid-template-columns:minmax(0,1.5fr) minmax(18rem,.9fr); }
+.finance-summary-grid { grid-template-columns:minmax(0,1.5fr) minmax(0,.9fr); }
 .form-shell,
 .settings-shell,
-.detail-shell { grid-template-columns:minmax(0,1.55fr) minmax(18rem,.95fr); }
+.detail-shell { grid-template-columns:minmax(0,1.55fr) minmax(0,.95fr); }
+.liquidity-card,
+.finance-index-card,
+.form-side-stack,
+.settings-side-stack,
+.detail-side-stack { min-width:18rem; }
 .finance-summary-count {
 	font-size:3rem;
 	font-weight:800;
@@ -1454,10 +1467,14 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .pipeline-board { display:flex; flex-direction:column; gap:.85rem; }
 .pipeline-row {
 	display:grid;
-	grid-template-columns:minmax(7rem,.7fr) minmax(0,1fr) minmax(13rem,.75fr);
+	grid-template-columns:minmax(0,.7fr) minmax(0,1fr) minmax(0,.75fr);
 	align-items:center;
 	gap:1rem;
 }
+/* The label and the ageing figures keep their own minimum (see the split grids):
+   the row also collapses to a single column at 980px. */
+.pipeline-name { min-width:7rem; }
+.pipeline-meta { min-width:13rem; }
 .pipeline-name { display:flex; align-items:center; gap:.6rem; font-weight:700; color:var(--n-ink); }
 .pipeline-dot--blue,.pipeline-fill--blue,.bucket-mini-dot--blue,.ageing-strip-segment--blue { background:var(--n-blue); }
 .pipeline-dot--gold,.pipeline-fill--gold,.bucket-mini-dot--gold,.ageing-strip-segment--gold { background:var(--n-gold); }
@@ -1822,7 +1839,6 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.bucket-mini-grid,
 	.claim-grid--2,
 	.choice-grid--3 { grid-template-columns:repeat(2,minmax(0,1fr)); }
-	.app-head-main { grid-template-columns:auto minmax(0,1fr) auto; }
 	.app-usercard { display:none; }
 }
 @media (max-width:980px) {
@@ -1881,24 +1897,111 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.total-card { flex-direction:column; align-items:flex-start; }
 }
 
+/* ============================================================================
+   Print — the claim packet
+   The one stylesheet where a visual bug has legal consequence: this page is
+   filed, and a filing is cited by its GSTIN and invoice number. So print hides
+   the app chrome, re-asserts the light palette (a member in dark mode must not
+   file a dark page), keeps each schedule on one sheet, and repeats a footer —
+   the claimant's GSTIN and the invoice number — on every page. Every one of
+   those facts is asserted against this block by bridge/overflow-sim.mjs.
+   ========================================================================== */
+
+@page { margin:16mm 12mm 20mm; }
+
+.claim-print-foot { display:none; }
+
 @media print {
 	.app-util,
 	.app-head,
 	.app-footer,
+	.app-nav,
+	.app-drawer,
 	.theme-toggle,
 	.claim-actions,
+	.pkg-btn,
 	.pkg-callout,
-	.pkg-footer { display:none !important; }
+	.pkg-footer,
+	.flash { display:none !important; }
+
+	/* The light palette, re-asserted: on screen `html.dark` wins, and print must
+	   not inherit it. Values mirror :root, and the sim fails the build if one
+	   drifts — a palette that is copied by hand is a palette that goes stale. */
+	html,
+	html.dark {
+		--n-canvas:#f8faff;
+		--n-paper:#ffffff;
+		--n-paper-2:#f1f5f9;
+		--n-ink:#0b132b;
+		--n-ink-soft:#334155;
+		--n-ink-mute:#64748b;
+		--n-line:#e2e8f0;
+		--n-line-2:rgba(11,19,43,.06);
+		--n-blue:#1d4ed8;
+		--n-blue-strong:#1e40af;
+		--n-blue-soft:#eff6ff;
+		--n-blue-deep:#0b132b;
+		--n-gold:#0284c7;
+		--n-gold-soft:#f0f9ff;
+		--n-gold-strong:#0369a1;
+		--n-coral:#dc2626;
+		--n-coral-strong:#b91c1c;
+		--n-coral-soft:#fef2f2;
+		--n-beige:#f1f5f9;
+		--n-success:#16a34a;
+		--n-warning:#d97706;
+		--n-info:#2563eb;
+		--n-amber:#d97706;
+		--n-amber-soft:#fffbeb;
+		--n-orange:#d97706;
+		--n-orange-soft:#fffbeb;
+		--n-red:#dc2626;
+		--n-red-soft:#fef2f2;
+		--n-shadow:none;
+		--n-shadow-2:none;
+		--n-shadow-3:none;
+		--n-inset:none;
+		color-scheme:light;
+	}
+
 	body.pkg,
 	body.page,
 	.app-shell,
 	.app-main-wrap,
-	.pkg-main { background:#fff !important; }
+	.pkg-main,
+	.pkg-card,
+	.claim-sheet { background:#fff !important; box-shadow:none !important; }
+
 	.claim-sheet {
 		max-width:none;
 		margin:0;
-		box-shadow:none;
 		border:0;
 		padding:0;
+	}
+
+	/* A statutory filing with a page break through the interest schedule is a
+	   broken artefact, so each block travels whole. */
+	.claim-highlight,
+	.claim-box,
+	.claim-annexure,
+	.claim-table-wrap,
+	.claim-section-head,
+	.claim-total-row,
+	.claim-table tr { break-inside:avoid; page-break-inside:avoid; }
+
+	/* Fixed elements are printed on every page by the browser, which is what a
+	   running footer needs; the packet routinely runs past one sheet. */
+	.claim-print-foot {
+		display:flex;
+		position:fixed;
+		bottom:0;
+		left:0;
+		right:0;
+		justify-content:space-between;
+		gap:1rem;
+		padding-top:4mm;
+		border-top:1px solid var(--n-line);
+		color:var(--n-ink-mute);
+		font-size:.72rem;
 	}
 }

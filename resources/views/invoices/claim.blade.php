@@ -115,4 +115,11 @@
             </div>
         </section>
     </article>
+
+    {{-- Printed on every page (fixed elements repeat in print): the two strings a
+         filing is cited by. Hidden on screen by `.claim-print-foot`. --}}
+    <footer class="claim-print-foot">
+        <span>{{ auth()->user()->business?->name ?? 'Claimant' }} · GSTIN {{ auth()->user()->business?->gstin ?: 'not recorded' }}</span>
+        <span>Claim packet · Invoice {{ $invoice->number }} · printed {{ now()->format('d M Y') }}</span>
+    </footer>
 </x-layouts.app>

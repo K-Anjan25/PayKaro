@@ -421,6 +421,26 @@ final class InvoicePipelineTest extends TestCase
             ->assertSee('Interest due (3× bank rate 6.5%)');
     }
 
+    public function test_the_printed_packet_is_cited_by_gstin_and_invoice_number(): void
+    {
+        $owner = $this->workspace();
+        // Uppercased by the settings form, which is the only place identity is
+        // edited; the footer quotes whatever the business record holds.
+        $owner->business->update(['name' => 'Shree Precision Works Pvt Ltd', 'gstin' => '36AAACS1234F1Z5']);
+
+        $invoice = $this->invoice($owner, $this->buyer(), ['number' => 'INV-PRINT-1']);
+
+        // A filing is cited by its GSTIN and its invoice number, and a packet can
+        // run past one sheet — so the print footer has to carry both, under the
+        // class the print stylesheet keeps out of the screen layout and repeats
+        // on every page (see the print section of bridge/overflow-sim.mjs).
+        $this->get(route('invoices.claim', $invoice))
+            ->assertOk()
+            ->assertSee('claim-print-foot', false)
+            ->assertSee('Shree Precision Works Pvt Ltd · GSTIN 36AAACS1234F1Z5')
+            ->assertSee('Claim packet · Invoice INV-PRINT-1');
+    }
+
     public function test_a_viewer_reads_the_book_and_changes_nothing(): void
     {
         $owner = $this->workspace(UserRole::Owner);

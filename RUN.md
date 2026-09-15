@@ -112,17 +112,28 @@ bugs are made of: every `fr` track is `minmax(0,…)`, scroll containers scroll 
 of clipping, `overflow-wrap` is inherited from the page roots, no track is sized by
 `max-content` text, and the fixed-width popup has a viewport clamp.
 
+It also audits the printed claim packet, because that is the one artefact where a visual
+bug has legal consequence: the chrome is hidden, the light palette is re-asserted for
+`html.dark` (and compared token-by-token against `:root`, so a copy cannot quietly go
+stale), each schedule is kept off a page break, and the running footer that carries the
+GSTIN and invoice number is `position:fixed`.
+
 ```bash
-node bridge/overflow-sim.mjs                                  # current sheet
-CSS=public/assets/app.css.before INCLUDE=/dev/null node bridge/overflow-sim.mjs   # control
+node bridge/overflow-sim.mjs                                  # current sheet, 15 checks
+git show main:public/assets/app.css > /tmp/app.css.before
+CSS=/tmp/app.css.before INCLUDE=/dev/null node bridge/overflow-sim.mjs   # control: 2 hazards
 ```
 
 Always run the control too. A checker that parses nothing reports nothing, so the tool
 aborts if it reads fewer than 60 rules and the control run is what proves the checks can
-fail — on the pre-fix sheet it reports 32 hazards; on the current one, zero. Most of
-those 32 were the same single mistake repeated: the base rules guarded their tracks with
+fail. The control above is `main`'s sheet, taken before this work: it reports the two
+missing print facts, and it is also what the original 32-hazard run used. Most of those 32
+were the same single mistake repeated: the base rules guarded their tracks with
 `minmax(0,1fr)` but the responsive overrides re-wrote them as bare `1fr`, re-arming the
-blow-out at exactly the widths where text is most likely to spill.
+blow-out at exactly the widths where text is most likely to spill. The refresh then
+re-introduced four of the same shape under new names — `auto minmax(18rem,1fr) auto` and
+friends — which is why the minimum now sits on the *item* (`min-width:18rem` on the side
+stack) and the track stays shrinkable.
 
 ## Configuration
 
