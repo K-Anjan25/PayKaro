@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Workspace;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
 use App\Services\Dashboard;
 use Illuminate\View\View;
 
@@ -16,6 +17,7 @@ class ReportController extends Controller
         return view('workspace.reports', [
             'summary' => $dashboard->overview(),
             'byBuyer' => $dashboard->outstandingByBuyer(),
+            'openInvoices' => Invoice::query()->withMetrics()->open()->get(),
         ]);
     }
 }
