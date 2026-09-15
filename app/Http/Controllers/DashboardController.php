@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand\Onboarding;
 use App\Models\Alert;
 use App\Models\Invoice;
 use App\Services\Dashboard;
@@ -21,6 +22,12 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'summary' => $summary,
+            // Absent once every step is done, so a populated workspace never sees it.
+            // Also absent for a read-only member: every step in it is a write, and a
+            // checklist of things you cannot do is worse than no checklist.
+            'onboarding' => $request->user()->role->canWrite()
+                ? Onboarding::checklist()
+                : ['complete' => true, 'steps' => []],
             'recent' => Invoice::query()->withMetrics()->latestFirst()->take(5)->get(),
             'alerts' => Alert::query()
                 ->unread()

@@ -168,9 +168,14 @@ claim are all real actions, and a sheet is a legitimate way to present them.
 **Two of the thirteen are now built** (the buyer detail pair, above). The other
 eleven are the remainder of this section, and they divide cleanly:
 
-- **Worth building, backend work:** the feature tour (an onboarding walkthrough of
-  the five screens a new workspace has to learn). It is real product work, and it is
-  the only remaining one that a supplier would notice.
+- **Built, in the form that fits:** the feature tour. `WIREFRAMES.md`'s "sign-up
+  lands straight on the dashboard" is now answered by a first-run checklist on the
+  dashboard — four steps read from the workspace's own state (add a buyer, raise an
+  invoice, complete an evidence trail, confirm each buyer's TReDS status), with the
+  card leaving once there is nothing left to say and staying away from read-only
+  members, who cannot do any of it. `App\Brand\Onboarding`, `OnboardingTest`. A
+  slide-deck tour would have been the wrong shape for a server-rendered app; this
+  states the next step and is checkable.
 - **Not a fit for this architecture, recommended declined:** the nine
   `*_pull_to_refresh_gesture` screens and the toast system. The app is
   server-rendered Blade over plain form POSTs — every action is a navigation, so

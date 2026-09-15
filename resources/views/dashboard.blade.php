@@ -15,6 +15,38 @@
         </div>
     </div>
 
+    {{-- The first-run checklist (WIREFRAME_AUDIT §6, WIREFRAMES.md: "sign-up lands
+         straight on the dashboard"). It reads the workspace's own state, states the
+         next step, and disappears once there is nothing left to say. --}}
+    @if (! $onboarding['complete'])
+        <section class="pkg-card" id="get-started">
+            <div class="pkg-cardhead">
+                <div>
+                    <div class="screen-kicker">Getting started</div>
+                    <h2 class="pkg-h2">Four steps to a finance-ready book</h2>
+                    <p class="pkg-sub">This card disappears when the last one is done. Nothing here is a tour: each step is something the workspace does.</p>
+                </div>
+                @php $done = collect($onboarding['steps'])->where('done', true)->count(); @endphp
+                <span class="metric-pill">{{ $done }} of {{ count($onboarding['steps']) }} done</span>
+            </div>
+
+            <ol class="onboarding-steps">
+                @foreach ($onboarding['steps'] as $step)
+                    <li class="onboarding-step {{ $step['done'] ? 'is-done' : '' }}">
+                        <span class="onboarding-mark" aria-hidden="true">{{ $step['done'] ? '✓' : $loop->iteration }}</span>
+                        <div>
+                            <strong>{{ $step['title'] }}</strong>
+                            <p>{{ $step['body'] }}</p>
+                        </div>
+                        @unless ($step['done'])
+                            <a class="pkg-btn pkg-btn--sm" href="{{ $step['href'] }}">Start</a>
+                        @endunless
+                    </li>
+                @endforeach
+            </ol>
+        </section>
+    @endif
+
     <section class="metric-grid metric-grid--4">
         <article class="metric-card metric-card--dark">
             <div class="metric-top">

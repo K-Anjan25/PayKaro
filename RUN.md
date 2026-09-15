@@ -196,6 +196,15 @@ the same standard `App\Support\Legal` already held itself to.
 The news feed is the team's own writing and says so: "Product notes", "Written by
 the PayKaro team", tags that do not imply a news desk.
 
+## The first-run checklist
+
+A new workspace's dashboard carries a four-step card — add a buyer, raise an
+invoice, complete an evidence trail, confirm each buyer's TReDS status — read from
+the workspace's own state by `App\Brand\Onboarding`. It is not stored, so a member
+who inherits a populated workspace never sees it, one who starts fresh does, and
+the card disappears when the last step is done. Every step is a write, so a
+read-only member never sees it at all.
+
 ## The brand book
 
 `/brand` is the brand guidelines, readable signed out and linked from every

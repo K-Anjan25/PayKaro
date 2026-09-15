@@ -941,6 +941,19 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .page-footer-bottom { max-width:78rem; margin:1.5rem auto 0; padding:1rem 1.5rem 0; border-top:1px solid rgba(255,255,255,.14); display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; font-size:.78rem; color:rgba(255,255,255,.6); }
 
 /* ============================================================================
+   First-run checklist — the dashboard card a new workspace sees (§6).
+   A list, not a tour: each row is a step the product performs, and the card
+   leaves when the last one is done.
+   ========================================================================== */
+.onboarding-steps { list-style:none; margin:0; padding:0; display:grid; gap:.6rem; }
+.onboarding-step { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:.85rem; padding:.75rem .9rem; border:1px solid var(--n-line); border-radius:10px; background:var(--n-paper); }
+.onboarding-step.is-done { background:var(--n-paper-2); }
+.onboarding-step p { margin:.15rem 0 0; font-size:.85rem; color:var(--n-ink-mute); }
+.onboarding-mark { width:1.6rem; height:1.6rem; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.8rem; background:var(--n-blue); color:var(--n-on-accent); flex-shrink:0; }
+.onboarding-step.is-done .onboarding-mark { background:var(--n-success); }
+@media (max-width:640px) { .onboarding-step { grid-template-columns:auto minmax(0,1fr); } .onboarding-step .pkg-btn { grid-column:2; justify-self:start; } }
+
+/* ============================================================================
    Letterhead — the supplier's own stationery on a printed document (§4.4).
 
    Deliberately plain: it is read on paper, at A4 width, often photocopied. No

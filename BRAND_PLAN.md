@@ -264,19 +264,35 @@ PayKaro's distribution channel is a WhatsApp link; today that link has no previe
 - ~~**5.2 Guidelines as code.**~~ **Done** — `config/paykaro.php` owns `headline`
   and `descriptor` (`BrandCopyTest` overrides the config and asserts the *rendered
   page* follows), `App\Brand\Palette` owns the tokens and their floors
-  (`BrandPaletteTest`), and `/brand` renders all of it. What is still open is the
-  hex-in-a-view assertion: `resources/views/` holds ~40 literal hexes, and the ones
-  in the mail layer are deliberate — an inbox has no CSS custom properties, so that
-  layer *must* repeat the palette.
-- **5.3 Change management.** `public/assets/app.css` is a single 63 KB file
-  (64,498 bytes) that `MIGRATION.md` says was ported "markup-for-markup" and is
-  deliberately kept verbatim. Any brand change is a diff to that one file — so
-  require a screenshot of the affected layouts in the PR.
-- **5.4 Brand champions.** For an internal tool of this size, the "champions" are
-  the two seeded demo tenants' personas (Sunita Rao / Shree Precision, Farhan Ali /
-  MetRow Ceramics in `database/seeders/DemoWorkspaceSeeder.php`). Keep the demo
-  book realistic; it is the product's own showroom.
-- **5.5 Measuring success.**
+  (`BrandPaletteTest`), `App\Support\Proof` owns the figures a marketing page may
+  publish (`AuthenticityTest`), and `/brand` renders all of it. The hex-in-a-view
+  assertion shipped too, and the tidy-up it implied turned out to be nearly done
+  already: four files may hold a literal, each with a recorded reason — the mail
+  layer (an inbox has no CSS custom properties), the `theme-color` meta (the browser
+  cannot resolve `var()`), the brand book's icon preview (it shows the committed
+  PNGs) and Google's sign-in mark (their branding guidelines mandate its colours).
+  `BrandPageTest` fails on a new one, and fails if an allowlisted file stops needing
+  its exemption.
+- ~~**5.3 Change management.**~~ **Done** — `public/assets/app.css` is one file every
+  screen shares, so a brand change is always a wide change. `.github/pull_request_template.md`
+  now asks for the three checks (tests, Pint, the overflow sim when a grid moved) and
+  for a screenshot of the affected pages in light **and** dark, plus the printed
+  packet when the print stylesheet changed — the two themes and the printer being the
+  three places a colour change breaks quietly.
+- ~~**5.4 Brand champions.**~~ **Done, and it paid off twice.** The demo book is the
+  product's own showroom, so it is kept realistic: fifteen invoices across four
+  buyers on age-based offsets, three of the four with an accounts-payable address
+  and one deliberately without, and each buyer a different TReDS answer. That
+  variety is what makes the first-run checklist readable (`3 of 4 done` on a
+  populated workspace, with the open step being a real buyer) and what exercises the
+  correspondence panel's both cases.
+- **5.5 Measuring success.** Five of the six metrics already live in code (the table
+  below). **This is the one item in Phase 5 that is not done, and it needs a
+  decision**: instrumenting the click and the reminder→payment funnel means
+  somewhere to send the events, and the product has no analytics sink, no queue
+  worker and no outbound HTTP. Adding one is a hosting and privacy decision — the
+  `privacy` page is explicit that the code embeds no third-party data flow — so it
+  should be made deliberately rather than by dropping a script tag in a layout.
 
 | Metric | Where it already lives |
 |--------|------------------------|
