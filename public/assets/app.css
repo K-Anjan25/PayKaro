@@ -879,6 +879,8 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .page-footer li { padding:.25rem 0; font-size:.86rem; }
 .page-footer a:hover { color:var(--n-gold); }
 .page-footer .meta { font-size:.78rem; color:rgba(255,255,255,.55); margin-top:1rem; }
+/* The brand line in the marketing footer: one placement, every public page. */
+.page-footer-line { max-width:78rem; margin:0 auto; padding:0 1.5rem; color:#fff; font-size:1.05rem; font-weight:800; letter-spacing:-.02em; }
 .page-footer-bottom { max-width:78rem; margin:1.5rem auto 0; padding:1rem 1.5rem 0; border-top:1px solid rgba(255,255,255,.14); display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; font-size:.78rem; color:rgba(255,255,255,.6); }
 
 /* ============================================================================

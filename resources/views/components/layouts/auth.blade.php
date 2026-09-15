@@ -1,7 +1,9 @@
 @props(['title', 'copy' => null])
 
 @php
-    $defaultCopy = 'Turn invoice mess into finance-ready receivables.';
+    // Supporting copy, not a second tagline: BRAND_PLAN §1.1. The brand line itself
+    // is `paykaro.headline`, rendered below and nowhere else re-typed.
+    $defaultCopy = 'Every invoice keeps its dated evidence and its statutory interest, so a delayed payment or a TReDS claim has something to stand on.';
     $stats = [
         ['₹240Cr+', 'Invoices cleared'],
         ['<48 Hrs', 'Disbursal speed'],
@@ -21,7 +23,7 @@
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
     @include('partials.brand-meta', [
         'metaTitle' => $title.' — '.config('app.name'),
-        'metaDescription' => 'Sign in to '.config('app.name').': '.config('paykaro.tagline').'.',
+        'metaDescription' => 'Sign in to '.config('app.name').': '.config('paykaro.descriptor').'.',
     ])
     @include('partials.datepicker')
 </head>
@@ -29,17 +31,17 @@
 <div class="auth">
     <div class="auth-side">
         <div>
-            <div class="metric-pill metric-pill--soft" style="display:inline-flex; margin-bottom:2rem; background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.15);">MSME invoice &amp; receivables tracker</div>
+            <div class="metric-pill metric-pill--soft" style="display:inline-flex; margin-bottom:2rem; background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.15);">{{ config('paykaro.descriptor') }}</div>
             <a href="{{ route('landing') }}" class="auth-brand" aria-label="Home">
                 <div>
                     <div class="auth-name"><x-brand-wordmark /></div>
-                    <div class="auth-tag">{{ config('paykaro.tagline') }}</div>
+                    <div class="auth-tag">{{ config('paykaro.descriptor') }}</div>
                 </div>
             </a>
         </div>
 
         <div>
-            <div class="auth-headline">Turn invoice mess into finance-ready receivables.</div>
+            <div class="auth-headline">{{ config('paykaro.headline') }}</div>
             <p class="auth-copy">{{ $copy ?? $defaultCopy }}</p>
 
             <div class="auth-statgrid">

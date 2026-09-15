@@ -8,12 +8,26 @@ return [
     |--------------------------------------------------------------------------
     |
     | The marketing shell and the workspace share these strings. APP_NAME
-    | (config/app.php) stays the source of truth for the app name; the tagline
-    | only appears in the header, footer and auth pages.
+    | (config/app.php) stays the source of truth for the app name; these two only
+    | appear in the header, footer, <title> and auth pages.
     |
+    | Two keys, not one, because they do two different jobs — and holding both in
+    | one key is what let the product end up with five wordings of the same
+    | promise (BRAND_PLAN §1.1):
+    |
+    |   headline    the brand line a visitor reads. It has to be *identical* on
+    |               the landing page, in the page <title>, on the auth pages and
+    |               in the share card, so it lives here and nowhere else.
+    |   descriptor  the one-line explanation that sits under the wordmark. It is
+    |               not a tagline, and it reads wrong when it is used as one.
+    |
+    | This key was `paykaro.tagline` until the two were split; a deployment that
+    | sets PAYKARO_TAGLINE must be renamed rather than keep the old value.
     */
 
-    'tagline' => env('PAYKARO_TAGLINE', 'MSME invoice & receivables tracker'),
+    'headline' => env('PAYKARO_HEADLINE', 'Make every invoice count'),
+
+    'descriptor' => env('PAYKARO_DESCRIPTOR', 'MSME invoice & receivables tracker'),
 
     /*
     |--------------------------------------------------------------------------

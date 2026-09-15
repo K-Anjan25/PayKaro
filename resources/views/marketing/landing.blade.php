@@ -5,7 +5,14 @@
 		<div class="hero-inner">
 			<div class="hero-text">
 				<div class="hero-eyebrow"><span class="dot"></span> MSME receivables, simplified</div>
-				<h1 class="hero-title display">Make every<br><em>invoice</em> <span class="accent">count.</span></h1>
+				@php
+					// The hero is the headline's typographic treatment: the last two words
+					// take the italic and the accent. Split from config, never retyped —
+					// a renamed deployment or a new headline must not need a markup edit.
+					$headline = preg_split('/\s+/', (string) config('paykaro.headline'), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+					$emphasis = array_splice($headline, -2);
+				@endphp
+				<h1 class="hero-title display">@if (count($emphasis) === 2){{ implode(' ', $headline) }}<br><em>{{ $emphasis[0] }}</em> <span class="accent">{{ $emphasis[1] }}</span>@else{{ config('paykaro.headline') }}@endif</h1>
 				<p class="hero-lede">PayKaro turns an invoice into a finance-ready asset — one pipeline for what's owed, what's overdue, and what you could finance today, with the evidence and interest numbers that make a claim actually stand.</p>
 				<div class="hero-cta">
 					<a class="pbtn pbtn-primary pbtn-lg" href="{{ route('register') }}">Try PayKaro free</a>
@@ -241,7 +248,9 @@
 		<div class="cta-banner">
 			<div>
 				<p class="eyebrow" style="color:var(--n-ink);">Ready</p>
-				<h2 style="margin-top:.5rem;">Make every invoice count.</h2>
+				{{-- The closing CTA repeats the brand line on purpose — it is the same
+				     promise, so it is the same key, not a retyped copy of it. --}}
+				<h2 style="margin-top:.5rem;">{{ config('paykaro.headline') }}</h2>
 				<p>Free Starter tier. No credit card. Sign in, raise an invoice, and watch the pipeline do the work.</p>
 			</div>
 			<a class="pbtn pbtn-blue pbtn-lg" href="{{ route('register') }}">Try PayKaro free →</a>
@@ -255,7 +264,7 @@
 		<a class="pkg-brand" href="{{ route('landing') }}" style="padding:0;color:#fff;" aria-label="PayKaro home">
 			<div class="pkg-brand-text">
 				<div class="name" style="color:#fff;"><x-brand-wordmark /></div>
-				<div class="sub" style="color:rgba(255,255,255,.6);">MSME invoice &amp; receivables tracker</div>
+				<div class="sub" style="color:rgba(255,255,255,.6);">{{ config('paykaro.descriptor') }}</div>
 			</div>
 		</a>
 		<p class="meta">© {{ now()->year }} PayKaro · Made for India's MSMEs.</p>
@@ -288,7 +297,7 @@
 	</div>
 </div>
 <div class="page-footer-bottom">
-	<span>© {{ now()->year }} PayKaro · Turn invoice mess into finance-ready receivables.</span>
+	<span>© {{ now()->year }} {{ config('app.name') }} · {{ config('paykaro.descriptor') }}</span>
 	<span>Demo workspace · <a href="{{ route('login') }}" style="color:var(--n-gold);">Sign in</a></span>
 </div>
 </footer>

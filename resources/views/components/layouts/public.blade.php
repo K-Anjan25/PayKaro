@@ -34,13 +34,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ? $title.' — '.config('app.name') : config('app.name').' — Make every invoice count' }}</title>
+    <title>{{ $title ? $title.' — '.config('app.name') : config('app.name').' — '.config('paykaro.headline') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
     @include('partials.brand-meta', [
-        'metaTitle' => $title ? $title.' — '.config('app.name') : config('app.name').' — Make every invoice count',
+        'metaTitle' => $title ? $title.' — '.config('app.name') : config('app.name').' — '.config('paykaro.headline'),
     ])
     @include('partials.datepicker')
 </head>
@@ -80,7 +80,7 @@
         <a class="pkg-brand" href="{{ route('landing') }}" aria-label="{{ config('app.name') }} home">
             <div class="pkg-brand-text">
                 <div class="name"><x-brand-wordmark /></div>
-                <div class="sub">{{ config('paykaro.tagline') }}</div>
+                <div class="sub">{{ config('paykaro.descriptor') }}</div>
             </div>
         </a>
         <nav class="pkg-nav" aria-label="Primary">
@@ -115,6 +115,9 @@
     {{ $footer }}
 @else
     <footer class="page-footer">
+        {{-- The brand line, from config and nowhere else: BRAND_PLAN §1.1 — the
+             product had five wordings of this promise before it was one key. --}}
+        <div class="page-footer-line">{{ config('paykaro.headline') }}</div>
         <div class="page-footer-bottom">
             <span>© {{ now()->year }} {{ config('app.name') }} · Made for India's MSMEs</span>
             <span><a href="{{ route('landing') }}" style="color:var(--n-gold);">Back to home</a></span>

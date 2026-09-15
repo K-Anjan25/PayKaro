@@ -20,7 +20,7 @@
      * @var string|null $metaDescription
      * @var string|null $metaType
      */
-    $metaTitle = $metaTitle ?? config('app.name').' — Make every invoice count';
+    $metaTitle = $metaTitle ?? config('app.name').' — '.config('paykaro.headline');
     $metaDescription = $metaDescription ?? 'Track every invoice from raised to settled, with the evidence checklist, statutory interest under the MSMED Act and the liquidity it unlocks.';
     $metaType = $metaType ?? 'website';
 @endphp
@@ -40,7 +40,7 @@
 <meta property="og:image" content="{{ asset('assets/img/og-default.png') }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="{{ config('app.name') }} — {{ config('paykaro.tagline') }}">
+<meta property="og:image:alt" content="{{ config('app.name') }} — {{ config('paykaro.descriptor') }}">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ $metaTitle }}">

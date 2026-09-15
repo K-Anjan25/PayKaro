@@ -172,6 +172,8 @@ Everything the app can be told lives in `.env` / `config/paykaro.php`:
 | `PAYKARO_FINANCE_READY_SCORE` | `85` | readiness at/above which an invoice is financeable |
 | `PAYKARO_ALERT_LIMIT` | `6` | rows in the dashboard's "Needs attention" list |
 | `PAYKARO_DEMO` | `true` | labels the workspace "Demo" in the utility bar; turn off for real data |
+| `PAYKARO_HEADLINE` | `Make every invoice count` | the brand line: landing hero, page `<title>`, sign-in shell, share card |
+| `PAYKARO_DESCRIPTOR` | `MSME invoice & receivables tracker` | the line under the wordmark — a descriptor, not a tagline |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | blank | blank means no Google button and `404` on the OAuth routes |
 | `GOOGLE_REDIRECT_URI` | blank | derived from the current request when blank |
 
