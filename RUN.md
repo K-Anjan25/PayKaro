@@ -135,6 +135,27 @@ re-introduced four of the same shape under new names — `auto minmax(18rem,1fr)
 friends — which is why the minimum now sits on the *item* (`min-width:18rem` on the side
 stack) and the track stays shrinkable.
 
+### The brand assets
+
+The favicon, the tab/home-screen icons and the 1200×630 share card are committed
+files — the app still has no build step — but they are *generated*, so they can be
+re-rendered when the palette or the wordmark changes instead of being binaries
+nobody can reproduce:
+
+```bash
+cd /tmp && npm pack @expo-google-fonts/plus-jakarta-sans && tar xzf *.tgz
+cd - && FONT_DIR=/tmp/package node bridge/brand-assets.mjs
+```
+
+It draws with the app's own brand font (Plus Jakarta Sans, the same family the
+layouts load from Google Fonts) and refuses to write a card whose copy overruns the
+text column. Outputs: `public/favicon.ico` (16/32/48), `public/assets/img/icon-32|180|512.png`
+and `public/assets/img/og-default.png`.
+
+`tests/Feature/BrandAssetsTest.php` pins what those files have to be — the ICO is
+not the 0-byte stub it used to be, the PNGs are the sizes their `sizes=` attributes
+claim, and every layout links them and publishes an absolute `og:image`.
+
 ## Configuration
 
 Everything the app can be told lives in `.env` / `config/paykaro.php`:
