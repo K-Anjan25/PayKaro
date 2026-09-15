@@ -97,7 +97,7 @@
                 <a class="pbtn pbtn-primary pbtn-sm" href="{{ route('invoices.create') }}">+ New invoice</a>
             @else
                 <a class="pbtn pbtn-outline pbtn-sm" href="{{ route('login') }}">Sign in</a>
-                <a class="pbtn pbtn-primary pbtn-sm" href="{{ route('register') }}">Get started</a>
+                <a class="pbtn pbtn-primary pbtn-sm" href="{{ route('register') }}">Create account</a>
             @endauth
         </div>
     </div>

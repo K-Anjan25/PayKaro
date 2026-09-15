@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Invoices;
 
+use App\Enums\InvoiceStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoices\StoreInvoiceRequest;
 use App\Http\Requests\Invoices\UpdateEvidenceRequest;
@@ -10,6 +11,7 @@ use App\Http\Requests\Invoices\UpdateInvoiceStatusRequest;
 use App\Models\Buyer;
 use App\Models\Invoice;
 use App\Services\ClaimPacket;
+use App\Services\Dashboard;
 use App\Services\InvoiceWorkflow;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,10 +39,19 @@ class InvoiceController extends Controller
             ->paginate(15)
             ->withQueryString();
 
+        $summary = app(Dashboard::class)->overview();
+        $financedBook = Invoice::query()
+            ->withMetrics()
+            ->where('status', InvoiceStatus::Financed->value)
+            ->get();
+
         return view('invoices.index', [
             'invoices' => $invoices,
             'status' => (string) $request->query('status', 'all'),
             'buyers' => Buyer::query()->ordered()->get(['id', 'name']),
+            'summary' => $summary,
+            'financedAmount' => round($financedBook->sum(fn (Invoice $invoice) => $invoice->balance()), 2),
+            'financedCount' => $financedBook->count(),
         ]);
     }
 
@@ -135,7 +146,7 @@ class InvoiceController extends Controller
     {
         $this->authorize('view', $invoice);
 
-        $invoice->load(['buyer', 'disputes', 'evidences']);
+        $invoice->load(['buyer', 'disputes', 'evidences', 'payments']);
 
         return view('invoices.claim', [
             'invoice' => $invoice,

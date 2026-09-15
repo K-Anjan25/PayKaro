@@ -1,14 +1,12 @@
 @props(['title', 'copy' => null])
 
 @php
-    $chips = [
-        ['lock', 'Multi-tenant secured'],
-        ['treds', 'TReDS-ready'],
-        ['clock', '45-day due window'],
+    $defaultCopy = 'Turn invoice mess into finance-ready receivables.';
+    $stats = [
+        ['₹240Cr+', 'Invoices cleared'],
+        ['<48 Hrs', 'Disbursal speed'],
+        ['99.8%', 'Reconciliation rate'],
     ];
-
-    $defaultCopy = 'One pipeline for every invoice — evidence complete, interest computed, '
-        .'and ready to finance or claim the moment it\'s overdue.';
 @endphp
 
 <!doctype html>
@@ -26,7 +24,8 @@
 <body class="page" style="margin:0;">
 <div class="auth">
     <div class="auth-side">
-        <div style="position:relative;z-index:1;">
+        <div>
+            <div class="metric-pill metric-pill--soft" style="display:inline-flex; margin-bottom:2rem; background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.15);">MSME invoice &amp; receivables tracker</div>
             <a href="{{ route('landing') }}" class="auth-brand" aria-label="Home">
                 <div>
                     <div class="auth-name"><x-brand-wordmark /></div>
@@ -34,28 +33,26 @@
                 </div>
             </a>
         </div>
-        <div style="position:relative;z-index:1;">
-            <div class="auth-headline">Turn invoice mess into<br>finance-ready receivables.</div>
+
+        <div>
+            <div class="auth-headline">Turn invoice mess into finance-ready receivables.</div>
             <p class="auth-copy">{{ $copy ?? $defaultCopy }}</p>
-            <div class="auth-chips">
-                @foreach ($chips as [$icon, $label])
-                    <span class="auth-chip">
-                        @if ($icon === 'lock')
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        @elseif ($icon === 'treds')
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        @else
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        @endif
-                        {{ $label }}
-                    </span>
+
+            <div class="auth-statgrid">
+                @foreach ($stats as [$value, $label])
+                    <div class="auth-stat">
+                        <strong>{{ $value }}</strong>
+                        <span>{{ $label }}</span>
+                    </div>
                 @endforeach
             </div>
         </div>
-        <div class="auth-foot">&copy; {{ config('app.name') }} · {{ config('paykaro.demo') ? 'demo' : 'workspace' }}</div>
+
+        <div class="auth-foot">© {{ now()->year }} {{ config('app.name') }} Technologies Pvt. Ltd. · Enterprise security · RBI regulated entities</div>
     </div>
+
     <div class="auth-form">
-        <div class="auth-wrap">
+        <div class="auth-wrap auth-wrap--card">
             {{ $slot }}
         </div>
     </div>
