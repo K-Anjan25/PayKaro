@@ -240,7 +240,7 @@
 	<div class="container">
 		<div class="cta-banner">
 			<div>
-				<p class="eyebrow" style="color:#0f1d2e;">Ready</p>
+				<p class="eyebrow" style="color:var(--n-ink);">Ready</p>
 				<h2 style="margin-top:.5rem;">Make every invoice count.</h2>
 				<p>Free Starter tier. No credit card. Sign in, raise an invoice, and watch the pipeline do the work.</p>
 			</div>
@@ -253,7 +253,6 @@
 <div class="container">
 	<div>
 		<a class="pkg-brand" href="{{ route('landing') }}" style="padding:0;color:#fff;" aria-label="PayKaro home">
-			<x-logo-mark />
 			<div class="pkg-brand-text">
 				<div class="name" style="color:#fff;"><x-brand-wordmark /></div>
 				<div class="sub" style="color:rgba(255,255,255,.6);">MSME invoice &amp; receivables tracker</div>

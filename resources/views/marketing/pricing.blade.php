@@ -13,7 +13,7 @@
 				<div class="price-card {{ $p['highlight'] ? 'is-hot' : '' }}">
 					<div style="display:flex;align-items:center;justify-content:space-between;">
 						<span class="label">{{ $p['name'] }}</span>
-						@if($p['highlight'])<span class="pbtn pbtn-ghost pbtn-sm" style="pointer-events:none;background:var(--n-gold);color:#0f1d2e;border-color:var(--n-gold);">Most popular</span>@endif
+						@if($p['highlight'])<span class="pbtn pbtn-ghost pbtn-sm" style="pointer-events:none;background:var(--n-gold);color:var(--n-ink);border-color:var(--n-gold);">Most popular</span>@endif
 					</div>
 					<div class="price">{{ $p['price'] }}</div>
 					<div class="per">{{ $p['per'] }}</div>

@@ -48,7 +48,7 @@
     .pkg-calbtn.is-open { border-color:var(--n-blue); color:var(--n-blue); background:var(--n-blue-soft); }
 
     .pkg-cal { position:absolute; z-index:60; width:17.5rem; max-width:calc(100vw - 1.5rem);
-        background:var(--n-paper); border:1px solid var(--n-line); border-radius:14px; box-shadow:0 18px 42px rgba(15,29,46,.22);
+        background:var(--n-paper); border:1px solid var(--n-line); border-radius:14px; box-shadow:0 18px 42px rgba(11,19,43,.22);
         padding:.7rem .75rem .6rem; font-family:var(--n-font); color:var(--n-ink); }
     .pkg-cal[hidden] { display:none; }
 
@@ -82,7 +82,7 @@
         font-weight:700; cursor:pointer; padding:.15rem .35rem; border-radius:6px; }
     .pkg-cal-foot button:hover { background:var(--n-blue-soft); }
     .pkg-cal-foot .pkg-cal-clear { color:var(--n-ink-mute); }
-    .pkg-cal-foot .pkg-cal-clear:hover { color:var(--n-coral); background:rgba(231,104,79,.1); }
+    .pkg-cal-foot .pkg-cal-clear:hover { color:var(--n-coral); background:rgba(220,38,38,.1); }
 </style>
 
 <script>

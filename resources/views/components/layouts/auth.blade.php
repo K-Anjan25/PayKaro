@@ -19,7 +19,7 @@
     <title>{{ $title }} — {{ config('app.name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
     @include('partials.datepicker')
 </head>
@@ -28,7 +28,6 @@
     <div class="auth-side">
         <div style="position:relative;z-index:1;">
             <a href="{{ route('landing') }}" class="auth-brand" aria-label="Home">
-                <x-logo-mark />
                 <div>
                     <div class="auth-name"><x-brand-wordmark /></div>
                     <div class="auth-tag">{{ config('paykaro.tagline') }}</div>
