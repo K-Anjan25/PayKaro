@@ -261,6 +261,23 @@ Two runtime limitations are accommodated rather than fixed:
   needs them — `bridge/check-lock.mjs` is the one script that wants `intl`, and it is run
   on a machine that has it.
 
-`php artisan test` runs in this runtime too — that is how the port's failures were
-diagnosed and re-run in the sandbox — but CI remains the authority: real PHP 8.3, a real
-Composer, the whole suite.
+The suite runs here too, but not through `php artisan test`: that command shells out to
+`vendor/bin/phpunit` through Symfony Process, and this runtime has no child process to
+spawn. `bridge/test.mjs` starts PHPUnit directly instead, through php-wasm's real CLI SAPI
+— which is where argv, exit codes and STDERR come from:
+
+```bash
+cd bridge && npm ci
+node test.mjs                              # whole suite
+node test.mjs --filter=WorkspacePagesTest  # any PHPUnit argument
+node test.mjs --testdox
+```
+
+Two accommodations are visible if you look for them. `bridge/bootstrap.mjs` writes a
+composer-compatible autoloader, not Composer's `vendor/bin` shims, so the launcher is
+named by its path. And the runner sets `PAYKARO_SANDBOX_PHPUNIT=1`, which
+`tests/TestCase.php` reads to skip Laravel's mocked console output: building that mock
+traps the WebAssembly runtime, and `RefreshDatabase` migrates through the exact call that
+builds it, so a database-backed test would die before its first assertion. On CI the
+variable is unset and the mock is used as normal — CI remains the authority: real PHP
+8.3, a real Composer, the whole suite, and every assertion on artisan output.

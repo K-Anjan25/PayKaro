@@ -170,10 +170,16 @@ final class WorkspacePagesTest extends TestCase
 
         $this->get(route('treds'))
             ->assertOk()
+            // The two lists are separate sections, and only the ready one offers
+            // the discounting action; the blocked one names what is missing.
+            ->assertSee('Ready to Discount Today')
+            ->assertSee('Blocked / Action Required')
             ->assertSee('INV-READY-1')
-            ->assertSee('Finance it')
+            ->assertSee('Discount now / accept bid')
             ->assertSee('INV-BLOCKED-1')
-            ->assertSee('Buyer is not on TReDS yet');
+            // Substring on purpose: the row has to name the blocker (the buyer
+            // is not on TReDS), not use one particular spelling of it.
+            ->assertSee('Buyer not on TReDS');
     }
 
     public function test_the_finance_queue_is_empty_for_a_fresh_workspace(): void

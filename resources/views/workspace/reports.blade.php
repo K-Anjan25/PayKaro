@@ -90,7 +90,7 @@
     <section class="pkg-card pkg-tablewrap">
         <div class="pkg-cardhead">
             <div>
-                <h2 class="pkg-h2">Outstanding by Buyer</h2>
+                <h2 class="pkg-h2">Outstanding by buyer</h2>
                 <p class="pkg-sub">Weighted concentration, overdue balance and accrued interest per counterparty.</p>
             </div>
             <span class="metric-pill">Read-only MSME audit record</span>

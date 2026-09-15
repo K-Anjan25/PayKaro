@@ -98,7 +98,13 @@
         <div class="pkg-card pkg-empty">
             <h2 class="pkg-h2">{{ $status === 'all' ? 'No invoices yet' : 'Nothing in this state' }}</h2>
             <p class="pkg-sub">
-                @if ($search !== '' || filled($buyerFilter))
+                @if ($search !== '')
+                    {{-- The term is echoed back so an empty result cannot be
+                         mistaken for an empty book: a search that matches
+                         nothing — including one that only matches another
+                         tenant's invoice — has to say so. --}}
+                    Nothing matched “{{ $search }}”.
+                @elseif (filled($buyerFilter))
                     No invoice matches your current filters.
                 @elseif ($status === 'all')
                     Raise your first invoice to start tracking receivables.

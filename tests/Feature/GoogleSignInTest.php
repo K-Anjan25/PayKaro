@@ -75,7 +75,10 @@ final class GoogleSignInTest extends TestCase
 
     public function test_the_button_is_offered_once_credentials_exist(): void
     {
-        $this->get('/login')->assertOk()->assertSee('Continue with Google');
+        // The label is design copy — the wireframe signs in with "Sign in with
+        // Google", the component's default says "Continue with Google" — so the
+        // assertion is about the entry point the button offers, not its wording.
+        $this->get('/login')->assertOk()->assertSee(route('auth.google'));
     }
 
     public function test_the_redirect_route_hands_off_to_google(): void

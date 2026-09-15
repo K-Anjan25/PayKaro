@@ -214,7 +214,7 @@ final class AuthenticationTest extends TestCase
     {
         config(['services.google.client_id' => null, 'services.google.client_secret' => null]);
 
-        $this->get('/login')->assertOk()->assertDontSee('Continue with Google');
+        $this->get('/login')->assertOk()->assertDontSee(route('auth.google'));
         $this->get('/auth/google')->assertNotFound();
     }
 
