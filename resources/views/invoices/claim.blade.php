@@ -17,15 +17,22 @@
     </div>
 
     <article class="claim-sheet">
+        {{-- The claimant's letterhead, not ours: this packet is filed with a forum
+             as *their* document (§4.4). --}}
+        <x-letterhead
+            document="Claim packet"
+            :number="$invoice->number"
+            :note="$latestDispute?->forum->label() ?? 'Draft — not yet filed'" />
+
         <div class="claim-sheet-head">
             <div>
-                <div class="app-brand-word" style="font-size:1.6rem;"><x-brand-wordmark /></div>
-                <div class="pkg-muted">Receivables &amp; liquidity infrastructure</div>
+                <div class="pkg-muted">Statutory conciliation dossier · confidential judicial record</div>
+                <div class="letterhead-prepared">Prepared with {{ config('app.name') }} · {{ config('paykaro.headline') }}</div>
             </div>
             <div class="claim-sheet-meta">
-                <span class="metric-pill">Confidential / judicial record</span>
-                <strong>{{ $latestDispute?->forum->label() ?? 'Draft claim packet' }}</strong>
-                <span>Date of issue: {{ now()->format('d M Y') }}</span>
+                <strong>{{ $invoice->buyer?->name ?? 'Respondent' }}</strong>
+                <span>Outstanding {{ money($invoice->balance()) }} · interest {{ money($invoice->interest()) }}</span>
+                <span>Due {{ $invoice->due_date?->format('d M Y') ?? '—' }}</span>
             </div>
         </div>
 

@@ -37,9 +37,13 @@
 
                 {{-- Masthead --}}
                 <tr>
+                    {{-- The supplier first, the platform second — the same rule as the
+                         letterhead (§4.4). This is their invoice, in the buyer's inbox. --}}
                     <td style="padding:0 4px 16px;">
-                        <span style="font-family:'Plus Jakarta Sans',Helvetica,Arial,sans-serif; font-size:22px; font-weight:800; letter-spacing:-.03em; color:#0b132b;">Pay<span style="color:#1d4ed8;">Karo</span></span>
-                        <span style="font-family:'Plus Jakarta Sans',Helvetica,Arial,sans-serif; font-size:13px; color:#64748b;">&nbsp;· {{ config('paykaro.descriptor') }}</span>
+                        <span style="font-family:'Plus Jakarta Sans',Helvetica,Arial,sans-serif; font-size:18px; font-weight:800; letter-spacing:-.02em; color:#0b132b;">{{ $business->name ?? config('app.name') }}</span>
+                        @if (($business ?? null)?->gstin)
+                            <span style="font-family:'Plus Jakarta Sans',Helvetica,Arial,sans-serif; font-size:12px; color:#64748b;">&nbsp;· GSTIN {{ $business->gstin }}</span>
+                        @endif
                     </td>
                 </tr>
 

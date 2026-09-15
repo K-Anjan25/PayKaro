@@ -156,6 +156,25 @@ and `public/assets/img/og-default.png`.
 not the 0-byte stub it used to be, the PNGs are the sizes their `sizes=` attributes
 claim, and every layout links them and publishes an absolute `og:image`.
 
+## Printed documents
+
+Anything that leaves the product on paper goes through two shared pieces, so a
+filing cannot carry the wrong claimant or the wrong number:
+
+- `components/letterhead.blade.php` — the supplier's own letterhead: their name,
+  GSTIN, PAN, Udyam, remittance account and the signing member, with the document
+  type and number on the right. It is deliberately plain (one rule, no tint, no
+  shadow) because it is read on A4, photocopied, and sometimes scanned back in.
+  `Invoices\\claim.blade.php` opens on it, and the invoice email's masthead follows
+  the same rule: the supplier first, PayKaro once, small, as the tool it was
+  prepared with.
+- The `@media print` section of `public/assets/app.css` — chrome hidden, light
+  tokens re-asserted under `html.dark`, schedules kept off page breaks, `@page`
+  margin, and a fixed footer carrying the GSTIN and invoice number on every sheet.
+
+Both are audited by `bridge/overflow-sim.mjs` (the print section) and
+`tests/Feature/InvoicePipelineTest.php` (the strings a filing is cited by).
+
 ## The brand book
 
 `/brand` is the brand guidelines, readable signed out and linked from every

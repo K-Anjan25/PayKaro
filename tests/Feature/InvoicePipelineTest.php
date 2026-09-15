@@ -421,6 +421,38 @@ final class InvoicePipelineTest extends TestCase
             ->assertSee('Interest due (3× bank rate 6.5%)');
     }
 
+    public function test_the_packet_opens_on_the_claimants_own_letterhead(): void
+    {
+        // BRAND_PLAN §4.4 — "an invoice is the product's own collateral". The packet
+        // is filed with a forum as the *supplier's* document, so it opens with their
+        // name and their identifiers, and PayKaro appears once as the tool it was
+        // prepared with. It used to open with our wordmark.
+        $owner = $this->workspace();
+        $owner->business->update([
+            'name' => 'Shree Precision Works Pvt Ltd',
+            'gstin' => '36AAACS1234F1Z5',
+            'pan' => 'AAACS1234F',
+            'udyam_no' => 'UDYAM-TS-12-3456789',
+            'bank_name' => 'HDFC Bank',
+            'bank_acc_no' => '50100234567890',
+            'bank_ifsc' => 'HDFC0001234',
+        ]);
+
+        $invoice = $this->invoice($owner, $this->buyer(), ['number' => 'INV-LETTER-1']);
+
+        $this->get(route('invoices.claim', $invoice))
+            ->assertOk()
+            ->assertSee('letterhead', false)
+            ->assertSee('Shree Precision Works Pvt Ltd')
+            ->assertSee('GSTIN 36AAACS1234F1Z5 · PAN AAACS1234F · Udyam UDYAM-TS-12-3456789')
+            ->assertSee('Remittance: HDFC Bank · 50100234567890 · HDFC0001234')
+            // The document block names what it is and what it is about.
+            ->assertSee('Claim packet')
+            ->assertSee('INV-LETTER-1')
+            // …and our own line is the small one that says how it was prepared.
+            ->assertSee('Prepared with PayKaro');
+    }
+
     public function test_the_printed_packet_is_cited_by_gstin_and_invoice_number(): void
     {
         $owner = $this->workspace();

@@ -941,6 +941,26 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .page-footer-bottom { max-width:78rem; margin:1.5rem auto 0; padding:1rem 1.5rem 0; border-top:1px solid rgba(255,255,255,.14); display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; font-size:.78rem; color:rgba(255,255,255,.6); }
 
 /* ============================================================================
+   Letterhead — the supplier's own stationery on a printed document (§4.4).
+
+   Deliberately plain: it is read on paper, at A4 width, often photocopied. No
+   tint, no shadow, one rule, and the claimant's identifiers on the first line —
+   the three strings a filing is cited by.
+   ========================================================================== */
+.letterhead { display:grid; grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); gap:1.5rem; align-items:start; padding-bottom:.9rem; border-bottom:2px solid var(--n-ink); }
+.letterhead-name { font-size:1.4rem; font-weight:800; letter-spacing:-.03em; color:var(--n-ink); line-height:1.15; }
+.letterhead-ids,
+.letterhead-bank { font-size:.78rem; color:var(--n-ink-soft); margin-top:.25rem; font-variant-numeric:tabular-nums; }
+.letterhead-signatory { font-size:.78rem; color:var(--n-ink-mute); margin-top:.35rem; }
+.letterhead-document { text-align:right; }
+.letterhead-doc-label { font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--n-ink-mute); }
+.letterhead-doc-number { font-size:1.05rem; font-weight:800; color:var(--n-ink); font-variant-numeric:tabular-nums; }
+.letterhead-doc-date { font-size:.78rem; color:var(--n-ink-soft); }
+.letterhead-doc-note { font-size:.72rem; color:var(--n-ink-mute); margin-top:.2rem; }
+.letterhead-prepared { font-size:.75rem; color:var(--n-ink-mute); margin-top:.3rem; }
+@media (max-width:640px) { .letterhead { grid-template-columns:minmax(0,1fr); } .letterhead-document { text-align:left; } }
+
+/* ============================================================================
    Testimonial
    ========================================================================== */
 .testimonials { display:grid; gap:1.2rem; grid-template-columns:repeat(2,minmax(0,1fr)); }
