@@ -4,11 +4,13 @@
     // Supporting copy, not a second tagline: BRAND_PLAN §1.1. The brand line itself
     // is `paykaro.headline`, rendered below and nowhere else re-typed.
     $defaultCopy = 'Every invoice keeps its dated evidence and its statutory interest, so a delayed payment or a TReDS claim has something to stand on.';
-    $stats = [
-        ['₹240Cr+', 'Invoices cleared'],
-        ['<48 Hrs', 'Disbursal speed'],
-        ['99.8%', 'Reconciliation rate'],
-    ];
+    // BRAND_PLAN §4: these were ₹240Cr+ cleared, "<48 Hrs disbursal speed" and a
+    // 99.8% reconciliation rate — none of it measured by anything. They are now the
+    // same provable claims the landing page publishes.
+    $stats = array_map(
+        fn (array $claim) => [$claim['value'], $claim['label']],
+        App\Support\Proof::highlights(),
+    );
 @endphp
 
 <!doctype html>
@@ -54,7 +56,11 @@
             </div>
         </div>
 
-        <div class="auth-foot">© {{ now()->year }} {{ config('app.name') }} Technologies Pvt. Ltd. · Enterprise security · RBI regulated entities</div>
+        {{-- Was "Enterprise security · RBI regulated entities": PayKaro is not an
+             RBI-regulated entity, and the security page is scrupulous about what the
+             product does not do. Trust language a visitor cannot check is the same
+             problem as a traction figure they cannot check (BRAND_PLAN §4). --}}
+        <div class="auth-foot">© {{ now()->year }} {{ config('app.name') }} · {{ config('paykaro.descriptor') }}</div>
     </div>
 
     <div class="auth-form">

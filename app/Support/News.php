@@ -16,7 +16,7 @@ final class News
         return [
             new NewsArticle(
                 slug: 'evidence-checklist',
-                tag: 'Product',
+                tag: 'Product note',
                 date: '02 Sep 2026',
                 title: 'Every invoice, dated and dated twice.',
                 excerpt: 'The new evidence checklist ties purchase order, delivery ack, GRN and GST copy to each invoice — and refuses to mark an invoice "ready" until the trail is complete.',
@@ -37,7 +37,7 @@ final class News
             ),
             new NewsArticle(
                 slug: 'metrow-ceramics-financing',
-                tag: 'Customers',
+                tag: 'Worked example',
                 date: '27 Aug 2026',
                 title: 'How MetRow Ceramics financed 60% of receivables in week one.',
                 excerpt: 'When the buyer\'s TReDS onboarding cleared, four invoices were ready to discount the same afternoon. Here\'s the workflow that made it possible.',
@@ -57,7 +57,7 @@ final class News
             ),
             new NewsArticle(
                 slug: 'msme-rules-2026',
-                tag: 'Regulation',
+                tag: 'Explainer',
                 date: '21 Aug 2026',
                 title: 'The 2026 MSME rules: what changes for suppliers this quarter.',
                 excerpt: 'TReDS mandates tighten for CPSE buyers and the delayed-payment forum gets teeth. We break down what it means for your invoices.',

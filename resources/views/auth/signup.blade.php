@@ -45,8 +45,13 @@
     <div class="auth-alt">Already registered? <a href="{{ route('login') }}">Sign in</a></div>
 
     <div class="auth-mini-grid" style="margin-top:1.25rem;">
-        <div class="auth-mini-card"><strong>256-bit SSL</strong><span>Encrypted ledger</span></div>
-        <div class="auth-mini-card"><strong>RBI TReDS</strong><span>Direct gateway</span></div>
-        <div class="auth-mini-card"><strong>MSMED Act 2006</strong><span>Section 15/16 enforced</span></div>
+        {{-- Three cards a visitor cannot check were here: "256-bit SSL / Encrypted
+             ledger" (the security page says there is no encryption at rest), "RBI
+             TReDS / Direct gateway" (PayKaro tracks TReDS readiness; it is not a
+             gateway) and "Section 15/16 enforced" (a statute is enforced by law, not
+             by a form). These are the same facts, stated as the product does them. --}}
+        <div class="auth-mini-card"><strong>Section 16 interest</strong><span>Computed daily, not typed</span></div>
+        <div class="auth-mini-card"><strong>TReDS readiness</strong><span>Tracked per buyer</span></div>
+        <div class="auth-mini-card"><strong>MIT licensed</strong><span>Forkable, self-hosted</span></div>
     </div>
 </x-layouts.auth>

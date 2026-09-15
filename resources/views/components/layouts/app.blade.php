@@ -117,7 +117,9 @@
         <footer class="app-footer">
             <span>© {{ now()->year }} {{ config('app.name') }}. MSMED Act 2006 Statutory Compliance &amp; Receivables Infrastructure.</span>
             <span class="app-footer-right">
-                <span class="app-footer-verified">GSTN &amp; TReDS Verified</span>
+                {{-- Was "GSTN & TReDS Verified". Nothing in the product talks to GSTN,
+                     and TReDS is tracked as a per-buyer status, not a verification. --}}
+                <span class="app-footer-verified">GSTIN format validated · TReDS readiness tracked</span>
                 <a href="{{ route('terms') }}">Terms</a>
                 <a href="{{ route('privacy') }}">Privacy</a>
                 <a href="{{ route('security') }}">Security</a>

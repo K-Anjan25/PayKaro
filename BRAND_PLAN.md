@@ -313,9 +313,34 @@ already set.
 - **(b)** Replace the stat bar with claims the product can prove — the 45-day
   window and 3× multiplier are already true and are the stronger story anyway.
 
+> **Done as (b)**, because (a) would mean publishing the seeded demo book as a
+> traction figure. `App\Support\Proof` is now the only source a marketing page may
+> quote from, and it reads the same config and enums the domain computes with: the
+> due window, the interest multiplier, the size of the evidence checklist and the
+> finance-readiness threshold. Changing `PAYKARO_MSME_DUE_DAYS` changes the landing
+> page, which is what makes the claim checkable.
+
 **Build task 4.2** — Label the authored articles as "From the PayKaro team" /
 "Product notes" rather than a news feed, or mark them clearly as illustrative while
 the product is pre-launch.
+
+> **Done.** The section is "Product notes", its lede says they are the team's own
+> notes and not a news wire, each article carries "Written by the PayKaro team", and
+> the tags no longer imply a news desk or a real customer ("Product note", "Worked
+> example", "Explainer"). The nav link says "Product notes" too.
+
+> **Found while doing it, and fixed: the fabrications were not only about money.**
+> The sign-in shell claimed **"Enterprise security · RBI regulated entities"**
+> (PayKaro is not an RBI-regulated entity), the sign-up cards claimed **"256-bit SSL
+> / Encrypted ledger"** (the security page states there is *no* encryption at rest),
+> **"RBI TReDS / Direct gateway"** (the product tracks TReDS *readiness* per buyer;
+> it is not a gateway) and **"Section 15/16 enforced"** (a statute is enforced by
+> law, not by software), and the workspace footer claimed **"GSTN & TReDS
+> Verified"** (nothing in the product talks to GSTN). All replaced with what the
+> product actually does. `tests/Feature/AuthenticityTest.php` holds the whole set:
+> the retired strings, a source scan so a template written tomorrow cannot
+> reintroduce one, and a config-override test proving the published figures follow
+> the configuration rather than a literal.
 
 ---
 

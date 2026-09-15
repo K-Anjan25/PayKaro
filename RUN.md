@@ -175,6 +175,27 @@ filing cannot carry the wrong claimant or the wrong number:
 Both are audited by `bridge/overflow-sim.mjs` (the print section) and
 `tests/Feature/InvoicePipelineTest.php` (the strings a filing is cited by).
 
+## What the marketing pages may claim
+
+`App\Support\Proof` is the only source a marketing page may quote a figure from,
+and it reads the same config and enums the domain computes with — the MSME due
+window, the interest multiplier, the evidence checklist's size, and the
+finance-readiness threshold. Change `PAYKARO_MSME_DUE_DAYS` and the landing page
+changes with it.
+
+That exists because the pages used to publish traction nothing measured: ₹4.2Cr+
+"Receivables tracked" (with "Across active tenants in the last 30 days"), ₹240Cr+
+"invoices cleared", a 99.8% reconciliation rate, an under-48-hour disbursal
+figure, plus "RBI regulated entities", "RBI TReDS direct gateway", "256-bit SSL /
+encrypted ledger" and "GSTN & TReDS verified". `tests/Feature/AuthenticityTest.php`
+lists every one of them: the rendered pages must not contain them, no template may
+reintroduce them (a source scan strips comments first), the published figures must
+follow the configuration, and the landing page must state what it does *not* claim —
+the same standard `App\Support\Legal` already held itself to.
+
+The news feed is the team's own writing and says so: "Product notes", "Written by
+the PayKaro team", tags that do not imply a news desk.
+
 ## The brand book
 
 `/brand` is the brand guidelines, readable signed out and linked from every
