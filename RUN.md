@@ -156,6 +156,29 @@ and `public/assets/img/og-default.png`.
 not the 0-byte stub it used to be, the PNGs are the sizes their `sizes=` attributes
 claim, and every layout links them and publishes an absolute `og:image`.
 
+## Email
+
+Three messages, all to the buyer, all sent from the invoice page's **Correspondence**
+panel — and all computed from the invoice rather than typed at send time:
+
+| Message | What it carries |
+|---------|-----------------|
+| `InvoiceSentMail` | the invoice, its stored due date (derived by `Receivables`, never hand-entered), and the remittance account |
+| `OverdueReminderMail` | days past due and the interest accrued to date, escalating in tone at 15 and 30 days |
+| `EvidenceRequestMail` | the evidence rows the invoice's own checklist reports as missing |
+
+Each has a plain-text alternative, because MSME accounts-payable inboxes are
+cheap Android clients. `MAIL_MAILER` decides where they go — `log` writes them to
+`storage/logs/laravel.log`, which is the sane default for a demo; set SMTP
+credentials in `.env` to actually deliver.
+
+Sending needs an address on the buyer record (`buyers.email`, nullable). One that
+is missing is not an error: the panel says which buyers cannot be emailed and the
+send button reports it instead of failing. `tests/Feature/InvoiceMailTest.php`
+holds the coherence rule — the reminder quotes the *same interest figure* the
+invoice page shows — plus the role check (a viewer sends nothing) and the tenant
+scope (another workspace's invoice is a 404).
+
 ## Configuration
 
 Everything the app can be told lives in `.env` / `config/paykaro.php`:
@@ -246,7 +269,9 @@ Auth: `/login` `/signup` (GET+POST) · `/auth/google` `/auth/google/callback` ·
 
 Workspace: `/dashboard` · `/invoices` (list, `?status=` and `?q=`) · `/invoices/create` ·
 `/invoices/{id}` · `/invoices/{id}/edit` · `PATCH /invoices/{id}/status` ·
-`PUT /invoices/{id}/evidence` · `POST /invoices/{id}/payments` ·
+`PUT /invoices/{id}/evidence` · `POST /invoices/{id}/send` · `POST /invoices/{id}/remind` ·
+`POST /invoices/{id}/request-evidence` ·
+`POST /invoices/{id}/payments` ·
 `POST /invoices/{id}/financings` · `POST /invoices/{id}/disputes` ·
 `GET /invoices/{id}/claim` · `/buyers` `/buyers/create` · `/treds` · `/reports` ·
 `/settings` (GET+PUT) · `POST /alerts/read`.

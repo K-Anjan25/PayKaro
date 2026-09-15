@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Invoices\DisputeController;
 use App\Http\Controllers\Invoices\FinancingController;
 use App\Http\Controllers\Invoices\InvoiceController;
+use App\Http\Controllers\Invoices\InvoiceMailController;
 use App\Http\Controllers\Invoices\PaymentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Workspace\AlertController;
@@ -95,6 +96,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/invoices/{invoice}/status', [InvoiceController::class, 'updateStatus'])->name('invoices.status');
     Route::put('/invoices/{invoice}/evidence', [InvoiceController::class, 'updateEvidence'])->name('invoices.evidence');
     Route::get('/invoices/{invoice}/claim', [InvoiceController::class, 'claim'])->name('invoices.claim');
+
+    Route::post('/invoices/{invoice}/send', [InvoiceMailController::class, 'send'])->name('invoices.send');
+    Route::post('/invoices/{invoice}/remind', [InvoiceMailController::class, 'remind'])->name('invoices.remind');
+    Route::post('/invoices/{invoice}/request-evidence', [InvoiceMailController::class, 'requestEvidence'])->name('invoices.request-evidence');
 
     Route::post('/invoices/{invoice}/payments', [PaymentController::class, 'store'])->name('invoices.payments.store');
     Route::post('/invoices/{invoice}/financings', [FinancingController::class, 'store'])->name('invoices.financings.store');

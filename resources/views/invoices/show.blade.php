@@ -114,6 +114,52 @@
 
     <div class="detail-shell">
         <div>
+            {{-- The three messages a receivable needs (BRAND_PLAN §4.1). Each one is
+                 computed from this invoice, so what the buyer receives matches what
+                 this page shows. Sending needs an address on the buyer record, and
+                 the button says which case it is in rather than failing on click. --}}
+            @if ($canManage)
+                <section class="pkg-card" style="margin-bottom:1rem;">
+                    <div class="pkg-cardhead">
+                        <div>
+                            <h2 class="pkg-h2">Correspondence</h2>
+                            <p class="pkg-sub">
+                                @if ($invoice->buyer?->email)
+                                    Sends to {{ $invoice->buyer->email }} — the figures come from this invoice.
+                                @else
+                                    No email is on file for {{ $invoice->buyer?->name ?? 'this buyer' }}, so nothing can be sent yet.
+                                    <a class="pkg-link" href="{{ route('buyers.create') }}">Add a buyer with an address</a>.
+                                @endif
+                            </p>
+                        </div>
+                        <span class="metric-pill {{ $invoice->buyer?->email ? '' : 'metric-pill--danger' }}">
+                            {{ $invoice->buyer?->email ? 'Ready to send' : 'Address missing' }}
+                        </span>
+                    </div>
+
+                    <div class="pkg-statusbtns">
+                        <form method="post" action="{{ route('invoices.send', $invoice) }}">
+                            @csrf
+                            <button class="pkg-btn pkg-btn--primary" type="submit">Email invoice to buyer</button>
+                        </form>
+
+                        <form method="post" action="{{ route('invoices.remind', $invoice) }}">
+                            @csrf
+                            <button class="pkg-btn" type="submit">
+                                {{ $invoice->overdueDays() > 0
+                                    ? 'Send '.$invoice->overdueDays().'-day reminder'
+                                    : 'Send reminder' }}
+                            </button>
+                        </form>
+
+                        <form method="post" action="{{ route('invoices.request-evidence', $invoice) }}">
+                            @csrf
+                            <button class="pkg-btn" type="submit">Request pending documents</button>
+                        </form>
+                    </div>
+                </section>
+            @endif
+
             <section class="pkg-card">
                 <div class="pkg-cardhead">
                     <div>

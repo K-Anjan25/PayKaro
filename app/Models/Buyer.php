@@ -21,6 +21,7 @@ class Buyer extends Model
 
     protected $fillable = [
         'name',
+        'email',
         'gstin',
         'type',
         'treds_onboarded',

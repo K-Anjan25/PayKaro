@@ -37,6 +37,17 @@
                 </div>
 
                 <div class="pkg-field pkg-field--full">
+                    <div class="field-head">
+                        <label class="pkg-label" for="email">Accounts payable email</label>
+                        <span class="pkg-muted">Where the invoice and its reminders go</span>
+                    </div>
+                    <input class="pkg-input @error('email') pkg-input--invalid @enderror" id="email" name="email"
+                           type="email" maxlength="190" value="{{ old('email') }}" placeholder="ap@buyer.example">
+                    @error('email')<span class="pkg-field-error">{{ $message }}</span>@enderror
+                    <span class="pkg-field-hint">Optional — you can track an invoice without it. Sending is the one action that needs an address.</span>
+                </div>
+
+                <div class="pkg-field pkg-field--full">
                     <label class="pkg-label">Enterprise Classification / Type</label>
                     <div class="choice-grid choice-grid--3">
                         @foreach (App\Enums\BuyerType::cases() as $type)
