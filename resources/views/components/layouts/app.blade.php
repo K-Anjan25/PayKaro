@@ -22,7 +22,7 @@
     <title>{{ $title ? $title.' — ' : '' }}{{ config('app.name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
     @include('partials.datepicker')
 </head>
@@ -56,7 +56,6 @@
                 <span class="bar-thin"></span>
             </div>
             <a class="pkg-brand" href="{{ route('dashboard') }}" aria-label="{{ config('app.name') }} home">
-                <x-logo-mark />
                 <div class="pkg-brand-text">
                     <div class="name"><x-brand-wordmark /></div>
                     <div class="sub">MSME receivables · {{ $business?->name }}</div>
