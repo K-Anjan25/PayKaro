@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 
 /**
@@ -60,6 +61,60 @@ final class BrandCopyTest extends TestCase
         // …and so does the page title, which is where a second hard-coded copy
         // lived before the split.
         $this->get('/')->assertOk()->assertSee('<title>PayKaro — Every rupee, on the record</title>', false);
+    }
+
+    public function test_no_view_retypes_the_brand_line_or_the_descriptor(): void
+    {
+        // §1.1's whole failure mode: a string that is *almost* centralised. The rule
+        // is therefore enforced at the source — the copy may only exist in
+        // config/paykaro.php, so a view that retypes it fails here rather than
+        // waiting for someone to change the key and notice one page did not follow.
+        $literals = ['Make every invoice count', 'MSME invoice & receivables tracker'];
+
+        $offenders = [];
+
+        foreach (File::allFiles(resource_path('views')) as $view) {
+            $contents = File::get($view->getPathname());
+
+            // Templates render copy from config; comments and docs are allowed to
+            // quote it (the brand book explains the rule, which means naming it).
+            if (preg_match('#\{\{--.*?--\}\}#s', $contents, $comments)) {
+                $contents = str_replace($comments[0], '', $contents);
+            }
+
+            foreach ($literals as $literal) {
+                if (str_contains($contents, $literal)) {
+                    $offenders[] = str_replace(resource_path('views').'/', '', $view->getPathname()).' → '.$literal;
+                }
+            }
+        }
+
+        $this->assertSame(
+            [],
+            $offenders,
+            "Copy that belongs to config('paykaro.*') is retyped in:\n  ".implode("\n  ", $offenders),
+        );
+    }
+
+    public function test_the_title_and_the_share_card_state_the_same_brand_line(): void
+    {
+        // Repetition is not the failure — a page may state the line in its copy, its
+        // <title> and its share card, and all three had better be the same string.
+        // (The first version of this test asserted "once per page", which the
+        // landing page fails four times over and legitimately: title, og:title,
+        // closing CTA, footer.)
+        $headline = config('paykaro.headline');
+
+        $body = $this->get('/')->assertOk()->getContent();
+
+        $this->assertStringContainsString('<title>'.config('app.name').' — '.$headline.'</title>', $body);
+        $this->assertStringContainsString('<meta property="og:title" content="'.config('app.name').' — '.$headline.'">', $body);
+
+        // A named page leads with its own name and ends with the brand line.
+        $pricing = $this->get('/pricing')->assertOk()->getContent();
+
+        $this->assertStringContainsString('<title>Pricing — '.config('app.name').'</title>', $pricing);
+        $this->assertStringContainsString('<meta property="og:title" content="Pricing — '.config('app.name').'">', $pricing);
     }
 
     public function test_the_descriptor_comes_from_config_and_not_from_a_literal(): void
