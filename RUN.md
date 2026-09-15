@@ -156,6 +156,27 @@ and `public/assets/img/og-default.png`.
 not the 0-byte stub it used to be, the PNGs are the sizes their `sizes=` attributes
 claim, and every layout links them and publishes an absolute `og:image`.
 
+## The brand book
+
+`/brand` is the brand guidelines, readable signed out and linked from every
+marketing footer. It is not a document that describes the product — it *renders*
+it: the tokens are read out of `public/assets/app.css`, the contrast ratios are
+measured by `App\Brand\Palette`, and the type scale is parsed from the same
+stylesheet. If the page and the app disagree, the app is right and the page is a
+bug report.
+
+Two classes back it, both §5.2's "guidelines as code":
+
+| Class | Owns | Guarded by |
+|-------|------|-----------|
+| `App\Brand\Palette` | the tokens, and the 31 colour pairings the product relies on with the ratio each must clear | `tests/Unit/BrandPaletteTest.php` — fails below a floor, and fails when a token is declared in `:root` but never restated in `html.dark` |
+| `App\Brand\Type` | the type scale, read from the stylesheet | `tests/Feature/BrandPageTest.php` — the page has to show what the CSS sets |
+
+Measuring is not decoration: the audit found six failing pairings in the shipped
+palette (see the comment beside the tokens in `app.css`). A new screen that needs a
+colour takes a token; a new pairing gets declared in `Palette::pairs()` with the
+reason it exists, and the test says whether it is legible.
+
 ## Email
 
 Three messages, all to the buyer, all sent from the invoice page's **Correspondence**

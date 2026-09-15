@@ -298,7 +298,10 @@
 </div>
 <div class="page-footer-bottom">
 	<span>© {{ now()->year }} {{ config('app.name') }} · {{ config('paykaro.descriptor') }}</span>
-	<span>Demo workspace · <a href="{{ route('login') }}" style="color:var(--n-gold);">Sign in</a></span>
+	<span>
+		<a href="{{ route('brand') }}" style="color:var(--n-gold);">Brand</a> ·
+		Demo workspace · <a href="{{ route('login') }}" style="color:var(--n-gold);">Sign in</a>
+	</span>
 </div>
 </footer>
     </x-slot:footer>

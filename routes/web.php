@@ -35,6 +35,11 @@ Route::get('/pricing', [PageController::class, 'pricing'])->name('pricing');
 Route::get('/help', [PageController::class, 'help'])->name('help');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
+// The brand book. Public on purpose: the same page has to answer for the tokens
+// and the type scale to whoever is writing the next screen, and a document behind
+// a login is a document that gets copied into a slide deck and then goes stale.
+Route::get('/brand', [PageController::class, 'brand'])->name('brand');
+
 // The legal set. The flat-PHP app had these as footer text with no page behind
 // them; they now have real content, and the paths are unchanged so any existing
 // link (or bookmark) lands on the right document instead of the help page.

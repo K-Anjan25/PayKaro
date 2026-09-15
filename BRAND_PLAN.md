@@ -194,9 +194,9 @@ Ordered by how much is already decided.
 |---|------|--------|--------|
 | 3.1 | ~~**Favicon set.**~~ Generate 16/32/48 ICO + `apple-touch-icon`; add `rel="icon"` to all three layouts. **Done** — 16/32/48 ICO, 32/180/512 PNG, `partials/brand-meta.blade.php` in all three layouts | `public/favicon.ico` was 0 bytes | S |
 | 3.2 | **Mark on tokens.** Replace the literal values in `logo-mark.blade.php` with `currentColor` / CSS vars so the mark follows the theme | lines 10-12 | S |
-| 3.3 | **Minimum-size + clear space.** The ₹ glyph at 34 px is legible; decide the floor (recommend 20 px) and the clear space (recommend ½ tile), and write it into the guidelines (§Phase 5) | — | S |
-| 3.4 | **Contrast.** The token set is already solid (`:root`, both themes). Record the WCAG contrast pairs as comments next to the tokens — the muted-text token on the page background is the risky one | `public/assets/app.css:17-70` | M |
-| 3.5 | **Typography scale.** Fraunces is loaded with `opsz,wght` 9..144; document which optical sizes are used for display vs. body so the two don't drift | layouts | M |
+| 3.3 | ~~**Minimum-size + clear space.**~~ **Done** — the tile's floor is **16 px** (the tab icon is a single letter for exactly this reason) and the clear space is **half the tile**, both stated on `/brand` and enforced by the sizes the generator writes. Note the mark is the *wordmark plus a tile*, not a ₹ glyph: the design package's manifest requires graphic logo marks to be removed | — | S |
+| 3.4 | ~~**Contrast.**~~ **Done, and it was not solid.** `App\Brand\Palette` declares 31 pairings with the ratio each must clear and measures them in both themes; `BrandPaletteTest` fails below the floor. Six were failing: the muted token was **4.34:1 on the inset well** (every table header — the plan called it), success **3.30:1** and warning **3.19:1** as text, gold **4.49:1** on the utility bar, and in the dark theme all fifteen `color:#fff`-on-accent rules rendered white on pale sky (**2.24:1** primary buttons), now `--n-on-accent` | `public/assets/app.css:17-70` | M |
+| 3.5 | ~~**Typography scale.**~~ **Done** — and the premise was stale: there is no Fraunces anywhere in the product, all three layouts load Plus Jakarta Sans 400–800. `App\Brand\Type` reads the sizes out of the stylesheet and `/brand` prints them with the role each serves; the drift to watch is the sizes, not the family | layouts | M |
 | 3.6 | **Look and feel.** One page: surface texture, `--n-radius:14px`, shadow, the vertical accent bars. So the *next* screen looks like this one | `app.css` | M |
 
 ### Phase 4 · Creating touchpoints
@@ -256,15 +256,18 @@ PayKaro's distribution channel is a WhatsApp link; today that link has no previe
 
 ### Phase 5 · Managing assets
 
-- **5.1 Brand book.** One `docs/brand/` page (or a route at `/brand`) covering:
-  the mark and its clear space, the token table, type scale, voice, and the
-  "never" list. Small enough that people actually read it.
-- **5.2 Guidelines as code.** The strongest version of this: `config/paykaro.php`
-  already holds every number the domain computes with, and
-  `App\Services\Receivables` is the only reader. Do the same for brand — one place
-  owns `tagline`, `descriptor`, and the token names, and a test fails if a view
-  hard-codes a hex. That test is what prevents the `logo-mark.blade.php` drift
-  from recurring.
+- ~~**5.1 Brand book.**~~ **Done** — `/brand`, linked from every marketing footer
+  and readable signed out. It covers the mark and its clear space, the token table,
+  the measured contrast pairs, the type scale, voice and the "never" list — and
+  every number on it is read from the product at render time, which is what makes
+  it a bug report rather than a document.
+- ~~**5.2 Guidelines as code.**~~ **Done** — `config/paykaro.php` owns `headline`
+  and `descriptor` (`BrandCopyTest` overrides the config and asserts the *rendered
+  page* follows), `App\Brand\Palette` owns the tokens and their floors
+  (`BrandPaletteTest`), and `/brand` renders all of it. What is still open is the
+  hex-in-a-view assertion: `resources/views/` holds ~40 literal hexes, and the ones
+  in the mail layer are deliberate — an inbox has no CSS custom properties, so that
+  layer *must* repeat the palette.
 - **5.3 Change management.** `public/assets/app.css` is a single 63 KB file
   (64,498 bytes) that `MIGRATION.md` says was ported "markup-for-markup" and is
   deliberately kept verbatim. Any brand change is a diff to that one file — so

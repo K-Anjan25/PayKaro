@@ -36,6 +36,7 @@
                 <span>© {{ now()->year }} {{ config('app.name') }} · Made for India's MSMEs</span>
                 <span>
                     <a href="{{ route('landing') }}#news" style="color:var(--n-gold);">More news</a> ·
+                    <a href="{{ route('brand') }}" style="color:var(--n-gold);">Brand</a> ·
                     <a href="{{ route('landing') }}" style="color:var(--n-gold);">Back to home</a>
                 </span>
             </div>
