@@ -88,7 +88,11 @@ final class Money
         $places = $decimals ?? ($paise > 0 ? 2 : 0);
 
         if ($places > 0) {
-            $formatted .= '.'.number_format($paise, 0, '', '');
+            // Two digits, always. `number_format($paise, 0)` renders 2 paise as "2",
+            // so a claim packet printed "₹4,112.2" for ₹4,112.02 — a figure wrong by a
+            // factor of ten, in a document whose whole job is to be added up by
+            // someone else.
+            $formatted .= '.'.str_pad((string) $paise, 2, '0', STR_PAD_LEFT);
         }
 
         return $formatted;

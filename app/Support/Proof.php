@@ -50,7 +50,7 @@ final class Proof
             [
                 'value' => $multiplier.'×',
                 'label' => 'Bank-rate interest',
-                'note' => 'Interest on an overdue invoice accrues daily at '.$multiplier.'× the prevailing '.$bankRate.'% bank rate, under Section 16 of the MSMED Act, 2006.',
+                'note' => 'Interest on an overdue invoice compounds at monthly rests at '.$multiplier.'× the prevailing '.$bankRate.'% bank rate, under Section 16 of the MSMED Act, 2006.',
             ],
             [
                 'value' => (string) $required,

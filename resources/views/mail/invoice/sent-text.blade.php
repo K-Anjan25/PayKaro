@@ -12,7 +12,7 @@ our books.
   Payments credited     {{ money($invoice->paidTotal()) }}
   Balance               {{ money($invoice->balance()) }}
 @if ($invoice->interest() > 0)
-  Interest accrued      {{ money($invoice->interest()) }} at {{ config('paykaro.interest_multiplier') }}x the {{ config('paykaro.bank_rate') }}% bank rate (Section 16, MSMED Act 2006)
+  Interest accrued      {{ money($invoice->interest()) }} compound at monthly rests, {{ config('paykaro.interest_multiplier') }}x the {{ config('paykaro.bank_rate') }}% bank rate (Section 16, MSMED Act 2006)
   Total payable today   {{ money(round($invoice->balance() + $invoice->interest(), 2)) }}
 @endif
 

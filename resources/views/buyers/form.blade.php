@@ -115,7 +115,7 @@
                     </div>
                     <div class="support-card support-card--inline">
                         <span>Delayed penalty</span>
-                        <strong>3× RBI bank rate</strong>
+                        <strong>3× RBI bank rate, monthly rests</strong>
                     </div>
                     <div class="support-card support-card--inline">
                         <span>Statutory ceiling</span>

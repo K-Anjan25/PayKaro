@@ -260,8 +260,8 @@ Everything the app can be told lives in `.env` / `config/paykaro.php`:
 | `SESSION_DRIVER` | `file` | `database` also works; the sessions table ships in the base migration |
 | `PAYKARO_MSME_DUE_DAYS` | `45` | the window after which an invoice is overdue and interest starts |
 | `PAYKARO_DEFAULT_TAX_RATE` | `18` | GST applied when an invoice is raised without a tax figure |
-| `PAYKARO_BANK_RATE` | `6.5` | prevailing rate, multiplied below |
-| `PAYKARO_INTEREST_MULTIPLIER` | `3` | statutory interest = bank rate × 3, accrued daily |
+| `PAYKARO_BANK_RATE` | `5.5` | the RBI **Bank Rate** (not the repo rate) — 5.5% since Dec 2025. Multiplied below |
+| `PAYKARO_INTEREST_MULTIPLIER` | `3` | statutory interest = bank rate × 3, **compound with monthly rests** (Section 16) |
 | `PAYKARO_FINANCE_READY_SCORE` | `85` | readiness at/above which an invoice is financeable |
 | `PAYKARO_ALERT_LIMIT` | `6` | rows in the dashboard's "Needs attention" list |
 | `PAYKARO_DEMO` | `true` | labels the workspace "Demo" in the utility bar; turn off for real data |

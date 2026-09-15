@@ -20,7 +20,7 @@ final class ReceivablesTest extends TestCase
     private function rules(
         int $dueDays = 45,
         float $taxRate = 18.0,
-        float $bankRate = 6.5,
+        float $bankRate = 5.5,
         int $multiplier = 3,
         int $readyScore = 85,
     ): Receivables {
@@ -91,22 +91,111 @@ final class ReceivablesTest extends TestCase
         $this->assertSame(0, $this->rules()->overdueDays(null, InvoiceStatus::Raised, '2026-06-05'));
     }
 
-    public function test_interest_accrues_daily_at_three_times_the_bank_rate(): void
+    public function test_interest_compounds_at_monthly_rests_as_section_16_says(): void
     {
         $rules = $this->rules();
 
-        // 118000 x (6.5 x 3)% / 365 x 30 days
-        $this->assertSame(1891.23, $rules->interest(118000, 30));
-        $this->assertSame(534.25, $rules->interest(100000, 10));
+        // 118000 x (5.5 x 3)% / 12 = 1622.50 for one rest. Thirty days is a month, so
+        // thirty days is one rest's worth of interest — no more, no less.
+        $this->assertSame(1622.5, $rules->interest(118000, 30));
+
+        // Ten days is part of a month: pro rata on the resting balance, 458.33.
+        $this->assertSame(458.33, $rules->interest(100000, 10));
+
         $this->assertSame(0.0, $rules->interest(100000, 0));
         $this->assertSame(0.0, $rules->interest(100000, -5));
+    }
+
+    public function test_a_second_rest_charges_interest_on_the_first_rest_s_interest(): void
+    {
+        $rules = $this->rules();
+        $schedule = $rules->interestSchedule(100000, 60);
+
+        // 100000 x 1.375% = 1375.00; 101375 x 1.375% = 1393.91. Simple interest over
+        // the same sixty days would be 110.16 less: the compounding *is* the
+        // statutory difference, and it is the buyer's money either way.
+        $this->assertSame(1375.0, $schedule->periods[0]['interest']);
+        $this->assertSame(1393.91, $schedule->periods[1]['interest']);
+        $this->assertSame(2768.91, $schedule->total);
+        $this->assertSame(2, $schedule->rests());
+    }
+
+    public function test_the_schedule_is_the_total_it_prints(): void
+    {
+        // A claim packet shows the month-wise working and a total. If the two ever
+        // disagree the packet is wrong on its face, so the total is the sum.
+        $schedule = $this->rules()->interestSchedule(967600, 65);
+
+        $this->assertSame(
+            round(array_sum(array_column($schedule->periods, 'interest')), 2),
+            $schedule->total,
+        );
+
+        // Two rests and five days over: 65 = 30 + 30 + 5.
+        $this->assertSame([30, 30, 5], array_column($schedule->periods, 'days'));
+        $this->assertSame(29070.75, $schedule->total);
+    }
+
+    public function test_the_schedule_carries_the_rate_in_force_for_each_rest(): void
+    {
+        // The Act applies the bank rate "notified from time to time", so an invoice
+        // that sat through a cut is not one rate's worth of interest.
+        $rules = new Receivables(
+            msmeDueDays: 45,
+            defaultTaxRate: 18.0,
+            bankRate: 5.5,
+            interestMultiplier: 3,
+            weights: ['evidence' => 70, 'buyer_onboarded' => 20, 'buyer_not_onboarded' => 5, 'overdue' => 10],
+            financeReadyScore: 85,
+            rateHistory: [
+                ['from' => '2026-01-01', 'rate' => 6.0],
+                ['from' => '2026-05-01', 'rate' => 5.5],
+            ],
+        );
+
+        // Due 1 April, 60 days: the first rest sits under the old rate, the second
+        // under the new one.
+        $schedule = $rules->interestSchedule(100000, 60, new \DateTimeImmutable('2026-04-01'));
+
+        $this->assertSame(18.0, $schedule->periods[0]['rate']);
+        $this->assertSame(16.5, $schedule->periods[1]['rate']);
+        $this->assertTrue($schedule->rateChanged);
+
+        // With no history every rest carries the configured rate, and the packet says
+        // so rather than implying a rate change was applied.
+        $flat = $this->rules()->interestSchedule(100000, 60, new \DateTimeImmutable('2026-04-01'));
+
+        $this->assertFalse($flat->rateChanged);
+        $this->assertNotSame($schedule->total, $flat->total);
+    }
+
+    public function test_a_rest_charges_a_month_not_thirty_days_of_a_year(): void
+    {
+        // The old formula charged 30/365ths of the annual rate for thirty days; a
+        // monthly rest charges 1/12th, which is more, because the convention makes a
+        // month thirty days rather than 30.4. Small, real, and in the supplier's
+        // favour — so it is worth asserting rather than discovering in an argument.
+        $rules = $this->rules();
+
+        $this->assertSame(1622.5, $rules->interest(118000, 30));
+        $this->assertGreaterThan(
+            round(118000 * 0.165 * 30 / 365, 2),
+            $rules->interest(118000, 30),
+        );
+
+        // And over a year the rests compound: 1.375% twelve times, not 16.5% once.
+        $this->assertSame(21012.04, $rules->interest(118000, 360));
+        $this->assertGreaterThan(
+            round(118000 * 0.165, 2),
+            $rules->interest(118000, 360),
+        );
     }
 
     public function test_a_higher_configured_bank_rate_raises_the_interest(): void
     {
         $this->assertGreaterThan(
+            $this->rules(bankRate: 5.5)->interest(118000, 30),
             $this->rules(bankRate: 6.5)->interest(118000, 30),
-            $this->rules(bankRate: 7.5)->interest(118000, 30),
         );
     }
 

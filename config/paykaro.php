@@ -67,8 +67,13 @@ return [
     |                            unless a written agreement says otherwise.
     |  - default_tax_rate ........ GST applied when an invoice is raised
     |                            without an explicit tax figure.
-    |  - bank_rate x multiplier .. statutory interest on delayed payments,
-    |                            3x the prevailing bank rate, accrued daily.
+    |  - bank_rate x multiplier .. statutory interest on delayed payments:
+    |                            compound interest with monthly rests at 3x the
+    |                            bank rate (Section 16, MSMED Act 2006). This is
+    |                            the Bank Rate the RBI notifies, not the repo rate
+    |                            — the Bank Rate has been 5.50% since December 2025.
+    |  - bank_rate_history ...... optional: the notifications, so a period that saw
+    |                            a rate change is charged each rate for its own part.
     |  - finance_ready_score ... the readiness score at which an invoice is
     |                            treated as financeable on the TReDS queue.
     |
@@ -81,7 +86,15 @@ return [
 
     'default_tax_rate' => (float) env('PAYKARO_DEFAULT_TAX_RATE', 18),
 
-    'bank_rate' => (float) env('PAYKARO_BANK_RATE', 6.5),
+    'bank_rate' => (float) env('PAYKARO_BANK_RATE', 5.5),
+
+    /*
+     * Bank-rate notifications, oldest first, as `['from' => 'Y-m-d', 'rate' => 5.5]`.
+     * Empty by default: these are the operator's records, and a wrong date would
+     * quietly mis-price a claim. With one entry nothing changes; with several, a
+     * rest uses the rate in force on its own date.
+     */
+    'bank_rate_history' => [],
 
     'interest_multiplier' => (int) env('PAYKARO_INTEREST_MULTIPLIER', 3),
 

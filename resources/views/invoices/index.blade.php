@@ -35,7 +35,7 @@
                 <span class="metric-icon">%</span>
             </div>
             <div class="metric-value num">{{ money($summary->interest) }}</div>
-            <div class="metric-foot">Section 16 · {{ config('paykaro.interest_multiplier') }}× bank rate</div>
+            <div class="metric-foot">Section 16 · {{ config('paykaro.interest_multiplier') }}× bank rate, monthly rests</div>
         </article>
     </section>
 

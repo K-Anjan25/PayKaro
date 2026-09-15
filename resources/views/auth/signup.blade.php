@@ -50,7 +50,7 @@
              TReDS / Direct gateway" (PayKaro tracks TReDS readiness; it is not a
              gateway) and "Section 15/16 enforced" (a statute is enforced by law, not
              by a form). These are the same facts, stated as the product does them. --}}
-        <div class="auth-mini-card"><strong>Section 16 interest</strong><span>Computed daily, not typed</span></div>
+        <div class="auth-mini-card"><strong>Section 16 interest</strong><span>Monthly rests, not typed</span></div>
         <div class="auth-mini-card"><strong>TReDS readiness</strong><span>Tracked per buyer</span></div>
         <div class="auth-mini-card"><strong>MIT licensed</strong><span>Forkable, self-hosted</span></div>
     </div>

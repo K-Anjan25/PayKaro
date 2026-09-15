@@ -95,7 +95,7 @@
                 </tr>
                 <tr>
                     <td>{{ $rows[6]['label'] ?? 'Interest due' }}</td>
-                    <td>Section 16 computation</td>
+                    <td>Section 16 · schedule below</td>
                     <td>Accrued to {{ now()->format('d M Y') }}</td>
                     <td class="num">{{ money($invoice->interest()) }}</td>
                 </tr>
@@ -106,6 +106,70 @@
                 </tbody>
             </table>
         </section>
+
+        @php $schedule = $invoice->interestSchedule(); @endphp
+        @if ($schedule->periods)
+            {{-- Section 16 charges *compound interest with monthly rests*, so the
+                 packet shows the rests rather than asserting a total: this is the
+                 month-wise working a forum asks for, and the figure above is its
+                 sum. --}}
+            <section class="claim-table-wrap">
+                <div class="claim-section-head">
+                    <strong>Section 16 interest schedule — composite monthly rests</strong>
+                    <span>
+                        {{ config('paykaro.interest_multiplier') }}× bank rate
+                        {{ rtrim(rtrim(number_format(config('paykaro.bank_rate'), 2, '.', ''), '0'), '.') }}%
+                        · {{ $schedule->rests() }} rest{{ $schedule->rests() === 1 ? '' : 's' }}
+                        · 30-day month
+                    </span>
+                </div>
+                <table class="claim-table">
+                    <thead>
+                    <tr>
+                        <th>Rest</th>
+                        <th>Period</th>
+                        <th>Days</th>
+                        <th>Rate</th>
+                        <th>Opening (₹)</th>
+                        <th>Interest (₹)</th>
+                        <th>Closing (₹)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($schedule->periods as $period)
+                        <tr>
+                            <td>{{ $period['partial'] ? 'Part month' : 'Month '.$period['period'] }}</td>
+                            <td>{{ $period['from'] }} → {{ $period['to'] }}</td>
+                            <td class="num">{{ $period['days'] }}</td>
+                            <td class="num">{{ number_format($period['rate'] / 12, 4) }}% / month</td>
+                            <td class="num">{{ money($period['opening']) }}</td>
+                            <td class="num">{{ money($period['interest']) }}</td>
+                            <td class="num">{{ money($period['closing']) }}</td>
+                        </tr>
+                    @endforeach
+                    <tr class="claim-total-row">
+                        <td colspan="5">
+                            Interest accrued to {{ now()->format('d M Y') }} @if ($schedule->overdueDays) after {{ $schedule->overdueDays }} days in default @endif
+                        </td>
+                        <td class="num">{{ money($schedule->total) }}</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p class="claim-note">
+                    Compound interest with monthly rests at {{ rtrim(rtrim(number_format($schedule->total > 0 ? config('paykaro.bank_rate') * config('paykaro.interest_multiplier') : 0, 4, '.', ''), '0'), '.') }}%
+                    a year — three times the bank rate notified by the Reserve Bank, per Section 16 of the Micro, Small and Medium
+                    Enterprises Development Act, 2006. A rest falls every 30 days from the due date; days after the last rest accrue
+                    pro rata on the compounded balance and do not themselves compound.
+                    @if ($schedule->rateChanged)
+                        The bank rate changed during this period, so each rest carries the rate notified for its own month.
+                    @else
+                        Computed at the rate in force for the whole period; where the Reserve Bank notifies a change during a
+                        default, each rest carries the rate for its own month.
+                    @endif
+                </p>
+            </section>
+        @endif
 
         <section class="claim-annexures">
             <div class="claim-section-head">

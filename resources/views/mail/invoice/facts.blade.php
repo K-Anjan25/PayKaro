@@ -19,7 +19,7 @@
     if ($invoice->interest() > 0) {
         $rows[] = [
             'Interest accrued',
-            money($invoice->interest()).' at '.config('paykaro.interest_multiplier').'× the '.config('paykaro.bank_rate').'% bank rate, under Section 16 of the MSMED Act',
+            money($invoice->interest()).' of compound interest at monthly rests, '.config('paykaro.interest_multiplier').'× the '.config('paykaro.bank_rate').'% bank rate, under Section 16 of the MSMED Act',
         ];
         $rows[] = ['Total payable today', money(round($invoice->balance() + $invoice->interest(), 2))];
     }

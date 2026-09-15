@@ -41,5 +41,5 @@
 @endsection
 
 @section('footer')
-    Interest accrues daily at {{ config('paykaro.interest_multiplier') }}× the prevailing {{ config('paykaro.bank_rate') }}% bank rate until the balance is cleared.
+    Interest compounds at monthly rests at {{ config('paykaro.interest_multiplier') }}× the prevailing {{ config('paykaro.bank_rate') }}% bank rate until the balance is cleared.
 @endsection

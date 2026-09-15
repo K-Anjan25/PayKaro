@@ -61,12 +61,14 @@ class ClaimPacket
 
     /**
      * Interest line heading, phrased from the live configuration rather than a
-     * hard-coded "3×", so a rate change never leaves a stale claim form.
+     * hard-coded "3×", so a rate change never leaves a stale claim form. It names
+     * the method as well as the rate, because the method is what Section 16
+     * prescribes and what the schedule below the line works out.
      */
     public function interestLabel(): string
     {
         return sprintf(
-            'Interest due (%d× bank rate %s%%)',
+            'Interest due (compound, monthly rests at %d× bank rate %s%%)',
             $this->receivables->interestMultiplier,
             rtrim(rtrim(number_format($this->receivables->bankRate, 2, '.', ''), '0'), '.'),
         );

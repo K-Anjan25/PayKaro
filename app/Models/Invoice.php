@@ -9,7 +9,9 @@ use App\Enums\InvoiceStatus;
 use App\Enums\TredsOnboarding;
 use App\Enums\TredsStatus;
 use App\Models\Concerns\BelongsToTenant;
+use App\Services\InterestSchedule;
 use App\Services\Receivables;
+use DateTimeImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -204,7 +206,30 @@ class Invoice extends Model
 
     public function interest(): float
     {
-        return $this->receivables()->interest((float) $this->total_amount, $this->overdueDays());
+        return $this->receivables()->interest(
+            (float) $this->total_amount,
+            $this->overdueDays(),
+            $this->dueDateImmutable(),
+        );
+    }
+
+    /**
+     * The month-wise working behind `interest()` — what the claim packet prints,
+     * because a Section 16 claim is made of monthly rests and the rests are the
+     * arithmetic, not a rendering of it.
+     */
+    public function interestSchedule(): InterestSchedule
+    {
+        return $this->receivables()->interestSchedule(
+            (float) $this->total_amount,
+            $this->overdueDays(),
+            $this->dueDateImmutable(),
+        );
+    }
+
+    private function dueDateImmutable(): ?DateTimeImmutable
+    {
+        return $this->due_date ? new DateTimeImmutable($this->due_date->toDateString()) : null;
     }
 
     public function ageing(): AgeingBucket

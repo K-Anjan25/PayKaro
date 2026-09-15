@@ -1893,6 +1893,9 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .claim-table td { padding:.8rem .7rem; border-bottom:1px solid var(--n-line); text-align:left; vertical-align:top; }
 .claim-table th { font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--n-ink-mute); background:var(--n-paper-2); }
 .claim-total-row td { font-weight:800; color:var(--n-blue); }
+/* The method note under the Section 16 schedule: the fine print is the part a forum
+   reads, so it is set as prose rather than as a table cell. */
+.claim-note { margin:.6rem 0 0; font-size:.78rem; line-height:1.5; color:var(--n-ink-mute); }
 .claim-annexure.is-danger { border-color:#fecaca; background:var(--n-coral-soft); }
 
 .auth-wrap--card {

@@ -84,8 +84,12 @@ and sessions are the framework's business.
   a client-sent due date is never trusted.
 - Default GST: **18%** (`PAYKARO_DEFAULT_TAX_RATE`); an explicit `0` means "no GST",
   and a blank field means "work it out".
-- Statutory interest: **bank_rate (6.5%) × 3** per annum (`PAYKARO_BANK_RATE`,
-  `PAYKARO_INTEREST_MULTIPLIER`), accrued daily, zero unless the invoice is overdue
+- Statutory interest: **compound interest with monthly rests at bank_rate (5.5%) × 3**
+  per annum (`PAYKARO_BANK_RATE`, `PAYKARO_INTEREST_MULTIPLIER`), zero unless the invoice
+  is overdue. A rest falls every 30 days from the due date; days past the last rest accrue
+  pro rata on the compounded balance. The Act says "compound interest with monthly rests"
+  (Section 16), so a daily-simple accrual is not a rounding of this — it is a different
+  number, and it is the buyer's money we would be overstating
   and not settled.
 - Ageing buckets: Current, 1–30, 31–60, 61–90, 90+ days past due.
 - Required inbound evidence: `po`, `delivery_ack`, `grn`, `invoice_copy`.
