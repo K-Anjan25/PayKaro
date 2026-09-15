@@ -80,6 +80,14 @@ The drift is in what sits *around* it:
 | `resources/views/marketing/article.blade.php:24` | `Turn your receivables into finance-ready assets.` | Fourth wording |
 | `README.md` / `SPEC.md` | `Turn invoice mess into an evidence-complete, finance-ready pipeline.` | Fifth wording |
 
+> **Done.** `paykaro.tagline` was split into `paykaro.headline` (the brand line)
+> and `paykaro.descriptor` (the line under the wordmark) and renamed rather than
+> aliased; every place above now reads a key. `tests/Feature/BrandCopyTest.php`
+> overrides the config and asserts the *rendered page* follows, on every page that
+> states the line — which is how a sixth hard-coded copy (the landing's closing
+> CTA) was found. The three marketing lines were demoted to supporting copy: the
+> auth shell now says what the product does for the invoice, not a second promise.
+
 **Build task 1.1** — Two keys, not one, because the config key is doing the wrong
 job:
 
@@ -184,7 +192,7 @@ Ordered by how much is already decided.
 
 | # | Task | Anchor | Effort |
 |---|------|--------|--------|
-| 3.1 | **Favicon set.** Generate 16/32/48 ICO + `apple-touch-icon` + SVG from the mark; add `rel="icon"` to all three layouts | `public/favicon.ico` is 0 bytes | S |
+| 3.1 | ~~**Favicon set.**~~ Generate 16/32/48 ICO + `apple-touch-icon`; add `rel="icon"` to all three layouts. **Done** — 16/32/48 ICO, 32/180/512 PNG, `partials/brand-meta.blade.php` in all three layouts | `public/favicon.ico` was 0 bytes | S |
 | 3.2 | **Mark on tokens.** Replace the literal values in `logo-mark.blade.php` with `currentColor` / CSS vars so the mark follows the theme | lines 10-12 | S |
 | 3.3 | **Minimum-size + clear space.** The ₹ glyph at 34 px is legible; decide the floor (recommend 20 px) and the clear space (recommend ½ tile), and write it into the guidelines (§Phase 5) | — | S |
 | 3.4 | **Contrast.** The token set is already solid (`:root`, both themes). Record the WCAG contrast pairs as comments next to the tokens — the muted-text token on the page background is the risky one | `public/assets/app.css:17-70` | M |
