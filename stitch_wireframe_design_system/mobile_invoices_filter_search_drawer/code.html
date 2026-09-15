@@ -1,0 +1,414 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f8f9ff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-on-surface": "#eaf1ff", "on-tertiary": "#ffffff", "secondary-container": "#d8deff", "on-secondary-fixed": "#131a33", "primary-fixed-dim": "#b7c4ff", "secondary-fixed-dim": "#bec5e5", "on-primary": "#ffffff", "on-surface-variant": "#434655", "surface-container-highest": "#d3e4fe", "surface-container-lowest": "#ffffff", "on-tertiary-container": "#abdaff", "primary": "#0037b0", "surface-container-low": "#eff4ff", "surface-variant": "#d3e4fe", "surface-container": "#e5eeff", "error": "#ba1a1a", "error-container": "#ffdad6", "on-secondary-container": "#5a627e", "surface-tint": "#2151da", "tertiary-fixed-dim": "#89ceff", "tertiary-container": "#00628d", "primary-fixed": "#dce1ff", "on-secondary-fixed-variant": "#3e4660", "background": "#f8f9ff", "outline-variant": "#c4c5d7", "tertiary": "#00496b", "on-error-container": "#93000a", "on-tertiary-fixed-variant": "#004c6e", "on-secondary": "#ffffff", "on-tertiary-fixed": "#001e2f", "tertiary-fixed": "#c9e6ff", "inverse-primary": "#b7c4ff", "outline": "#747686", "primary-container": "#1d4ed8", "surface-bright": "#f8f9ff", "on-primary-fixed-variant": "#0039b5", "on-surface": "#0b1c30", "surface-dim": "#cbdbf5", "surface-container-high": "#dce9ff", "inverse-surface": "#213145", "surface": "#f8f9ff", "on-primary-fixed": "#001551", "secondary-fixed": "#dbe1ff", "secondary": "#565d79", "on-error": "#ffffff", "on-primary-container": "#cad3ff", "on-background": "#0b1c30" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin": "2rem", "space-lg": "1.5rem", "gutter": "1.5rem", "space-md": "1rem", "space-sm": "0.5rem", "margin-mobile": "1rem", "space-xs": "0.25rem", "gutter-mobile": "1rem", "space-xl": "2rem" }, fontFamily: { "body-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"] }, fontSize: { "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.005em", fontWeight: "400" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "600" }], "body-md": ["14px", { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" }], "headline-sm": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }], "headline-xl-mobile": ["30px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "700" }], "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-xl": ["40px", { lineHeight: "48px", letterSpacing: "-0.025em", fontWeight: "700" }], "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", letterSpacing: "-0.015em", fontWeight: "700" }], "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.015em", fontWeight: "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased selection:bg-secondary-container min-h-screen flex flex-col"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(11,28,48,0.04)] pt-safe"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #1d4ed8
+- Font: plusJakartaSans
+- Mode: light
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UIefl60R9aeIN0BNUrxO2h-TWTl6vHRh_izXOfQtbqgK45XEUCxmRLICPyhmeSZubPyztQaObVcyvKUXs0Ckw-M2llUdVC5um9VfWAhWxGOQp0YI8WwAPXtU7W7Etgfe4Uq5FZuMYbOgPDxZnZArVezfkWUMKcxQqFlVJ1HG3-AbOFsIt5OMmjFrP3GaYbmhB3iUumwB00YTFRqcV5bNzQDqkA_YtMcXmkMWxanAebDILLAbBe9LsMlQ"><span class="font-headline-sm text-headline-sm tracking-tight text-primary font-bold">PayKaro</span><div class="hidden xs:flex flex-col ml-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant leading-none uppercase tracking-wider">Invoices</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Search Receivables" class="min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">search</span></button><a class="min-w-[44px] min-h-[44px] p-space-xs flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors" data-path="settings" href="#"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U"></a></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface"><div class="flex flex-col w-full px-gutter-mobile gap-space-md relative">
+<!-- Subtle Liquidity & Metric Ribbon -->
+<div class="flex items-center justify-between bg-surface-container-low rounded-xl px-space-md py-space-sm shadow-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">account_balance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">TReDS Working Cap Pool</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-md text-label-md text-primary">₹4.82 Cr Live</span>
+</div>
+</div>
+<!-- Screen Header Action Row -->
+<div class="flex items-center justify-between gap-space-sm">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold tracking-tight">Receivables</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">15 corporate invoices pending clearing &amp; discounting</p>
+</div>
+<button aria-label="Open Filters" class="relative min-w-[44px] min-h-[44px] px-space-md py-space-xs bg-primary text-on-primary rounded-lg flex items-center justify-center gap-space-xs shadow-sm active:scale-95 transition-transform" id="open-filter-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+<span class="font-label-md text-label-md font-semibold">Filter</span>
+<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-error text-on-error font-label-sm text-[9px] flex items-center justify-center font-bold">3</span>
+</button>
+</div>
+<!-- Status Tabs Rail (Horizontal Scrollable) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-space-xs no-scrollbar -mx-gutter-mobile px-gutter-mobile">
+<button class="px-space-md py-space-xs rounded-full bg-primary text-on-primary font-label-md text-label-md whitespace-nowrap shadow-sm">All (15)</button>
+<button class="px-space-md py-space-xs rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap">Raised (4)</button>
+<button class="px-space-md py-space-xs rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap">Accepted (5)</button>
+<button class="px-space-md py-space-xs rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap">Financed (3)</button>
+<button class="px-space-md py-space-xs rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap">Settled (2)</button>
+<button class="px-space-md py-space-xs rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap">Disputed (1)</button>
+</div>
+<!-- Adaptive 7-Column Invoices Mobile Cards List (Background Canvas) -->
+<div class="flex flex-col gap-space-sm pb-10 opacity-70">
+<!-- Invoice Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">INV-2026-089</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px] uppercase font-bold">Accepted</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant font-medium">Bharat Heavy Electricals Ltd (CPSE)</span>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">₹42,80,000</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Balance</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-low rounded-lg p-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">event</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Due Date</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">28 Mar 2026</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">timelapse</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Ageing</span>
+<span class="font-label-md text-label-md font-semibold text-primary">1-30 Days</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">TReDS Ready</span>
+<span class="font-label-md text-label-md font-bold text-primary">94 Score</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Invoice Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">INV-2026-074</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px] uppercase font-bold">Financed</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant font-medium">Tata Motors Ltd (Private)</span>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">₹18,50,000</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Balance</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-low rounded-lg p-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">event</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Due Date</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">15 Apr 2026</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">timelapse</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Ageing</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Current</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">TReDS Ready</span>
+<span class="font-label-md text-label-md font-bold text-primary">88 Score</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter & Search Drawer Backdrop Overlay -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm transition-opacity duration-300" id="drawer-backdrop">
+<!-- Bottom Sheet Container -->
+<div class="absolute inset-x-0 bottom-0 max-h-[90vh] bg-surface-container-lowest rounded-t-[28px] shadow-2xl flex flex-col overflow-hidden transition-transform duration-300 translate-y-0" id="drawer-sheet">
+<!-- 1. Drag Bar Handle & Title Header -->
+<div class="pt-space-sm px-space-md pb-space-sm bg-surface-container-lowest flex flex-col gap-space-xs flex-shrink-0">
+<div class="w-12 h-1.5 bg-outline-variant/60 rounded-full mx-auto my-1"></div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Filter &amp; Search Invoices</h2>
+<span class="px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">15 Total Invoices</span>
+</div>
+<button aria-label="Close Filter Sheet" class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-on-surface active:bg-surface-container transition-colors" id="close-filter-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Drawer Body Content -->
+<div class="overflow-y-auto px-space-md pb-28 flex flex-col gap-space-lg">
+<!-- 2. Search Input -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold" for="invoice-search-input">Search Keywords</label>
+<div class="relative flex items-center bg-surface-container-low rounded-xl px-space-md py-space-sm focus-within:bg-surface-container-lowest focus-within:shadow-sm transition-all">
+<span class="material-symbols-outlined text-outline text-[22px] mr-space-sm">search</span>
+<input class="w-full bg-transparent font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none" id="invoice-search-input" placeholder="Search invoice no. (INV-2026-xxx) or buyer name..." type="text" value="INV-2026-">
+<button aria-label="Clear Search Input" class="min-w-[36px] min-h-[36px] flex items-center justify-center text-outline hover:text-on-surface rounded-full active:scale-95" id="clear-search-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+</div>
+<!-- 3. Status Filter Multi-Select Pills -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Status Filter</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Multi-select enabled</span>
+</div>
+<div class="flex flex-wrap gap-space-xs pt-1">
+<!-- All Pill (Active) -->
+<button class="filter-pill active px-3.5 py-2 rounded-full bg-primary text-on-primary flex items-center gap-1.5 shadow-sm transition-all" type="button">
+<span class="font-label-md text-label-md font-semibold">All</span>
+<span class="w-5 h-5 rounded-full bg-on-primary/20 text-on-primary font-label-sm text-[11px] flex items-center justify-center font-bold">15</span>
+</button>
+<!-- Raised Pill -->
+<button class="filter-pill px-3.5 py-2 rounded-full bg-surface-container-low text-on-surface flex items-center gap-1.5 transition-all active:bg-surface-container" type="button">
+<span class="font-label-md text-label-md font-medium">Raised</span>
+<span class="w-5 h-5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] flex items-center justify-center font-semibold">4</span>
+</button>
+<!-- Accepted Pill -->
+<button class="filter-pill px-3.5 py-2 rounded-full bg-surface-container-low text-on-surface flex items-center gap-1.5 transition-all active:bg-surface-container" type="button">
+<span class="font-label-md text-label-md font-medium">Accepted</span>
+<span class="w-5 h-5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] flex items-center justify-center font-semibold">5</span>
+</button>
+<!-- Financed Pill -->
+<button class="filter-pill px-3.5 py-2 rounded-full bg-surface-container-low text-on-surface flex items-center gap-1.5 transition-all active:bg-surface-container" type="button">
+<span class="font-label-md text-label-md font-medium">Financed</span>
+<span class="w-5 h-5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] flex items-center justify-center font-semibold">3</span>
+</button>
+<!-- Settled Pill -->
+<button class="filter-pill px-3.5 py-2 rounded-full bg-surface-container-low text-on-surface flex items-center gap-1.5 transition-all active:bg-surface-container" type="button">
+<span class="font-label-md text-label-md font-medium">Settled</span>
+<span class="w-5 h-5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] flex items-center justify-center font-semibold">2</span>
+</button>
+<!-- Disputed Pill -->
+<button class="filter-pill px-3.5 py-2 rounded-full bg-surface-container-low text-on-surface flex items-center gap-1.5 transition-all active:bg-surface-container" type="button">
+<span class="font-label-md text-label-md font-medium">Disputed</span>
+<span class="w-5 h-5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] flex items-center justify-center font-semibold">1</span>
+</button>
+</div>
+</div>
+<!-- 4. Buyer Selection Dropdown Selector -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold" for="buyer-selector">Institutional Buyer</label>
+<div class="relative bg-surface-container-low rounded-xl px-space-md py-space-sm flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-space-sm overflow-hidden">
+<span class="material-symbols-outlined text-primary text-[22px]">corporate_fare</span>
+<select class="w-full bg-transparent font-body-md text-body-md text-on-surface font-semibold appearance-none focus:outline-none cursor-pointer" id="buyer-selector">
+<option value="all">All Buyers (4)</option>
+<option selected="" value="bhel">Bharat Heavy Electricals Ltd (CPSE)</option>
+<option value="tata">Tata Motors Ltd (Private)</option>
+<option value="hal">Hindustan Aeronautics Ltd (PSU)</option>
+<option value="lt">Larsen &amp; Toubro Ltd</option>
+</select>
+</div>
+<span class="material-symbols-outlined text-outline pointer-events-none text-[22px]">expand_more</span>
+</div>
+</div>
+<!-- 5. Ageing Buckets Filter -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Ageing Buckets</span>
+<div class="grid grid-cols-5 gap-1.5 bg-surface-container-low p-1.5 rounded-xl">
+<button class="ageing-chip py-2 rounded-lg text-center font-label-md text-label-md bg-surface-container-lowest text-primary font-bold shadow-sm" type="button">Current</button>
+<button class="ageing-chip py-2 rounded-lg text-center font-label-md text-label-md text-on-surface-variant font-medium hover:bg-surface-container" type="button">1-30</button>
+<button class="ageing-chip py-2 rounded-lg text-center font-label-md text-label-md text-on-surface-variant font-medium hover:bg-surface-container" type="button">31-60</button>
+<button class="ageing-chip py-2 rounded-lg text-center font-label-md text-label-md text-on-surface-variant font-medium hover:bg-surface-container" type="button">61-90</button>
+<button class="ageing-chip py-2 rounded-lg text-center font-label-md text-label-md text-on-surface-variant font-medium hover:bg-surface-container" type="button">90+</button>
+</div>
+</div>
+<!-- 6. Date Range Selector -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Settlement Horizon / Date</span>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="date-range-chip px-space-sm py-2.5 rounded-xl bg-surface-container text-primary font-label-md text-label-md font-semibold text-left flex items-center justify-between" type="button">
+<span>This Quarter</span>
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</button>
+<button class="date-range-chip px-space-sm py-2.5 rounded-xl bg-surface-container-low text-on-surface-variant font-label-md text-label-md font-medium text-left flex items-center justify-between hover:bg-surface-container" type="button">
+<span>Last 30 Days</span>
+</button>
+<button class="date-range-chip px-space-sm py-2.5 rounded-xl bg-surface-container-low text-on-surface-variant font-label-md text-label-md font-medium text-left flex items-center justify-between hover:bg-surface-container" type="button">
+<span>FY 2025-26</span>
+</button>
+<button class="date-range-chip px-space-sm py-2.5 rounded-xl bg-surface-container-low text-on-surface-variant font-label-md text-label-md font-medium text-left flex items-center justify-between hover:bg-surface-container" type="button">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span> Custom
+              </span>
+</button>
+</div>
+</div>
+<!-- 7. TReDS Eligibility Toggle -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface leading-tight">TReDS Eligibility</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Only show TReDS Finance-ready (&gt;=85 score)</span>
+</div>
+</div>
+<button aria-checked="true" class="w-12 h-7 bg-primary rounded-full p-1 transition-colors relative flex items-center flex-shrink-0 cursor-pointer" id="treds-toggle" role="switch" type="button">
+<span class="w-5 h-5 bg-on-primary rounded-full shadow-md transform transition-transform translate-x-5"></span>
+</button>
+</div>
+</div>
+<!-- 8. Fixed Footer Actions Sticky Anchor -->
+<div class="absolute bottom-0 inset-x-0 bg-surface-container-lowest/95 backdrop-blur-md px-space-md py-space-md shadow-[0_-4px_20px_rgba(11,28,48,0.08)] flex items-center gap-space-md">
+<button class="py-3 px-space-sm text-on-surface-variant font-label-lg text-label-lg font-semibold hover:text-on-surface active:scale-95 transition-all text-center" id="reset-filters-btn" type="button">
+          Reset Filters
+        </button>
+<button class="flex-1 py-3 px-space-md bg-primary-container text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs shadow-md active:scale-98 hover:brightness-105 transition-all" id="apply-filters-btn" type="button">
+<span>Apply Filters (15 Results)</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Filter Drawer Micro-Interactions & State
+  (function() {
+    const backdrop = document.getElementById('drawer-backdrop');
+    const sheet = document.getElementById('drawer-sheet');
+    const closeBtn = document.getElementById('close-filter-btn');
+    const openBtn = document.getElementById('open-filter-btn');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
+    const searchInput = document.getElementById('invoice-search-input');
+    const tredsToggle = document.getElementById('treds-toggle');
+    const resetBtn = document.getElementById('reset-filters-btn');
+    const applyBtn = document.getElementById('apply-filters-btn');
+
+    // Close / Open Drawer
+    function closeDrawer() {
+      sheet.classList.add('translate-y-full');
+      backdrop.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+      }, 300);
+    }
+
+    function openDrawer() {
+      backdrop.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        sheet.classList.remove('translate-y-full');
+      }, 10);
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (openBtn) openBtn.addEventListener('click', openDrawer);
+
+    // Clear Search Input
+    if (clearSearchBtn && searchInput) {
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchInput.focus();
+      });
+    }
+
+    // TReDS Toggle Switch
+    if (tredsToggle) {
+      tredsToggle.addEventListener('click', () => {
+        const isChecked = tredsToggle.getAttribute('aria-checked') === 'true';
+        const thumb = tredsToggle.querySelector('span');
+        if (isChecked) {
+          tredsToggle.setAttribute('aria-checked', 'false');
+          tredsToggle.classList.remove('bg-primary');
+          tredsToggle.classList.add('bg-outline-variant');
+          thumb.classList.remove('translate-x-5');
+          thumb.classList.add('translate-x-0');
+        } else {
+          tredsToggle.setAttribute('aria-checked', 'true');
+          tredsToggle.classList.add('bg-primary');
+          tredsToggle.classList.remove('bg-outline-variant');
+          thumb.classList.add('translate-x-5');
+          thumb.classList.remove('translate-x-0');
+        }
+      });
+    }
+
+    // Pill Multi-Select Toggles
+    const statusPills = document.querySelectorAll('.filter-pill');
+    statusPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const isAll = pill.innerText.includes('All');
+        if (isAll) {
+          statusPills.forEach(p => {
+            p.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+            p.classList.add('bg-surface-container-low', 'text-on-surface');
+            const pip = p.querySelector('span:last-child');
+            if (pip) {
+              pip.classList.remove('bg-on-primary/20', 'text-on-primary');
+              pip.classList.add('bg-surface-container', 'text-on-surface-variant');
+            }
+          });
+          pill.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+          pill.classList.remove('bg-surface-container-low', 'text-on-surface');
+          const pillPip = pill.querySelector('span:last-child');
+          if (pillPip) {
+            pillPip.classList.add('bg-on-primary/20', 'text-on-primary');
+            pillPip.classList.remove('bg-surface-container', 'text-on-surface-variant');
+          }
+        } else {
+          const allPill = Array.from(statusPills).find(p => p.innerText.includes('All'));
+          if (allPill) {
+            allPill.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+            allPill.classList.add('bg-surface-container-low', 'text-on-surface');
+            const allPip = allPill.querySelector('span:last-child');
+            if (allPip) {
+              allPip.classList.remove('bg-on-primary/20', 'text-on-primary');
+              allPip.classList.add('bg-surface-container', 'text-on-surface-variant');
+            }
+          }
+          pill.classList.toggle('bg-primary');
+          pill.classList.toggle('text-on-primary');
+          pill.classList.toggle('bg-surface-container-low');
+          pill.classList.toggle('text-on-surface');
+          const pillPip = pill.querySelector('span:last-child');
+          if (pillPip) {
+            pillPip.classList.toggle('bg-on-primary/20');
+            pillPip.classList.toggle('text-on-primary');
+            pillPip.classList.toggle('bg-surface-container');
+            pillPip.classList.toggle('text-on-surface-variant');
+          }
+        }
+      });
+    });
+
+    // Ageing Bucket Selectors
+    const ageingChips = document.querySelectorAll('.ageing-chip');
+    ageingChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        ageingChips.forEach(c => {
+          c.classList.remove('bg-surface-container-lowest', 'text-primary', 'font-bold', 'shadow-sm');
+          c.classList.add('text-on-surface-variant', 'font-medium');
+        });
+        chip.classList.add('bg-surface-container-lowest', 'text-primary', 'font-bold', 'shadow-sm');
+        chip.classList.remove('text-on-surface-variant', 'font-medium');
+      });
+    });
+
+    // Reset Action
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        const allPill = Array.from(statusPills).find(p => p.innerText.includes('All'));
+        if (allPill) allPill.click();
+        const buyerSelect = document.getElementById('buyer-selector');
+        if (buyerSelect) buyerSelect.value = 'all';
+        if (ageingChips.length > 0) ageingChips[0].click();
+      });
+    }
+
+    // Apply Filters Action
+    if (applyBtn) {
+      applyBtn.addEventListener('click', () => {
+        closeDrawer();
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(11,28,48,0.05)]" data-active-classes="text-primary font-semibold"><div class="flex items-center justify-around h-16 px-space-xs"><a class="flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors" data-path="overview" href="#"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Overview</span></a><a aria-current="page" class="flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 transition-colors text-primary font-semibold" data-path="invoices" href="#"><span class="material-symbols-outlined text-[24px]">receipt_long</span><span class="font-label-sm text-label-sm">Invoices</span></a><a class="flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[24px]">group</span><span class="font-label-sm text-label-sm">Customers</span></a><a class="flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors" data-path="finance" href="#"><span class="material-symbols-outlined text-[24px]">account_balance_wallet</span><span class="font-label-sm text-label-sm">Finance</span></a><a class="flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[24px]">settings</span><span class="font-label-sm text-label-sm">Settings</span></a></div></nav></body></html>

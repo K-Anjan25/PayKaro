@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html lang="en" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-dim":"#cbdbf5","on-tertiary-fixed":"#001e2f","error-container":"#ffdad6","surface":"#f8f9ff","on-primary-fixed-variant":"#0039b5","error":"#ba1a1a","surface-container":"#e5eeff","inverse-primary":"#b7c4ff","surface-variant":"#d3e4fe","on-tertiary-container":"#abdaff","surface-container-highest":"#d3e4fe","on-tertiary":"#ffffff","surface-container-low":"#eff4ff","on-surface":"#0b1c30","surface-container-lowest":"#ffffff","tertiary":"#00496b","primary-fixed-dim":"#b7c4ff","surface-bright":"#f8f9ff","inverse-surface":"#213145","on-primary-fixed":"#001551","on-error":"#ffffff","outline":"#747686","surface-container-high":"#dce9ff","on-error-container":"#93000a","secondary":"#565d79","on-secondary-fixed":"#131a33","outline-variant":"#c4c5d7","primary-container":"#1d4ed8","on-secondary-container":"#5a627e","on-surface-variant":"#434655","on-background":"#0b1c30","primary-fixed":"#dce1ff","secondary-fixed-dim":"#bec5e5","on-primary":"#ffffff","secondary-fixed":"#dbe1ff","on-secondary":"#ffffff","on-tertiary-fixed-variant":"#004c6e","tertiary-fixed-dim":"#89ceff","surface-tint":"#2151da","tertiary-fixed":"#c9e6ff","background":"#f8f9ff","on-primary-container":"#cad3ff","tertiary-container":"#00628d","secondary-container":"#d8deff","on-secondary-fixed-variant":"#3e4660","primary":"#0037b0","inverse-on-surface":"#eaf1ff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter":"1.5rem","margin":"2rem","space-xs":"0.25rem","space-xl":"2rem","space-sm":"0.5rem","space-md":"1rem","gutter-mobile":"1rem","margin-mobile":"1rem","space-lg":"1.5rem"},"fontFamily":{"label-sm":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"]},"fontSize":{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}]}}}}</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-sm"><div class="px-gutter-mobile py-2.5 flex items-center justify-between border-b border-surface-container-low"><div class="flex items-center gap-2"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight font-bold leading-none select-none"><span class="text-on-background">Pay</span><span class="text-primary-container">Karo</span></span><span class="font-label-sm text-[9px] text-tertiary uppercase tracking-widest mt-0.5">TReDS Liquidity</span></div><span class="text-outline-variant">·</span><div class="flex items-center gap-1 bg-surface-container-low px-2 py-0.5 rounded-full"><span class="material-symbols-outlined text-[12px] text-secondary">domain</span><span class="font-label-sm text-[11px] text-on-surface-variant font-semibold truncate max-w-[120px]">Shree Precision</span></div></div><div class="flex items-center gap-2"><button aria-label="Sync buyer registry" class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary hover:text-primary flex items-center justify-center transition-all active:scale-95 shadow-sm" id="headerRefreshBtn" title="Sync buyer registry" type="button"><span class="material-symbols-outlined text-[18px] transition-transform duration-500" id="headerRefreshIcon">sync</span></button><button class="bg-primary-container hover:bg-primary text-on-primary font-label-sm text-label-sm px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 shadow-sm active:scale-95" onclick="document.getElementById('openAddBuyerBtn')?.click()" type="button"><span class="material-symbols-outlined text-[15px]">person_add</span><span class="">+ Add buyer</span></button><img alt="Sunita Rao profile" class="w-8 h-8 rounded-full object-cover shadow-sm ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U"/></div></div></header><main class="w-full bg-surface min-h-screen pt-16"><div class="flex flex-col w-full pb-24"><!-- Pull-to-Refresh Interactive System --><div class="w-full flex flex-col items-center justify-center overflow-hidden transition-[height,opacity] duration-150 ease-out select-none" id="ptrContainer" style="height: 0px; opacity: 0;"><div class="w-full max-w-lg px-gutter-mobile py-2 flex items-center justify-center" id="ptrContent"><div class="w-full bg-surface-container-lowest border border-surface-container-low rounded-xl py-2.5 px-4 shadow-sm flex items-center justify-between transition-all duration-200" id="ptrCard"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-primary transition-all duration-200" id="ptrIconWrapper"><span class="material-symbols-outlined text-[18px] transition-transform duration-150 inline-block" id="ptrIcon">arrow_downward</span><div class="hidden relative w-5 h-5" id="ptrSpinner"><div class="absolute inset-0 rounded-full border-2 border-primary-container/25"></div><div class="absolute inset-0 rounded-full border-2 border-primary border-t-transparent animate-spin"></div></div><span class="hidden material-symbols-outlined text-[18px] text-tertiary" id="ptrSuccessIcon">check_circle</span></div><div class="flex flex-col"><span class="font-label-md text-label-md font-semibold text-on-surface transition-colors leading-tight" id="ptrStatusText">Pull down to refresh buyer registry</span><span class="font-body-sm text-[11px] text-secondary" id="ptrSubText">Clearing cycle: T+1 · Last synced: just now</span></div></div><div class="flex items-center gap-1 bg-surface-container-low px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-[10px] uppercase font-bold text-primary tracking-wider" id="ptrBadgeText">TReDS Sync</span></div></div></div></div><!-- Quick accessible floating tester bar --><div class="w-full px-gutter-mobile pt-2 pb-1 flex items-center justify-between"><button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest border border-surface-container-low text-primary hover:bg-primary-container hover:text-on-primary transition-all text-[11px] font-label-sm font-semibold shadow-sm active:scale-95" id="testPtrTriggerBtn" type="button"><span class="material-symbols-outlined text-[14px]">restart_alt</span><span>⟳ Test Pull to Refresh</span></button><div class="flex items-center gap-1 text-[11px] text-secondary font-label-sm"><span class="material-symbols-outlined text-[13px] text-outline">touch_app</span><span>Swipe down on registry</span></div></div>
+<!-- Top Metrics / Context Bar -->
+<section class="px-gutter-mobile pt-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[18px]">group</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Customers</h1>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed-variant font-semibold">
+              4 buyers
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Approved buyers &amp; institutional discounting profiles</p>
+</div>
+</div>
+<button class="bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md px-space-md py-2 rounded-lg transition-all flex items-center gap-1 shadow-sm active:scale-95" id="openAddBuyerBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>+ Add buyer</span>
+</button>
+</div>
+<!-- Micro Exposure Ticker Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Total Active Exposure</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">₹24,85,200.00</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span> 3 TReDS Active
+        </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Clearing cycle: T+1</span>
+</div>
+</div>
+</section>
+<!-- Search & Filter Area -->
+<section class="px-gutter-mobile pt-space-md flex flex-col gap-space-xs">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
+<input class="w-full pl-9 pr-8 py-2 bg-surface-container-lowest rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline shadow-sm focus:outline-none focus:bg-surface-container-low transition-colors" id="buyerSearchInput" placeholder="Search buyer name, PAN, or GSTIN..." type="text"/>
+<button class="hidden absolute right-2.5 top-2.5 text-outline hover:text-on-surface" id="clearSearchBtn">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Horizontal Category Chips -->
+<div class="flex items-center gap-1.5 overflow-x-auto py-1 no-scrollbar text-nowrap">
+<button class="bg-primary-container text-on-primary font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">All (4)</button>
+<button class="bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">CPSE (1)</button>
+<button class="bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">Private (3)</button>
+<button class="bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm px-3 py-1 rounded-full shadow-sm">TReDS Ready (3)</button>
+</div>
+</section>
+<!-- Table Container with Horizontal Scroll Rule & Swipe Indicator -->
+<section class="px-gutter-mobile pt-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Buyer Registry</span>
+<div class="flex items-center gap-1 text-primary bg-surface-container-high px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[12px]">swipe</span>
+<span class="font-label-sm text-[10px] uppercase font-bold tracking-wide">Scroll horizontally</span>
+</div>
+</div>
+<!-- Horizontally Scrollable Table Canvas -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="w-full overflow-x-auto">
+<table class="w-full min-w-[580px] text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-3 font-semibold" scope="col">Buyer</th>
+<th class="py-3 px-3 font-semibold" scope="col">GSTIN</th>
+<th class="py-3 px-2 font-semibold" scope="col">Type</th>
+<th class="py-3 px-2 font-semibold" scope="col">TReDS</th>
+<th class="py-3 px-3 text-right font-semibold" scope="col">Outstanding</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-transparent" id="buyerTableBody">
+<!-- Row 1: BHEL -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface flex flex-col">
+<span class="truncate max-w-[180px]">Bharat Heavy Electricals Ltd (BHEL)</span>
+<span class="font-label-sm text-[10px] text-secondary">Govt. Enterprise</span>
+</td>
+<td class="py-3 px-3 font-mono text-[11px] text-on-surface-variant select-all">
+                07AAACB1201P1ZM
+              </td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-secondary-fixed-variant font-semibold">
+                  CPSE
+                </span>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-semibold flex items-center w-max gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>
+                  Yes
+                </span>
+</td>
+<td class="py-3 px-3 text-right font-semibold font-mono text-on-surface">
+                ₹8,42,100.00
+              </td>
+</tr>
+<!-- Row 2: Tata Advanced Systems -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface flex flex-col">
+<span class="truncate max-w-[180px]">Tata Advanced Systems</span>
+<span class="font-label-sm text-[10px] text-secondary">Aerospace &amp; Defense</span>
+</td>
+<td class="py-3 px-3 font-mono text-[11px] text-on-surface-variant select-all">
+                27AABCT2319K1ZX
+              </td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-secondary-fixed-variant font-semibold">
+                  Private
+                </span>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-semibold flex items-center w-max gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>
+                  Yes
+                </span>
+</td>
+<td class="py-3 px-3 text-right font-semibold font-mono text-on-surface">
+                ₹4,20,500.00
+              </td>
+</tr>
+<!-- Row 3: Mahindra Defense Systems -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface flex flex-col">
+<span class="truncate max-w-[180px]">Mahindra Defense Systems</span>
+<span class="font-label-sm text-[10px] text-secondary">Heavy Engineering</span>
+</td>
+<td class="py-3 px-3 font-mono text-[11px] text-on-surface-variant select-all">
+                27AAACM1290L1ZU
+              </td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-secondary-fixed-variant font-semibold">
+                  Private
+                </span>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-semibold flex items-center w-max gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>
+                  Yes
+                </span>
+</td>
+<td class="py-3 px-3 text-right font-semibold font-mono text-on-surface">
+                ₹2,13,000.00
+              </td>
+</tr>
+<!-- Row 4: Larsen & Toubro Hydrocarbon -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-3 font-semibold text-on-surface flex flex-col">
+<span class="truncate max-w-[180px]">Larsen &amp; Toubro Hydrocarbon</span>
+<span class="font-label-sm text-[10px] text-secondary">Energy &amp; EPC</span>
+</td>
+<td class="py-3 px-3 font-mono text-[11px] text-on-surface-variant select-all">
+                24AAACL0123M1Z8
+              </td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-secondary-fixed-variant font-semibold">
+                  Private
+                </span>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-semibold flex items-center w-max gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                  No
+                </span>
+</td>
+<td class="py-3 px-3 text-right font-semibold font-mono text-on-surface">
+                ₹10,09,600.00
+              </td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Guardrail Rule notice -->
+<div class="px-space-md py-2 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[14px]">lock_clock</span>
+<span class="font-label-sm text-[11px]">Read-only records. Modifications require KYC re-validation.</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">4 / 4 items</span>
+</div>
+</div>
+</section>
+<!-- Educational MSME Insight Banner -->
+<section class="px-gutter-mobile pt-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-start gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-tertiary flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Immutable Enterprise Registry</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-tight">
+          Per TReDS compliance requirements, buyer profiles are locked once confirmed. There is no edit or delete option. Only creation of verified buyer entities is permitted.
+        </p>
+</div>
+</div>
+</section>
+<!-- Add Buyer Drawer / Bottom Sheet (Modal/Drawer for /buyers/create) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-[2px] transition-opacity duration-300 opacity-0 pointer-events-none flex items-end justify-center" id="buyerDrawerOverlay">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-t-2xl shadow-xl flex flex-col p-space-lg transform translate-y-full transition-transform duration-300 max-h-[795px] overflow-y-auto" id="buyerDrawerContent">
+<!-- Sheet Handle -->
+<div class="w-10 h-1 bg-outline-variant rounded-full mx-auto mb-space-sm"></div>
+<!-- Drawer Header -->
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-tertiary uppercase tracking-wider font-semibold">/buyers/create</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">New Buyer</h2>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="closeDrawerBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+        Add an institutional partner to request auto-discounting and generate TReDS e-invoices.
+      </p>
+<!-- Form Exact Wireframe Fields -->
+<form class="flex flex-col gap-space-md" id="newBuyerForm">
+<!-- Field 1: Buyer name -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="drawerBuyerName">
+            Buyer name <span class="text-error">*</span>
+</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm" id="drawerBuyerName" placeholder="e.g., Bharat Forge Limited" required="" type="text"/>
+</div>
+<!-- Field 2: GSTIN -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="drawerBuyerGstin">
+            GSTIN <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full uppercase font-mono px-3 py-2 bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm" id="drawerBuyerGstin" maxlength="15" placeholder="e.g., 27AAACB2212M1Z0" required="" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-outline text-[18px]">badge</span>
+</div>
+<span class="font-label-sm text-[10px] text-secondary">Must be a valid 15-character Indian GST identification number</span>
+</div>
+<!-- Field 3: Type (CPSE / PSU / Private) -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold">
+            Type <span class="text-error">*</span>
+</label>
+<div class="grid grid-cols-3 gap-2">
+<label class="flex items-center justify-center p-2 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container has-[:checked]:bg-primary-container has-[:checked]:text-on-primary text-on-surface transition-all shadow-sm">
+<input checked="" class="sr-only" name="buyerType" type="radio" value="CPSE"/>
+<span class="font-label-md text-label-md font-semibold">CPSE</span>
+</label>
+<label class="flex items-center justify-center p-2 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container has-[:checked]:bg-primary-container has-[:checked]:text-on-primary text-on-surface transition-all shadow-sm">
+<input class="sr-only" name="buyerType" type="radio" value="PSU"/>
+<span class="font-label-md text-label-md font-semibold">PSU</span>
+</label>
+<label class="flex items-center justify-center p-2 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container has-[:checked]:bg-primary-container has-[:checked]:text-on-primary text-on-surface transition-all shadow-sm">
+<input class="sr-only" name="buyerType" type="radio" value="Private"/>
+<span class="font-label-md text-label-md font-semibold">Private</span>
+</label>
+</div>
+</div>
+<!-- Field 4: TReDS onboarded? (Unknown / Yes / No) -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold">
+            TReDS onboarded? <span class="text-error">*</span>
+</label>
+<div class="grid grid-cols-3 gap-2">
+<label class="flex items-center justify-center p-2 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container has-[:checked]:bg-primary-container has-[:checked]:text-on-primary text-on-surface transition-all shadow-sm">
+<input checked="" class="sr-only" name="tredsStatus" type="radio" value="Unknown"/>
+<span class="font-label-md text-label-md font-semibold">Unknown</span>
+</label>
+<label class="flex items-center justify-center p-2 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container has-[:checked]:bg-primary-container has-[:checked]:text-on-primary text-on-surface transition-all shadow-sm">
+<input class="sr-only" name="tredsStatus" type="radio" value="Yes"/>
+<span class="font-label-md text-label-md font-semibold">Yes</span>
+</label>
+<label class="flex items-center justify-center p-2 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container has-[:checked]:bg-primary-container has-[:checked]:text-on-primary text-on-surface transition-all shadow-sm">
+<input class="sr-only" name="tredsStatus" type="radio" value="No"/>
+<span class="font-label-md text-label-md font-semibold">No</span>
+</label>
+</div>
+</div>
+<!-- Policy Note -->
+<div class="p-2.5 bg-surface-container-low rounded-lg text-secondary font-label-sm text-[11px] leading-relaxed">
+<span class="font-semibold text-on-surface">Important:</span> Creating this buyer registers them immediately. As per wireframe constraints, buyers cannot be edited or deleted once entered.
+        </div>
+<!-- Submit Button -->
+<div class="pt-space-xs flex items-center gap-space-sm">
+<button class="flex-1 py-2.5 bg-surface-container text-on-surface font-label-md text-label-md rounded-lg text-center hover:bg-surface-container-high transition-colors" id="cancelDrawerBtn" type="button">
+            Cancel
+          </button>
+<button class="flex-2 w-full py-2.5 bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-lg text-center shadow-md font-semibold transition-all flex items-center justify-center gap-1.5" type="submit">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+            Save
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Persistent Mobile Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest shadow-[0_-2px_10px_rgba(0,0,0,0.06)] border-b border-surface-container-low px-2 py-2.5 grid grid-cols-5 items-center justify-around">
+<!-- 1. Overview -->
+<a class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-sm text-[10px] tracking-tight mt-0.5">Overview</span>
+</a>
+<!-- 2. Invoices -->
+<a class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="font-label-sm text-[10px] tracking-tight mt-0.5">Invoices</span>
+</a>
+<!-- 3. Customers (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-primary font-semibold transition-colors" href="#">
+<div class="relative flex flex-col items-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-sm text-[10px] tracking-tight mt-0.5 font-bold">Customers</span>
+<span class="w-1 h-1 rounded-full bg-primary mt-0.5"></span>
+</div>
+</a>
+<!-- 4. Finance -->
+<a class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+<span class="font-label-sm text-[10px] tracking-tight mt-0.5">Finance</span>
+</a>
+<!-- 5. Reports -->
+<a class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-sm text-[10px] tracking-tight mt-0.5">Settings</span>
+</a>
+</nav>
+</div>
+<script>
+  (function initCustomerScreen() {
+    const openBtn = document.getElementById('openAddBuyerBtn');
+    const closeBtn = document.getElementById('closeDrawerBtn');
+    const cancelBtn = document.getElementById('cancelDrawerBtn');
+    const overlay = document.getElementById('buyerDrawerOverlay');
+    const sheet = document.getElementById('buyerDrawerContent');
+    const form = document.getElementById('newBuyerForm');
+    const searchInput = document.getElementById('buyerSearchInput');
+    const clearSearch = document.getElementById('clearSearchBtn');
+    const tableBody = document.getElementById('buyerTableBody');
+
+    function openDrawer() {
+      overlay.classList.remove('pointer-events-none');
+      overlay.classList.add('opacity-100');
+      overlay.classList.remove('opacity-0');
+      sheet.classList.remove('translate-y-full');
+      sheet.classList.add('translate-y-0');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      overlay.classList.add('pointer-events-none');
+      overlay.classList.remove('opacity-100');
+      overlay.classList.add('opacity-0');
+      sheet.classList.add('translate-y-full');
+      sheet.classList.remove('translate-y-0');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeDrawer);
+
+    if (overlay) {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          closeDrawer();
+        }
+      });
+    }
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('drawerBuyerName').value.trim();
+        const gstin = document.getElementById('drawerBuyerGstin').value.trim();
+        const typeElem = document.querySelector('input[name="buyerType"]:checked');
+        const tredsElem = document.querySelector('input[name="tredsStatus"]:checked');
+        
+        const type = typeElem ? typeElem.value : 'Private';
+        const treds = tredsElem ? tredsElem.value : 'Unknown';
+
+        if (!name || !gstin) return;
+
+        // Append new row into the table
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-surface-container-low transition-colors bg-surface-container-low/40';
+
+        let tredsBadgeClass = 'bg-surface-container-high text-on-surface-variant';
+        let tredsDot = 'bg-outline';
+        if (treds === 'Yes') {
+          tredsBadgeClass = 'bg-surface-container text-tertiary';
+          tredsDot = 'bg-surface-tint';
+        }
+
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-semibold text-on-surface flex flex-col">
+            <span class="truncate max-w-[180px]">${name}</span>
+            <span class="font-label-sm text-[10px] text-tertiary">Recently added</span>
+          </td>
+          <td class="py-3 px-3 font-mono text-[11px] text-on-surface-variant select-all">
+            ${gstin}
+          </td>
+          <td class="py-3 px-2">
+            <span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-secondary-fixed-variant font-semibold">
+              ${type}
+            </span>
+          </td>
+          <td class="py-3 px-2">
+            <span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full ${tredsBadgeClass} font-semibold flex items-center w-max gap-1">
+              <span class="w-1.5 h-1.5 rounded-full ${tredsDot}"></span>
+              ${treds}
+            </span>
+          </td>
+          <td class="py-3 px-3 text-right font-semibold font-mono text-on-surface">
+            ₹0.00
+          </td>
+        `;
+
+        tableBody.prepend(tr);
+        form.reset();
+        closeDrawer();
+      });
+    }
+
+    // Live search filter across rows
+    if (searchInput) {
+      searchInput.addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase();
+        if (clearSearch) {
+          clearSearch.classList.toggle('hidden', query.length === 0);
+        }
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(function(row) {
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(query) ? '' : 'none';
+        });
+      });
+    }
+
+    if (clearSearch) {
+      clearSearch.addEventListener('click', function() {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.focus();
+      });
+    }
+  })();
+</script><script>(function initPullToRefresh() { const ptrContainer = document.getElementById('ptrContainer'); const ptrIconWrapper = document.getElementById('ptrIconWrapper'); const ptrIcon = document.getElementById('ptrIcon'); const ptrSpinner = document.getElementById('ptrSpinner'); const ptrSuccessIcon = document.getElementById('ptrSuccessIcon'); const ptrStatusText = document.getElementById('ptrStatusText'); const ptrSubText = document.getElementById('ptrSubText'); const ptrBadgeText = document.getElementById('ptrBadgeText'); const ptrCard = document.getElementById('ptrCard'); const testTriggerBtn = document.getElementById('testPtrTriggerBtn'); const headerRefreshBtn = document.getElementById('headerRefreshBtn'); const headerRefreshIcon = document.getElementById('headerRefreshIcon'); if (!ptrContainer) return; let isDragging = false; let startY = 0; let currentY = 0; let isRefreshing = false; const THRESHOLD = 65; const MAX_HEIGHT = 86; let passedThreshold = false; function triggerHaptic() { try { if (navigator.vibrate) navigator.vibrate(12); } catch (e) {} } function setPullState(height) { ptrContainer.style.transition = 'none'; ptrContainer.style.height = height + 'px'; ptrContainer.style.opacity = Math.min(1, height / 30).toString(); const progress = Math.min(1, height / THRESHOLD); const rotation = progress * 180; if (height >= THRESHOLD) { if (!passedThreshold) { triggerHaptic(); passedThreshold = true; } ptrIcon.style.transform = 'rotate(180deg)'; ptrIconWrapper.className = 'w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center transition-all duration-200 shadow-sm'; ptrStatusText.textContent = 'Release to sync MCA & GSTN records'; ptrStatusText.className = 'font-label-md text-label-md font-semibold text-primary transition-colors leading-tight'; ptrBadgeText.textContent = 'Ready'; } else { passedThreshold = false; ptrIcon.style.transform = 'rotate(' + rotation + 'deg)'; ptrIconWrapper.className = 'w-8 h-8 rounded-full bg-surface-container-low text-primary flex items-center justify-center transition-all duration-200'; ptrStatusText.textContent = 'Pull down to refresh buyer registry'; ptrStatusText.className = 'font-label-md text-label-md font-semibold text-on-surface transition-colors leading-tight'; ptrBadgeText.textContent = 'TReDS Sync'; } } function executeRefresh() { if (isRefreshing) return; isRefreshing = true; ptrContainer.style.transition = 'height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease'; ptrContainer.style.height = '60px'; ptrContainer.style.opacity = '1'; if (headerRefreshIcon) headerRefreshIcon.classList.add('animate-spin'); ptrIcon.classList.add('hidden'); ptrSuccessIcon.classList.add('hidden'); ptrSpinner.classList.remove('hidden'); ptrIconWrapper.className = 'w-8 h-8 rounded-full bg-surface-container text-primary flex items-center justify-center transition-all duration-200'; ptrStatusText.textContent = 'Verifying enterprise CIN, GSTIN & TReDS registry limits...'; ptrStatusText.className = 'font-label-md text-[13px] font-semibold text-on-surface transition-colors leading-tight'; ptrSubText.textContent = 'Live handshake with RXIL, M1xchange & Invoicemart'; ptrBadgeText.textContent = 'Syncing...'; setTimeout(function() { triggerHaptic(); ptrSpinner.classList.add('hidden'); ptrSuccessIcon.classList.remove('hidden'); ptrIconWrapper.className = 'w-8 h-8 rounded-full bg-surface-container text-tertiary flex items-center justify-center transition-all duration-200'; ptrStatusText.textContent = 'Buyer Registry & Limits Synchronized'; ptrStatusText.className = 'font-label-md text-label-md font-semibold text-tertiary transition-colors leading-tight'; ptrSubText.textContent = '4 Institutional profiles validated · Just now'; ptrBadgeText.textContent = 'Verified'; if (headerRefreshIcon) headerRefreshIcon.classList.remove('animate-spin'); setTimeout(function() { ptrContainer.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease'; ptrContainer.style.height = '0px'; ptrContainer.style.opacity = '0'; setTimeout(function() { isRefreshing = false; passedThreshold = false; ptrSuccessIcon.classList.add('hidden'); ptrIcon.classList.remove('hidden'); ptrIcon.style.transform = 'rotate(0deg)'; ptrIconWrapper.className = 'w-8 h-8 rounded-full bg-surface-container-low text-primary flex items-center justify-center transition-all duration-200'; ptrStatusText.textContent = 'Pull down to refresh buyer registry'; ptrStatusText.className = 'font-label-md text-label-md font-semibold text-on-surface transition-colors leading-tight'; ptrSubText.textContent = 'Clearing cycle: T+1 · Last synced: just now'; ptrBadgeText.textContent = 'TReDS Sync'; }, 320); }, 1200); }, 1400); } window.addEventListener('touchstart', function(e) { if (window.scrollY <= 4 && !isRefreshing) { isDragging = true; startY = e.touches[0].pageY; } }, { passive: true }); window.addEventListener('touchmove', function(e) { if (!isDragging || isRefreshing) return; currentY = e.touches[0].pageY; const dragDelta = currentY - startY; if (dragDelta > 0 && window.scrollY <= 4) { const resistedHeight = Math.min(MAX_HEIGHT, Math.pow(dragDelta, 0.82)); setPullState(resistedHeight); if (e.cancelable) e.preventDefault(); } }, { passive: false }); window.addEventListener('touchend', function() { if (!isDragging || isRefreshing) return; isDragging = false; if (passedThreshold) { executeRefresh(); } else { ptrContainer.style.transition = 'height 0.2s ease, opacity 0.2s ease'; ptrContainer.style.height = '0px'; ptrContainer.style.opacity = '0'; } }); if (testTriggerBtn) testTriggerBtn.addEventListener('click', executeRefresh); if (headerRefreshBtn) headerRefreshBtn.addEventListener('click', executeRefresh); })();</script></main><footer class="w-full bg-surface-container-lowest py-space-md shadow-[0_-1px_4px_rgba(0,0,0,0.02)] mt-space-xl"><div class="w-full px-margin flex flex-col sm:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 PayKaro Technologies Ltd. Secured TReDS Gateway.</span><span class="text-outline-variant">·</span><span class="font-label-sm text-label-sm text-secondary">RBI Regulated MSME Invoicing Network</span></div><div class="flex items-center gap-space-md font-label-sm text-label-sm text-on-surface-variant"><a class="hover:text-primary transition-colors" href="#">Settlement Policy</a><a class="hover:text-primary transition-colors" href="#">Audited Trust Disclosures</a><a class="hover:text-primary transition-colors" href="#">API Status</a></div></div></footer>
+</body></html>

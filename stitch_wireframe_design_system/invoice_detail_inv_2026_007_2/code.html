@@ -1,0 +1,719 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PayKaro - Invoice Detail (INV-2026-007)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed": "#dbe1ff",
+            "on-secondary-fixed-variant": "#3e4660",
+            "tertiary": "#00496b",
+            "outline-variant": "#c4c5d7",
+            "secondary-fixed-dim": "#bec5e5",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#0039b5",
+            "tertiary-fixed": "#c9e6ff",
+            "on-tertiary-container": "#abdaff",
+            "on-surface": "#0b1c30",
+            "inverse-primary": "#b7c4ff",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#b7c4ff",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f8f9ff",
+            "on-primary-container": "#cad3ff",
+            "background": "#f8f9ff",
+            "tertiary-fixed-dim": "#89ceff",
+            "on-secondary": "#ffffff",
+            "on-background": "#0b1c30",
+            "primary-container": "#1d4ed8",
+            "on-primary-fixed": "#001551",
+            "surface-container": "#e5eeff",
+            "outline": "#747686",
+            "surface": "#f8f9ff",
+            "on-tertiary": "#ffffff",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-container-low": "#eff4ff",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed-variant": "#004c6e",
+            "on-secondary-container": "#5a627e",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-surface": "#213145",
+            "secondary-container": "#d8deff",
+            "surface-dim": "#cbdbf5",
+            "on-surface-variant": "#434655",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#131a33",
+            "on-primary": "#ffffff",
+            "surface-container-high": "#dce9ff",
+            "secondary": "#565d79",
+            "tertiary-container": "#00628d",
+            "primary-fixed": "#dce1ff",
+            "surface-tint": "#2151da",
+            "on-tertiary-fixed": "#001e2f",
+            "error": "#ba1a1a",
+            "primary": "#0037b0"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter": "1.5rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "margin": "2rem"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-surface font-sans text-on-surface min-h-screen antialiased">
+<!-- Top Application Shell -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-[0_1px_3px_0_rgba(11,19,43,0.04),0_1px_2px_-1px_rgba(11,19,43,0.02)]">
+<!-- Utility Ribbon -->
+<div class="h-9 border-b border-surface-container bg-surface-container-low px-margin flex items-center justify-between text-xs text-on-surface-variant font-medium">
+<div class="flex items-center gap-2">
+<span class="text-on-surface font-semibold">Shree Precision Components</span>
+<span class="text-outline-variant">·</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-surface-container-highest text-primary font-medium">Demo workspace</span>
+</div>
+<div class="flex items-center gap-4 text-xs">
+<a class="hover:text-primary transition-colors" data-path="pricing" href="#">Pricing</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" data-path="help" href="#">Help</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" data-path="contact" href="#">Contact</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" data-path="sign-out" href="#">Sign out</a>
+</div>
+</div>
+<!-- Main Navigation Bar -->
+<div class="h-[64px] px-margin flex items-center justify-between gap-space-lg bg-surface-container-lowest">
+<!-- Logo & Workspace Identity -->
+<div class="flex items-center gap-3 min-w-[200px]">
+
+<div class="flex flex-col">
+<span class="text-xl font-bold tracking-tight text-on-surface leading-none">PayKaro</span>
+<span class="text-[10px] text-secondary font-semibold tracking-wider uppercase leading-tight mt-0.5">MSME Receivables</span>
+</div>
+</div>
+<!-- Omnisearch Bar -->
+<div class="flex-1 max-w-xl mx-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-surface-container-low border border-outline-variant/60 rounded-lg text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search invoices, buyers, GSTIN..." type="text">
+</div>
+</div>
+<!-- Global Actions & Avatar -->
+<div class="flex items-center gap-4">
+<a class="inline-flex items-center gap-1.5 h-10 px-4 bg-primary hover:bg-primary-container text-on-primary font-semibold text-sm rounded-lg shadow-sm transition-colors" data-path="new-invoice" href="#">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ New invoice</span>
+</a>
+<div class="h-6 w-px bg-surface-container"></div>
+<div class="flex items-center gap-3">
+<img alt="Sunita Rao" class="w-9 h-9 rounded-full object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJiRVVxRS-7xmxQuOxuXI_VH4HgQlzzyydxTEJCy4oPgrLrCJTNenrAzaFKbygK3ebIBUDqYMAe4UiMA-IcIVL4DZlDaDUPBb-zbioGtPuRcfdlaouwu83UfB-n3JC1iBpI8tmPnm5e5OQ0ATOyiUoNGwp4eQvnu6IeS48_SFRTgS5yYFkKd8a_30eToTrDn4lcBfyMxqCW9w9QzNBtJQFLi_LiZoe8a0wIuHWGE_AZPof6X5l0V2V">
+<div class="hidden lg:flex flex-col text-left">
+<span class="text-sm text-on-surface leading-tight font-semibold">Sunita Rao</span>
+<span class="text-[11px] text-secondary font-bold uppercase tracking-wider leading-none mt-0.5">OWNER</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Product Navigation Tabs -->
+<div class="h-11 px-margin border-t border-surface-container bg-surface-container-lowest flex items-center">
+<nav class="flex items-center gap-8 h-full text-sm">
+<a class="h-full flex items-center text-secondary hover:text-on-surface font-medium border-b-2 border-transparent transition-colors" data-path="overview" href="#">Overview</a>
+<a aria-current="page" class="h-full flex items-center text-primary font-bold border-b-2 border-primary transition-colors" data-path="invoices" href="#">Invoices</a>
+<a class="h-full flex items-center text-secondary hover:text-on-surface font-medium border-b-2 border-transparent transition-colors" data-path="customers" href="#">Customers</a>
+<a class="h-full flex items-center text-secondary hover:text-on-surface font-medium border-b-2 border-transparent transition-colors" data-path="finance" href="#">Finance</a>
+<a class="h-full flex items-center text-secondary hover:text-on-surface font-medium border-b-2 border-transparent transition-colors" data-path="reports" href="#">Reports</a>
+<a class="h-full flex items-center text-secondary hover:text-on-surface font-medium border-b-2 border-transparent transition-colors" data-path="settings" href="#">Settings</a>
+</nav>
+</div>
+</header>
+<!-- Main View Area -->
+<main class="w-full pt-[144px] bg-surface min-h-screen px-margin py-6 max-w-[1440px] mx-auto">
+<div class="flex flex-col w-full gap-6 pb-12">
+<!-- Breadcrumbs & Context Header -->
+<div class="flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-sm text-secondary">
+<a class="hover:text-primary transition-colors flex items-center gap-1 font-medium" data-path="invoices" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            Invoices
+          </a>
+<span class="text-secondary/40">/</span>
+<span class="text-on-surface font-bold">INV-2026-007</span>
+<span class="text-secondary/40">/</span>
+<span class="text-xs px-2.5 py-0.5 rounded-full bg-surface-container-highest text-secondary font-semibold">MSMED Act 2006 (Sec 18 Active)</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-container text-on-error-container text-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span>Statutory Conciliation Active</span>
+</div>
+<span class="text-secondary/30">|</span>
+<span class="text-xs text-secondary font-medium">Last synchronized: Today, 14:32 IST</span>
+</div>
+</div>
+<!-- BLOCK 1: Invoice Header Card -->
+<div class="relative bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6 overflow-hidden">
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-error/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+<div class="flex flex-col gap-2">
+<div class="flex flex-wrap items-center gap-3">
+<h1 class="text-2xl lg:text-3xl font-bold text-on-surface tracking-tight">INV-2026-007</h1>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-container text-on-error-container text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[15px]">gavel</span>
+                Disputed (MSEFC)
+              </span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-secondary font-medium">
+                FY 2025-26
+              </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-secondary">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">apartment</span>
+<span>Buyer: <strong class="text-on-surface font-semibold">Bharat Heavy Electricals Ltd</strong></span>
+</span>
+<span class="text-secondary/40">•</span>
+<span>GSTIN: <span class="text-on-surface font-mono font-semibold">27AAACB2000P1Z1</span></span>
+<span class="text-secondary/40">•</span>
+<span class="inline-flex items-center gap-1 text-primary font-medium">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+                Central Public Sector Enterprise (CPSE)
+              </span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center gap-6 lg:gap-8">
+<div class="flex flex-col sm:text-right">
+<span class="text-xs uppercase font-bold tracking-wider text-secondary">Outstanding Balance</span>
+<span class="text-3xl font-extrabold text-error tracking-tight">₹8,42,100.00</span>
+<span class="text-xs text-secondary mt-0.5">Total Bill: ₹12,65,000.00 (₹4,22,900 cleared)</span>
+</div>
+<div class="flex items-center gap-3 flex-wrap">
+<button class="inline-flex items-center gap-1.5 h-10 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-semibold text-sm border border-outline-variant/50 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">edit_document</span>
+<span>Edit</span>
+</button>
+<button class="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-semibold text-sm transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">folder_special</span>
+<span>View Claim Packet</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- BLOCK 2: Move It Forward - Status Pipeline Control -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6">
+<div class="flex items-center justify-between mb-4">
+<div>
+<span class="text-xs font-bold uppercase tracking-wider text-secondary">Workflow Orchestration</span>
+<h2 class="text-lg font-bold text-on-surface">Move It Forward</h2>
+</div>
+<span class="text-xs font-semibold px-3 py-1 rounded-full bg-surface-container text-secondary">
+            Statutory 45-Day Overdue Flag (Section 15)
+          </span>
+</div>
+<!-- Pipeline Stage Track -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+<!-- Stage 1: Raised -->
+<div class="flex flex-col p-3.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center justify-between mb-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-xs font-bold shadow-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</span>
+<span class="text-xs font-semibold text-secondary">12 Oct 2025</span>
+</div>
+<span class="text-sm text-on-surface font-bold">1. Raised</span>
+<span class="text-xs text-secondary mt-0.5">e-Invoice signed</span>
+</div>
+<!-- Stage 2: Accepted -->
+<div class="flex flex-col p-3.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center justify-between mb-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-xs font-bold shadow-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</span>
+<span class="text-xs font-semibold text-secondary">19 Oct 2025</span>
+</div>
+<span class="text-sm text-on-surface font-bold">2. Accepted</span>
+<span class="text-xs text-secondary mt-0.5">Material delivered</span>
+</div>
+<!-- Stage 3: Financed -->
+<div class="flex flex-col p-3.5 rounded-lg bg-surface-container-low border border-surface-container/60 opacity-80">
+<div class="flex items-center justify-between mb-2">
+<span class="w-6 h-6 rounded-full bg-surface-container text-secondary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-[14px]">horizontal_rule</span>
+</span>
+<span class="text-xs text-secondary font-medium">Bypassed</span>
+</div>
+<span class="text-sm text-on-surface font-bold">3. Financed</span>
+<span class="text-xs text-secondary mt-0.5">TReDS unbid</span>
+</div>
+<!-- Stage 4: Settled -->
+<div class="flex flex-col p-3.5 rounded-lg bg-surface-container-low border border-surface-container/60 opacity-80">
+<div class="flex items-center justify-between mb-2">
+<span class="w-6 h-6 rounded-full bg-surface-container text-secondary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</span>
+<span class="text-xs text-secondary font-medium">Pending</span>
+</div>
+<span class="text-sm text-on-surface font-bold">4. Settled</span>
+<span class="text-xs text-secondary mt-0.5">Partial (₹4.22L)</span>
+</div>
+<!-- Stage 5: Disputed (Active) -->
+<div class="flex flex-col p-3.5 rounded-lg bg-error-container text-on-error-container shadow-sm ring-2 ring-error border border-error/20">
+<div class="flex items-center justify-between mb-2">
+<span class="w-6 h-6 rounded-full bg-error text-on-error flex items-center justify-center text-xs shadow">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+</span>
+<span class="text-[11px] font-extrabold uppercase tracking-wider bg-error/10 px-2 py-0.5 rounded">CURRENT</span>
+</div>
+<span class="text-sm font-bold">5. Disputed</span>
+<span class="text-xs font-medium mt-0.5">MSEFC Sec 18 Active</span>
+</div>
+</div>
+</div>
+<!-- Primary Working Grid: Asymmetric 8 / 4 Architecture -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- LEFT COLUMN: Operational Details (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- BLOCK 3: Evidence Checklist -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6">
+<div class="flex items-center justify-between mb-5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">checklist</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Evidence Checklist</h3>
+<p class="text-xs text-secondary">Statutory compliance bundle required under MSMED Section 18 filings</p>
+</div>
+</div>
+<span class="text-xs px-3 py-1 rounded-full bg-secondary-container text-on-secondary-fixed font-bold">
+                4 / 5 Verified
+              </span>
+</div>
+<div class="flex flex-col divide-y divide-surface-container border-t border-b border-surface-container">
+<!-- Item 1: Purchase Order -->
+<div class="py-3.5 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-bold text-on-surface truncate">Purchase order (PO)</span>
+<span class="text-xs text-secondary truncate">PO-BHEL-8821.pdf • Required • Digitally verified</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">Required ✅</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors" title="View Document" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Delivery Acknowledgement -->
+<div class="py-3.5 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-bold text-on-surface truncate">Delivery acknowledgement (Delivery ack)</span>
+<span class="text-xs text-secondary truncate">Consignment #VRL-99201 signed at Ranipet gate</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">Required ✅</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors" title="View Document" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Item 3: Goods Receipt Note (GRN) -->
+<div class="py-3.5 flex items-center justify-between gap-4 bg-amber-50/40 -mx-6 px-6">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">hourglass_top</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-bold text-on-surface truncate">Goods receipt note (GRN)</span>
+<span class="text-xs text-error font-medium truncate">Pending buyer countersignature • Issue raised on inspection</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-semibold border border-amber-300">Required ⚠️</span>
+<button class="inline-flex items-center gap-1 h-8 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container border border-outline-variant text-secondary text-xs font-semibold transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">upload</span>
+<span>Upload</span>
+</button>
+</div>
+</div>
+<!-- Item 4: GST-valid invoice copy -->
+<div class="py-3.5 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-bold text-on-surface truncate">GST-valid invoice copy (GST copy)</span>
+<span class="text-xs text-secondary truncate">IRN: 8a93e...fe201 • GSTR-1 matching complete</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">Required ✅</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors" title="View Document" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Item 5: Contract -->
+<div class="py-3.5 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-full bg-surface-container text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">description</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-bold text-on-surface truncate">Contract (Contract)</span>
+<span class="text-xs text-secondary truncate">Master Service Agreement Annexure 4.1</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="text-xs px-2.5 py-1 rounded-full bg-surface-container text-secondary font-semibold">Optional</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors" title="Add Contract Details" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- BLOCK 4: Payments Ledger & Inline Record Form -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Payments &amp; Receipts</h3>
+<p class="text-xs text-secondary">Reconciled credits linked to UTR timestamps</p>
+</div>
+</div>
+<span class="text-sm font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+                Cleared: ₹4,22,900.00
+              </span>
+</div>
+<!-- Ledger History Table -->
+<div class="overflow-x-auto border border-surface-container rounded-lg">
+<table class="w-full text-left text-sm">
+<thead>
+<tr class="bg-surface-container-low text-secondary text-xs uppercase tracking-wider font-bold">
+<th class="py-3 px-4">Date</th>
+<th class="py-3 px-4">Method</th>
+<th class="py-3 px-4">Reference / UTR</th>
+<th class="py-3 px-4 text-right">Amount</th>
+<th class="py-3 px-4 text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-on-surface">
+<tr class="hover:bg-surface-container-low/50">
+<td class="py-3 px-4 font-medium">28 Oct 2025</td>
+<td class="py-3 px-4 font-semibold text-secondary">NEFT / RTGS</td>
+<td class="py-3 px-4 text-secondary font-mono text-xs">BHEL/CMS/9928120</td>
+<td class="py-3 px-4 text-right font-bold">₹4,22,900.00</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">Cleared</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Inline Record Form -->
+<div class="mt-2 p-4 rounded-lg bg-surface-container-low border border-surface-container flex flex-col gap-3">
+<span class="text-sm font-bold text-on-surface">Record Payment</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-secondary">Amount (₹)</label>
+<input class="h-9 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:ring-2 focus:ring-primary focus:outline-none" type="text" value="₹8,42,100.00">
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-secondary">Paid on</label>
+<input class="h-9 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:ring-2 focus:ring-primary focus:outline-none" type="date" value="2025-12-18">
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-secondary">Method</label>
+<select class="h-9 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:ring-2 focus:ring-primary focus:outline-none">
+<option>RTGS / NEFT</option>
+<option>IMPS</option>
+<option>NACH Mandate</option>
+<option>Direct Bank Credit</option>
+<option>TReDS Settlement</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-secondary">Reference</label>
+<input class="h-9 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface text-sm placeholder:text-outline focus:ring-2 focus:ring-primary focus:outline-none" placeholder="UTR or Transaction ID" type="text">
+</div>
+</div>
+<div class="flex justify-end mt-1">
+<button class="h-9 px-5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-semibold text-sm transition-colors shadow-sm" type="button">
+                  Record payment
+                </button>
+</div>
+</div>
+</div>
+<!-- BLOCK 5: Financing & TReDS Portal Integration -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6 flex flex-col gap-4">
+<div class="flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[22px]">currency_rupee</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Financing &amp; TReDS Exchange</h3>
+<p class="text-xs text-secondary">Auction receivables across RXIL, M1xchange, or Invoicemart</p>
+</div>
+</div>
+<button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-semibold text-sm transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+<span>Finance this</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex flex-col gap-0.5">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider">Financier</span>
+<span class="text-sm font-bold text-on-surface">State Bank of India (RXIL)</span>
+<span class="text-xs text-secondary">Bid Grade: AA+</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider">Discount Rate</span>
+<span class="text-sm font-extrabold text-primary">7.85% p.a.</span>
+<span class="text-xs text-secondary">Repo + 1.35% spread</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider">Amount Disbursed</span>
+<span class="text-sm font-bold text-on-surface">₹7,95,000.00</span>
+<span class="text-xs text-secondary">Haircut: 5.6%</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider">Disbursed On</span>
+<span class="text-sm font-bold text-on-surface">Eligible Upon GRN</span>
+<span class="text-xs text-amber-700 font-medium">Awaiting Buyer Confirmation</span>
+</div>
+</div>
+</div>
+<!-- BLOCK 6: Dispute / Claim Orchestrator -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6 flex flex-col gap-4 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error"></div>
+<div class="flex flex-wrap items-center justify-between gap-3 pl-1">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">Dispute &amp; Statutory Legal Claim</h3>
+<p class="text-xs text-secondary">Facilitation Council recovery under Chapter V, Section 18</p>
+</div>
+</div>
+<button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-lg bg-error hover:bg-error/90 text-on-error font-semibold text-sm transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span>Start claim</span>
+</button>
+</div>
+<!-- Calculated Statutory Deadline Banner -->
+<div class="p-4 rounded-lg bg-error-container/80 text-on-error-container flex items-start gap-3 border border-error/20">
+<span class="material-symbols-outlined text-[22px] text-error mt-0.5 shrink-0">timer</span>
+<div class="flex flex-col flex-1">
+<span class="text-sm font-bold">MSEFC dispute filing deadline approaching in 4 days - 22 Dec 2025</span>
+<p class="text-xs mt-1 leading-relaxed">
+                  Calculated statutory base: <strong>22 Dec 2025</strong>. If BHEL does not execute formal GRN signoff or release withheld balance within 4 calendar days, mandatory interest will compound monthly at 3× the RBI Bank Rate (currently 19.5% p.a.).
+                </p>
+</div>
+</div>
+<!-- Claim Config Field -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-secondary">Jurisdictional Forum</label>
+<select class="h-10 px-3 rounded-lg border border-outline-variant bg-surface-container-low text-on-surface text-sm font-medium focus:outline-none focus:ring-2 focus:ring-error">
+<option selected="">MSEFC (Tamil Nadu / Chennai Bench)</option>
+<option>Mediation (SAMADHAAN Portal)</option>
+<option>Arbitration (MSMED Council Panel)</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-secondary">Compound Interest Accrued</label>
+<div class="h-10 px-3 rounded-lg bg-surface-container-low border border-surface-container flex items-center text-sm text-error font-bold">
+                  + ₹41,830.40 (3× RBI Rate)
+                </div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-secondary">Council Reference Code</label>
+<div class="h-10 px-3 rounded-lg bg-surface-container-low border border-surface-container flex items-center text-xs text-secondary font-mono font-medium">
+                  TN/02/MSEFC/2025/APP-9021
+                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Intelligence & Relationship Rail (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- BLOCK 7: Readiness Card & Diagnostic -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold uppercase tracking-wider text-secondary">Filing Quality</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">speed</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Circular Progress Ring (Inline SVG) -->
+<div class="relative w-20 h-20 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+<!-- Background Circle -->
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<!-- Progress Circle (45%) -->
+<path class="text-amber-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="45, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<div class="absolute flex flex-col items-center justify-center">
+<span class="text-lg font-bold text-on-surface">45<span class="text-xs text-secondary font-medium">/100</span></span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-amber-800">Moderate Claim Risk</span>
+<p class="text-xs text-secondary mt-0.5 leading-tight">Council rejection likelihood at 32% due to missing countersign.</p>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low border border-surface-container flex flex-col gap-2">
+<span class="text-xs font-bold text-on-surface">Why is readiness not higher?</span>
+<div class="flex items-start gap-2 text-xs text-secondary leading-snug">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5 shrink-0">error</span>
+<span><strong>Evidence gap:</strong> GRN pending countersign by BHEL quality department.</span>
+</div>
+<div class="flex items-start gap-2 text-xs text-secondary leading-snug">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5 shrink-0">error</span>
+<span>Open formal conciliation dispute on specification tolerance.</span>
+</div>
+</div>
+<a class="text-xs font-semibold text-primary hover:underline flex items-center justify-between pt-1" href="#">
+<span>Resolve 2 evidence warnings</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- BLOCK 8: Counterparty Buyer Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold uppercase tracking-wider text-secondary">Counterparty</span>
+<a class="text-xs font-semibold text-primary hover:underline" data-path="customers" href="#">View CRM profile</a>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center font-bold text-primary text-base">
+                BH
+              </div>
+<div class="flex flex-col min-w-0">
+<h4 class="text-sm font-bold text-on-surface truncate">Bharat Heavy Electricals Ltd</h4>
+<span class="text-xs text-secondary truncate">Ranipet Boiler Auxiliaries Plant</span>
+</div>
+</div>
+<div class="flex flex-col divide-y divide-surface-container text-xs border-t border-b border-surface-container">
+<div class="py-2.5 flex justify-between">
+<span class="text-secondary">Entity Classification</span>
+<span class="font-semibold text-on-surface">Maharatna CPSE</span>
+</div>
+<div class="py-2.5 flex justify-between items-center">
+<span class="text-secondary">TReDS Onboarded</span>
+<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[11px]">Yes (RXIL / M1)</span>
+</div>
+<div class="py-2.5 flex justify-between items-center">
+<span class="text-secondary">Avg Payment Delay</span>
+<span class="font-bold text-error">78 days (Statutory limit: 45)</span>
+</div>
+<div class="py-2.5 flex justify-between">
+<span class="text-secondary">Active Conciliations</span>
+<span class="font-medium text-on-surface">3 vendors in cluster</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container flex items-center gap-2 text-xs text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0">contact_mail</span>
+<span class="truncate">finance.rec@bhel.in • Nodal Officer</span>
+</div>
+</div>
+<!-- BLOCK 9: Internal Docket Notes -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm p-6 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold uppercase tracking-wider text-secondary">Internal Docket Notes</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">lock</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low border border-surface-container text-on-surface text-xs leading-relaxed">
+              PO-BHEL-8821 for turbine precision machined flanges. Awaiting Section 18 formal conciliation notice response.
+            </div>
+<div class="flex items-center justify-between text-xs text-secondary font-medium">
+<span>Logged by: Sunita Rao (Owner)</span>
+<span>15 Dec 2025</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="w-full bg-surface-container-lowest border-t border-surface-container mt-12 py-6">
+<div class="max-w-[1440px] mx-auto px-margin flex flex-col sm:flex-row items-center justify-between text-xs text-secondary gap-4">
+<div>© 2025 PayKaro. MSMED Act 2006 Statutory Compliance &amp; Receivables Infrastructure.</div>
+<div class="flex items-center gap-6">
+<span class="text-primary font-semibold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          GSTN &amp; TReDS Verified
+        </span>
+<a class="hover:text-primary transition-colors" data-path="help" href="#">Compliance Support</a>
+<a class="hover:text-primary transition-colors" data-path="settings" href="#">Audit Logs</a>
+</div>
+</div>
+</footer>
+
+
+</body></html>

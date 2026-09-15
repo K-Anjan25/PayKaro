@@ -1,0 +1,356 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#131a33", "surface-container-low": "#eff4ff", "surface-dim": "#cbdbf5", "error": "#ba1a1a", "surface-tint": "#2151da", "surface-bright": "#f8f9ff", "tertiary-container": "#00628d", "on-primary-fixed": "#001551", "tertiary-fixed-dim": "#89ceff", "outline": "#747686", "inverse-on-surface": "#eaf1ff", "on-tertiary-container": "#abdaff", "secondary-container": "#d8deff", "surface-container-high": "#dce9ff", "inverse-surface": "#213145", "on-tertiary-fixed-variant": "#004c6e", "secondary-fixed": "#dbe1ff", "on-primary-fixed-variant": "#0039b5", "secondary-fixed-dim": "#bec5e5", "on-tertiary": "#ffffff", "secondary": "#565d79", "inverse-primary": "#b7c4ff", "surface-container-highest": "#d3e4fe", "primary-fixed": "#dce1ff", "primary": "#0037b0", "tertiary": "#00496b", "surface-variant": "#d3e4fe", "on-tertiary-fixed": "#001e2f", "surface": "#f8f9ff", "primary-container": "#1d4ed8", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "on-primary-container": "#cad3ff", "primary-fixed-dim": "#b7c4ff", "on-background": "#0b1c30", "tertiary-fixed": "#c9e6ff", "on-secondary-fixed-variant": "#3e4660", "background": "#f8f9ff", "error-container": "#ffdad6", "on-surface": "#0b1c30", "on-error-container": "#93000a", "on-secondary": "#ffffff", "outline-variant": "#c4c5d7", "on-secondary-container": "#5a627e", "on-error": "#ffffff", "on-surface-variant": "#434655", "surface-container": "#e5eeff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "space-xl": "2rem", "gutter-mobile": "1rem", "margin": "2rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "gutter": "1.5rem", "space-md": "1rem" }, "fontFamily": { "label-md": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }] } } } }</script></head><body class="bg-background font-body-md text-on-surface antialiased"><main class="w-full min-h-screen bg-background p-space-lg print:p-0"><div class="flex flex-col w-full">
+<!-- Interactive Controller / Print Header Bar -->
+<aside aria-label="Dossier Action Toolbar" class="w-full bg-surface-container-low p-space-md rounded-xl shadow-sm mb-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md print:hidden">
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center flex-shrink-0 mr-2"><span class="font-headline-sm text-headline-sm font-bold text-primary tracking-tight">PayKaro</span></div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface">Claim Packet — MSMED Act 2006 Statutory Conciliation Dossier</p>
+<p class="font-body-sm text-body-sm text-secondary">Target Reference: <span class="font-label-md text-label-md text-primary font-mono">INV-2026-007</span> • Institutional Default Filing System</p>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="px-space-lg py-space-sm bg-primary-container text-on-primary font-label-lg text-label-lg rounded-lg shadow-md hover:bg-primary transition-all flex items-center gap-space-xs cursor-pointer active:scale-95" id="printBtn" onclick="window.print()">
+<span class="material-symbols-outlined text-label-lg">print</span>
+<span class="">Print packet</span>
+</button>
+</div>
+</aside>
+<!-- Legal Paper Document Canvas -->
+<article class="w-full max-w-5xl mx-auto bg-surface-container-lowest text-on-surface p-8 md:p-12 rounded-xl shadow-xl print:shadow-none print:p-0 print:m-0 print:max-w-none flex flex-col gap-space-xl">
+<!-- 1. Document Header & Sovereign Seal -->
+<header class="flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-space-md">
+<div class="flex items-center gap-space-md">
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight mr-2">PayKaro</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider uppercase">Sovereign MSME Conciliation Forum</span>
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">MSEFC Statutory Conciliation Dossier</h1>
+<span class="font-body-sm text-body-sm text-secondary">Under Section 18(1) read with Sections 15 &amp; 16, MSMED Act, 2006</span>
+</div>
+</div>
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col items-start sm:items-end min-w-[240px]">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Dossier Case Identifier</span>
+<span class="font-label-lg text-label-lg text-primary font-mono">CLM-2026-BHEL-007-AUTO</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Jurisdiction: MSEFC Karnataka</span>
+<span class="font-label-sm text-label-sm text-secondary">Bengaluru Urban District Bench</span>
+</div>
+</div>
+<!-- Legal Status Strip -->
+<div class="bg-surface-container-high p-space-sm rounded-lg flex flex-wrap items-center justify-between gap-space-sm font-label-md text-label-md">
+<div class="flex items-center gap-space-xs text-primary font-bold">
+<span class="material-symbols-outlined text-label-lg">verified</span>
+<span class="">STATUS: FORMAL ARBITRAL INITIATION NOTICE</span>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-mono">
+<span class="">FILING BENCH CODE: KA/03/MSEFC/2026/092</span>
+<span class="">CLEARING PROTOCOL: STAT-IND-MSME-V2</span>
+</div>
+</div>
+</header>
+<!-- 2. Prominent Statutory Deadline Notification -->
+<section class="bg-error-container text-on-error-container p-space-lg rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-error text-on-error flex items-center justify-center flex-shrink-0 mt-1 sm:mt-0">
+<span class="material-symbols-outlined text-headline-sm">timer</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Mandatory Statutory Cut-off</span>
+<h2 class="font-headline-md text-headline-md leading-none">File before: 15 May 2026</h2>
+<p class="font-body-sm text-body-sm mt-1 opacity-90">Statutory limitation period strictly governed under Section 19 of MSMED Act 2006. Post-expiry forfeiture applies.</p>
+</div>
+</div>
+<div class="bg-on-error-container text-error-container px-space-md py-space-sm rounded-lg flex flex-col items-center justify-center self-stretch sm:self-auto min-w-[140px]">
+<span class="font-headline-lg text-headline-lg font-mono leading-none">06</span>
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-tight">Calendar Days Left</span>
+</div>
+</section>
+<!-- 3. Key / Value Table (Claimant & Claim Metadata) -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary">feed</span>
+<span class="">Claim Particulars &amp; Counterparty Mapping</span>
+</h3>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-mono">Schedule I • Reference INV-2026-007</span>
+</div>
+<!-- Structural Table Container -->
+<div class="overflow-x-auto rounded-xl bg-surface-container-low shadow-sm">
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="bg-surface-container-high text-on-surface font-label-md text-label-md">
+<th class="py-space-sm px-space-md w-1/3" scope="col">Key / Field</th>
+<th class="py-space-sm px-space-md w-2/3" scope="col">Value</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Disputing Supplier (Claimant)</td>
+<td class="py-space-sm px-space-md text-on-surface">
+<span class="font-bold text-primary">Shree Precision Components</span>
+<span class="text-secondary ml-2 font-mono text-body-sm">(Udyam Reg: UDYAM-KR-03-0028194)</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Enterprise Classification</td>
+<td class="py-space-sm px-space-md text-on-surface font-label-md text-label-md">
+<span class="inline-block px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-label-sm">Micro / Small Manufacturing Enterprise</span>
+</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Counterparty (Buyer)</td>
+<td class="py-space-sm px-space-md text-on-surface">
+<span class="font-bold">Bharat Heavy Electricals Ltd (BHEL) - CPSE</span>
+<span class="text-secondary ml-2 font-mono text-body-sm">(GSTIN: 07AAACB1403B1Z2)</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Invoice Reference &amp; IRN</td>
+<td class="py-space-sm px-space-md text-on-surface font-mono">
+<span class="font-bold text-primary">INV-2026-007</span>
+<span class="text-secondary text-body-sm block sm:inline sm:ml-2">(IRN: 8a49c9e810a40f82bb192f7a08e1a85b927492c10b78c9320e83e58319fcd482)</span>
+</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Invoice Date</td>
+<td class="py-space-sm px-space-md text-on-surface font-mono">12 February 2026</td>
+</tr>
+<tr class="bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Deemed Acceptance Date</td>
+<td class="py-space-sm px-space-md text-on-surface font-mono">
+                27 February 2026 
+                <span class="text-secondary text-body-sm ml-1 font-body-sm">(15-day statutory objection period expired without written rejection)</span>
+</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Statutory Due Date (Section 15)</td>
+<td class="py-space-sm px-space-md text-error font-mono font-bold">
+                29 March 2026 
+                <span class="text-on-surface-variant font-normal text-body-sm ml-1">(Strict statutory 45-day ceiling elapsed)</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Principal Default Amount</td>
+<td class="py-space-sm px-space-md font-mono text-headline-sm text-on-surface font-bold">₹14,20,000.00</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Compound Penal Interest (Section 16)</td>
+<td class="py-space-sm px-space-md text-on-surface">
+<span class="font-mono text-headline-sm text-error font-bold">₹48,932.14</span>
+<span class="text-secondary text-body-sm block mt-0.5">(Accruing daily at 3x RBI Repo Rate = 19.50% p.a. compounded monthly)</span>
+</td>
+</tr>
+<tr class="bg-primary-fixed/30 hover:bg-primary-fixed/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-lg text-label-lg text-primary">Total Claimable Amount</td>
+<td class="py-space-sm px-space-md">
+<span class="font-mono text-headline-md text-primary font-bold">₹14,68,932.14</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm ml-2">(Principal + Accrued Penal Compound Interest)</span>
+</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-label-md text-secondary">Nature of Dispute Reported</td>
+<td class="py-space-sm px-space-md text-on-surface text-body-md">
+                Buyer raised an informal internal quality inspection variance on Batch #B-409 post the 15-day statutory deemed acceptance window. No formal Section 15 rejection notice served within 15 calendar days of receipt.
+              </td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- 4. Evidence Chain & Identified Gaps -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary">account_tree</span>
+<span class="">Statutory Evidence Chain &amp; Identified Gaps</span>
+</h3>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-mono">Rule 4(2) Audit Schedule</span>
+</div>
+<div class="grid grid-cols-1 gap-space-xs">
+<!-- Item 1 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Purchase Order: PO-2025-9921</p>
+<p class="font-body-sm text-body-sm text-secondary">Issued by BHEL Procurement Cell • Contract Value ₹14,20,000.00 • Verified &amp; Attached</p>
+</div>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">check_circle</span>
+<span class="">COMPLIANT</span>
+</span>
+</div>
+<!-- Item 2 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Delivery Challan / LR: LR-88219</p>
+<p class="font-body-sm text-body-sm text-secondary">VRL Logistics Consignment Note • Signed Security Gate Inward Entry at BHEL Boiler Plant Unit</p>
+</div>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">check_circle</span>
+<span class="">COMPLIANT</span>
+</span>
+</div>
+<!-- Item 3 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Goods Receipt Note (GRN): GRN-BHEL-77180</p>
+<p class="font-body-sm text-body-sm text-secondary">Materials Store Inward Physical Stamp &amp; Warehouse Incharge Signature dated 14 Feb 2026</p>
+</div>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">check_circle</span>
+<span class="">COMPLIANT</span>
+</span>
+</div>
+<!-- Item 4 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary">qr_code_scanner</span>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Tax Invoice with IRN &amp; Signed Hash</p>
+<p class="font-body-sm text-body-sm text-secondary">NIC E-Invoice Cleared with QR Code • GSTR-1 Auto-populated to BHEL GSTR-2B</p>
+</div>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">check_circle</span>
+<span class="">COMPLIANT</span>
+</span>
+</div>
+<!-- Item 5: Evidence Gap -->
+<div class="p-space-md bg-error-container/40 rounded-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-error">warning</span>
+<div>
+<p class="font-label-lg text-label-lg text-error font-bold">Joint Inspection / Counter-Reconciliation</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Notice for joint inspection delivered 02 March 2026; buyer failed to depute certified quality engineer. Pending signed audit response from BHEL Quality Assurance Cell.</p>
+</div>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-error text-on-error font-label-sm text-label-sm font-bold flex items-center gap-1 flex-shrink-0">
+<span class="material-symbols-outlined text-label-sm">error</span>
+<span class="">NAMED EVIDENCE GAP</span>
+</span>
+</div>
+</div>
+</section>
+<!-- 5. Statutory Interest Schedule & Computation Matrix -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary">calculate</span>
+<span class="">Statutory Penal Interest Schedule (Section 16)</span>
+</h3>
+<span class="font-label-sm text-label-sm text-secondary font-mono">Benchmark: RBI Base Repo Rate (6.50%) × 3 = 19.50% p.a.</span>
+</div>
+<div class="overflow-x-auto rounded-xl bg-surface-container-low shadow-sm">
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="bg-surface-container-high text-on-surface font-label-md text-label-md">
+<th class="py-space-sm px-space-md" scope="col">Calculation Tranche</th>
+<th class="py-space-sm px-space-md" scope="col">Period Span</th>
+<th class="py-space-sm px-space-md" scope="col">Days</th>
+<th class="py-space-sm px-space-md" scope="col">Base Opening Sum</th>
+<th class="py-space-sm px-space-md" scope="col">Applicable Rate</th>
+<th class="py-space-sm px-space-md text-right" scope="col">Compounded Accrual</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 font-mono text-body-sm">
+<tr class="bg-surface-container-lowest">
+<td class="py-space-sm px-space-md font-sans font-bold">Tranche 1 (Month 1 Complete)</td>
+<td class="py-space-sm px-space-md">30 Mar 2026 – 29 Apr 2026</td>
+<td class="py-space-sm px-space-md">31</td>
+<td class="py-space-sm px-space-md">₹14,20,000.00</td>
+<td class="py-space-sm px-space-md">19.50% p.a.</td>
+<td class="py-space-sm px-space-md text-right font-bold text-on-surface">₹23,518.77</td>
+</tr>
+<tr class="bg-surface-container-low/50">
+<td class="py-space-sm px-space-md font-sans font-bold">Tranche 2 (Month 2 Pro-rata)</td>
+<td class="py-space-sm px-space-md">30 Apr 2026 – 15 May 2026</td>
+<td class="py-space-sm px-space-md">16</td>
+<td class="py-space-sm px-space-md">₹14,43,518.77</td>
+<td class="py-space-sm px-space-md">19.50% p.a.</td>
+<td class="py-space-sm px-space-md text-right font-bold text-on-surface">₹12,342.14</td>
+</tr>
+<tr class="bg-surface-container-lowest">
+<td class="py-space-sm px-space-md font-sans font-bold">Anticipated Pre-Conciliation Buffer</td>
+<td class="py-space-sm px-space-md">Pro-rata Bench Hearing Cost</td>
+<td class="py-space-sm px-space-md">—</td>
+<td class="py-space-sm px-space-md">—</td>
+<td class="py-space-sm px-space-md">Statutory Ceilings</td>
+<td class="py-space-sm px-space-md text-right font-bold text-on-surface">₹13,071.23</td>
+</tr>
+<tr class="bg-surface-container-high font-bold">
+<td class="py-space-sm px-space-md font-sans text-on-surface font-label-lg text-label-lg" colspan="5">Total Section 16 Interest Levied at Filing Cutoff</td>
+<td class="py-space-sm px-space-md text-right text-error font-mono text-headline-sm">₹48,932.14</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="font-body-sm text-body-sm text-secondary italic">
+        * Note pursuant to Section 16: Compound interest shall continue to accrue at three times the bank rate notified by the RBI on the outstanding principal from the statutory filing cut-off date until realization in full by the Claimant.
+      </p>
+</section>
+<!-- 6. Declaration, Verification & Signature Block -->
+<section class="mt-space-md pt-space-md flex flex-col gap-space-lg">
+<div class="bg-surface-container-low p-space-md rounded-lg">
+<h4 class="font-label-md text-label-md text-primary uppercase font-bold tracking-wider mb-space-xs">Solemn Declaration &amp; Verification</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          I, the undersigned Authorized Signatory of Shree Precision Components, do hereby verify and declare that the contents of this Claim Packet are true and correct to the best of my knowledge and institutional records. No material facts have been concealed. All deliveries under Reference INV-2026-007 have been duly accepted by Bharat Heavy Electricals Ltd (BHEL) without timely statutory rejection in terms of Section 2(b) of MSMED Act, 2006. Prayer is hereby registered before the Micro and Small Enterprises Facilitation Council (MSEFC) to issue conciliation notices under Section 18(1) and direct immediate recovery of ₹14,68,932.14 along with continuous penal compound interest.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-xl items-end mt-space-sm">
+<!-- Date & Location Stamp -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md text-secondary">Filing Location:</span>
+<span class="font-body-md text-body-md font-bold text-on-surface">Bengaluru Urban, Karnataka</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md text-secondary">Document Generation Date:</span>
+<span class="font-mono text-body-md text-on-surface">09 May 2026, 11:24:08 IST</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md text-secondary">Registry Hash:</span>
+<span class="font-mono text-body-sm text-secondary truncate max-w-xs">e4a78c187fa2810f991cba294021ef</span>
+</div>
+</div>
+<!-- Institutional Signature Module -->
+<div class="flex flex-col items-start md:items-end gap-space-xs">
+<div class="w-64 h-16 bg-surface-container-low rounded-lg p-space-xs flex items-center justify-center relative overflow-hidden">
+<!-- Stylized digital signature seal representation -->
+<span class="font-mono text-secondary text-body-sm tracking-widest uppercase opacity-40 select-none">DIGITALLY SIGNED</span>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-headline-sm text-headline-sm italic text-primary select-none" style="font-family: serif;">Sunita Rao</span>
+</div>
+<div class="absolute right-2 top-2">
+<span class="material-symbols-outlined text-label-sm text-primary">verified</span>
+</div>
+</div>
+<div class="text-left md:text-right">
+<p class="font-label-lg text-label-lg text-on-surface font-bold">Sunita Rao</p>
+<p class="font-body-sm text-body-sm text-secondary">Managing Partner • Shree Precision Components</p>
+<p class="font-label-sm text-label-sm text-secondary">Authorized MSME Signatory (Aadhaar e-Sign Verified)</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Seal / Audit Track -->
+<footer class="mt-space-md pt-space-sm flex flex-col sm:flex-row items-center justify-between text-secondary font-label-sm text-label-sm gap-space-xs">
+<span class="">Generated by PayKaro Institutional Treasury Engine</span>
+<span class="font-mono">Page 1 of 1 • Dossier Form MSMED-18(1)</span>
+<span class="">Confidential • Legal Privilege Intact</span>
+</footer>
+</article>
+</div></main>
+
+
+
+
+
+</body></html>

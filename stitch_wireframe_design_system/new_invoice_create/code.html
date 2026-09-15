@@ -1,0 +1,584 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed": "#131a33",
+          "on-secondary": "#ffffff",
+          "primary-fixed-dim": "#b7c4ff",
+          "surface-bright": "#f8f9ff",
+          "on-error-container": "#93000a",
+          "background": "#f8f9ff",
+          "on-primary-fixed": "#001551",
+          "surface": "#f8f9ff",
+          "on-tertiary-container": "#abdaff",
+          "on-primary-container": "#cad3ff",
+          "primary-container": "#1d4ed8",
+          "on-primary": "#ffffff",
+          "tertiary-fixed-dim": "#89ceff",
+          "secondary-fixed-dim": "#bec5e5",
+          "tertiary": "#00496b",
+          "surface-dim": "#cbdbf5",
+          "on-tertiary-fixed": "#001e2f",
+          "on-surface-variant": "#434655",
+          "outline": "#747686",
+          "surface-container-lowest": "#ffffff",
+          "tertiary-container": "#00628d",
+          "secondary-container": "#d8deff",
+          "on-secondary-fixed-variant": "#3e4660",
+          "on-primary-fixed-variant": "#0039b5",
+          "on-tertiary-fixed-variant": "#004c6e",
+          "inverse-surface": "#213145",
+          "inverse-on-surface": "#eaf1ff",
+          "surface-container-high": "#dce9ff",
+          "surface-container-highest": "#d3e4fe",
+          "secondary-fixed": "#dbe1ff",
+          "on-secondary-container": "#5a627e",
+          "primary": "#0037b0",
+          "primary-fixed": "#dce1ff",
+          "surface-container-low": "#eff4ff",
+          "tertiary-fixed": "#c9e6ff",
+          "outline-variant": "#c4c5d7",
+          "error": "#ba1a1a",
+          "surface-container": "#e5eeff",
+          "on-tertiary": "#ffffff",
+          "error-container": "#ffdad6",
+          "inverse-primary": "#b7c4ff",
+          "on-surface": "#0b1c30",
+          "on-error": "#ffffff",
+          "secondary": "#565d79",
+          "on-background": "#0b1c30",
+          "surface-tint": "#2151da",
+          "surface-variant": "#d3e4fe"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "gutter": "1.5rem",
+          "margin": "2rem",
+          "gutter-mobile": "1rem",
+          "margin-mobile": "1rem",
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "space-xl": "2rem"
+        },
+        "fontFamily": {
+          "body-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-xl": [
+            "Plus Jakarta Sans"
+          ],
+          "label-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-md": [
+            "Plus Jakarta Sans"
+          ],
+          "body-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-lg-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "label-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-xl-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "label-md": [
+            "Plus Jakarta Sans"
+          ],
+          "body-md": [
+            "Plus Jakarta Sans"
+          ]
+        },
+        "fontSize": {
+          "body-sm": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.005em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg": [
+            "32px",
+            {
+              "lineHeight": "40px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-xl": [
+            "40px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.025em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.03em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-sm": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "letterSpacing": "-0.005em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg-mobile": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-xl-mobile": [
+            "30px",
+            {
+              "lineHeight": "38px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-md": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0em",
+              "fontWeight": "400"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-40 flex flex-col justify-between max-w-7xl mx-auto px-6 lg:px-12"><div class="flex items-center justify-between py-space-xs text-on-surface-variant font-label-sm text-label-sm"><div class="flex items-center gap-space-sm"><span class="font-semibold text-on-surface">Shree Precision Components</span><span class="text-outline-variant">|</span><span class="bg-surface-container px-space-xs py-0.5 rounded-full text-primary font-medium">Demo workspace</span><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Pricing</a><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Help</a></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">Contact</a><span class="text-outline-variant">·</span><a class="hover:text-error transition-colors" href="#">Sign out</a></div></div><div class="flex items-center justify-between py-space-sm gap-space-lg"><div class="flex items-center gap-space-md"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface leading-none tracking-tight">PayKaro</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1">Receivables &amp; Cashflow</span></div></div><div class="flex-1 max-w-lg mx-space-md"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-outline">search</span><input class="w-full pl-10 pr-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all shadow-[inset_0_1px_2px_rgba(11,19,43,0.05)]" placeholder="Search invoices, buyers..." type="text"></div></div><div class="flex items-center gap-space-lg"><button class="flex items-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-2 rounded-lg transition-all shadow-[0_1px_3px_rgba(11,19,43,0.04)]" type="button"><span class="material-symbols-outlined text-body-lg">add</span><span class="">New invoice</span></button><div class="flex items-center gap-space-sm pl-space-sm"><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Sunita Rao</span><span class="font-label-sm text-label-sm text-outline leading-tight font-semibold tracking-wider">OWNER</span></div></div></div></div><nav class="flex items-center gap-space-xs pb-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg shadow-sm"><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="overview" href="#">Overview</a><a aria-current="page" class="px-space-md py-1.5 transition-colors bg-primary-container text-on-primary font-bold rounded-lg shadow-sm" data-path="invoices" href="#">Invoices</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="customers" href="#">Customers</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="finance" href="#">Finance</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="reports" href="#">Reports</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="settings" href="#">Settings</a></nav></div></header><main class="w-full pt-40 bg-background max-w-7xl mx-auto px-6 lg:px-12"><div class="flex flex-col w-full pb-16">
+<!-- Top Breadcrumb & Status Pill -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-md mb-space-md">
+<nav class="flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-body-md text-outline">receipt_long</span>
+<span class="">Invoices</span>
+</a>
+<span class="material-symbols-outlined text-body-sm text-outline-variant">chevron_right</span>
+<span class="text-on-surface font-semibold">New invoice</span>
+</nav>
+<div class="inline-flex items-center gap-2 bg-surface-container-high px-3 py-1 rounded-full shadow-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider font-semibold">MSMED Act 2006 Engine Active</span>
+</div>
+</div>
+<!-- Header Block -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg mb-space-lg">
+<div class="max-w-3xl">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-none">Create New Invoice</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Issue MSME statutory receivable with automated Section 15 MSMED 45-day due date computation</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-outline px-3 py-1.5 rounded-lg bg-surface-container-lowest shadow-sm">Draft ID: AUTO-GEN-883</span>
+</div>
+</div>
+<!-- 2-Column Master Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Main Form Section (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<form class="bg-surface-container-lowest rounded-xl p-space-xl shadow-md flex flex-col gap-space-lg" id="invoiceForm">
+<!-- Field 1: Invoice Number -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1" for="invoiceNumber">
+              Invoice number <span class="text-error font-bold">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-outline">Unique tax identification</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-body-lg">tag</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm" id="invoiceNumber" placeholder="e.g. INV-2026-016" required="" type="text">
+</div>
+</div>
+<!-- Field 2: Buyer Selection + Inline Add Button -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1" for="buyerSelect">
+              Buyer entity <span class="text-error font-bold">*</span>
+</label>
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-primary-container font-semibold transition-colors px-2 py-0.5 rounded-md hover:bg-surface-container" id="addBuyerTrigger" type="button">
+<span class="material-symbols-outlined text-body-sm font-bold">person_add</span>
+<span class="">+ Add buyer</span>
+</button>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-body-lg pointer-events-none">domain</span>
+<select class="w-full pl-10 pr-10 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm appearance-none cursor-pointer" id="buyerSelect" required="">
+<option disabled="" selected="" value="">Select enterprise counterparty</option>
+<option value="tata">Tata Motors Ltd (CIN: L28920MH1945PLC004520)</option>
+<option value="lt">Larsen &amp; Toubro (CIN: L99999MH1946PLC004768)</option>
+<option value="bhel">Bharat Heavy Electricals Ltd (PSU / Tier-1)</option>
+<option value="mahindra">Mahindra &amp; Mahindra (CIN: L65990MH1945PLC004558)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none">expand_more</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Counterparties registered on TReDS M1xchange, Invoicemart &amp; RXIL</p>
+</div>
+<!-- Two Column Row: Invoice Date (3) & Due Date (4) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Field 3: Invoice Date -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1" for="invoiceDate">
+              Invoice date <span class="text-error font-bold">*</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-body-lg pointer-events-none">calendar_today</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm cursor-pointer" id="invoiceDate" required="" type="date">
+</div>
+</div>
+<!-- Field 4: Due Date (Strictly Read-Only Computed) -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface">Statutory due date</label>
+<span class="font-label-sm text-label-sm text-primary font-bold">Strict 45-day cap</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-primary text-body-lg pointer-events-none">lock_clock</span>
+<input aria-readonly="true" class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-lg text-label-lg font-bold cursor-not-allowed select-none shadow-[inset_0_1px_2px_rgba(11,19,43,0.06)]" id="dueDateDisplay" readonly="" type="text" value="Computing...">
+</div>
+</div>
+</div>
+<!-- Field 4 Badge / Explainer Note -->
+<div class="flex items-start gap-space-xs p-3 rounded-lg bg-surface-container-high text-on-surface">
+<span class="material-symbols-outlined text-primary text-body-lg flex-shrink-0 mt-0.5">verified</span>
+<span class="font-body-sm text-body-sm text-on-surface leading-tight">
+<strong>Auto-calculated:</strong> Invoice date + 45 days (MSMED Act 2006 Section 15 mandate). Never manually editable.
+          </span>
+</div>
+<!-- Two Column Row: Base Amount (5) & Tax GST (6) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Field 5: Base Amount -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1" for="baseAmount">
+              Base amount (₹) <span class="text-error font-bold">*</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3.5 font-bold text-on-surface-variant select-none">₹</span>
+<input class="w-full pl-9 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm" id="baseAmount" min="0" placeholder="0.00" required="" step="0.01" type="number">
+</div>
+<span class="font-label-sm text-label-sm text-outline">Exclusive of taxes &amp; duties</span>
+</div>
+<!-- Field 6: Tax - GST -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface" for="taxRate">Tax — GST (%)</label>
+<span class="font-label-sm text-label-sm text-outline">Standard slab: 18%</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full pl-4 pr-10 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm" id="taxRate" max="28" min="0" placeholder="18" step="0.1" type="number">
+<span class="absolute right-3.5 font-bold text-outline select-none">%</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Blank = auto 18% standard GST, 0 = exempt / 0% GST</p>
+</div>
+</div>
+<!-- Field 7: Total (auto) - Hero Display -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low p-space-md rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Total Invoice Value (Auto-Computed)</span>
+<span class="font-label-sm text-label-sm text-outline-variant font-medium" id="taxBreakdownText">CGST (9%) + SGST (9%)</span>
+</div>
+<div class="flex items-baseline justify-between mt-1">
+<div class="font-headline-xl text-headline-xl text-on-surface font-extrabold tracking-tight" id="totalDisplay">
+              ₹0.00
+            </div>
+<span class="font-label-md text-label-md px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-fixed font-semibold">
+              INR Final
+            </span>
+</div>
+</div>
+<!-- Field 8: Notes -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-lg text-label-lg text-on-surface" for="invoiceNotes">
+            Invoice memo &amp; internal notes
+          </label>
+<textarea class="w-full p-3.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-sm resize-none" id="invoiceNotes" placeholder="e.g. Purchase order PO-2026-8812 milestone delivery. Sub-assembly Batch #410 verified by QC." rows="3"></textarea>
+</div>
+<!-- Form Submission Actions -->
+<div class="flex items-center justify-between pt-space-md">
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-error transition-colors px-3 py-2 rounded-lg" href="#">
+            Cancel
+          </a>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-xl py-3 rounded-lg transition-all shadow-md active:scale-95" type="submit">
+<span class="material-symbols-outlined text-body-lg">save</span>
+<span class="">Save &amp; Register Receivable</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Sidebar / Context Cards (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg">
+<!-- Card 1: Statutory Compliance Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-headline-sm">gavel</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Statutory Protection</span>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-bold">
+            MSMED ACT 2006
+          </span>
+</div>
+<!-- Section 15 Box -->
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-1 shadow-sm">
+<div class="flex items-center gap-2 text-primary font-semibold font-label-lg text-label-lg">
+<span class="material-symbols-outlined text-body-md">schedule</span>
+<span class="">Section 15: 45-Day Payment Window Cap</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mt-1">
+            Where buyer and supplier have agreed upon terms in writing, payment period shall <strong>not exceed 45 days</strong> from the day of acceptance or deemed acceptance. Any contract stipulating terms beyond 45 days is void ab initio under federal statute.
+          </p>
+</div>
+<!-- Section 16 Box -->
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-1 shadow-sm">
+<div class="flex items-center gap-2 text-error font-semibold font-label-lg text-label-lg">
+<span class="material-symbols-outlined text-body-md">trending_up</span>
+<span class="">Section 16: Compound Penal Interest</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mt-1">
+            Default beyond due date automatically attracts <strong>three times the Reserve Bank of India (RBI) Bank Rate</strong> with monthly compounding rests. Interest is non-deductible for enterprise buyer tax computation under Section 23.
+          </p>
+</div>
+<!-- Live Interest Calculator Preview -->
+<div class="bg-surface-container-high p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-body-md">percent</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Current RBI Base + Markup</span>
+</div>
+<span class="font-label-md text-label-md text-primary font-bold">6.50% × 3 = 19.50% p.a.</span>
+</div>
+</div>
+<!-- Card 2: Evidence Checklist Pre-requisites -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-headline-sm">fact_check</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Evidence Checklist</h3>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold font-label-sm text-label-sm">
+<span class="">Score: 100/100</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Uploading comprehensive audit proof eliminates debtor dispute grounds during TReDS instantaneous discounting &amp; MSEFC Samadhaan statutory recovery filings.
+        </p>
+<!-- Checklist Item 1 -->
+<div class="flex items-start gap-space-sm p-3 rounded-lg bg-surface-container-low shadow-sm">
+<div class="mt-0.5 text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-headline-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">1. Purchase Order (PO)</span>
+<span class="font-label-sm text-label-sm text-outline font-semibold">Mandatory</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Formal client PO with signed delivery milestones.</p>
+</div>
+</div>
+<!-- Checklist Item 2 -->
+<div class="flex items-start gap-space-sm p-3 rounded-lg bg-surface-container-low shadow-sm">
+<div class="mt-0.5 text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-headline-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">2. Delivery Challan / Lorry Receipt (LR)</span>
+<span class="font-label-sm text-label-sm text-outline font-semibold">Mandatory</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Proof of dispatch, logistics receipt, or gate acknowledgement.</p>
+</div>
+</div>
+<!-- Checklist Item 3 -->
+<div class="flex items-start gap-space-sm p-3 rounded-lg bg-surface-container-low shadow-sm">
+<div class="mt-0.5 text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-headline-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">3. Goods Received Note (GRN)</span>
+<span class="font-label-sm text-label-sm text-outline font-semibold">Statutory Proof</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Counterparty material acceptance or 15-day deemed acceptance record.</p>
+</div>
+</div>
+<div class="mt-space-xs p-3 rounded-lg bg-surface-container text-on-surface flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-body-md">hub</span>
+<span class="font-label-sm text-label-sm font-semibold">TReDS &amp; MSEFC Direct Sync</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Pre-Qualified</span>
+</div>
+</div>
+<!-- Institutional Assurance Vignette Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-headline-sm">shield</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Section 43B(h) Audit Protection</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Buyers failing to settle within 45 days forfeit income tax deduction rights for this fiscal quarter.
+          </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Client-side Script -->
+<script>
+    (function() {
+      const invoiceDateInput = document.getElementById('invoiceDate');
+      const dueDateDisplay = document.getElementById('dueDateDisplay');
+      const baseAmountInput = document.getElementById('baseAmount');
+      const taxRateInput = document.getElementById('taxRate');
+      const totalDisplay = document.getElementById('totalDisplay');
+      const taxBreakdownText = document.getElementById('taxBreakdownText');
+      const invoiceForm = document.getElementById('invoiceForm');
+      const addBuyerBtn = document.getElementById('addBuyerTrigger');
+      const buyerSelect = document.getElementById('buyerSelect');
+
+      // 1. Initialize Date & 45-day Due Date calculation
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      invoiceDateInput.value = `${yyyy}-${mm}-${dd}`;
+
+      function updateDueDate() {
+        if (!invoiceDateInput.value) {
+          dueDateDisplay.value = 'Select invoice date';
+          return;
+        }
+        const [year, month, day] = invoiceDateInput.value.split('-').map(Number);
+        const invDate = new Date(year, month - 1, day);
+        // Add strictly 45 days
+        const targetDate = new Date(invDate);
+        targetDate.setDate(targetDate.getDate() + 45);
+
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        dueDateDisplay.value = targetDate.toLocaleDateString('en-IN', options) + ' (Day 45)';
+      }
+
+      invoiceDateInput.addEventListener('change', updateDueDate);
+      updateDueDate();
+
+      // 2. Compute Total (Base + GST)
+      function calculateTotal() {
+        const base = parseFloat(baseAmountInput.value) || 0;
+        let taxPercent = 18; // Standard default
+
+        const customTax = taxRateInput.value.trim();
+        if (customTax !== '') {
+          taxPercent = parseFloat(customTax) || 0;
+        }
+
+        const taxAmount = (base * taxPercent) / 100;
+        const total = base + taxAmount;
+
+        // Update total display
+        totalDisplay.textContent = '₹' + total.toLocaleString('en-IN', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
+        // Update Tax Helper text
+        if (taxPercent === 0) {
+          taxBreakdownText.textContent = 'Exempt / Zero Rated (0%)';
+        } else {
+          const half = (taxPercent / 2).toFixed(1);
+          taxBreakdownText.textContent = `CGST (${half}%) + SGST (${half}%) = ₹${taxAmount.toLocaleString('en-IN', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          })}`;
+        }
+      }
+
+      baseAmountInput.addEventListener('input', calculateTotal);
+      taxRateInput.addEventListener('input', calculateTotal);
+
+      // 3. Quick inline buyer creation demo
+      addBuyerBtn.addEventListener('click', function() {
+        const newBuyer = prompt('Enter new Buyer Company Name:');
+        if (newBuyer && newBuyer.trim()) {
+          const opt = document.createElement('option');
+          opt.value = newBuyer.toLowerCase().replace(/\\s+/g, '-');
+          opt.textContent = newBuyer.trim() + ' (Custom)';
+          opt.selected = true;
+          buyerSelect.appendChild(opt);
+        }
+      });
+
+      // 4. Form Submit Mock
+      invoiceForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const num = document.getElementById('invoiceNumber').value;
+        alert('Invoice ' + num + ' registered successfully under MSMED Section 15 statutory terms.');
+      });
+    })();
+  </script>
+</div></main><footer class="w-full bg-surface-container-low py-space-xl mt-space-xl"><div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant font-label-sm text-label-sm"><div class="flex items-center gap-space-xs"><span class="">© 2025 PayKaro Financial Technologies Pvt Ltd. MSME SAMADHAAN &amp; TReDS Connected.</span></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">Statutory Terms</a><a class="hover:text-primary transition-colors" href="#">RBI Guidelines</a><a class="hover:text-primary transition-colors" href="#">Security &amp; Encryption</a></div></div></footer>
+
+
+
+</body></html>

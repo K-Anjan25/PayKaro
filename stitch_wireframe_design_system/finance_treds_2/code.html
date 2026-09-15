@@ -1,0 +1,638 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#131a33", "surface-container-low": "#eff4ff", "surface-dim": "#cbdbf5", "error": "#ba1a1a", "surface-tint": "#2151da", "surface-bright": "#f8f9ff", "tertiary-container": "#00628d", "on-primary-fixed": "#001551", "tertiary-fixed-dim": "#89ceff", "outline": "#747686", "inverse-on-surface": "#eaf1ff", "on-tertiary-container": "#abdaff", "secondary-container": "#d8deff", "surface-container-high": "#dce9ff", "inverse-surface": "#213145", "on-tertiary-fixed-variant": "#004c6e", "secondary-fixed": "#dbe1ff", "on-primary-fixed-variant": "#0039b5", "secondary-fixed-dim": "#bec5e5", "on-tertiary": "#ffffff", "secondary": "#565d79", "inverse-primary": "#b7c4ff", "surface-container-highest": "#d3e4fe", "primary-fixed": "#dce1ff", "primary": "#0037b0", "tertiary": "#00496b", "surface-variant": "#d3e4fe", "on-tertiary-fixed": "#001e2f", "surface": "#f8f9ff", "primary-container": "#1d4ed8", "on-primary": "#ffffff", "surface-container-lowest": "#ffffff", "on-primary-container": "#cad3ff", "primary-fixed-dim": "#b7c4ff", "on-background": "#0b1c30", "tertiary-fixed": "#c9e6ff", "on-secondary-fixed-variant": "#3e4660", "background": "#f8f9ff", "error-container": "#ffdad6", "on-surface": "#0b1c30", "on-error-container": "#93000a", "on-secondary": "#ffffff", "outline-variant": "#c4c5d7", "on-secondary-container": "#5a627e", "on-error": "#ffffff", "on-surface-variant": "#434655", "surface-container": "#e5eeff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "space-xl": "2rem", "gutter-mobile": "1rem", "margin": "2rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "gutter": "1.5rem", "space-md": "1rem" }, "fontFamily": { "label-md": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }] } } } }</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full bg-surface-container-low px-margin py-1.5 flex items-center justify-between text-on-surface-variant font-label-sm"><div class="flex items-center gap-space-sm"><span class="font-label-md text-on-surface font-semibold">Shree Precision Components</span><span class="text-outline-variant">|</span><span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-sm font-semibold uppercase tracking-wider">DEMO WORKSPACE</span><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Pricing</a><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Help</a></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">Contact</a><span class="text-outline-variant">·</span><a class="hover:text-error transition-colors flex items-center gap-1" href="#"><span class="material-symbols-outlined text-[14px]">logout</span>Sign out</a></div></div><div class="h-20 w-full px-margin flex items-center justify-between gap-space-lg bg-surface-container-lowest"><div class="flex items-center gap-space-md flex-shrink-0"><span class="font-headline-sm font-bold tracking-tight text-primary">PayKaro</span></div><div class="flex-1 max-w-2xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-lg font-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search invoices, buyers, GSTIN or settlement batches..." type="text"></div></div><div class="flex items-center gap-space-lg flex-shrink-0"><button class="inline-flex items-center gap-space-xs px-space-md py-2 bg-primary-container text-on-primary font-label-md rounded-lg shadow-sm hover:bg-primary transition-colors"><span class="material-symbols-outlined text-[18px]">add</span>+ New invoice</button><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U"><div class="flex flex-col text-left"><span class="font-label-md text-on-surface leading-none">Sunita Rao</span><span class="font-label-sm text-outline uppercase tracking-wider leading-tight mt-0.5">OWNER</span></div></div></div></div><div class="w-full px-margin bg-surface-container-lowest"><nav class="flex items-center gap-space-xl" data-active-classes="text-primary border-b-2 border-primary font-semibold"><a class="py-3 font-label-lg text-on-surface-variant hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="overview" href="#">Overview</a><a class="py-3 font-label-lg text-on-surface-variant hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="invoices" href="#">Invoices</a><a class="py-3 font-label-lg text-on-surface-variant hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="customers" href="#">Customers</a><a aria-current="page" class="py-3 transition-colors text-primary border-b-2 border-primary font-semibold" data-path="finance" href="#">Finance</a><a class="py-3 font-label-lg text-on-surface-variant hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="reports" href="#">Reports</a><a class="py-3 font-label-lg text-on-surface-variant hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="settings" href="#">Settings</a></nav></div></header><main class="w-full pt-36 px-margin pb-space-xl flex-1 bg-background"><div class="flex flex-col w-full gap-space-xl">
+<!-- Top Ticker / Platform Status Ribbon -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md flex-wrap">
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-sm text-on-surface font-semibold tracking-wider uppercase">TReDS Multi-Exchange Gateway</span>
+</div>
+<span class="font-body-sm text-on-surface-variant">Live clearing pipeline with RBI-authorized discounting pools:</span>
+<div class="flex items-center gap-space-sm text-on-surface font-label-sm font-semibold">
+<span class="inline-flex items-center gap-1 bg-surface-container-high px-2 py-0.5 rounded text-primary">
+<span class="material-symbols-outlined text-[14px]">bolt</span>RXIL (Live)
+        </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high px-2 py-0.5 rounded text-primary">
+<span class="material-symbols-outlined text-[14px]">bolt</span>M1xchange (Live)
+        </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high px-2 py-0.5 rounded text-primary">
+<span class="material-symbols-outlined text-[14px]">bolt</span>Invoicemart (Live)
+        </span>
+</div>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-tertiary">lock</span>Non-Recourse Factoring</span>
+<span class="text-outline-variant">|</span>
+<span class="">Daily Clearing Cut-Off: <strong class="text-on-surface font-semibold">16:30 IST</strong></span>
+</div>
+</div>
+<!-- 1. Header & Context Block -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs max-w-3xl">
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-on-surface">Finance</h1>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          TReDS Reverse Factoring &amp; Liquidity Queue
+        </span>
+</div>
+<p class="font-body-lg text-on-surface-variant">
+        Accelerate working capital across RBI-regulated TReDS platforms (RXIL, Invoicemart, M1xchange) without recourse. Convert institutional receivables into immediate bank disbursements at competitive enterprise bidding rates.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md shadow-sm hover:bg-surface-container transition-all inline-flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+        Re-verify IRN Status
+      </button>
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md shadow-sm hover:bg-on-primary-fixed-variant transition-all inline-flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">account_balance</span>
+        Batch Auction (4 Pre-Qualified)
+      </button>
+</div>
+</div>
+<!-- 2. KPI Row & Liquidity Score Card -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Primary KPI: Finance-Ready Ratio & Readiness Score Gate -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between gap-space-md relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-outline uppercase tracking-wider">Queue Allocation Status</span>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-headline-xl text-on-surface">4 of 10</span>
+<span class="font-headline-sm text-on-surface-variant font-normal">Invoices Pre-Qualified</span>
+</div>
+<span class="font-body-md text-primary font-semibold">
+            ₹48,20,000.00 <span class="text-on-surface-variant font-normal">ready for bid / ₹77,60,000.00 total active book</span>
+</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-high rounded-lg text-primary font-label-sm">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="">Gate: 85/100 Readiness</span>
+</div>
+</div>
+<!-- Readiness Meter Visual -->
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface font-label-sm">
+<span class="text-on-surface-variant">Readiness Score Threshold Gate</span>
+<span class="text-primary font-semibold">Min. 85 / 100 required for automatic zero-haircut auctioning</span>
+</div>
+<div class="w-full bg-surface-container-highest h-3 rounded-full overflow-hidden relative">
+<!-- 85% Marker Line -->
+<div class="absolute left-[85%] top-0 bottom-0 w-0.5 bg-on-surface z-10"></div>
+<!-- Bar Fill -->
+<div class="bg-primary h-full rounded-full transition-all" style="width: 88%;"></div>
+</div>
+<div class="flex items-center justify-between text-outline font-label-sm">
+<span class="">0 (Manual Doc Ingestion)</span>
+<span class="font-semibold text-on-surface">Threshold Target: 85.0</span>
+<span class="">100 (Instant Non-Recourse Liquidity)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md pt-space-xs text-on-surface-variant font-body-sm">
+<span class="inline-flex items-center gap-1 text-tertiary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+          Audit trail synced with MCA &amp; GSTN
+        </span>
+<span class="text-outline-variant">·</span>
+<span class="">4 invoices surpass required 85 readiness gate for zero-collateral auction.</span>
+</div>
+</div>
+<!-- Secondary Metric Cards (Bento stack) -->
+<div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Card 1: Available Liquidity -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-outline uppercase tracking-wider">T+1 Liquidity Available</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</div>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-md text-on-surface font-bold">₹48.20 Lakhs</div>
+<span class="font-body-sm text-tertiary font-semibold flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">schedule</span>Disbursed within 24h of bid
+          </span>
+</div>
+<div class="font-label-sm text-on-surface-variant">
+          Direct NEFT/RTGS credit to nodal current account
+        </div>
+</div>
+<!-- Card 2: Average Discounting Rate -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-outline uppercase tracking-wider">Benchmark Bid Rate</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">trending_down</span>
+</div>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-md text-on-surface font-bold">7.85% – 8.4%</div>
+<span class="font-body-sm text-outline flex items-center gap-1 mt-0.5">
+            Annualized factoring cost
+          </span>
+</div>
+<div class="font-label-sm text-tertiary font-semibold">
+          14 Participating PSU &amp; Private Banks
+        </div>
+</div>
+<!-- Card 3: Active Exchanges Integration -->
+<div class="sm:col-span-2 bg-surface-container-low rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">hub</span>
+</div>
+<div>
+<div class="font-label-lg text-on-surface font-semibold">Active Exchange Routing Engine</div>
+<div class="font-body-sm text-on-surface-variant">Multi-exchange concurrent order placement optimizes for tightest discount spread.</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs font-label-sm font-semibold text-primary flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+          3 / 3 Online
+        </div>
+</div>
+</div>
+</div>
+<!-- 3. Ready List: Invoices Eligible For Immediate Discounting -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-xs">
+<div>
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-sm text-on-surface">Ready for Discounting</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm font-semibold">
+            4 Invoices Pre-Qualified (Score ≥ 85)
+          </span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-0.5">
+          All statutory evidence verified, buyer registered on TReDS, and no formal disputes registered.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-label-sm">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check</span>
+          Auto-factoring available
+        </span>
+</div>
+</div>
+<!-- Ready Invoices Table / Card Ledger -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low font-label-sm text-outline uppercase tracking-wider">
+<th class="py-3 px-space-md">Invoice #</th>
+<th class="py-3 px-space-md">Buyer / Counterparty</th>
+<th class="py-3 px-space-md text-right">Accepted Amount</th>
+<th class="py-3 px-space-md">Maturity / Ageing</th>
+<th class="py-3 px-space-md text-center">Readiness Score</th>
+<th class="py-3 px-space-md">Preferred Pool</th>
+<th class="py-3 px-space-md text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-on-surface divide-y-0">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-space-md">
+<div class="font-label-lg font-semibold text-on-surface">INV-2026-004</div>
+<div class="font-body-sm text-outline">PO-9941 · E-way bill valid</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-label-md font-semibold text-on-surface">Larsen &amp; Toubro Ltd</div>
+<div class="font-body-sm text-on-surface-variant">GSTIN: 27AAACL0149G1Z8 · Tier-1 AAA</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="font-label-lg font-bold text-on-surface">₹12,50,000.00</div>
+<span class="font-label-sm text-tertiary">100% Non-Recourse</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-body-sm font-semibold text-on-surface">Due 14 Nov 2026</div>
+<div class="font-body-sm text-outline">28 days left</div>
+</td>
+<td class="py-4 px-space-md text-center">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                  95 / 100
+                </div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1 font-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                  RXIL
+                </div>
+<div class="font-body-sm text-outline">Expected: 7.85%</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<button class="finance-btn px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md shadow-sm hover:bg-primary transition-all inline-flex items-center gap-1" data-amt="₹12,50,000.00" data-buyer="Larsen &amp; Toubro Ltd" data-inv="INV-2026-004">
+                  Finance this
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-space-md">
+<div class="font-label-lg font-semibold text-on-surface">INV-2026-005</div>
+<div class="font-body-sm text-outline">PO-8812 · GRN verified</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-label-md font-semibold text-on-surface">Bharat Heavy Electricals Ltd</div>
+<div class="font-body-sm text-on-surface-variant">GSTIN: 07AAACB4146P1ZL · PSU Sovereign</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="font-label-lg font-bold text-on-surface">₹18,40,000.00</div>
+<span class="font-label-sm text-tertiary">100% Non-Recourse</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-body-sm font-semibold text-on-surface">Due 19 Nov 2026</div>
+<div class="font-body-sm text-outline">33 days left</div>
+</td>
+<td class="py-4 px-space-md text-center">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                  90 / 100
+                </div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1 font-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                  M1xchange
+                </div>
+<div class="font-body-sm text-outline">Expected: 7.95%</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<button class="finance-btn px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md shadow-sm hover:bg-primary transition-all inline-flex items-center gap-1" data-amt="₹18,40,000.00" data-buyer="Bharat Heavy Electricals Ltd" data-inv="INV-2026-005">
+                  Finance this
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-space-md">
+<div class="font-label-lg font-semibold text-on-surface">INV-2026-009</div>
+<div class="font-body-sm text-outline">PO-7703 · 2-way matched</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-label-md font-semibold text-on-surface">Tata Motors Ltd</div>
+<div class="font-body-sm text-on-surface-variant">GSTIN: 27AAACT2727Q1ZW · Auto Tier-1</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="font-label-lg font-bold text-on-surface">₹9,80,000.00</div>
+<span class="font-label-sm text-tertiary">100% Non-Recourse</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-body-sm font-semibold text-on-surface">Due 28 Nov 2026</div>
+<div class="font-body-sm text-outline">42 days left</div>
+</td>
+<td class="py-4 px-space-md text-center">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                  88 / 100
+                </div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1 font-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                  Invoicemart
+                </div>
+<div class="font-body-sm text-outline">Expected: 8.10%</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<button class="finance-btn px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md shadow-sm hover:bg-primary transition-all inline-flex items-center gap-1" data-amt="₹9,80,000.00" data-buyer="Tata Motors Ltd" data-inv="INV-2026-009">
+                  Finance this
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-space-md">
+<div class="font-label-lg font-semibold text-on-surface">INV-2026-012</div>
+<div class="font-body-sm text-outline">PO-6411 · IRN signed</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-label-md font-semibold text-on-surface">Larsen &amp; Toubro Ltd</div>
+<div class="font-body-sm text-on-surface-variant">GSTIN: 27AAACL0149G1Z8 · Infrastructure</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="font-label-lg font-bold text-on-surface">₹7,50,000.00</div>
+<span class="font-label-sm text-tertiary">100% Non-Recourse</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="font-body-sm font-semibold text-on-surface">Due 03 Dec 2026</div>
+<div class="font-body-sm text-outline">47 days left</div>
+</td>
+<td class="py-4 px-space-md text-center">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                  85 / 100
+                </div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1 font-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                  RXIL
+                </div>
+<div class="font-body-sm text-outline">Expected: 8.25%</div>
+</td>
+<td class="py-4 px-space-md text-right">
+<button class="finance-btn px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md shadow-sm hover:bg-primary transition-all inline-flex items-center gap-1" data-amt="₹7,50,000.00" data-buyer="Larsen &amp; Toubro Ltd" data-inv="INV-2026-012">
+                  Finance this
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-surface-container-low px-space-md py-space-sm flex flex-col sm:flex-row items-center justify-between text-on-surface-variant font-label-sm gap-space-xs">
+<span class="">Showing 4 eligible invoices pre-cleared for live reverse factoring auction.</span>
+<div class="flex items-center gap-space-sm font-semibold text-primary">
+<span class="">Total Pre-cleared: ₹48,20,000.00</span>
+<span class="">·</span>
+<span class="">Est. 24h Net Payout: ₹47,88,400.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Blocked List: Invoices Held Back with Diagnostic Explanations -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-xs">
+<div>
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-sm text-on-surface">Blocked from Queue</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm font-semibold">
+            6 Invoices Held
+          </span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-0.5">
+          Receivables requiring evidence completion or buyer platform onboarding before auction eligibility.
+        </p>
+</div>
+<div class="font-label-sm text-on-surface-variant">
+<span class="">Estimated locked liquidity: </span>
+<strong class="text-on-surface font-semibold">₹29,40,000.00</strong>
+</div>
+</div>
+<!-- Blocked Items Stack -->
+<div class="grid grid-cols-1 gap-space-sm">
+<!-- Item 1: Dispute Registered -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-start gap-space-md flex-1">
+<div class="w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-label-lg text-on-surface font-bold">INV-2026-007</span>
+<span class="text-outline-variant">·</span>
+<span class="font-label-md text-on-surface font-semibold">Bharat Heavy Electricals Ltd</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline font-label-sm">Score: 80 / 100</span>
+</div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm font-semibold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">report_problem</span>
+                Active Buyer Dispute
+              </span>
+<span class="font-body-sm text-on-surface-variant">
+                Active buyer dispute registered (Score: 80/100, needs signed joint reconciliation docket)
+              </span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end w-full md:w-auto gap-space-lg flex-shrink-0">
+<div class="text-left md:text-right">
+<div class="font-label-lg font-bold text-on-surface">₹14,20,000.00</div>
+<span class="font-body-sm text-outline">Due in 18 days</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container font-label-md inline-flex items-center gap-1 transition-all">
+            Resolve gap
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Buyer not onboarded -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-start gap-space-md flex-1">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">person_off</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-label-lg text-on-surface font-bold">INV-2026-008</span>
+<span class="text-outline-variant">·</span>
+<span class="font-label-md text-on-surface font-semibold">Mahindra &amp; Mahindra Ltd</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline font-label-sm">Score: 68 / 100</span>
+</div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm font-semibold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">link_off</span>
+                TReDS Unregistered Buyer
+              </span>
+<span class="font-body-sm text-on-surface-variant">
+                Buyer not onboarded on TReDS (Manual settlement required or send digital corporate invite)
+              </span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end w-full md:w-auto gap-space-lg flex-shrink-0">
+<div class="text-left md:text-right">
+<div class="font-label-lg font-bold text-on-surface">₹8,40,000.00</div>
+<span class="font-body-sm text-outline">Due in 35 days</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container font-label-md inline-flex items-center gap-1 transition-all">
+            Resolve gap
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Item 3: Missing GRN -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-start gap-space-md flex-1">
+<div class="w-10 h-10 rounded-xl bg-surface-container text-tertiary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">assignment_late</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-label-lg text-on-surface font-bold">INV-2026-010</span>
+<span class="text-outline-variant">·</span>
+<span class="font-label-md text-on-surface font-semibold">Tata Motors Ltd</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline font-label-sm">Score: 74 / 100</span>
+</div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-label-sm font-semibold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">inventory_2</span>
+                Missing GRN
+              </span>
+<span class="font-body-sm text-on-surface-variant">
+                Missing Goods Receipt Note (GRN) acceptance docket from buyer's plant gate
+              </span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end w-full md:w-auto gap-space-lg flex-shrink-0">
+<div class="text-left md:text-right">
+<div class="font-label-lg font-bold text-on-surface">₹6,20,000.00</div>
+<span class="font-body-sm text-outline">Due in 24 days</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container font-label-md inline-flex items-center gap-1 transition-all">
+            Resolve gap
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Item 4: Awaiting e-Invoice IRN portal QR signature authentication -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-start gap-space-md flex-1">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-label-lg text-on-surface font-bold">INV-2026-011</span>
+<span class="text-outline-variant">·</span>
+<span class="font-label-md text-on-surface font-semibold">Larsen &amp; Toubro Ltd</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline font-label-sm">Score: 82 / 100</span>
+</div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm font-semibold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">key</span>
+                IRN Authentication Pending
+              </span>
+<span class="font-body-sm text-on-surface-variant">
+                Awaiting e-Invoice IRN portal QR signature authentication from NIC IRP server
+              </span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end w-full md:w-auto gap-space-lg flex-shrink-0">
+<div class="text-left md:text-right">
+<div class="font-label-lg font-bold text-on-surface">₹11,30,000.00</div>
+<span class="font-body-sm text-outline">Due in 51 days</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container font-label-md inline-flex items-center gap-1 transition-all">
+            Resolve gap
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 5. Empty State / Queue Rule Explanatory Banner -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-lg relative overflow-hidden">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[26px]">info</span>
+</div>
+<div class="flex flex-col gap-0.5 max-w-2xl">
+<h3 class="font-label-lg text-on-surface font-bold">Queue Admission Rule &amp; TReDS Protocol</h3>
+<p class="font-body-md text-on-surface-variant">
+          "An invoice enters the queue once it is raised and not yet settled or disputed."
+        </p>
+<span class="font-body-sm text-outline mt-1">
+          Once verified against GST e-invoicing databases and authenticated by buyer treasury units, receivables automatically move to the Auction Ready status above.
+        </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md hover:bg-surface-container transition-all">
+        Documentation
+      </button>
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md hover:bg-on-primary-fixed-variant transition-all">
+        Manage API Keys
+      </button>
+</div>
+</div>
+<!-- Floating Confirmation Modal (Micro-interaction for 'Finance this') -->
+<div class="fixed inset-0 z-50 hidden flex items-center justify-center p-space-md" id="finance-modal" style="background-color: rgba(11, 19, 43, 0.5); backdrop-filter: blur(8px);">
+<div class="bg-surface-container-lowest rounded-xl p-space-xl max-w-lg w-full shadow-2xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-on-surface">Submit to TReDS Auction</h4>
+<span class="font-body-sm text-outline">Non-recourse institutional settlement</span>
+</div>
+</div>
+<button class="text-outline hover:text-on-surface" id="modal-close">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col gap-space-xs font-body-md text-on-surface">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Invoice Reference:</span>
+<span class="font-semibold text-on-surface" id="modal-inv">INV-2026-004</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Corporate Buyer:</span>
+<span class="font-semibold text-on-surface" id="modal-buyer">Larsen &amp; Toubro</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Gross Value:</span>
+<span class="font-bold text-primary" id="modal-amt">₹12,50,000.00</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Maximum Bid Cap:</span>
+<span class="font-semibold text-tertiary">8.25% p.a.</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Est. Immediate Credit (T+1):</span>
+<span class="font-bold text-on-surface">₹12,41,800.00</span>
+</div>
+</div>
+<p class="font-body-sm text-on-surface-variant">
+        By submitting this instrument, you authorize PayKaro's automated smart-routing across RXIL, M1xchange, and Invoicemart. Factoring is strictly non-recourse under MSMED Act provisions.
+      </p>
+<div class="flex items-center justify-end gap-space-sm mt-space-xs">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md hover:bg-surface-container transition-all" id="modal-cancel">
+          Cancel
+        </button>
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md hover:bg-on-primary-fixed-variant transition-all inline-flex items-center gap-1" id="modal-confirm">
+<span class="material-symbols-outlined text-[18px]">send</span>
+          Confirm &amp; Place Auction Bid
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive modal trigger for invoice financing
+  const modal = document.getElementById('finance-modal');
+  const modalClose = document.getElementById('modal-close');
+  const modalCancel = document.getElementById('modal-cancel');
+  const modalConfirm = document.getElementById('modal-confirm');
+  const modalInv = document.getElementById('modal-inv');
+  const modalAmt = document.getElementById('modal-amt');
+  const modalBuyer = document.getElementById('modal-buyer');
+
+  document.querySelectorAll('.finance-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const inv = button.getAttribute('data-inv');
+      const amt = button.getAttribute('data-amt');
+      const buyer = button.getAttribute('data-buyer');
+      if (modalInv) modalInv.innerText = inv;
+      if (modalAmt) modalAmt.innerText = amt;
+      if (modalBuyer) modalBuyer.innerText = buyer;
+      modal.classList.remove('hidden');
+    });
+  });
+
+  const closeModal = () => modal.classList.add('hidden');
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  if (modalCancel) modalCancel.addEventListener('click', closeModal);
+  if (modalConfirm) {
+    modalConfirm.addEventListener('click', () => {
+      modalConfirm.innerText = 'Routed to Auction Engine...';
+      setTimeout(() => {
+        alert('Factoring order submitted to TReDS. Bidding opens across 14 banks.');
+        closeModal();
+        modalConfirm.innerText = 'Confirm & Place Auction Bid';
+      }, 700);
+    });
+  }
+</script></main><footer class="w-full bg-surface-container-lowest shadow-[0_-1px_8px_rgba(0,0,0,0.03)] py-space-md"><div class="w-full px-margin flex flex-col md:flex-row items-center justify-between gap-space-md font-body-sm text-on-surface-variant"><div class="flex flex-wrap items-center gap-space-md"><span class="inline-flex items-center gap-1 font-label-sm font-semibold text-tertiary"><span class="material-symbols-outlined text-[16px]">verified</span>MSMED Act, 2006 Compliance</span><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">TReDS Protocol</a><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Samadhaan Portal API</a><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Terms of Treasury</a><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></div><div class="font-label-sm text-outline">© 2025 PayKaro Capital Ltd. Institutional MSME Liquidity Infrastructure.</div></div></footer>
+
+</body></html>

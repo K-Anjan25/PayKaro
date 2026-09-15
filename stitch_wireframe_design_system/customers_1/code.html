@@ -1,0 +1,595 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PayKaro - Customers</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed": "#dbe1ff",
+            "on-secondary-fixed-variant": "#3e4660",
+            "tertiary": "#00496b",
+            "outline-variant": "#c4c5d7",
+            "secondary-fixed-dim": "#bec5e5",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#0039b5",
+            "tertiary-fixed": "#c9e6ff",
+            "on-tertiary-container": "#abdaff",
+            "on-surface": "#0b1c30",
+            "inverse-primary": "#b7c4ff",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#b7c4ff",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f8f9ff",
+            "on-primary-container": "#cad3ff",
+            "background": "#f8f9ff",
+            "tertiary-fixed-dim": "#89ceff",
+            "on-secondary": "#ffffff",
+            "on-background": "#0b1c30",
+            "primary-container": "#1d4ed8",
+            "on-primary-fixed": "#001551",
+            "surface-container": "#e5eeff",
+            "outline": "#747686",
+            "surface": "#f8f9ff",
+            "on-tertiary": "#ffffff",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-container-low": "#eff4ff",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed-variant": "#004c6e",
+            "on-secondary-container": "#5a627e",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-surface": "#213145",
+            "secondary-container": "#d8deff",
+            "surface-dim": "#cbdbf5",
+            "on-surface-variant": "#434655",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#131a33",
+            "on-primary": "#ffffff",
+            "surface-container-high": "#dce9ff",
+            "secondary": "#565d79",
+            "tertiary-container": "#00628d",
+            "primary-fixed": "#dce1ff",
+            "surface-tint": "#2151da",
+            "on-tertiary-fixed": "#001e2f",
+            "error": "#ba1a1a",
+            "primary": "#0037b0"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter": "1.5rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "margin": "2rem"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="bg-surface font-sans text-on-surface min-h-screen flex flex-col">
+<!-- Global Shell Header -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-surface-container shadow-sm">
+<!-- Utility Bar -->
+<div class="h-9 border-b border-surface-container bg-surface-container-low px-margin flex items-center justify-between text-xs text-on-surface-variant">
+<div class="flex items-center gap-space-sm">
+<span class="text-on-surface font-semibold">Shree Precision Components</span>
+<span class="text-outline-variant">·</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-surface-container-highest text-primary font-medium">Demo workspace</span>
+</div>
+<div class="flex items-center gap-space-md font-medium">
+<a class="hover:text-primary transition-colors" data-path="pricing" href="#">Pricing</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" data-path="help" href="#">Help</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" data-path="contact" href="#">Contact</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" data-path="sign-out" href="#">Sign out</a>
+</div>
+</div>
+<!-- Main Header Bar -->
+<div class="h-[64px] px-margin flex items-center justify-between gap-space-lg bg-surface-container-lowest">
+<!-- PayKaro Logo -->
+<div class="flex items-center gap-space-sm min-w-[200px]">
+
+<div class="flex flex-col">
+<span class="text-lg tracking-tight text-on-surface font-bold leading-none">PayKaro</span>
+<span class="text-[10px] text-secondary tracking-wider uppercase font-semibold mt-0.5">MSME Receivables</span>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="flex-1 max-w-xl mx-space-md">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">search</span>
+<input class="w-full h-10 pl-10 pr-space-md bg-surface-container-low border border-outline-variant rounded-lg text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="globalSearchInput" placeholder="Search invoices, buyers, GSTIN..." type="text">
+</div>
+</div>
+<!-- Actions & Profile -->
+<div class="flex items-center gap-space-lg">
+<a class="inline-flex items-center gap-1.5 h-10 px-space-lg bg-primary-container hover:bg-primary text-on-primary text-sm font-semibold rounded-lg shadow-sm transition-colors" data-path="new-invoice" href="#">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ New invoice</span>
+</a>
+<div class="h-6 w-px bg-surface-container"></div>
+<div class="flex items-center gap-space-sm">
+<img alt="Sunita Rao" class="w-9 h-9 rounded-full object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJiRVVxRS-7xmxQuOxuXI_VH4HgQlzzyydxTEJCy4oPgrLrCJTNenrAzaFKbygK3ebIBUDqYMAe4UiMA-IcIVL4DZlDaDUPBb-zbioGtPuRcfdlaouwu83UfB-n3JC1iBpI8tmPnm5e5OQ0ATOyiUoNGwp4eQvnu6IeS48_SFRTgS5yYFkKd8a_30eToTrDn4lcBfyMxqCW9w9QzNBtJQFLi_LiZoe8a0wIuHWGE_AZPof6X5l0V2V">
+<div class="hidden lg:flex flex-col text-left">
+<span class="text-sm text-on-surface leading-tight font-semibold">Sunita Rao</span>
+<span class="text-[10px] text-secondary uppercase font-bold tracking-wider leading-none mt-0.5">OWNER</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Bar -->
+<div class="h-11 px-margin border-t border-surface-container bg-surface-container-lowest flex items-center">
+<nav class="flex items-center gap-space-xl h-full">
+<a class="h-full flex items-center text-sm font-medium text-secondary hover:text-on-surface border-b-2 border-transparent transition-colors" data-path="overview" href="#">Overview</a>
+<a class="h-full flex items-center text-sm font-medium text-secondary hover:text-on-surface border-b-2 border-transparent transition-colors" data-path="invoices" href="#">Invoices</a>
+<a aria-current="page" class="h-full flex items-center text-sm font-bold border-b-2 border-primary text-primary transition-colors" data-path="customers" href="#">Customers</a>
+<a class="h-full flex items-center text-sm font-medium text-secondary hover:text-on-surface border-b-2 border-transparent transition-colors" data-path="finance" href="#">Finance</a>
+<a class="h-full flex items-center text-sm font-medium text-secondary hover:text-on-surface border-b-2 border-transparent transition-colors" data-path="reports" href="#">Reports</a>
+<a class="h-full flex items-center text-sm font-medium text-secondary hover:text-on-surface border-b-2 border-transparent transition-colors" data-path="settings" href="#">Settings</a>
+</nav>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="w-full pt-[148px] bg-surface flex-1 px-margin py-space-xl max-w-[1440px] mx-auto">
+<div class="flex flex-col w-full gap-space-xl">
+<!-- Summary Stat Bar -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Stat 1: Total Outstanding -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-surface-container shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="text-xs uppercase tracking-wider font-semibold text-secondary">Total Outstanding</span>
+<span class="material-symbols-outlined text-primary text-[22px]">account_balance_wallet</span>
+</div>
+<div class="mt-3 flex items-baseline">
+<span class="text-3xl font-bold tracking-tight text-on-surface">₹24,85,200.00</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 text-xs text-secondary">
+<span class="inline-flex items-center text-primary font-semibold">
+<span class="material-symbols-outlined text-[15px]">arrow_upward</span> 14.8%
+            </span>
+<span>vs. trailing 30 days</span>
+</div>
+</div>
+<!-- Stat 2: TReDS Coverage -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-surface-container shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="text-xs uppercase tracking-wider font-semibold text-secondary">TReDS Coverage</span>
+<span class="material-symbols-outlined text-tertiary text-[22px]">verified_user</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-3xl font-bold tracking-tight text-on-surface">83.1%</span>
+<span class="text-xs font-medium text-secondary">liquidatable</span>
+</div>
+<div class="mt-2 flex items-center gap-2 text-xs text-secondary">
+<span class="w-2 h-2 rounded-full bg-primary-container inline-block"></span>
+<span>3 of 4 counter-parties registered</span>
+</div>
+</div>
+<!-- Stat 3: Sovereign / CPSE Exposure -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-surface-container shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="text-xs uppercase tracking-wider font-semibold text-secondary">Sovereign / CPSE Exposure</span>
+<span class="material-symbols-outlined text-secondary text-[22px]">assured_workload</span>
+</div>
+<div class="mt-3 flex items-baseline">
+<span class="text-3xl font-bold tracking-tight text-on-surface">₹8,42,100.00</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 text-xs text-secondary">
+<span class="font-semibold text-on-surface">33.9%</span>
+<span>mandated 45-day statutory clearance</span>
+</div>
+</div>
+</div>
+<!-- Section Title & Action Button -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-3">
+<h1 class="text-2xl font-bold tracking-tight text-on-surface">Buyers</h1>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-xs font-semibold text-secondary">4 buyers</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<a class="inline-flex items-center gap-1.5 h-10 px-space-lg bg-primary-container hover:bg-primary text-on-primary text-sm font-semibold rounded-lg shadow-sm transition-colors" href="/buyers/create" id="openBuyerModalBtn">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>+ Add buyer</span>
+</a>
+</div>
+</div>
+<!-- Ledger Table Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm overflow-hidden">
+<!-- Search & Filter Bar -->
+<div class="p-space-md bg-surface-container-low/50 border-b border-surface-container flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-10 pl-10 pr-space-md bg-surface-container-lowest border border-outline-variant rounded-lg text-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary shadow-xs" id="buyerSearchInput" placeholder="Filter by buyer name or GSTIN..." type="text">
+</div>
+<div class="flex items-center gap-space-md text-xs font-medium text-secondary">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary"></span> CPSE</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span> Private Sector</span>
+</div>
+</div>
+<!-- EXACT 5-COLUMN TABLE: Buyer | GSTIN | Type | TReDS | Outstanding -->
+<!-- STRICT CONSTRAINT: No edit and no delete buttons -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse" id="buyersTable">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-container text-xs font-semibold text-secondary uppercase tracking-wider">
+<th class="py-3.5 px-space-lg">Buyer</th>
+<th class="py-3.5 px-space-lg">GSTIN</th>
+<th class="py-3.5 px-space-lg">Type</th>
+<th class="py-3.5 px-space-lg text-center">TReDS</th>
+<th class="py-3.5 px-space-lg text-right">Outstanding</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-sm text-on-surface">
+<!-- Row 1: Bharat Heavy Electricals Ltd -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-base">
+                      B
+                    </div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Bharat Heavy Electricals Ltd</span>
+<span class="text-xs text-secondary">Heavy Engineering • Power Plant Equip</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<div class="inline-flex items-center gap-1 font-mono text-xs font-medium bg-surface-container-low px-2 py-1 rounded">
+<span>27AAACB2000P1Z1</span>
+<span class="material-symbols-outlined text-primary text-[15px]">verified</span>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                    CPSE
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-center">
+<span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-highest text-primary gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Yes
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<span class="font-bold text-on-surface">₹8,42,100.00</span>
+</td>
+</tr>
+<!-- Row 2: Tata Advanced Systems -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-base">
+                      T
+                    </div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Tata Advanced Systems</span>
+<span class="text-xs text-secondary">Aerospace • Defense Precision Systems</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<div class="inline-flex items-center gap-1 font-mono text-xs font-medium bg-surface-container-low px-2 py-1 rounded">
+<span>27AABCT4321A1ZB</span>
+<span class="material-symbols-outlined text-primary text-[15px]">verified</span>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-secondary">
+                    Private
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-center">
+<span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-highest text-primary gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Yes
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<span class="font-bold text-on-surface">₹7,22,000.00</span>
+</td>
+</tr>
+<!-- Row 3: Mahindra Defense -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-base">
+                      M
+                    </div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Mahindra Defense</span>
+<span class="text-xs text-secondary">Tactical Vehicles • Structural Fabrication</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<div class="inline-flex items-center gap-1 font-mono text-xs font-medium bg-surface-container-low px-2 py-1 rounded">
+<span>27AAACM1234F1Z8</span>
+<span class="material-symbols-outlined text-primary text-[15px]">verified</span>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-secondary">
+                    Private
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-center">
+<span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-highest text-primary gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Yes
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<span class="font-bold text-on-surface">₹5,01,100.00</span>
+</td>
+</tr>
+<!-- Row 4: Larsen & Toubro -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-base">
+                      L
+                    </div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Larsen &amp; Toubro</span>
+<span class="text-xs text-secondary">Heavy Civil Infra • Plant Systems</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<div class="inline-flex items-center gap-1 font-mono text-xs font-medium bg-surface-container-low px-2 py-1 rounded">
+<span>27AAACL0123C1Z5</span>
+<span class="material-symbols-outlined text-primary text-[15px]">verified</span>
+</div>
+</td>
+<td class="py-4 px-space-lg">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-secondary">
+                    Private
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-center">
+<span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-secondary gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> No
+                  </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<span class="font-bold text-on-surface">₹4,20,000.00</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer -->
+<div class="p-space-md bg-surface-container-low border-t border-surface-container flex flex-col sm:flex-row items-center justify-between text-xs text-secondary gap-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[16px]">verified</span>
+<span>Immutable Ledger: Buyer directory records are locked for statutory MSMED compliance.</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span>Displaying 4 institutional accounts</span>
+<span class="text-outline-variant">·</span>
+<span class="font-mono font-semibold text-on-surface">Sum: ₹24,85,200.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Buyer Modal (Creation Only: No edit / delete per specification) -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/50 backdrop-blur-sm p-margin-mobile" id="addBuyerModal">
+<div class="relative w-full max-w-lg bg-surface-container-lowest rounded-xl shadow-xl p-space-xl border border-surface-container">
+<!-- Modal Header -->
+<div class="flex items-center justify-between mb-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">add_business</span>
+</div>
+<div>
+<h2 class="text-lg text-on-surface font-bold">Add Buyer</h2>
+<p class="text-xs text-secondary">Register counter-party debtor for statutory compliance</p>
+</div>
+</div>
+<button class="text-secondary hover:text-on-surface transition-colors" id="closeBuyerModalBtn" type="button">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-space-md" id="addBuyerForm" onsubmit="event.preventDefault();">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-on-surface" for="buyerName">Legal Business Name</label>
+<input class="h-10 px-space-md bg-surface-container-low border border-outline-variant rounded-lg text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary shadow-xs" id="buyerName" placeholder="e.g. Bharat Dynamics Limited" required="" type="text">
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-on-surface" for="buyerGSTIN">Buyer GSTIN (15 Digits)</label>
+<input class="h-10 px-space-md bg-surface-container-low border border-outline-variant font-mono rounded-lg text-sm uppercase text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary shadow-xs" id="buyerGSTIN" maxlength="15" placeholder="27AAACB0000A1Z5" required="" type="text">
+</div>
+<div class="grid grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-on-surface" for="buyerType">Organization Type</label>
+<select class="h-10 px-space-md bg-surface-container-low border border-outline-variant rounded-lg text-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary shadow-xs" id="buyerType">
+<option value="Private">Private</option>
+<option value="CPSE">CPSE</option>
+<option value="State PSU">State PSU</option>
+<option value="Public Ltd">Public Ltd</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-on-surface" for="tredsRegistered">TReDS Registered?</label>
+<select class="h-10 px-space-md bg-surface-container-low border border-outline-variant rounded-lg text-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary shadow-xs" id="tredsRegistered">
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-on-surface" for="initialBalance">Initial Ledger Balance (INR)</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-secondary text-sm font-semibold">₹</span>
+<input class="w-full h-10 pl-8 pr-space-md bg-surface-container-low border border-outline-variant rounded-lg text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary shadow-xs" id="initialBalance" placeholder="0.00" step="0.01" type="number">
+</div>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg flex items-start gap-2 text-secondary text-xs">
+<span class="material-symbols-outlined text-[16px] text-primary mt-0.5">info</span>
+<span>By registering, GSTIN validity will be verified against the statutory portal. Direct buyer entries cannot be modified or deleted.</span>
+</div>
+<!-- Actions -->
+<div class="mt-space-sm flex items-center justify-end gap-space-sm">
+<button class="h-10 px-space-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-sm font-semibold rounded-lg transition-colors" id="cancelModalBtn" type="button">
+              Cancel
+            </button>
+<button class="h-10 px-space-lg bg-primary-container hover:bg-primary text-on-primary text-sm font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-1.5" id="submitBuyerBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Create Buyer</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+<!-- Global Shell Footer -->
+<footer class="w-full bg-surface-container-lowest border-t border-surface-container py-space-md mt-auto">
+<div class="max-w-[1440px] mx-auto px-margin flex flex-col sm:flex-row items-center justify-between text-xs text-secondary gap-space-sm">
+<div>© 2025 PayKaro. MSMED Act 2006 Statutory Compliance &amp; Receivables Infrastructure.</div>
+<div class="flex items-center gap-space-lg">
+<span class="text-primary font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          GSTN &amp; TReDS Verified
+        </span>
+<a class="hover:text-primary transition-colors" data-path="help" href="#">Compliance Support</a>
+<a class="hover:text-primary transition-colors" data-path="settings" href="#">Audit Logs</a>
+</div>
+</div>
+</footer>
+<script>
+    const modal = document.getElementById('addBuyerModal');
+    const openBtn = document.getElementById('openBuyerModalBtn');
+    const closeBtn = document.getElementById('closeBuyerModalBtn');
+    const cancelBtn = document.getElementById('cancelModalBtn');
+    const submitBtn = document.getElementById('submitBuyerBtn');
+    const searchInput = document.getElementById('buyerSearchInput');
+    const table = document.getElementById('buyersTable');
+
+    function showModal(e) {
+      if (e) e.preventDefault();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function hideModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    openBtn?.addEventListener('click', showModal);
+    closeBtn?.addEventListener('click', hideModal);
+    cancelBtn?.addEventListener('click', hideModal);
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) hideModal();
+    });
+
+    // Client-side search for buyer name or GSTIN
+    searchInput?.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    });
+
+    // Modal creation: append new buyer with exact 5 columns and no edit/delete buttons
+    submitBtn?.addEventListener('click', () => {
+      const nameInput = document.getElementById('buyerName');
+      const gstinInput = document.getElementById('buyerGSTIN');
+      const typeSelect = document.getElementById('buyerType');
+      const tredsSelect = document.getElementById('tredsRegistered');
+      const balInput = document.getElementById('initialBalance');
+
+      if (!nameInput.value || !gstinInput.value) {
+        nameInput.focus();
+        return;
+      }
+
+      const tbody = table.querySelector('tbody');
+      const initialLetter = nameInput.value.trim().charAt(0).toUpperCase() || 'B';
+      const parsedBal = balInput.value ? parseFloat(balInput.value).toLocaleString('en-IN', { minimumFractionDigits: 2 }) : '0.00';
+      const isTreds = tredsSelect.value === 'Yes';
+      const isCpse = typeSelect.value === 'CPSE';
+
+      const newRow = document.createElement('tr');
+      newRow.className = 'hover:bg-surface-container-low/40 transition-colors';
+      newRow.innerHTML = `
+        <td class="py-4 px-space-lg">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-base">
+              ${initialLetter}
+            </div>
+            <div class="flex flex-col">
+              <span class="font-semibold text-on-surface">${nameInput.value}</span>
+              <span class="text-xs text-secondary">Industrial OEM &bull; Direct Buyer</span>
+            </div>
+          </div>
+        </td>
+        <td class="py-4 px-space-lg">
+          <div class="inline-flex items-center gap-1 font-mono text-xs font-medium bg-surface-container-low px-2 py-1 rounded">
+            <span>${gstinInput.value.toUpperCase()}</span>
+            <span class="material-symbols-outlined text-primary text-[15px]">verified</span>
+          </div>
+        </td>
+        <td class="py-4 px-space-lg">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${isCpse ? 'bg-primary/10 text-primary' : 'bg-surface-container text-secondary'}">
+            ${typeSelect.value}
+          </span>
+        </td>
+        <td class="py-4 px-space-lg text-center">
+          <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${isTreds ? 'bg-surface-container-highest text-primary' : 'bg-surface-container text-secondary'} gap-1">
+            <span class="w-1.5 h-1.5 rounded-full ${isTreds ? 'bg-primary' : 'bg-outline'}"></span> ${tredsSelect.value}
+          </span>
+        </td>
+        <td class="py-4 px-space-lg text-right">
+          <span class="font-bold text-on-surface">₹${parsedBal}</span>
+        </td>
+      `;
+
+      tbody.prepend(newRow);
+      hideModal();
+
+      nameInput.value = '';
+      gstinInput.value = '';
+      balInput.value = '';
+    });
+  </script>
+
+
+</body></html>

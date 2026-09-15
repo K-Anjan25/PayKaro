@@ -1,0 +1,435 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;font-family:'Plus Jakarta Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface": "#0b1c30", "on-primary-fixed-variant": "#0039b5", "tertiary-fixed": "#c9e6ff", "on-error": "#ffffff", "tertiary": "#00496b", "secondary": "#565d79", "surface-bright": "#f8f9ff", "on-tertiary-fixed": "#001e2f", "on-surface-variant": "#434655", "on-primary-fixed": "#001551", "on-secondary-fixed-variant": "#3e4660", "surface": "#f8f9ff", "secondary-fixed-dim": "#bec5e5", "on-tertiary-fixed-variant": "#004c6e", "primary-container": "#1d4ed8", "on-secondary-container": "#5a627e", "outline-variant": "#c4c5d7", "primary-fixed": "#dce1ff", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "primary": "#0037b0", "outline": "#747686", "on-tertiary-container": "#abdaff", "surface-container-lowest": "#ffffff", "tertiary-fixed-dim": "#89ceff", "surface-variant": "#d3e4fe", "surface-container": "#e5eeff", "on-secondary-fixed": "#131a33", "secondary-fixed": "#dbe1ff", "secondary-container": "#d8deff", "inverse-on-surface": "#eaf1ff", "inverse-primary": "#b7c4ff", "surface-container-highest": "#d3e4fe", "surface-container-low": "#eff4ff", "on-secondary": "#ffffff", "inverse-surface": "#213145", "surface-tint": "#2151da", "on-primary-container": "#cad3ff", "on-primary": "#ffffff", "error": "#ba1a1a", "surface-dim": "#cbdbf5", "background": "#f8f9ff", "on-background": "#0b1c30", "surface-container-high": "#dce9ff", "error-container": "#ffdad6", "tertiary-container": "#00628d", "primary-fixed-dim": "#b7c4ff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "1.5rem", "space-lg": "1.5rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xl": "2rem", "margin-mobile": "1rem", "space-xs": "0.25rem", "margin": "2rem" }, "fontFamily": { "headline-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"] }, "fontSize": { "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}], "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700"}], "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}], "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400"}], "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400"}], "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}], "headline-xl-mobile": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}], "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}], "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600"}], "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "700"}] } } } };</script></head><body class="bg-surface text-on-surface flex flex-col min-h-screen relative"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-gutter-mobile flex items-center justify-between"><div class="flex items-center gap-space-sm"><button class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">arrow_back_ios_new</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface">Invoice Detail Sheet</h1></div><div class="flex items-center gap-space-sm"><button class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">share</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Underlying Context / Dimmed Mobile Canvas (Invoice Detail View) -->
+<div aria-hidden="true" class="px-gutter-mobile py-space-sm opacity-35 select-none pointer-events-none">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm mb-space-sm flex justify-between items-center">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Invoice Ref</span>
+<div class="font-headline-sm text-headline-sm text-on-surface">INV-2026-007</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Bharat Heavy Electricals Ltd (BHEL)</div>
+</div>
+<div class="text-right">
+<span class="bg-error-container text-on-error-container font-label-sm text-label-sm px-2 py-0.5 rounded-full">74d Overdue</span>
+<div class="font-label-lg text-label-lg text-on-surface mt-1">₹8,42,100.00</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md h-40"></div>
+</div>
+<!-- Frosted Modal Backdrop (Fixed over screen under header) -->
+<div class="fixed inset-0 z-40 bg-on-surface/65 backdrop-blur-md transition-opacity duration-300" id="modalBackdrop"></div>
+<!-- Bottom Sheet Container -->
+<div class="fixed inset-x-0 bottom-0 z-50 max-h-[92vh] flex flex-col bg-surface-container-lowest rounded-t-3xl shadow-2xl overflow-hidden transition-transform duration-300" id="claimBottomSheet"><!-- Drag Handle & Top Dismiss Indicator -->
+<div class="pt-3 pb-1 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing w-full" onclick="dismissSheet()">
+  <div class="w-12 h-1.5 rounded-full bg-outline-variant/60"></div>
+</div>
+
+<!-- VIEW 1: Filing Configuration Form -->
+<div id="formView" class="flex flex-col flex-1 overflow-hidden transition-all duration-300">
+  <!-- Sheet Header -->
+  <div class="px-gutter-mobile pb-3 pt-1 flex items-center justify-between">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-10 h-10 rounded-xl bg-error-container/60 flex items-center justify-center text-error">
+        <span class="material-symbols-outlined text-[24px]">gavel</span>
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Start MSEFC Dispute</h2>
+          <span class="bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm px-1.5 py-0.5 rounded">Sec 18</span>
+        </div>
+        <p class="font-label-sm text-label-sm text-on-surface-variant">INV-2026-007 • BHEL (CPSE)</p>
+      </div>
+    </div>
+    <button aria-label="Close sheet" class="w-11 h-11 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface-variant transition-colors" onclick="dismissSheet()" type="button">
+      <span class="material-symbols-outlined text-[20px]">close</span>
+    </button>
+  </div>
+
+  <!-- Scrollable Form Body -->
+  <div class="overflow-y-auto px-gutter-mobile space-y-space-md pb-6 pt-1 flex-1">
+    <!-- Statutory Limitation Banner -->
+    <div class="bg-gradient-to-r from-error-container/50 via-surface-container-low to-surface-container rounded-xl p-space-md shadow-sm">
+      <div class="flex items-start justify-between gap-space-sm">
+        <div class="space-y-1">
+          <div class="flex items-center gap-1.5 text-error font-label-md text-label-md">
+            <span class="material-symbols-outlined text-[18px]">timer</span>
+            <span class="uppercase tracking-wider font-semibold">Statutory Limitation Cutoff</span>
+          </div>
+          <div class="font-headline-sm text-headline-sm text-on-surface flex items-baseline gap-2">
+            <span class="">18 Days Remaining</span>
+            <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">(30 May 2026)</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Computed per MSMED Act Sec 15. Overdue by 74 days past statutory 45-day clearance ceiling.
+          </p>
+        </div>
+        <div class="bg-surface-container-lowest px-2.5 py-1.5 rounded-lg text-center shadow-sm">
+          <span class="font-label-sm text-label-sm text-secondary block">Dossier</span>
+          <span class="font-label-lg text-label-lg text-primary font-bold">94/100</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Claim Valuation Bento -->
+    <div class="bg-surface-container-low rounded-xl p-space-md">
+      <div class="flex items-center justify-between pb-space-sm">
+        <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Claim Valuation Computation</span>
+        <span class="font-label-sm text-label-sm text-primary font-semibold">RBI 3x Bank Rate</span>
+      </div>
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between font-body-md text-body-md">
+          <span class="text-on-surface-variant">Principal Commercial Debt</span>
+          <span class="font-semibold text-on-surface tracking-tight">₹8,42,100.00</span>
+        </div>
+        <div class="flex items-center justify-between font-body-md text-body-md">
+          <div class="flex items-center gap-1 text-on-surface-variant">
+            <span class="">Statutory Interest (Sec 16 @ 19.5%)</span>
+            <span class="material-symbols-outlined text-[16px] text-tertiary" title="Compounded monthly at 3x RBI Bank Repo Rate">info</span>
+          </div>
+          <span class="font-semibold text-error tracking-tight">+ ₹1,14,312.40</span>
+        </div>
+        <div class="pt-2 mt-1 bg-surface-container-lowest p-3 rounded-lg flex items-center justify-between shadow-sm">
+          <div>
+            <span class="font-label-sm text-label-sm text-secondary block">Total Claim Dossier</span>
+            <span class="font-label-sm text-label-sm text-tertiary">Enforceable recovery</span>
+          </div>
+          <div class="text-right">
+            <span class="font-headline-md text-headline-md text-primary font-bold tracking-tight">₹9,56,412.40</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forum Selection -->
+    <div class="space-y-2.5">
+      <div class="flex items-center justify-between">
+        <label class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Select Forum <span class="text-error">*</span></label>
+        <span class="font-label-sm text-label-sm text-secondary">WIREFRAMES.md forum spec</span>
+      </div>
+      <label class="forum-card relative flex items-start gap-3 p-3.5 rounded-xl cursor-pointer bg-surface-container-lowest hover:bg-surface-container transition-all shadow-sm">
+        <input checked="" class="mt-1 accent-primary w-4 h-4 cursor-pointer" name="forum" type="radio" value="MSEFC">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-label-lg text-label-lg text-on-surface">Micro &amp; Small Enterprises Facilitation Council (MSEFC)</span>
+            <span class="bg-primary text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full">Recommended for CPSE</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Statutory fast-track arbitration under MSMED Act 2006. Binding decree with 75% mandatory buyer deposit upon appeal.</p>
+        </div>
+      </label>
+      <label class="forum-card relative flex items-start gap-3 p-3.5 rounded-xl cursor-pointer bg-surface-container-lowest hover:bg-surface-container transition-all shadow-sm">
+        <input class="mt-1 accent-primary w-4 h-4 cursor-pointer" name="forum" type="radio" value="Mediation">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-label-lg text-label-lg text-on-surface">Institutional Conciliation &amp; Mediation</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Structured bilateral conciliation before state MSME council panel. Best for ongoing enterprise vendor relationship retention.</p>
+        </div>
+      </label>
+    </div>
+
+    <!-- Evidence Readiness Checklist -->
+    <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="font-label-md text-label-md text-on-surface">Evidence Readiness Dossier</span>
+          <span class="font-body-sm text-body-sm text-on-surface-variant block">5 of 5 key instruments validated</span>
+        </div>
+        <div class="flex items-center gap-1 font-label-sm text-label-sm text-tertiary bg-tertiary-fixed/40 px-2 py-1 rounded-md">
+          <span class="material-symbols-outlined text-[16px]">verified</span>
+          <span class="">Cryptographically Signed</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-2">
+        <div class="flex items-center justify-between bg-surface-container-low px-3 py-2 rounded-lg font-body-sm text-body-sm">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-primary">task_alt</span>
+            <span class="text-on-surface font-medium">Purchase Order (PO-BHEL-2026-089)</span>
+          </div>
+          <span class="text-secondary font-mono text-xs">Verified</span>
+        </div>
+        <div class="flex items-center justify-between bg-surface-container-low px-3 py-2 rounded-lg font-body-sm text-body-sm">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-primary">task_alt</span>
+            <span class="text-on-surface font-medium">Goods Receipt Note (GRN-9941)</span>
+          </div>
+          <span class="text-secondary font-mono text-xs">Verified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Form Actions -->
+  <div class="p-gutter-mobile pt-3 pb-safe bg-surface-container-lowest shadow-[0_-4px_16px_rgba(0,0,0,0.06)] space-y-2.5">
+    <button class="w-full h-12 rounded-xl bg-primary hover:bg-primary/95 active:scale-[0.99] text-on-primary flex items-center justify-center gap-2 font-label-lg text-label-lg transition-all shadow-md" id="startClaimBtn" onclick="handleStartClaim()" type="button">
+      <span class="material-symbols-outlined text-[20px]">play_circle</span>
+      <span class="">Start claim</span>
+    </button>
+    <div class="grid grid-cols-2 gap-2">
+      <button class="h-11 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center gap-1.5 font-label-md text-label-md transition-colors" id="downloadDraftBtn" onclick="handleDraftDownload()" type="button">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+        <span class="">Draft Dossier</span>
+      </button>
+      <button class="h-11 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center font-label-md text-label-md transition-colors" onclick="dismissSheet()" type="button">
+        <span class="">Cancel / Later</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW 2: MSEFC Claim Lodged Confirmation View -->
+<div id="confirmationView" class="hidden flex flex-col flex-1 overflow-hidden transition-all duration-300">
+  <!-- Header with Close -->
+  <div class="px-gutter-mobile pb-2 pt-1 flex items-center justify-between border-b border-surface-container">
+    <div class="flex items-center gap-2">
+      <span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">verified</span> Case Enrolled
+      </span>
+      <span class="text-secondary font-label-sm text-label-sm font-mono">MSME Samadhaan Live</span>
+    </div>
+    <button aria-label="Close sheet" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface-variant transition-colors" onclick="dismissSheet()" type="button">
+      <span class="material-symbols-outlined text-[20px]">close</span>
+    </button>
+  </div>
+
+  <!-- Scrollable Confirmation Body -->
+  <div class="overflow-y-auto px-gutter-mobile space-y-space-md pb-6 pt-3 flex-1">
+    <!-- Council Emblem & Lodged Headline -->
+    <div class="flex flex-col items-center text-center pt-2 pb-1">
+      <div class="relative flex items-center justify-center mb-3">
+        <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center text-primary shadow-sm">
+          <span class="material-symbols-outlined text-[32px]">account_balance</span>
+        </div>
+        <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md ring-2 ring-surface-container-lowest">
+          <span class="material-symbols-outlined text-[16px] font-bold">check</span>
+        </div>
+      </div>
+      <h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">MSEFC Claim Lodged!</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 max-w-xs">
+        Statutory petition successfully enrolled with the State Facilitation Council per Sec 18 of MSMED Act 2006.
+      </p>
+    </div>
+
+    <!-- Claim Valuation Highlight Bento -->
+    <div class="bg-surface-container-low rounded-xl p-space-md border border-outline-variant/60">
+      <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Total Statutory Claim Valuation</span>
+        <span class="bg-primary text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-mono">Sec 16 Enforced</span>
+      </div>
+      <div class="pt-2 flex items-baseline justify-between">
+        <div class="font-headline-lg text-headline-lg text-primary font-bold tracking-tight">₹9,56,412.40</div>
+        <span class="font-label-sm text-label-sm text-secondary font-medium">INR</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-2.5 mt-2 border-t border-surface-container text-body-sm font-body-sm">
+        <div>
+          <span class="text-on-surface-variant block text-xs">Commercial Principal</span>
+          <span class="text-on-surface font-semibold">₹8,42,100.00</span>
+        </div>
+        <div class="text-right">
+          <span class="text-on-surface-variant block text-xs">Sec 16 Accrued Interest</span>
+          <span class="text-error font-semibold">+ ₹1,14,312.40</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dossier Enrolment Table Card -->
+    <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/60 space-y-2.5">
+      <div class="flex items-center justify-between pb-1">
+        <span class="font-label-md text-label-md text-on-surface font-semibold uppercase tracking-wider">Dossier Particulars</span>
+        <span class="text-xs font-mono text-tertiary bg-tertiary-fixed/40 px-2 py-0.5 rounded font-medium">IRN Active</span>
+      </div>
+      <div class="space-y-2 text-body-sm font-body-sm">
+        <div class="flex items-center justify-between py-1 border-b border-surface-container-low">
+          <span class="text-on-surface-variant">Adjudicating Forum</span>
+          <span class="text-on-surface font-semibold text-right">MSEFC Bhopal Bench</span>
+        </div>
+        <div class="flex items-center justify-between py-1 border-b border-surface-container-low">
+          <span class="text-on-surface-variant">Case Reference No.</span>
+          <span class="text-primary font-mono font-bold text-right">MP/08/M/2026/04192</span>
+        </div>
+        <div class="flex items-center justify-between py-1 border-b border-surface-container-low">
+          <span class="text-on-surface-variant">Respondent Enterprise</span>
+          <span class="text-on-surface font-medium text-right">Bharat Heavy Electricals Ltd (BHEL)</span>
+        </div>
+        <div class="flex items-center justify-between py-1 border-b border-surface-container-low">
+          <span class="text-on-surface-variant">Defaulted Invoice</span>
+          <span class="text-on-surface font-mono text-right">INV-2026-007 (74d overdue)</span>
+        </div>
+        <div class="flex items-center justify-between py-1">
+          <span class="text-on-surface-variant">Evidentiary Instruments</span>
+          <span class="text-primary font-semibold flex items-center gap-1 text-right">
+            <span class="material-symbols-outlined text-[16px]">verified</span> 5 of 5 Verified Artifacts
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 19 75% Pre-deposit Statutory Rule Callout -->
+    <div class="p-3 bg-secondary-container/40 rounded-xl flex items-start gap-2.5 border border-secondary-container">
+      <span class="material-symbols-outlined text-[20px] text-tertiary mt-0.5">shield</span>
+      <div class="space-y-0.5">
+        <span class="font-label-md text-label-md text-on-surface font-semibold block">Section 19 Statutory Protection Enacted</span>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+          Under Section 19 of the MSMED Act, no appeal or court challenge by BHEL can be entertained without pre-depositing <strong>75% of this decreed claim amount</strong> with the council.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation View Fixed Bottom Actions -->
+  <div class="p-gutter-mobile pt-3 pb-safe bg-surface-container-lowest shadow-[0_-4px_16px_rgba(0,0,0,0.06)] space-y-2">
+    <button class="w-full h-12 rounded-xl bg-primary hover:bg-primary/95 active:scale-[0.99] text-on-primary flex items-center justify-center gap-2 font-label-lg text-label-lg transition-all shadow-md" onclick="handleDownloadDossier()" type="button">
+      <span class="material-symbols-outlined text-[20px]">download</span>
+      <span id="pdfBtnText" class="">Download Claim Dossier (PDF)</span>
+    </button>
+    <button class="w-full h-11 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center gap-2 font-label-md text-label-md transition-colors" onclick="handleTrackPortal()" type="button">
+      <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+      <span id="portalBtnText" class="">Track on Samadhaan Portal</span>
+    </button>
+  </div>
+</div>
+
+<!-- Interactive Handlers Script -->
+<script>
+  function dismissSheet() {
+    const sheet = document.getElementById('claimBottomSheet');
+    const backdrop = document.getElementById('modalBackdrop');
+    if (sheet) sheet.classList.add('translate-y-full');
+    if (backdrop) {
+      backdrop.classList.add('opacity-0');
+      backdrop.classList.add('pointer-events-none');
+    }
+    setTimeout(() => {
+      if (sheet) sheet.style.display = 'none';
+      if (backdrop) backdrop.style.display = 'none';
+    }, 300);
+  }
+
+  function handleStartClaim() {
+    const startBtn = document.getElementById('startClaimBtn');
+    const formView = document.getElementById('formView');
+    const confirmView = document.getElementById('confirmationView');
+
+    if (startBtn) {
+      startBtn.disabled = true;
+      startBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">sync</span><span>Submitting Petition to MSEFC Samadhaan...</span>';
+    }
+
+    setTimeout(() => {
+      if (formView) formView.classList.add('hidden');
+      if (confirmView) confirmView.classList.remove('hidden');
+    }, 600);
+  }
+
+  function handleDraftDownload() {
+    const btn = document.getElementById('downloadDraftBtn');
+    if (!btn) return;
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span><span>Generating PDF...</span>';
+    setTimeout(() => { btn.innerHTML = orig; }, 1400);
+  }
+
+  function handleDownloadDossier() {
+    const label = document.getElementById('pdfBtnText');
+    if (label) {
+      const prev = label.innerText;
+      label.innerText = 'Downloading MP-08-M-2026-04192.pdf...';
+      setTimeout(() => { label.innerText = 'Dossier Downloaded!'; }, 1200);
+      setTimeout(() => { label.innerText = prev; }, 2600);
+    }
+  }
+
+  function handleTrackPortal() {
+    const label = document.getElementById('portalBtnText');
+    if (label) {
+      const prev = label.innerText;
+      label.innerText = 'Opening MSME Samadhaan (Ref: MP/08/M/2026/04192)...';
+      setTimeout(() => { label.innerText = prev; }, 1500);
+    }
+  }
+
+  const backdropEl = document.getElementById('modalBackdrop');
+  if (backdropEl) {
+    backdropEl.onclick = dismissSheet;
+  }
+</script></div>
+<!-- Micro-interaction Success Toast (Hidden initially) -->
+<div class="fixed top-16 left-4 right-4 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toastNotification">
+<div class="bg-inverse-surface text-inverse-on-surface p-3.5 rounded-xl shadow-xl flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-label-md text-label-md font-bold">MSEFC Dossier Filed Successfully</div>
+<div class="font-body-sm text-body-sm text-surface-container-high truncate">Dispute ref MSEFC-BHEL-2026-992 generated.</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function initDisputeSheet() {
+    const sheet = document.getElementById('claimBottomSheet');
+    const backdrop = document.getElementById('modalBackdrop');
+    const closeBtn = document.getElementById('closeSheetBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const startClaimBtn = document.getElementById('startClaimBtn');
+    const toast = document.getElementById('toastNotification');
+    const downloadDraftBtn = document.getElementById('downloadDraftBtn');
+
+    function dismissSheet() {
+      sheet.classList.add('translate-y-full');
+      backdrop.classList.add('opacity-0');
+      backdrop.classList.add('pointer-events-none');
+      setTimeout(() => {
+        sheet.style.display = 'none';
+        backdrop.style.display = 'none';
+      }, 300);
+    }
+
+    function triggerConfirmation() {
+      startClaimBtn.disabled = true;
+      startClaimBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span><span>Encrypting &amp; Filing...</span>';
+      
+      setTimeout(() => {
+        dismissSheet();
+        if (toast) {
+          toast.classList.remove('-translate-y-20', 'opacity-0');
+          toast.classList.add('translate-y-0', 'opacity-100');
+          setTimeout(() => {
+            toast.classList.add('-translate-y-20', 'opacity-0');
+            toast.classList.remove('translate-y-0', 'opacity-100');
+          }, 4000);
+        }
+      }, 1100);
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', dismissSheet);
+    if (cancelBtn) cancelBtn.addEventListener('click', dismissSheet);
+    if (backdrop) backdrop.addEventListener('click', dismissSheet);
+    if (startClaimBtn) startClaimBtn.addEventListener('click', triggerConfirmation);
+
+    if (downloadDraftBtn) {
+      downloadDraftBtn.addEventListener('click', function() {
+        const originalText = downloadDraftBtn.innerHTML;
+        downloadDraftBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span><span>Generating PDF...</span>';
+        setTimeout(() => {
+          downloadDraftBtn.innerHTML = originalText;
+        }, 1500);
+      });
+    }
+
+    // Touch gesture swipe-down hint for native mobile feel
+    let touchStartY = 0;
+    sheet.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    sheet.addEventListener('touchmove', (e) => {
+      const touchY = e.touches[0].clientY;
+      const diff = touchY - touchStartY;
+      if (diff > 80 && sheet.scrollTop <= 0) {
+        dismissSheet();
+      }
+    }, { passive: true });
+  })();
+</script></main>
+
+</body></html>

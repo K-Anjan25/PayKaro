@@ -1,0 +1,1697 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayKaro — Interactive Prototype &amp; Flow Simulation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            brand: {
+              blue: '#1d4ed8',
+              'blue-hover': '#1e40af',
+              sky: '#0284c7',
+              navy: '#0b132b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .screen-container {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .flow-node-active {
+      box-shadow: 0 0 0 2px #1d4ed8, 0 8px 24px -4px rgba(29, 78, 216, 0.25);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-[#f8faff] text-slate-900 font-sans min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- TOP PERSISTENT GLOBAL BANNER & WORKSPACE HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <!-- Utility Bar -->
+    <div class="px-6 py-1.5 bg-slate-900 text-slate-300 text-xs flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-600 text-white tracking-wide uppercase">Prototype Master</span>
+        <span class="font-medium text-white">Shree Precision Components</span>
+        <span class="text-slate-500">·</span>
+        <span class="text-slate-400">Demo workspace (Statutory MSMED &amp; TReDS Live)</span>
+      </div>
+      <div class="flex items-center space-x-4 text-xs">
+        <span class="text-slate-400">Owner: <strong class="text-white font-medium">Sunita Rao</strong></span>
+        <span class="text-slate-600">|</span>
+        <span class="text-emerald-400 flex items-center gap-1.5 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          TReDS Node Online (RXIL · M1xchange · Invoicemart)
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <div class="px-6 py-3.5 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <!-- Pure Typographic Wordmark -->
+        <a href="#prototype" class="flex items-center text-2xl font-extrabold tracking-tight">
+          <span class="text-[#0b132b]">Pay</span><span class="text-[#1d4ed8]">Karo</span>
+        </a>
+
+        <!-- Interactive Route Navigation (Wires up Prototype Views) -->
+        <nav class="flex items-center space-x-1" id="main-nav-tabs">
+          <button onclick="switchView('dashboard')" id="nav-dashboard" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-[#1d4ed8] bg-blue-50 transition-colors">
+            Overview
+          </button>
+          <button onclick="switchView('invoices')" id="nav-invoices" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+            Invoices <span class="ml-1 px-1.5 py-0.2 bg-blue-100 text-blue-700 text-xs rounded-full font-bold">15</span>
+          </button>
+          <button onclick="switchView('detail')" id="nav-detail" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+            Detail Hub <span class="ml-1 text-[11px] font-mono text-slate-400">INV-2026-007</span>
+          </button>
+          <button onclick="switchView('buyers')" id="nav-buyers" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+            Customers
+          </button>
+          <button onclick="switchView('finance')" id="nav-finance" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+            Finance &amp; TReDS
+          </button>
+          <button onclick="switchView('reports')" id="nav-reports" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+            Reports
+          </button>
+          <button onclick="switchView('settings')" id="nav-settings" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+            Settings
+          </button>
+        </nav>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="flex items-center space-x-3">
+        <!-- Quick Flow Guide Toggle -->
+        <button onclick="toggleFlowMap()" class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 shadow-sm">
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+          Interactive Flow Map
+        </button>
+        <button onclick="openModal('create-invoice-modal')" class="px-3.5 py-1.5 bg-[#1d4ed8] hover:bg-[#1e40af] text-white text-xs font-bold rounded-lg shadow-sm flex items-center gap-1.5 transition-all">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+          + New Invoice
+        </button>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE WIREFRAME LIFECYCLE CONTROLLER (Flow Bar) -->
+    <div class="bg-gradient-to-r from-blue-50 via-indigo-50/50 to-slate-50 border-t border-b border-blue-100/70 px-6 py-2 flex items-center justify-between text-xs">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-slate-800 flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          Live User Journey Step:
+        </span>
+        <span id="current-step-badge" class="px-2 py-0.5 rounded-full bg-blue-600 text-white font-mono text-[11px] font-bold">1. Overview Dashboard</span>
+        <span class="text-slate-400">→</span>
+        <span id="next-action-hint" class="text-slate-600 font-medium">Click on an invoice below to inspect the detail hub</span>
+      </div>
+
+      <!-- Quick Stepper Controls -->
+      <div class="flex items-center space-x-1.5">
+        <button onclick="stepFlow(-1)" class="px-2 py-1 rounded bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold shadow-xs flex items-center gap-1">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          Prev Step
+        </button>
+        <button onclick="stepFlow(1)" class="px-2 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 font-semibold shadow-xs flex items-center gap-1">
+          Next Step
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+        <button onclick="resetPrototype()" class="px-2 py-1 rounded bg-slate-200 text-slate-700 hover:bg-slate-300 font-semibold text-[11px]">
+          Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- COLLAPSIBLE INTERACTIVE FLOW MAP (Architecture Overlay) -->
+  <div id="flow-map-drawer" class="hidden bg-slate-900 text-white border-b border-slate-800 p-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <span>🗺️</span> PayKaro End-to-End Interactive Architecture Map
+          </h3>
+          <p class="text-xs text-slate-400 mt-0.5">Click any node in this diagram to instantly teleport to that state in the prototype.</p>
+        </div>
+        <button onclick="toggleFlowMap()" class="text-slate-400 hover:text-white text-xs font-mono bg-slate-800 px-2 py-1 rounded">✕ Close Map</button>
+      </div>
+
+      <!-- Interactive Node Grid -->
+      <div class="grid grid-cols-5 gap-3 text-xs font-mono">
+        <!-- Node 1 -->
+        <div onclick="switchView('dashboard')" class="cursor-pointer bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-blue-500 rounded-xl p-3.5 transition-all relative group">
+          <div class="text-[10px] text-blue-400 font-bold uppercase tracking-wider mb-1">State 01</div>
+          <div class="font-bold text-white text-sm mb-1 group-hover:text-blue-300">Overview Dashboard</div>
+          <p class="text-[11px] text-slate-400 font-sans">4-KPI summary, Ageing bar chart, Needs Attention desk</p>
+          <span class="inline-block mt-2 text-[10px] text-blue-400 font-sans">→ Links to /invoices</span>
+        </div>
+
+        <!-- Node 2 -->
+        <div onclick="switchView('invoices')" class="cursor-pointer bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-blue-500 rounded-xl p-3.5 transition-all relative group">
+          <div class="text-[10px] text-sky-400 font-bold uppercase tracking-wider mb-1">State 02</div>
+          <div class="font-bold text-white text-sm mb-1 group-hover:text-blue-300">Invoices Desk</div>
+          <p class="text-[11px] text-slate-400 font-sans">7-col ledger, 6 status tabs, filter drawer &amp; search</p>
+          <span class="inline-block mt-2 text-[10px] text-sky-400 font-sans">→ Row click to INV-2026-007</span>
+        </div>
+
+        <!-- Node 3 -->
+        <div onclick="switchView('detail')" class="cursor-pointer bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-blue-500 rounded-xl p-3.5 transition-all relative group">
+          <div class="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-1">State 03 (Core Hub)</div>
+          <div class="font-bold text-white text-sm mb-1 group-hover:text-amber-300">Invoice Detail Hub</div>
+          <p class="text-[11px] text-slate-400 font-sans">Statutory checklist, 85/100 score, 3 modal triggers</p>
+          <span class="inline-block mt-2 text-[10px] text-amber-400 font-sans">→ Launches Action Modals</span>
+        </div>
+
+        <!-- Node 4 -->
+        <div onclick="switchView('detail'); openModal('modal-payment')" class="cursor-pointer bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500 rounded-xl p-3.5 transition-all relative group">
+          <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">State 04 · Modals</div>
+          <div class="font-bold text-white text-sm mb-1 group-hover:text-emerald-300">Action Drawers</div>
+          <p class="text-[11px] text-slate-400 font-sans">Record Payment · TReDS Auction · MSEFC Dispute Filing</p>
+          <span class="inline-block mt-2 text-[10px] text-emerald-400 font-sans">→ Triggers Post-Action Confirmation</span>
+        </div>
+
+        <!-- Node 5 -->
+        <div onclick="switchView('detail'); showConfirmation('treds')" class="cursor-pointer bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-violet-500 rounded-xl p-3.5 transition-all relative group">
+          <div class="text-[10px] text-violet-400 font-bold uppercase tracking-wider mb-1">State 05 · Settlement</div>
+          <div class="font-bold text-white text-sm mb-1 group-hover:text-violet-300">Post-Action &amp; Toasts</div>
+          <p class="text-[11px] text-slate-400 font-sans">Confirmation celebrations &amp; haptic feedback simulation</p>
+          <span class="inline-block mt-2 text-[10px] text-violet-400 font-sans">→ Full Lifecycle Complete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN INTERACTIVE CANVAS VIEWPORT (DYNAMICALLY SWITCHED BY PROTOTYPE LOGIC) -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6">
+
+    <!-- VIEW 1: OVERVIEW DASHBOARD (/dashboard) -->
+    <div id="view-dashboard" class="screen-container space-y-6">
+      <!-- Title & Action Bar -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-extrabold text-[#0b132b] tracking-tight">Overview Dashboard</h1>
+          <p class="text-xs text-slate-500 mt-0.5">MSMED Act Statutory Receivables &amp; TReDS Liquidity Ledger</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Repo Rate: 6.50% (Sec 16 Compounding Active)
+          </span>
+        </div>
+      </div>
+
+      <!-- KPI ROW: EXACTLY 4 CARDS AS PER WIREFRAMES.MD -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 1. Outstanding -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-blue-300 transition-all cursor-pointer" onclick="switchView('invoices')">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Outstanding</div>
+          <div class="text-2xl font-extrabold text-[#0b132b] font-mono">₹48,25,000.00</div>
+          <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+            <span>Across 15 invoices</span>
+            <span class="text-blue-600 font-semibold hover:underline">Inspect →</span>
+          </div>
+        </div>
+
+        <!-- 2. Overdue -->
+        <div class="bg-white p-5 rounded-2xl border border-red-200/80 shadow-xs bg-gradient-to-br from-white to-red-50/20 hover:border-red-400 transition-all cursor-pointer" onclick="switchView('detail')">
+          <div class="text-xs font-bold text-red-600 uppercase tracking-wider mb-1 flex items-center justify-between">
+            <span>Overdue</span>
+            <span class="px-1.5 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded">3 Overdue</span>
+          </div>
+          <div class="text-2xl font-extrabold text-red-600 font-mono">₹14,35,000.00</div>
+          <div class="mt-2 text-xs text-red-700/80 font-medium">
+            Past Section 15 45-day statutory limit
+          </div>
+        </div>
+
+        <!-- 3. Statutory Interest -->
+        <div class="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs bg-gradient-to-br from-white to-amber-50/20">
+          <div class="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1 flex items-center justify-between">
+            <span>Statutory Interest</span>
+            <span class="text-[10px] font-mono text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">3 × Repo</span>
+          </div>
+          <div class="text-2xl font-extrabold text-amber-600 font-mono">₹1,18,420.00</div>
+          <div class="mt-2 text-xs text-slate-500">
+            MSMED Section 16 monthly compounded
+          </div>
+        </div>
+
+        <!-- 4. Receivable in 30d -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-blue-300 transition-all">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Receivable in 30d</div>
+          <div class="text-2xl font-extrabold text-[#1d4ed8] font-mono">₹21,40,000.00</div>
+          <div class="mt-2 text-xs text-slate-500">
+            Expected before Section 15 threshold
+          </div>
+        </div>
+      </div>
+
+      <!-- NEEDS ATTENTION ALERT DESK (With Dismiss All button as per spec) -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+            <h2 class="text-sm font-bold text-[#0b132b] uppercase tracking-wide">Needs Attention</h2>
+            <span class="px-2 py-0.5 rounded-full bg-red-100 text-red-800 text-xs font-bold font-mono">2 critical</span>
+          </div>
+          <button id="btn-dismiss-alerts" onclick="dismissAlerts()" class="text-xs font-bold text-slate-600 hover:text-slate-900 px-3 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
+            Dismiss all
+          </button>
+        </div>
+
+        <div id="alerts-container" class="space-y-2">
+          <!-- Alert 1 (Direct link to INV-2026-007) -->
+          <div onclick="switchView('detail')" class="p-3 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between hover:bg-red-100/70 transition-colors cursor-pointer group">
+            <div class="flex items-center space-x-3">
+              <span class="text-red-600 font-mono font-bold text-xs bg-white px-2 py-1 rounded border border-red-200">INV-2026-007</span>
+              <div>
+                <p class="text-xs font-bold text-red-900 group-hover:text-red-950">Bharat Heavy Electricals Ltd (BHEL) · Overdue by 17 Days</p>
+                <p class="text-[11px] text-red-700">Accruing ₹18,450 statutory interest under Section 16. Evidence complete (85/100).</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-red-600 group-hover:translate-x-1 transition-transform">Inspect Claim Packet →</span>
+          </div>
+
+          <!-- Alert 2 -->
+          <div onclick="switchView('finance')" class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between hover:bg-blue-100/70 transition-colors cursor-pointer group">
+            <div class="flex items-center space-x-3">
+              <span class="text-blue-600 font-mono font-bold text-xs bg-white px-2 py-1 rounded border border-blue-200">TReDS Ready</span>
+              <div>
+                <p class="text-xs font-bold text-blue-900">Tata Motors Ltd · ₹12,65,000 Accepted</p>
+                <p class="text-[11px] text-blue-700">Ready for auction floor factoring on RXIL exchange at 8.25% p.a.</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-blue-600 group-hover:translate-x-1 transition-transform">Open Auction Queue →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TWO-COLUMN SECTION: AGEING SUMMARY & RECENT INVOICES -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Ageing Summary (5 Verbatim Buckets: Current · 1-30 · 31-60 · 61-90 · 90+) -->
+        <div class="lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold text-[#0b132b]">Ageing Summary (₹)</h3>
+              <span class="text-xs text-slate-400 font-mono">5 Buckets</span>
+            </div>
+
+            <!-- Bar representation -->
+            <div class="space-y-3">
+              <div>
+                <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                  <span>Current (0-45d)</span>
+                  <span class="font-mono font-bold text-slate-900">₹21.4L</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-blue-600 rounded-full" style="width: 55%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                  <span>1-30 Overdue</span>
+                  <span class="font-mono font-bold text-amber-600">₹14.3L</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-amber-500 rounded-full" style="width: 32%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                  <span>31-60 Overdue</span>
+                  <span class="font-mono font-bold text-red-500">₹8.5L</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-red-500 rounded-full" style="width: 20%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                  <span>61-90 Overdue</span>
+                  <span class="font-mono font-bold text-slate-400">₹4.0L</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-red-600 rounded-full" style="width: 10%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                  <span>90+ Critical</span>
+                  <span class="font-mono font-bold text-slate-400">₹0.00</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-slate-300 rounded-full" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="switchView('reports')" class="mt-4 w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-200 transition-colors">
+            View Full Statutory Ageing Report →
+          </button>
+        </div>
+
+        <!-- Recent Invoices Table (Quick Access) -->
+        <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-[#0b132b]">Recent Invoices</h3>
+              <p class="text-xs text-slate-400">Select any row to test the interactive detail hub</p>
+            </div>
+            <button onclick="switchView('invoices')" class="text-xs font-bold text-[#1d4ed8] hover:underline">
+              View All 15 Invoices →
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="border-b border-slate-100 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
+                  <th class="pb-2">Invoice</th>
+                  <th class="pb-2">Customer</th>
+                  <th class="pb-2">Due Date</th>
+                  <th class="pb-2">Balance</th>
+                  <th class="pb-2">Status</th>
+                  <th class="pb-2 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <!-- Row 1: High-Priority Test Invoice (INV-2026-007) -->
+                <tr onclick="switchView('detail')" class="hover:bg-blue-50/60 cursor-pointer transition-colors group">
+                  <td class="py-3 font-mono font-bold text-[#1d4ed8] group-hover:underline">INV-2026-007</td>
+                  <td class="py-3 font-semibold text-slate-800">Bharat Heavy Electricals (BHEL)</td>
+                  <td class="py-3 text-red-600 font-medium">14 Mar 2026 <span class="text-[10px] px-1 bg-red-100 rounded text-red-700 font-bold ml-1">+17d</span></td>
+                  <td class="py-3 font-mono font-bold text-slate-900">₹8,42,100.00</td>
+                  <td class="py-3">
+                    <span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-red-100 text-red-700 border border-red-200">Disputed (MSEFC)</span>
+                  </td>
+                  <td class="py-3 text-right">
+                    <span class="px-2.5 py-1 rounded bg-blue-600 text-white font-bold text-[11px] group-hover:bg-blue-700 shadow-xs">Open Hub →</span>
+                  </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr onclick="switchView('invoices')" class="hover:bg-slate-50 cursor-pointer transition-colors">
+                  <td class="py-3 font-mono font-bold text-slate-700">INV-2026-008</td>
+                  <td class="py-3 font-semibold text-slate-800">Tata Motors Ltd</td>
+                  <td class="py-3 text-slate-600">02 Apr 2026</td>
+                  <td class="py-3 font-mono font-bold text-slate-900">₹12,65,000.00</td>
+                  <td class="py-3">
+                    <span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-100 text-blue-700 border border-blue-200">Accepted</span>
+                  </td>
+                  <td class="py-3 text-right">
+                    <span class="text-slate-400 group-hover:text-slate-600">Inspect</span>
+                  </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr onclick="switchView('invoices')" class="hover:bg-slate-50 cursor-pointer transition-colors">
+                  <td class="py-3 font-mono font-bold text-slate-700">INV-2026-009</td>
+                  <td class="py-3 font-semibold text-slate-800">Larsen &amp; Toubro Ltd</td>
+                  <td class="py-3 text-slate-600">18 Apr 2026</td>
+                  <td class="py-3 font-mono font-bold text-slate-900">₹15,40,000.00</td>
+                  <td class="py-3">
+                    <span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-violet-100 text-violet-700 border border-violet-200">Financed (TReDS)</span>
+                  </td>
+                  <td class="py-3 text-right">
+                    <span class="text-slate-400 group-hover:text-slate-600">Inspect</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: INVOICES DESK (/invoices) -->
+    <div id="view-invoices" class="screen-container hidden space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-extrabold text-[#0b132b] tracking-tight">Invoices</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Filter, search, and manage compliance across all raised receivables</p>
+        </div>
+        <button onclick="openModal('create-invoice-modal')" class="px-3.5 py-2 bg-[#1d4ed8] hover:bg-[#1e40af] text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition-all">
+          + New Invoice
+        </button>
+      </div>
+
+      <!-- STATUS TABS: VERBATIM ALL · RAISED · ACCEPTED · FINANCED · SETTLED · DISPUTED (NO DRAFT) -->
+      <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
+        <button onclick="filterStatus('All')" id="tab-All" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-xs">All (15)</button>
+        <button onclick="filterStatus('Raised')" id="tab-Raised" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Raised (4)</button>
+        <button onclick="filterStatus('Accepted')" id="tab-Accepted" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Accepted (5)</button>
+        <button onclick="filterStatus('Financed')" id="tab-Financed" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Financed (3)</button>
+        <button onclick="filterStatus('Settled')" id="tab-Settled" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Settled (2)</button>
+        <button onclick="filterStatus('Disputed')" id="tab-Disputed" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Disputed (1)</button>
+      </div>
+
+      <!-- FILTER BAR: BUYER DROPDOWN + SEARCH BOX -->
+      <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between gap-4">
+        <div class="flex items-center space-x-3 flex-1">
+          <!-- Buyer Dropdown -->
+          <select id="buyer-filter" onchange="applyInvoiceFilters()" class="text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 font-medium text-slate-700 focus:outline-blue-600">
+            <option value="all">All Buyers (4 registered)</option>
+            <option value="BHEL">Bharat Heavy Electricals Ltd (BHEL)</option>
+            <option value="Tata">Tata Motors Ltd</option>
+            <option value="L&amp;T">Larsen &amp; Toubro Ltd</option>
+            <option value="MetRow">MetRow Ceramics</option>
+          </select>
+
+          <!-- Search matching invoice number OR buyer -->
+          <div class="relative flex-1 max-w-sm">
+            <input type="text" id="invoice-search" oninput="applyInvoiceFilters()" placeholder="Search invoice number or buyer..." class="w-full text-xs pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-blue-600">
+            <svg class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+        </div>
+
+        <button onclick="toggleMobileFilterDrawer()" class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+          Filter Drawer Simulation
+        </button>
+      </div>
+
+      <!-- EXACT 7-COLUMN TABLE: Invoice | Customer | Due Date | Balance | Ageing | Status | Ready -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
+                <th class="py-3 px-4">Invoice</th>
+                <th class="py-3 px-4">Customer</th>
+                <th class="py-3 px-4">Due Date</th>
+                <th class="py-3 px-4">Balance</th>
+                <th class="py-3 px-4">Ageing</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4">Ready</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="invoices-tbody" class="divide-y divide-slate-100">
+              <!-- Invoice Row 1 -->
+              <tr class="hover:bg-blue-50/50 cursor-pointer transition-colors" onclick="switchView('detail')">
+                <td class="py-3 px-4 font-mono font-bold text-[#1d4ed8]">INV-2026-007</td>
+                <td class="py-3 px-4 font-semibold text-slate-900">Bharat Heavy Electricals (BHEL)</td>
+                <td class="py-3 px-4 text-red-600 font-medium">14 Mar 2026</td>
+                <td class="py-3 px-4 font-mono font-bold">₹8,42,100.00</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 bg-red-100 text-red-700 font-bold rounded text-[10px]">+17d Overdue</span></td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 border border-red-200">Disputed</span></td>
+                <td class="py-3 px-4"><span class="font-bold text-emerald-600">85/100</span></td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2 py-1 bg-blue-600 text-white rounded font-bold hover:bg-blue-700">Open Hub →</button>
+                </td>
+              </tr>
+
+              <!-- Invoice Row 2 -->
+              <tr class="hover:bg-blue-50/50 cursor-pointer transition-colors" onclick="switchView('detail')">
+                <td class="py-3 px-4 font-mono font-bold text-[#1d4ed8]">INV-2026-008</td>
+                <td class="py-3 px-4 font-semibold text-slate-900">Tata Motors Ltd</td>
+                <td class="py-3 px-4 text-slate-600 font-medium">02 Apr 2026</td>
+                <td class="py-3 px-4 font-mono font-bold">₹12,65,000.00</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 font-bold rounded text-[10px]">Current (28d)</span></td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 border border-blue-200">Accepted</span></td>
+                <td class="py-3 px-4"><span class="font-bold text-emerald-600">92/100</span></td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2 py-1 bg-slate-100 text-slate-700 rounded font-bold hover:bg-slate-200">Inspect</button>
+                </td>
+              </tr>
+
+              <!-- Invoice Row 3 -->
+              <tr class="hover:bg-blue-50/50 cursor-pointer transition-colors" onclick="switchView('detail')">
+                <td class="py-3 px-4 font-mono font-bold text-[#1d4ed8]">INV-2026-009</td>
+                <td class="py-3 px-4 font-semibold text-slate-900">Larsen &amp; Toubro Ltd</td>
+                <td class="py-3 px-4 text-slate-600 font-medium">18 Apr 2026</td>
+                <td class="py-3 px-4 font-mono font-bold">₹15,40,000.00</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 font-bold rounded text-[10px]">Current (12d)</span></td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-violet-100 text-violet-700 border border-violet-200">Financed</span></td>
+                <td class="py-3 px-4"><span class="font-bold text-emerald-600">100/100</span></td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2 py-1 bg-slate-100 text-slate-700 rounded font-bold hover:bg-slate-200">Inspect</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination (15 rows per page as per spec) -->
+        <div class="px-4 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
+          <span>Showing 1 to 3 of 15 invoices (Page 1 of 1)</span>
+          <div class="flex space-x-1 font-semibold">
+            <button class="px-2 py-1 bg-white border border-slate-200 rounded text-slate-400 cursor-not-allowed">Previous</button>
+            <button class="px-2.5 py-1 bg-blue-600 text-white rounded font-bold">1</button>
+            <button class="px-2 py-1 bg-white border border-slate-200 rounded text-slate-600 hover:bg-slate-100">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: INVOICE DETAIL HUB (/invoices/{id} · INV-2026-007) - THE CORE ACTION HUB -->
+    <div id="view-detail" class="screen-container hidden space-y-6">
+      <!-- Hub Breadcrumbs & Status Bar -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <button onclick="switchView('invoices')" class="text-xs font-bold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-2.5 py-1.5 rounded-lg flex items-center gap-1 shadow-xs">
+            ← Back to Invoices
+          </button>
+          <span class="text-slate-300">/</span>
+          <span class="font-mono text-sm font-bold text-slate-800">INV-2026-007</span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
+            Disputed (MSEFC Section 18)
+          </span>
+        </div>
+
+        <!-- Quick Links: Edit & View Claim Packet -->
+        <div class="flex items-center space-x-2 text-xs">
+          <button onclick="openModal('create-invoice-modal')" class="px-3 py-1.5 border border-slate-200 rounded-lg font-semibold text-slate-700 hover:bg-slate-100 bg-white">
+            Edit
+          </button>
+          <button onclick="switchView('claim')" class="px-3 py-1.5 bg-slate-900 text-white font-bold rounded-lg hover:bg-slate-800 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            View Claim Packet (Printable)
+          </button>
+        </div>
+      </div>
+
+      <!-- INVOICE HEADER BLOCK (Number, Buyer, Balance, Dates) -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-3 mb-1">
+            <h2 class="text-3xl font-extrabold text-[#0b132b] font-mono">₹8,42,100.00</h2>
+            <span class="text-xs text-slate-500 font-medium">Original Invoice Total</span>
+          </div>
+          <p class="text-sm font-bold text-slate-800">Buyer: Bharat Heavy Electricals Ltd (BHEL)</p>
+          <p class="text-xs text-slate-500">GSTIN: <span class="font-mono">29AAACB1234F1Z5</span> · CPSE · Onboarded on RXIL</p>
+        </div>
+
+        <!-- Section 16 Accrued Interest Display -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-right">
+          <div class="text-[11px] font-bold text-amber-800 uppercase tracking-wider">Statutory Interest Accrued</div>
+          <div class="text-lg font-extrabold font-mono text-amber-600">+₹18,450.00</div>
+          <div class="text-[10px] text-amber-700">3 × RBI Repo Rate (19.5% p.a. monthly compound)</div>
+        </div>
+      </div>
+
+      <!-- BLOCK 2: MOVE IT FORWARD (Status Pipeline Control) -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Move It Forward — Status Pipeline</h3>
+        <div class="grid grid-cols-4 gap-2 text-xs">
+          <!-- Step 1: Raised -->
+          <div class="p-2.5 rounded-xl border border-blue-200 bg-blue-50 flex items-center justify-between">
+            <span class="font-bold text-blue-900">01. Raised</span>
+            <span class="text-blue-600 font-bold">✓ 28 Jan</span>
+          </div>
+          <!-- Step 2: Accepted -->
+          <div class="p-2.5 rounded-xl border border-blue-200 bg-blue-50 flex items-center justify-between">
+            <span class="font-bold text-blue-900">02. Accepted</span>
+            <span class="text-blue-600 font-bold">✓ 04 Feb</span>
+          </div>
+          <!-- Step 3: Financed (Optional Action) -->
+          <div class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between">
+            <span class="font-semibold text-slate-700">03. Financed</span>
+            <span class="text-xs text-slate-400">Available</span>
+          </div>
+          <!-- Step 4: Settled / Disputed -->
+          <div class="p-2.5 rounded-xl border border-red-200 bg-red-50 flex items-center justify-between">
+            <span class="font-bold text-red-900">04. Disputed</span>
+            <span class="text-red-600 font-bold">Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN DETAIL CONTENT: EVIDENCE CHECKLIST (LEFT) + ACTION MODAL TRIGGERS (RIGHT) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- LEFT 2 COLS: EVIDENCE CHECKLIST & READINESS SCORE -->
+        <div class="lg:col-span-2 space-y-6">
+
+          <!-- BLOCK 3: 5-ROW EVIDENCE CHECKLIST WITH INTERACTIVE TOGGLES -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-sm font-bold text-[#0b132b]">Statutory Evidence Checklist</h3>
+                <p class="text-xs text-slate-400">Required documents for TReDS discounting &amp; MSEFC court enforcement</p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-xs font-semibold text-slate-500">Readiness:</span>
+                <span id="readiness-pill" class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs font-mono">
+                  85 / 100
+                </span>
+              </div>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+              <!-- Item 1: PO -->
+              <div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-slate-50">
+                <div class="flex items-center space-x-3">
+                  <input type="checkbox" checked="" id="chk-po" onchange="updateReadiness()" class="w-4 h-4 text-blue-600 rounded border-slate-300">
+                  <div>
+                    <label for="chk-po" class="font-bold text-slate-800 cursor-pointer">Purchase Order (PO)</label>
+                    <span class="ml-2 px-1.5 py-0.2 bg-slate-200 text-slate-700 text-[10px] rounded font-bold">Required</span>
+                    <p class="text-[11px] text-slate-500">PO #BHEL-BLR-2026-9082 signed by procurement officer</p>
+                  </div>
+                </div>
+                <span class="text-emerald-600 font-bold">Verified</span>
+              </div>
+
+              <!-- Item 2: Delivery Ack -->
+              <div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-slate-50">
+                <div class="flex items-center space-x-3">
+                  <input type="checkbox" checked="" id="chk-delivery" onchange="updateReadiness()" class="w-4 h-4 text-blue-600 rounded border-slate-300">
+                  <div>
+                    <label for="chk-delivery" class="font-bold text-slate-800 cursor-pointer">Delivery Acknowledgement</label>
+                    <span class="ml-2 px-1.5 py-0.2 bg-slate-200 text-slate-700 text-[10px] rounded font-bold">Required</span>
+                    <p class="text-[11px] text-slate-500">LR #VRL-BLR-5541 countersigned at factory gate</p>
+                  </div>
+                </div>
+                <span class="text-emerald-600 font-bold">Verified</span>
+              </div>
+
+              <!-- Item 3: Goods Receipt Note (GRN) -->
+              <div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-slate-50">
+                <div class="flex items-center space-x-3">
+                  <input type="checkbox" checked="" id="chk-grn" onchange="updateReadiness()" class="w-4 h-4 text-blue-600 rounded border-slate-300">
+                  <div>
+                    <label for="chk-grn" class="font-bold text-slate-800 cursor-pointer">Goods Receipt Note (GRN)</label>
+                    <span class="ml-2 px-1.5 py-0.2 bg-slate-200 text-slate-700 text-[10px] rounded font-bold">Required</span>
+                    <p class="text-[11px] text-slate-500">GRN-8871 countersigned with zero quality rejection</p>
+                  </div>
+                </div>
+                <span class="text-emerald-600 font-bold">Verified</span>
+              </div>
+
+              <!-- Item 4: GST-valid invoice copy -->
+              <div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-slate-50">
+                <div class="flex items-center space-x-3">
+                  <input type="checkbox" checked="" id="chk-gst" onchange="updateReadiness()" class="w-4 h-4 text-blue-600 rounded border-slate-300">
+                  <div>
+                    <label for="chk-gst" class="font-bold text-slate-800 cursor-pointer">GST-valid invoice copy</label>
+                    <span class="ml-2 px-1.5 py-0.2 bg-slate-200 text-slate-700 text-[10px] rounded font-bold">Required</span>
+                    <p class="text-[11px] text-slate-500">IRN: 8a4b1... authenticated on GST Portal &amp; e-Way Bill active</p>
+                  </div>
+                </div>
+                <span class="text-emerald-600 font-bold">Verified</span>
+              </div>
+
+              <!-- Item 5: Contract (Optional) -->
+              <div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-slate-50">
+                <div class="flex items-center space-x-3">
+                  <input type="checkbox" id="chk-contract" onchange="updateReadiness()" class="w-4 h-4 text-blue-600 rounded border-slate-300">
+                  <div>
+                    <label for="chk-contract" class="font-bold text-slate-800 cursor-pointer">Contract / Master Services Agreement</label>
+                    <span class="ml-2 px-1.5 py-0.2 bg-slate-100 text-slate-500 text-[10px] rounded font-medium">Optional (+15 pts)</span>
+                    <p class="text-[11px] text-slate-500">Annual vendor master contract covering arbitration venue</p>
+                  </div>
+                </div>
+                <span id="contract-status" class="text-amber-600 font-medium">Pending upload</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BUYER CARD & NOTES -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Buyer Card -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+              <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Buyer Card</h3>
+              <p class="text-sm font-bold text-slate-900">Bharat Heavy Electricals Ltd</p>
+              <p class="text-xs text-slate-500 mt-1">Entity: CPSE / Heavy Engineering</p>
+              <p class="text-xs text-slate-500">TReDS Status: <strong class="text-emerald-600">Onboarded (RXIL)</strong></p>
+              <button onclick="switchView('buyers')" class="mt-3 text-xs font-bold text-[#1d4ed8] hover:underline">
+                View in Customers Directory →
+              </button>
+            </div>
+
+            <!-- Notes -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+              <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Internal Note</h3>
+              <p class="text-xs text-slate-700 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                "Finance desk called on Day 40. BHEL finance team cited internal audit delay. Statutory 45-day window elapsed on 14 Mar. Section 18 filing prepared."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COL: 3 PRIMARY ACTION BLOCKS (Triggers Interactive Modals) -->
+        <div class="space-y-4">
+
+          <!-- ACTION 1: RECORD PAYMENT MODAL TRIGGER -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center space-x-2 text-xs font-bold text-emerald-700 mb-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>Settlement Desk</span>
+            </div>
+            <h3 class="text-sm font-bold text-[#0b132b] mb-1">Record Inward Payment</h3>
+            <p class="text-xs text-slate-500 mb-3">Reconcile RTGS / NEFT payment from buyer and close Section 15 liability.</p>
+            <button onclick="openModal('modal-payment')" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5">
+              <span>💳</span> Record payment
+            </button>
+          </div>
+
+          <!-- ACTION 2: TReDS FINANCING TRIGGER -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center space-x-2 text-xs font-bold text-violet-700 mb-1">
+              <span class="w-2 h-2 rounded-full bg-violet-500"></span>
+              <span>Factoring Liquidity</span>
+            </div>
+            <h3 class="text-sm font-bold text-[#0b132b] mb-1">Financing &amp; TReDS</h3>
+            <p class="text-xs text-slate-500 mb-3">Institutional multi-financier auction floor (RXIL / M1xchange / Invoicemart).</p>
+            <button onclick="openModal('modal-treds')" class="w-full py-2.5 bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5">
+              <span>⚡</span> Finance this
+            </button>
+          </div>
+
+          <!-- ACTION 3: DISPUTE & MSEFC CLAIM TRIGGER -->
+          <div class="bg-white p-5 rounded-2xl border border-red-200 bg-red-50/20 shadow-xs">
+            <div class="flex items-center space-x-2 text-xs font-bold text-red-700 mb-1">
+              <span class="w-2 h-2 rounded-full bg-red-500"></span>
+              <span>Statutory Enforcement</span>
+            </div>
+            <h3 class="text-sm font-bold text-red-950 mb-1">Dispute / MSEFC Claim</h3>
+            <p class="text-xs text-red-800/80 mb-3">Filing deadline computed: <strong class="font-mono text-red-700">14 Apr 2026</strong>. Statutory interest compounding.</p>
+            <button onclick="openModal('modal-dispute')" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5">
+              <span>⚖️</span> Start claim
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: CUSTOMERS DIRECTORY (/buyers) -->
+    <div id="view-buyers" class="screen-container hidden space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-extrabold text-[#0b132b] tracking-tight">Customers</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Showing <strong>4 buyers</strong> registered in current book</p>
+        </div>
+        <button onclick="openModal('modal-new-buyer')" class="px-3.5 py-2 bg-[#1d4ed8] hover:bg-[#1e40af] text-white text-xs font-bold rounded-xl shadow-sm">
+          + Add buyer
+        </button>
+      </div>
+
+      <!-- EXACT 5-COLUMN TABLE: Buyer | GSTIN | Type | TReDS | Outstanding (Strictly Create-Only) -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
+              <th class="py-3 px-4">Buyer</th>
+              <th class="py-3 px-4">GSTIN</th>
+              <th class="py-3 px-4">Type</th>
+              <th class="py-3 px-4">TReDS</th>
+              <th class="py-3 px-4">Outstanding</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="hover:bg-slate-50">
+              <td class="py-3.5 px-4 font-bold text-slate-900">Bharat Heavy Electricals Ltd (BHEL)</td>
+              <td class="py-3.5 px-4 font-mono text-slate-600">29AAACB1234F1Z5</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[10px] font-bold">CPSE</span></td>
+              <td class="py-3.5 px-4"><span class="text-emerald-600 font-bold">Yes (RXIL)</span></td>
+              <td class="py-3.5 px-4 font-mono font-bold text-slate-900">₹8,42,100.00</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3.5 px-4 font-bold text-slate-900">Tata Motors Ltd</td>
+              <td class="py-3.5 px-4 font-mono text-slate-600">27AAACT2727Q1ZW</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-bold">Private</span></td>
+              <td class="py-3.5 px-4"><span class="text-emerald-600 font-bold">Yes (M1xchange)</span></td>
+              <td class="py-3.5 px-4 font-mono font-bold text-slate-900">₹12,65,000.00</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3.5 px-4 font-bold text-slate-900">Larsen &amp; Toubro Ltd</td>
+              <td class="py-3.5 px-4 font-mono text-slate-600">27AAACL0149C1ZV</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-bold">Private</span></td>
+              <td class="py-3.5 px-4"><span class="text-emerald-600 font-bold">Yes (Invoicemart)</span></td>
+              <td class="py-3.5 px-4 font-mono font-bold text-slate-900">₹15,40,000.00</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3.5 px-4 font-bold text-slate-900">MetRow Ceramics</td>
+              <td class="py-3.5 px-4 font-mono text-slate-600">29AABCM9981K1Z2</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-bold">Private</span></td>
+              <td class="py-3.5 px-4"><span class="text-slate-400 font-medium">Unknown</span></td>
+              <td class="py-3.5 px-4 font-mono font-bold text-slate-900">₹11,77,900.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW 5: FINANCE & TReDS (/treds) -->
+    <div id="view-finance" class="screen-container hidden space-y-5">
+      <div>
+        <h1 class="text-2xl font-extrabold text-[#0b132b] tracking-tight">Finance &amp; TReDS Desk</h1>
+        <p class="text-xs text-slate-500 mt-0.5">Multi-exchange factoring floor under RBI &amp; Factoring Regulation Act 2011</p>
+      </div>
+
+      <!-- KPI CARD: Finance-Ready N of M, needs 85/100 readiness -->
+      <div class="bg-white p-5 rounded-2xl border border-blue-200 bg-gradient-to-br from-white to-blue-50/40 shadow-xs flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold text-blue-800 uppercase tracking-wider mb-1">Finance-ready Invoices</div>
+          <div class="text-3xl font-extrabold text-[#1d4ed8] font-mono">2 of 3</div>
+          <div class="mt-1 text-xs text-slate-600">Meets the statutory requirement: <strong class="text-blue-700">needs 85/100 readiness</strong></div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-slate-400">Total Eligible Factoring Liquidity</div>
+          <div class="text-2xl font-extrabold text-[#0b132b] font-mono">₹28,05,000.00</div>
+          <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Average Discount: 8.2% p.a.</span>
+        </div>
+      </div>
+
+      <!-- READY QUEUE & BLOCKED QUEUE -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Ready List -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-emerald-800 flex items-center gap-1.5 mb-3">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Ready Queue (Can Discount Today)
+          </h3>
+          <div class="space-y-3 text-xs">
+            <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl flex items-center justify-between">
+              <div>
+                <div class="font-mono font-bold text-slate-900">INV-2026-008 · Tata Motors Ltd</div>
+                <div class="text-slate-600">Balance: <strong class="font-mono">₹12,65,000.00</strong> · Score: 92/100</div>
+              </div>
+              <button onclick="openModal('modal-treds')" class="px-3 py-1.5 bg-[#1d4ed8] text-white font-bold rounded-lg shadow-xs hover:bg-[#1e40af]">
+                Discount Now
+              </button>
+            </div>
+            <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl flex items-center justify-between">
+              <div>
+                <div class="font-mono font-bold text-slate-900">INV-2026-009 · Larsen &amp; Toubro</div>
+                <div class="text-slate-600">Balance: <strong class="font-mono">₹15,40,000.00</strong> · Score: 100/100</div>
+              </div>
+              <button onclick="openModal('modal-treds')" class="px-3 py-1.5 bg-[#1d4ed8] text-white font-bold rounded-lg shadow-xs hover:bg-[#1e40af]">
+                Discount Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blocked List (With Specific Reason as per spec) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-amber-800 flex items-center gap-1.5 mb-3">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span> Blocked Queue (Held Back)
+          </h3>
+          <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-xl flex items-center justify-between text-xs">
+            <div>
+              <div class="font-mono font-bold text-slate-900">INV-2026-101 · MetRow Ceramics</div>
+              <div class="text-amber-800 font-medium mt-0.5">Reason: Buyer not on TReDS &amp; Delivery Ack missing</div>
+            </div>
+            <button onclick="switchView('detail')" class="px-2.5 py-1 bg-white border border-amber-300 text-amber-900 font-bold rounded-lg hover:bg-amber-100">
+              Resolve
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 6: REPORTS (/reports) -->
+    <div id="view-reports" class="screen-container hidden space-y-5">
+      <div>
+        <h1 class="text-2xl font-extrabold text-[#0b132b] tracking-tight">Reports &amp; Statutory Ageing</h1>
+        <p class="text-xs text-slate-500 mt-0.5">Audited book receivables and Section 16 interest accrued per counterparty</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Outstanding by Buyer -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-[#0b132b] mb-3">Outstanding by Buyer</h3>
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+              <span class="font-semibold text-slate-800">Larsen &amp; Toubro Ltd</span>
+              <span class="font-mono font-bold text-slate-900">₹15,40,000.00 (31.9%)</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+              <span class="font-semibold text-slate-800">Tata Motors Ltd</span>
+              <span class="font-mono font-bold text-slate-900">₹12,65,000.00 (26.2%)</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+              <span class="font-semibold text-slate-800">MetRow Ceramics</span>
+              <span class="font-mono font-bold text-slate-900">₹11,77,900.00 (24.4%)</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="font-semibold text-red-700">Bharat Heavy Electricals (BHEL)</span>
+              <span class="font-mono font-bold text-red-700">₹8,42,100.00 (17.5%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statutory Ageing Summary -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-[#0b132b] mb-3">Statutory Summary</h3>
+          <div class="p-3 bg-slate-50 rounded-xl space-y-2 text-xs">
+            <div class="flex justify-between"><span class="text-slate-500">Total Book:</span><span class="font-mono font-bold">₹48,25,000.00</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Total Statutory Interest (Sec 16):</span><span class="font-mono font-bold text-amber-600">₹1,18,420.00</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Discounted via TReDS:</span><span class="font-mono font-bold text-violet-600">₹15,40,000.00</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Under Legal Dispute:</span><span class="font-mono font-bold text-red-600">₹8,42,100.00</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 7: SETTINGS (/settings) -->
+    <div id="view-settings" class="screen-container hidden space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-extrabold text-[#0b132b] tracking-tight">Settings &amp; Business Registry</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Enterprise KYC, Udyam MSMED registration, and TReDS credentials</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <!-- Role Switcher Simulation (Owner vs Accountant 403) -->
+          <label class="text-xs font-bold text-slate-600">Test Role:</label>
+          <select id="role-select" onchange="switchRole()" class="text-xs bg-white border border-slate-300 rounded-lg px-2 py-1 font-semibold">
+            <option value="owner">Owner (Full Write)</option>
+            <option value="accountant">Accountant / Viewer (403 Lock)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 403 Banner (Hidden for Owner, Shown for Accountant) -->
+      <div id="banner-403" class="hidden bg-amber-50 border border-amber-200 p-4 rounded-xl text-xs text-amber-900 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">🔒</span>
+          <div>
+            <strong>403 Read-Only State Active:</strong> Your current role (Accountant / Viewer) does not have write permissions to submit business registration changes.
+          </div>
+        </div>
+        <span class="font-mono text-[10px] bg-amber-200 px-2 py-0.5 rounded font-bold">HTTP 403 FORBIDDEN</span>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs max-w-2xl">
+        <form onsubmit="handleSettingsSave(event)" class="space-y-4 text-xs">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Business Name</label>
+              <input type="text" id="set-name" value="Shree Precision Components" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium">
+            </div>
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">GSTIN</label>
+              <input type="text" id="set-gstin" value="29AABCU9603R1ZM" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">PAN</label>
+              <input type="text" id="set-pan" value="AABCU9603R" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono">
+            </div>
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Udyam No.</label>
+              <input type="text" id="set-udyam" value="UDYAM-KR-03-0019284" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Bank Name</label>
+              <input type="text" id="set-bank" value="State Bank of India" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium">
+            </div>
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Account Number</label>
+              <input type="text" id="set-acc" value="38491029481" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono">
+            </div>
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">IFSC</label>
+              <input type="text" id="set-ifsc" value="SBIN0001234" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono">
+            </div>
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">TReDS Registered?</label>
+            <select id="set-treds" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium">
+              <option value="yes">Yes — RXIL &amp; M1xchange active</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button type="submit" id="btn-save-settings" class="px-5 py-2.5 bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold rounded-xl shadow-xs transition-colors">
+              Save Settings
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- VIEW 8: PRINTABLE CLAIM PACKET DOSSIER (/invoices/{id}/claim) -->
+    <div id="view-claim" class="screen-container hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <button onclick="switchView('detail')" class="text-xs font-bold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-3 py-1.5 rounded-lg">
+          ← Back to Invoice Detail Hub
+        </button>
+        <button onclick="printClaimPacket()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          Print packet
+        </button>
+      </div>
+
+      <!-- Printable A4 Legal Container Simulation -->
+      <div class="bg-white max-w-3xl mx-auto p-8 rounded-2xl border border-slate-300 shadow-md space-y-6 text-xs" id="printable-dossier">
+        <!-- Header -->
+        <div class="border-b-2 border-slate-900 pb-4 flex justify-between items-start">
+          <div>
+            <div class="text-base font-extrabold text-slate-900 tracking-tight">GOVERNMENT OF INDIA · MINISTRY OF MSME</div>
+            <div class="text-xs text-slate-600 font-bold">Micro &amp; Small Enterprises Facilitation Council (MSEFC)</div>
+            <div class="text-[10px] text-slate-500 mt-1">Statutory Statement of Claim under Section 18 of MSMED Act, 2006</div>
+          </div>
+          <div class="text-right font-mono">
+            <div class="font-bold text-slate-900">DOSSIER #SAM-2026-081</div>
+            <div class="text-slate-500 text-[10px]">Date: 31 Mar 2026</div>
+          </div>
+        </div>
+
+        <!-- Key/Value Table with Value Column as per Wireframes.md -->
+        <div>
+          <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-2">Claim Parameters</h4>
+          <table class="w-full border border-slate-200 text-xs">
+            <tbody><tr class="border-b border-slate-200 bg-slate-50">
+              <th class="p-2.5 font-bold text-slate-700 w-1/3">Field</th>
+              <th class="p-2.5 font-bold text-slate-700">Value</th>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="p-2.5 text-slate-600 font-medium">Claimant (Supplier)</td>
+              <td class="p-2.5 font-bold text-slate-900">Shree Precision Components (Udyam: UDYAM-KR-03-0019284)</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="p-2.5 text-slate-600 font-medium">Respondent (Buyer)</td>
+              <td class="p-2.5 font-bold text-slate-900">Bharat Heavy Electricals Ltd (BHEL) · CPSE</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="p-2.5 text-slate-600 font-medium">Invoice Number &amp; Date</td>
+              <td class="p-2.5 font-mono font-bold text-slate-900">INV-2026-007 (Dated 28 Jan 2026)</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="p-2.5 text-slate-600 font-medium">Principal Amount</td>
+              <td class="p-2.5 font-mono font-bold text-slate-900">₹8,42,100.00</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="p-2.5 text-slate-600 font-medium">Statutory Interest (Section 16)</td>
+              <td class="p-2.5 font-mono font-bold text-amber-700">₹18,450.00 (3 × RBI Repo Rate 6.50% = 19.5% p.a.)</td>
+            </tr>
+            <tr class="border-b border-slate-100 bg-blue-50/50">
+              <td class="p-2.5 text-blue-900 font-bold">Total Claim Recovery Demanded</td>
+              <td class="p-2.5 font-mono font-extrabold text-blue-700 text-sm">₹8,60,550.00</td>
+            </tr>
+            <tr>
+              <td class="p-2.5 text-red-600 font-bold">File Before Deadline</td>
+              <td class="p-2.5 font-mono font-bold text-red-700">14 Apr 2026 (14 days remaining)</td>
+            </tr>
+          </tbody></table>
+        </div>
+
+        <!-- Evidence Gaps Named -->
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+          <h4 class="font-bold text-slate-800 text-xs mb-1">Evidence Checklist &amp; Gaps</h4>
+          <p class="text-[11px] text-slate-600">PO, Delivery Ack, GRN, and GST Invoice Copy attached and verified. Master contract optional — not required for Samadhaan council conciliation.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- INTERACTIVE MODALS & DRAWERS (CLICKABLE WIREFRAME SIMULATION)             -->
+  <!-- ========================================================================= -->
+
+  <!-- MODAL 1: RECORD PAYMENT MODAL (Wireframes.md: amount, paid on, method, reference) -->
+  <div id="modal-payment" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Record Payment</h3>
+          <p class="text-xs text-slate-500">Invoice: <span class="font-mono font-bold text-blue-600">INV-2026-007</span></p>
+        </div>
+        <button onclick="closeModal('modal-payment')" class="text-slate-400 hover:text-slate-700 text-sm">✕</button>
+      </div>
+
+      <form onsubmit="submitPayment(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Amount (₹)</label>
+          <input type="text" id="pay-amount" value="₹8,42,100.00" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono font-bold">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Paid On</label>
+            <input type="date" value="2026-03-31" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Method</label>
+            <select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+              <option>RTGS / NEFT</option>
+              <option>CMS Transfer</option>
+              <option>Cheque</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Reference / UTR Number</label>
+          <input type="text" value="SBIN0029481924" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono">
+        </div>
+
+        <div class="pt-2 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeModal('modal-payment')" class="px-3 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-sm">
+            Record payment &amp; Settle
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: TReDS FINANCING MODAL (Wireframes.md: financier, discount rate, amount disbursed, disbursed on) -->
+  <div id="modal-treds" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Finance this on TReDS</h3>
+          <p class="text-xs text-slate-500">RXIL Exchange Auction Floor · <span class="font-mono font-bold text-blue-600">INV-2026-007</span></p>
+        </div>
+        <button onclick="closeModal('modal-treds')" class="text-slate-400 hover:text-slate-700 text-sm">✕</button>
+      </div>
+
+      <form onsubmit="submitTReDS(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Financier / Bank</label>
+          <select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+            <option>State Bank of India (Bid: 8.15% p.a.)</option>
+            <option>HDFC Bank Ltd (Bid: 8.25% p.a.)</option>
+            <option>Bank of Baroda (Bid: 8.40% p.a.)</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Discount Rate</label>
+            <input type="text" value="8.15% p.a." readonly="" class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2 font-mono font-bold text-slate-700">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Disbursed On</label>
+            <input type="date" value="2026-03-31" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Amount Disbursed (T+1 Immediate)</label>
+          <input type="text" value="₹8,33,679.00" readonly="" class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2.5 font-mono font-extrabold text-blue-700">
+          <p class="text-[10px] text-slate-500 mt-1">Factoring fee: ₹8,421.00 deducted at source. Full recourse to buyer.</p>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeModal('modal-treds')" class="px-3 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold rounded-lg shadow-sm">
+            Accept Bid &amp; Disburse
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: MSEFC DISPUTE & CLAIM MODAL (Wireframes.md: forum, filing deadline computed) -->
+  <div id="modal-dispute" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-red-950">Start Statutory Dispute / Claim</h3>
+          <p class="text-xs text-slate-500">Ministry of MSME Samadhaan · Section 18</p>
+        </div>
+        <button onclick="closeModal('modal-dispute')" class="text-slate-400 hover:text-slate-700 text-sm">✕</button>
+      </div>
+
+      <form onsubmit="submitClaim(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Dispute Resolution Forum</label>
+          <select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+            <option>MSEFC (Samadhaan Council) — Karnataka</option>
+            <option>Mediation / Conciliation</option>
+            <option>Commercial Court Arbitration</option>
+          </select>
+        </div>
+
+        <div class="p-3 bg-red-50 border border-red-200 rounded-xl space-y-1">
+          <div class="text-red-900 font-bold">Filing Deadline (Auto-computed)</div>
+          <div class="text-sm font-extrabold font-mono text-red-700">14 April 2026</div>
+          <div class="text-[10px] text-red-800">Computed strictly as 30 days post Section 15 expiry. Evidence packet 85/100 ready.</div>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeModal('modal-dispute')" class="px-3 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-sm">
+            Generate &amp; Transmit Claim
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: NEW INVOICE CREATION (Wireframes.md: Due date and Total strictly read-only computed) -->
+  <div id="create-invoice-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-slate-900">Create New Invoice</h3>
+        <button onclick="closeModal('create-invoice-modal')" class="text-slate-400 hover:text-slate-700 text-sm">✕</button>
+      </div>
+
+      <form onsubmit="handleNewInvoiceSave(event)" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Invoice number</label>
+            <input type="text" id="new-inv-num" value="INV-2026-016" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-mono font-bold">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1 flex items-center justify-between">
+              <span>Buyer</span>
+              <button type="button" onclick="openModal('modal-new-buyer')" class="text-blue-600 font-bold hover:underline text-[10px]">+ Add buyer</button>
+            </label>
+            <select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+              <option>Tata Motors Ltd</option>
+              <option>Bharat Heavy Electricals (BHEL)</option>
+              <option>Larsen &amp; Toubro Ltd</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Invoice date</label>
+            <input type="date" id="new-inv-date" value="2026-03-31" onchange="calcDueDate()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1 flex items-center justify-between">
+              <span>Due date</span>
+              <span class="text-[10px] text-blue-600 font-semibold">read-only (Date + 45d)</span>
+            </label>
+            <!-- Strictly read-only as per Wireframes.md -->
+            <input type="text" id="new-due-date" value="15 May 2026" readonly="" class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2 font-mono font-bold text-slate-700 cursor-not-allowed">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Base amount (₹)</label>
+            <input type="number" id="new-base-amt" value="500000" oninput="calcTotal()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-mono font-bold">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Tax — GST (18% default)</label>
+            <input type="number" id="new-gst-amt" value="90000" readonly="" class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2 font-mono text-slate-700">
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1 flex items-center justify-between">
+            <span>Total (auto)</span>
+            <span class="text-[10px] text-blue-600 font-semibold">read-only computed</span>
+          </label>
+          <!-- Strictly read-only computed as per Wireframes.md -->
+          <input type="text" id="new-total-amt" value="₹5,90,000.00" readonly="" class="w-full bg-blue-50 border border-blue-200 rounded-lg p-2.5 font-mono font-extrabold text-blue-700 text-sm cursor-not-allowed">
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Notes</label>
+          <textarea rows="2" placeholder="Delivery notes or purchase order specifics..." class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-sans"></textarea>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeModal('create-invoice-modal')" class="px-3 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold rounded-lg shadow-sm">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: NEW BUYER REGISTRATION (Wireframes.md: Buyer name, GSTIN, Type, TReDS onboarded) -->
+  <div id="modal-new-buyer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-slate-900">New Buyer Registration</h3>
+        <button onclick="closeModal('modal-new-buyer')" class="text-slate-400 hover:text-slate-700 text-sm">✕</button>
+      </div>
+
+      <form onsubmit="handleNewBuyerSave(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Buyer name</label>
+          <input type="text" required="" placeholder="e.g. Ashok Leyland Ltd" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium">
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">GSTIN</label>
+          <input type="text" required="" placeholder="33AAA...1Z4" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Type</label>
+            <select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+              <option>Private</option>
+              <option>CPSE</option>
+              <option>PSU</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">TReDS onboarded?</label>
+            <select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium">
+              <option>Yes</option>
+              <option>No</option>
+              <option>Unknown</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeModal('modal-new-buyer')" class="px-3 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold rounded-lg shadow-sm">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- POST-ACTION CONFIRMATION OVERLAYS (Simulated Celebration Sheets) -->
+  <div id="confirmation-overlay" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center space-y-4 animate-in fade-in zoom-in-95">
+      <div id="conf-icon" class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-3xl">✓</div>
+      <div>
+        <h3 id="conf-title" class="text-lg font-bold text-slate-900">Action Confirmed</h3>
+        <p id="conf-body" class="text-xs text-slate-500 mt-1">Lifecycle transition successfully committed.</p>
+      </div>
+      <div class="p-3 bg-slate-50 rounded-xl font-mono text-xs text-slate-700 text-left space-y-1">
+        <div class="flex justify-between"><span>Record:</span><strong id="conf-record">INV-2026-007</strong></div>
+        <div class="flex justify-between"><span>Reference:</span><strong id="conf-ref">TXN-8849201</strong></div>
+        <div class="flex justify-between"><span>Status:</span><span id="conf-status" class="text-emerald-600 font-bold">Settled</span></div>
+      </div>
+      <button onclick="closeConfirmation()" class="w-full py-2.5 bg-slate-900 text-white font-bold text-xs rounded-xl hover:bg-slate-800">
+        Return to Overview Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- FLOATING TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- PROTOTYPE LOGIC & FLOW CONTROLLER JAVASCRIPT -->
+  <script>
+    // State Registry
+    let currentView = 'dashboard';
+    let currentStepIndex = 0;
+    const flowSteps = [
+      { id: 'dashboard', label: '1. Overview Dashboard', hint: 'Click on INV-2026-007 row to open the Invoice Detail Hub' },
+      { id: 'invoices', label: '2. Invoices Ledger', hint: 'Filter by status tabs or select INV-2026-007' },
+      { id: 'detail', label: '3. Invoice Detail Hub', hint: 'Toggle evidence checklist or click an action button (Record payment, Finance, Claim)' },
+      { id: 'modal-payment', isModal: true, label: '4. Action Modal (Payment/Finance)', hint: 'Complete form and confirm transition' },
+      { id: 'claim', label: '5. Printable Claim Dossier', hint: 'Review A4 court-ready Samadhaan claim packet' }
+    ];
+
+    function switchView(viewName) {
+      // Hide all containers
+      document.querySelectorAll('.screen-container').forEach(el => el.classList.add('hidden'));
+
+      // Remove active styles on nav tabs
+      document.querySelectorAll('#main-nav-tabs button').forEach(btn => {
+        btn.classList.remove('text-[#1d4ed8]', 'bg-blue-50');
+        btn.classList.add('text-slate-600');
+      });
+
+      // Show requested view
+      const target = document.getElementById('view-' + viewName);
+      if (target) {
+        target.classList.remove('hidden');
+        currentView = viewName;
+      }
+
+      // Highlight active nav tab if mapped
+      const navBtn = document.getElementById('nav-' + viewName);
+      if (navBtn) {
+        navBtn.classList.add('text-[#1d4ed8]', 'bg-blue-50');
+        navBtn.classList.remove('text-slate-600');
+      }
+
+      // Update flow indicator
+      updateFlowBar(viewName);
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateFlowBar(viewName) {
+      const stepIdx = flowSteps.findIndex(s => s.id === viewName);
+      if (stepIdx !== -1) {
+        currentStepIndex = stepIdx;
+        document.getElementById('current-step-badge').textContent = flowSteps[stepIdx].label;
+        document.getElementById('next-action-hint').textContent = flowSteps[stepIdx].hint;
+      }
+    }
+
+    function stepFlow(direction) {
+      currentStepIndex = (currentStepIndex + direction + flowSteps.length) % flowSteps.length;
+      const target = flowSteps[currentStepIndex];
+      if (target.isModal) {
+        switchView('detail');
+        openModal(target.id);
+      } else {
+        switchView(target.id);
+      }
+    }
+
+    function toggleFlowMap() {
+      const drawer = document.getElementById('flow-map-drawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        triggerHaptic(10);
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    // Modal Submissions & Interactive State Changes
+    function submitPayment(e) {
+      e.preventDefault();
+      closeModal('modal-payment');
+      showConfirmation('payment');
+    }
+
+    function submitTReDS(e) {
+      e.preventDefault();
+      closeModal('modal-treds');
+      showConfirmation('treds');
+    }
+
+    function submitClaim(e) {
+      e.preventDefault();
+      closeModal('modal-dispute');
+      showConfirmation('claim');
+    }
+
+    function showConfirmation(type) {
+      triggerHaptic(25);
+      const overlay = document.getElementById('confirmation-overlay');
+      const icon = document.getElementById('conf-icon');
+      const title = document.getElementById('conf-title');
+      const body = document.getElementById('conf-body');
+      const status = document.getElementById('conf-status');
+
+      if (type === 'payment') {
+        icon.className = 'w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-3xl';
+        icon.innerHTML = '✓';
+        title.textContent = 'Payment Settled Successfully';
+        body.textContent = 'Inward RTGS credited to SBI Account. Section 15 statutory liability closed.';
+        status.textContent = 'Settled (RTGS)';
+        status.className = 'text-emerald-600 font-bold';
+      } else if (type === 'treds') {
+        icon.className = 'w-16 h-16 rounded-full bg-violet-100 text-violet-600 mx-auto flex items-center justify-center text-3xl';
+        icon.innerHTML = '⚡';
+        title.textContent = 'TReDS Discounting Executed';
+        body.textContent = 'Accepted by State Bank of India at 8.15% p.a. T+1 disbursal scheduled on RXIL.';
+        status.textContent = 'Financed (RXIL)';
+        status.className = 'text-violet-600 font-bold';
+      } else {
+        icon.className = 'w-16 h-16 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center text-3xl';
+        icon.innerHTML = '⚖️';
+        title.textContent = 'MSEFC Dispute Dossier Filed';
+        body.textContent = 'Statement of claim transmitted to Samadhaan Council. Filing notice issued.';
+        status.textContent = 'Disputed (MSEFC)';
+        status.className = 'text-red-600 font-bold';
+      }
+
+      overlay.classList.remove('hidden');
+    }
+
+    function closeConfirmation() {
+      document.getElementById('confirmation-overlay').classList.add('hidden');
+      switchView('dashboard');
+      showToast('Dashboard metrics updated to reflect transaction', 'success');
+    }
+
+    // Readiness Gauge Interactive Calculation
+    function updateReadiness() {
+      const po = document.getElementById('chk-po').checked;
+      const del = document.getElementById('chk-delivery').checked;
+      const grn = document.getElementById('chk-grn').checked;
+      const gst = document.getElementById('chk-gst').checked;
+      const contract = document.getElementById('chk-contract').checked;
+
+      let score = 0;
+      if (po) score += 25;
+      if (del) score += 20;
+      if (grn) score += 25;
+      if (gst) score += 15;
+      if (contract) {
+        score += 15;
+        document.getElementById('contract-status').textContent = 'Attached';
+        document.getElementById('contract-status').className = 'text-emerald-600 font-bold';
+      } else {
+        document.getElementById('contract-status').textContent = 'Pending upload';
+        document.getElementById('contract-status').className = 'text-amber-600 font-medium';
+      }
+
+      const pill = document.getElementById('readiness-pill');
+      pill.textContent = score + ' / 100';
+      if (score >= 85) {
+        pill.className = 'px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs font-mono';
+      } else {
+        pill.className = 'px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-extrabold text-xs font-mono';
+      }
+
+      showToast(`Evidence updated. Readiness score is now ${score}/100`, 'info');
+    }
+
+    // Role Switcher Simulation (Owner vs Accountant 403)
+    function switchRole() {
+      const role = document.getElementById('role-select').value;
+      const banner = document.getElementById('banner-403');
+      const saveBtn = document.getElementById('btn-save-settings');
+      const inputs = document.querySelectorAll('#view-settings input, #view-settings select:not(#role-select)');
+
+      if (role === 'accountant') {
+        banner.classList.remove('hidden');
+        saveBtn.disabled = true;
+        saveBtn.className = 'px-5 py-2.5 bg-slate-300 text-slate-500 font-bold rounded-xl cursor-not-allowed shadow-none';
+        inputs.forEach(i => i.disabled = true);
+        showToast('Switched to Accountant / Viewer role (403 lock)', 'warning');
+      } else {
+        banner.classList.add('hidden');
+        saveBtn.disabled = false;
+        saveBtn.className = 'px-5 py-2.5 bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold rounded-xl shadow-xs transition-colors';
+        inputs.forEach(i => i.disabled = false);
+        showToast('Switched to Owner role (Full write permissions)', 'success');
+      }
+    }
+
+    function handleSettingsSave(e) {
+      e.preventDefault();
+      showToast('Settings saved successfully to enterprise ledger', 'success');
+    }
+
+    function dismissAlerts() {
+      const container = document.getElementById('alerts-container');
+      container.innerHTML = '<div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-500 text-center">All statutory alerts dismissed for this session.</div>';
+      document.getElementById('btn-dismiss-alerts').style.display = 'none';
+      showToast('Alerts dismissed', 'info');
+    }
+
+    // New Invoice Calculations
+    function calcDueDate() {
+      const d = new Date(document.getElementById('new-inv-date').value);
+      d.setDate(d.getDate() + 45); // Section 15 45-day calculation
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      document.getElementById('new-due-date').value = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function calcTotal() {
+      const base = parseFloat(document.getElementById('new-base-amt').value) || 0;
+      const gst = base * 0.18;
+      const total = base + gst;
+      document.getElementById('new-gst-amt').value = gst.toFixed(2);
+      document.getElementById('new-total-amt').value = '₹' + total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function handleNewInvoiceSave(e) {
+      e.preventDefault();
+      closeModal('create-invoice-modal');
+      switchView('invoices');
+      showToast('New invoice created and added to statutory queue', 'success');
+    }
+
+    function handleNewBuyerSave(e) {
+      e.preventDefault();
+      closeModal('modal-new-buyer');
+      switchView('buyers');
+      showToast('New buyer registered with GSTIN verification', 'success');
+    }
+
+    function printClaimPacket() {
+      window.print();
+    }
+
+    function filterStatus(status) {
+      document.querySelectorAll('[id^="tab-"]').forEach(t => {
+        t.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100';
+      });
+      document.getElementById('tab-' + status).className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-xs';
+      showToast(`Filtered by status: ${status}`, 'info');
+    }
+
+    function applyInvoiceFilters() {
+      // In-prototype filter hook
+    }
+
+    function toggleMobileFilterDrawer() {
+      showToast('Mobile slide-up filter sheet simulated', 'info');
+    }
+
+    function triggerHaptic(duration) {
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(duration);
+      }
+    }
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      let borderCol = type === 'success' ? 'border-emerald-500' : (type === 'warning' ? 'border-amber-500' : 'border-blue-500');
+      let bgCol = 'bg-slate-900 text-white';
+
+      toast.className = `pointer-events-auto flex items-center space-x-2 px-4 py-2.5 rounded-xl shadow-lg border-l-4 ${borderCol} ${bgCol} text-xs font-medium animate-in fade-in slide-in-from-bottom-3`;
+      toast.innerHTML = `<span>${type === 'success' ? '✓' : (type === 'warning' ? '⚠️' : 'ℹ️')}</span><span>${msg}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3500);
+    }
+
+    function resetPrototype() {
+      switchView('dashboard');
+      showToast('Prototype reset to initial state', 'info');
+    }
+  </script>
+
+
+</body></html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Mobile: Finance — TReDS — Pull-to-Refresh Gesture</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          },
+          colors: {
+            brand: {
+              blue: '#1d4ed8',
+              hover: '#1e40af',
+              sky: '#0284c7'
+            },
+            obsidian: {
+              950: '#070d1e',
+              900: '#0b132b',
+              800: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior-y: contain;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Pull to refresh visual dynamics */
+    #ptr-indicator {
+      transition: height 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+      will-change: height, transform, opacity;
+    }
+    .spin-fast {
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 1.8s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-[#f8faff] text-slate-900 flex justify-center min-h-screen antialiased selection:bg-blue-100">
+<!-- Mobile Viewport Container (~390px width) -->
+<div class="w-full max-w-[420px] min-h-screen bg-[#f8faff] border-x border-slate-200/80 shadow-2xl flex flex-col relative overflow-x-hidden pb-24">
+<!-- 1. Top Header Utility & Wordmark Bar -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 py-2.5 flex items-center justify-between shadow-xs">
+<div class="flex items-center gap-2">
+<!-- Pure Typographic Wordmark PayKaro with Sovereign MSME Tag -->
+<div class="flex items-baseline tracking-tight font-extrabold text-[20px] leading-none">
+<span class="text-obsidian-900">Pay</span><span class="text-brand-blue">Karo</span>
+</div>
+<span class="text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full bg-violet-50 text-violet-700 border border-violet-200/80">TReDS</span>
+</div>
+<div class="flex items-center gap-2">
+<!-- Manual Sync Button / Header Refresh trigger -->
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-brand-blue hover:bg-blue-50 transition-colors active:scale-95" id="header-sync-btn" onclick="triggerManualSync()" title="Refresh TReDS Auctions">
+<svg class="w-4 h-4 transition-transform duration-300" fill="none" id="header-sync-icon" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Notification bell with badge -->
+<div class="relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="absolute 1 top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</button>
+</div>
+<!-- User Avatar (Sunita Rao) -->
+<div class="w-8 h-8 rounded-full overflow-hidden border border-slate-300 ring-1 ring-slate-100 flex-shrink-0">
+<img alt="Sunita Rao" class="w-full h-full object-cover object-center" onerror="this.outerHTML='&lt;div class=\'w-full h-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center\'&gt;SR&lt;/div&gt;'" src="https://lh3.googleusercontent.com/aida/AEtjO1XTwaMd8EuPjTYnxY_QYT7_AQWkxMD5Ls1Xvx6H4Qfxb62wllrUZqBZ3rOVdkUM4SvE4gKxnZii00Kv4q8DQtpx4QKSkjD9A1UFb1wWK0EUGGLaWw-w5ZugjEUqRPhJ8Q3XWaAhWwnQaCJRcCjeLQwwbCVmOzfy5HQuo2d-YbdCqDVjl5kfNzoe6l7_ljgTBz28jL1WPy4iUgRWCLyb9SsyqSMtVeUjJraPreSx4_5BfF0sebeHe3IAeak"/>
+</div>
+</div>
+</header>
+<!-- Quick Test Simulation Banner & Live Status Bar -->
+<div class="bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-blue-50/90 border-b border-blue-100/80 px-4 py-2 flex items-center justify-between text-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-[11px] font-semibold text-slate-700" id="sync-status-text">RXIL · M1 · Invoicemart: Live T+1</span>
+</div>
+<!-- Test Pull-to-Refresh Quick Action Button -->
+<button class="px-2.5 py-1 rounded-full bg-white border border-blue-200 text-brand-blue font-bold text-[11px] shadow-2xs hover:bg-blue-50 active:scale-95 transition-all flex items-center gap-1" onclick="triggerManualSync()">
+<svg class="w-3 h-3 animate-spin-once" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+<span>Test Pull to Refresh</span>
+</button>
+</div>
+<!-- PULL TO REFRESH INTERACTIVE CONTAINER -->
+<div class="w-full overflow-hidden h-0 bg-gradient-to-b from-blue-100/60 to-transparent flex flex-col items-center justify-center opacity-0 select-none" id="ptr-indicator">
+<div class="flex items-center gap-2.5 py-2 px-3.5 rounded-full bg-white/95 border border-blue-200 shadow-sm transition-colors duration-150" id="ptr-badge-container">
+<!-- Animated Ring / Spinner -->
+<div class="w-5 h-5 flex items-center justify-center transition-transform duration-200 text-brand-blue" id="ptr-icon-wrap">
+<svg class="w-4 h-4 transition-transform duration-200" fill="none" id="ptr-arrow" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<svg class="w-4 h-4 spin-fast hidden text-brand-blue" fill="none" id="ptr-spinner" viewbox="0 0 24 24">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+</svg>
+<svg class="w-4 h-4 text-emerald-600 hidden" fill="none" id="ptr-check" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</div>
+<span class="text-xs font-bold text-slate-700" id="ptr-label">Pull down to refresh TReDS rates</span>
+</div>
+<div class="text-[10px] font-medium text-slate-500 mt-1" id="ptr-subtext">Direct RBI factoring auction sync</div>
+</div>
+<!-- MAIN SCROLLABLE APP CONTENT -->
+<main class="flex-1 px-4 pt-3.5 space-y-4 touch-pan-y" id="ptr-scroll-target">
+<!-- Section Title & Live Bidding Badge -->
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h1 class="text-xl font-extrabold text-obsidian-900 tracking-tight">Finance &amp; TReDS</h1>
+<span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">Bidding Active</span>
+</div>
+<p class="text-xs text-slate-500 mt-0.5">RBI-regulated factoring &amp; reverse factoring floor</p>
+</div>
+<!-- Gesture helper pill -->
+<div class="flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-1 rounded-md">
+<svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Drag to sync</span>
+</div>
+</div>
+<!-- KPI 1: Finance-Ready Score & Liquidity Summary -->
+<div class="bg-gradient-to-br from-white via-white to-blue-50/40 rounded-2xl p-4 border border-slate-200 shadow-xs relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-blue-100/50 pointer-events-none blur-xl"></div>
+<div class="flex items-start justify-between">
+<div>
+<span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Finance-Ready Queue</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-3xl font-extrabold text-slate-900 font-mono tracking-tight" id="kpi-ready-count">2 of 5</span>
+<span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">₹17,45,000</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-brand-blue">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<div class="flex items-center gap-1.5 text-slate-600 font-medium">
+<svg class="w-3.5 h-3.5 text-brand-blue" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path>
+</svg>
+<span>Readiness threshold: <strong class="text-slate-800">85/100 required</strong></span>
+</div>
+<span class="text-[11px] font-bold text-brand-blue hover:underline cursor-pointer">View Rules →</span>
+</div>
+</div>
+<!-- Quick Stats Strip: Exchange Rates -->
+<div class="grid grid-cols-3 gap-2 text-center">
+<div class="bg-white rounded-xl p-2.5 border border-slate-200 shadow-2xs">
+<div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">RXIL Repo</div>
+<div class="text-sm font-extrabold text-slate-800 font-mono mt-0.5" id="stat-rxil-rate">8.15%</div>
+<div class="text-[9.5px] text-emerald-600 font-semibold">-0.10% today</div>
+</div>
+<div class="bg-white rounded-xl p-2.5 border border-slate-200 shadow-2xs">
+<div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">M1xchange</div>
+<div class="text-sm font-extrabold text-slate-800 font-mono mt-0.5" id="stat-m1-rate">8.25%</div>
+<div class="text-[9.5px] text-slate-500 font-semibold">T+1 clearing</div>
+</div>
+<div class="bg-white rounded-xl p-2.5 border border-slate-200 shadow-2xs">
+<div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Invoicemart</div>
+<div class="text-sm font-extrabold text-slate-800 font-mono mt-0.5" id="stat-invoicemart-rate">8.30%</div>
+<div class="text-[9.5px] text-emerald-600 font-semibold">3 bids live</div>
+</div>
+</div>
+<!-- Section: Ready Queue (Eligible for instant discounting today) -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Ready Queue</h2>
+<span class="px-2 py-0.5 text-[11px] font-extrabold rounded-full bg-blue-100 text-blue-800">2 Invoices</span>
+</div>
+<span class="text-xs font-semibold text-emerald-600">Disbursal in ~4 hrs</span>
+</div>
+<!-- Ready Card 1: INV-2026-011 (BHEL) -->
+<div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-xs hover:border-blue-300 transition-all">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-brand-blue">INV-2026-011</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">Accepted (BHEL)</span>
+</div>
+<h3 class="text-xs font-bold text-slate-900 mt-1">Turbine Rotor Shrouds</h3>
+<p class="text-[11px] text-slate-500">Bharat Heavy Electricals Ltd · PO #4500918</p>
+</div>
+<div class="text-right">
+<div class="font-mono font-extrabold text-sm text-slate-900">₹6,18,000.00</div>
+<div class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded inline-block mt-0.5">95/100 Ready</div>
+</div>
+</div>
+<div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+<div class="text-[11px] text-slate-500">
+              Best Bid: <strong class="text-slate-800 font-mono">8.20%</strong> by SBI Factor
+            </div>
+<button class="px-3 py-1.5 rounded-lg bg-brand-blue hover:bg-brand-hover text-white text-xs font-bold transition-all active:scale-95 shadow-2xs" onclick="simulateDiscountFlow('INV-2026-011', '₹6,18,000.00')">
+              Discount on RXIL →
+            </button>
+</div>
+</div>
+<!-- Ready Card 2: INV-2026-006 (TASL) -->
+<div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-xs hover:border-blue-300 transition-all">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-brand-blue">INV-2026-006</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">Accepted (TASL)</span>
+</div>
+<h3 class="text-xs font-bold text-slate-900 mt-1">Aerospace Titanium Brackets</h3>
+<p class="text-[11px] text-slate-500">Tata Advanced Systems · TASL-AERO-012</p>
+</div>
+<div class="text-right">
+<div class="font-mono font-extrabold text-sm text-slate-900">₹11,27,000.00</div>
+<div class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded inline-block mt-0.5">90/100 Ready</div>
+</div>
+</div>
+<div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+<div class="text-[11px] text-slate-500">
+              Best Bid: <strong class="text-slate-800 font-mono">8.15%</strong> by Canara Bank
+            </div>
+<button class="px-3 py-1.5 rounded-lg bg-brand-blue hover:bg-brand-hover text-white text-xs font-bold transition-all active:scale-95 shadow-2xs" onclick="simulateDiscountFlow('INV-2026-006', '₹11,27,000.00')">
+              Discount on M1 →
+            </button>
+</div>
+</div>
+</div>
+<!-- Section: Blocked Queue (Items needing evidence or counterparty onboarding) -->
+<div class="space-y-2.5 pt-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Blocked Queue</h2>
+<span class="px-2 py-0.5 text-[11px] font-extrabold rounded-full bg-amber-100 text-amber-800">3 Invoices</span>
+</div>
+<span class="text-xs font-medium text-slate-500">Action Required</span>
+</div>
+<!-- Blocked Card 1: INV-2026-007 (Disputed / In MSEFC) -->
+<div class="bg-white rounded-xl p-3.5 border border-red-200/80 shadow-xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-slate-800">INV-2026-007</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200">MSEFC Disputed</span>
+</div>
+<h3 class="text-xs font-bold text-slate-900 mt-1">BHEL Boiler Mountings</h3>
+<p class="text-[11px] text-slate-500">Bharat Heavy Electricals Ltd · Overdue 52d</p>
+</div>
+<div class="text-right font-mono font-extrabold text-sm text-slate-900">
+              ₹8,42,100.00
+            </div>
+</div>
+<div class="mt-2.5 p-2 rounded-lg bg-red-50/80 border border-red-100 flex items-start gap-1.5 text-[11px] text-red-700">
+<svg class="w-3.5 h-3.5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"></path>
+</svg>
+<span><strong>Blocked:</strong> Section 18 dispute filed with Samadhaan council. TReDS factoring suspended during mediation.</span>
+</div>
+</div>
+<!-- Blocked Card 2: INV-2026-014 (Missing GRN) -->
+<div class="bg-white rounded-xl p-3.5 border border-amber-200/80 shadow-xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-slate-800">INV-2026-014</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200">Raised</span>
+</div>
+<h3 class="text-xs font-bold text-slate-900 mt-1">Control Panel Sub-units</h3>
+<p class="text-[11px] text-slate-500">Bharat Heavy Electricals Ltd · Haridwar</p>
+</div>
+<div class="text-right font-mono font-extrabold text-sm text-slate-900">
+              ₹5,09,900.00
+            </div>
+</div>
+<div class="mt-2.5 p-2 rounded-lg bg-amber-50/80 border border-amber-200 flex items-start justify-between text-[11px] text-amber-900">
+<div class="flex items-start gap-1.5">
+<span class="font-bold text-amber-700">Missing GRN:</span>
+<span>Needs 85/100 readiness (Current: 70/100).</span>
+</div>
+<a class="font-bold text-brand-blue hover:underline whitespace-nowrap ml-2" href="#">Upload →</a>
+</div>
+</div>
+<!-- Blocked Card 3: INV-2026-015 (Buyer Not on TReDS) -->
+<div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-slate-800">INV-2026-015</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200">Raised</span>
+</div>
+<h3 class="text-xs font-bold text-slate-900 mt-1">Refinery Flange Assemblies</h3>
+<p class="text-[11px] text-slate-500">Larsen &amp; Toubro Hydrocarbon</p>
+</div>
+<div class="text-right font-mono font-extrabold text-sm text-slate-900">
+              ₹8,42,100.00
+            </div>
+</div>
+<div class="mt-2.5 p-2 rounded-lg bg-slate-50 border border-slate-200 flex items-start justify-between text-[11px] text-slate-600">
+<div class="flex items-start gap-1.5">
+<span class="font-bold text-slate-800">Buyer Status:</span>
+<span>L&amp;T Hydrocarbon pending KYC registration on RXIL exchange.</span>
+</div>
+<a class="font-bold text-brand-blue hover:underline whitespace-nowrap ml-2" href="#">Invite →</a>
+</div>
+</div>
+</div>
+<!-- Statutory Factoring Trust Guarantee -->
+<div class="bg-white rounded-xl p-3 border border-slate-200/80 text-[11px] text-slate-600 flex items-center gap-2.5 shadow-2xs">
+<div class="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 flex-shrink-0">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="leading-tight">
+<strong class="text-slate-800 font-semibold">RBI Governed Non-Recourse Liquidity:</strong>
+          Once discounted, credit risk transfers 100% to institutional financiers under the Factoring Act 2011.
+        </div>
+</div>
+</main>
+<!-- Standard 5-Tab Mobile Bottom Navigation (Finance Active) -->
+<nav class="fixed bottom-0 left-0 right-0 max-w-[420px] mx-auto bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-50 flex items-center justify-around py-2 px-1 shadow-lg pb-safe">
+<!-- 1. Overview -->
+<a class="flex flex-col items-center py-1 px-3 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-semibold">Overview</span>
+</a>
+<!-- 2. Invoices -->
+<a class="flex flex-col items-center py-1 px-3 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-semibold">Invoices</span>
+</a>
+<!-- 3. Customers -->
+<a class="flex flex-col items-center py-1 px-3 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-semibold">Customers</span>
+</a>
+<!-- 4. Finance (ACTIVE TAB) -->
+<a class="flex flex-col items-center py-1 px-3 text-brand-blue font-bold relative" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path>
+</svg>
+<span class="text-[10px] font-bold">Finance</span>
+<span class="w-1.5 h-1.5 rounded-full bg-brand-blue absolute bottom-0.5"></span>
+</a>
+<!-- 5. Settings -->
+<a class="flex flex-col items-center py-1 px-3 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-semibold">Settings</span>
+</a>
+</nav>
+<!-- Floating Toast Notification Container -->
+<div class="fixed top-14 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 transform -translate-y-12 opacity-0 pointer-events-none" id="toast-notify">
+<div class="px-4 py-2 rounded-full bg-slate-900/90 text-white text-xs font-semibold backdrop-blur-md shadow-xl flex items-center gap-2 border border-slate-700/50">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span id="toast-msg">TReDS Auction Liquidity Updated</span>
+</div>
+</div>
+</div>
+<!-- PULL-TO-REFRESH JAVASCRIPT GESTURE ENGINE -->
+<script>
+    (function() {
+      const scrollTarget = document.getElementById('ptr-scroll-target');
+      const indicator = document.getElementById('ptr-indicator');
+      const ptrBadgeContainer = document.getElementById('ptr-badge-container');
+      const ptrArrow = document.getElementById('ptr-arrow');
+      const ptrSpinner = document.getElementById('ptr-spinner');
+      const ptrCheck = document.getElementById('ptr-check');
+      const ptrLabel = document.getElementById('ptr-label');
+      const ptrSubtext = document.getElementById('ptr-subtext');
+      const syncStatusText = document.getElementById('sync-status-text');
+      const headerSyncIcon = document.getElementById('header-sync-icon');
+      const toastNotify = document.getElementById('toast-notify');
+      const toastMsg = document.getElementById('toast-msg');
+
+      // State tracking
+      let startY = 0;
+      let currentY = 0;
+      let isDragging = false;
+      let isRefreshing = false;
+      let hasTriggeredThresholdHaptic = false;
+      const PULL_THRESHOLD = 65;
+      const MAX_PULL = 110;
+
+      function triggerHaptic(duration = 12) {
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate(duration); } catch(e) {}
+        }
+      }
+
+      function showToast(text) {
+        toastMsg.textContent = text;
+        toastNotify.classList.remove('-translate-y-12', 'opacity-0');
+        toastNotify.classList.add('translate-y-0', 'opacity-100');
+        setTimeout(() => {
+          toastNotify.classList.add('-translate-y-12', 'opacity-0');
+          toastNotify.classList.remove('translate-y-0', 'opacity-100');
+        }, 3200);
+      }
+
+      // Pointer & Touch Handlers
+      function handleStart(y) {
+        if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
+          startY = y;
+          currentY = y;
+          isDragging = true;
+          hasTriggeredThresholdHaptic = false;
+        }
+      }
+
+      function handleMove(y, e) {
+        if (!isDragging || isRefreshing) return;
+        const delta = y - startY;
+
+        if (delta > 0 && (window.scrollY === 0 || document.documentElement.scrollTop === 0)) {
+          if (e && e.cancelable) e.preventDefault();
+          // Rubber-band resistance physics
+          const pullDistance = Math.min(Math.pow(delta, 0.82), MAX_PULL);
+          indicator.style.height = `${pullDistance}px`;
+          indicator.style.opacity = Math.min(pullDistance / 50, 1);
+
+          if (pullDistance >= PULL_THRESHOLD) {
+            if (!hasTriggeredThresholdHaptic) {
+              triggerHaptic(12);
+              hasTriggeredThresholdHaptic = true;
+            }
+            ptrArrow.style.transform = 'rotate(180deg)';
+            ptrLabel.textContent = 'Release to sync TReDS bids';
+            ptrSubtext.textContent = 'Threshold reached · RXIL & M1xchange';
+            ptrLabel.className = 'text-xs font-bold text-brand-blue';
+            if (ptrBadgeContainer) {
+              ptrBadgeContainer.classList.remove('border-blue-200');
+              ptrBadgeContainer.classList.add('border-blue-500', 'ring-2', 'ring-blue-200/50');
+            }
+          } else {
+            hasTriggeredThresholdHaptic = false;
+            ptrArrow.style.transform = `rotate(${Math.min((pullDistance / PULL_THRESHOLD) * 180, 180)}deg)`;
+            ptrLabel.textContent = 'Pull down to refresh TReDS rates';
+            ptrSubtext.textContent = 'Direct RBI factoring auction sync';
+            ptrLabel.className = 'text-xs font-bold text-slate-700';
+            if (ptrBadgeContainer) {
+              ptrBadgeContainer.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200/50');
+              ptrBadgeContainer.classList.add('border-blue-200');
+            }
+          }
+        }
+      }
+
+      function handleEnd() {
+        if (!isDragging || isRefreshing) return;
+        isDragging = false;
+        hasTriggeredThresholdHaptic = false;
+        const height = parseFloat(indicator.style.height || 0);
+
+        if (height >= PULL_THRESHOLD) {
+          executeSyncSequence();
+        } else {
+          // Spring back
+          indicator.style.height = '0px';
+          indicator.style.opacity = '0';
+          ptrArrow.style.transform = 'rotate(0deg)';
+          if (ptrBadgeContainer) {
+            ptrBadgeContainer.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200/50');
+            ptrBadgeContainer.classList.add('border-blue-200');
+          }
+        }
+      }
+
+      // Touch events
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) handleStart(e.touches[0].clientY);
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 1) handleMove(e.touches[0].clientY, e);
+      }, { passive: false });
+
+      window.addEventListener('touchend', handleEnd, { passive: true });
+
+      // Pointer / Mouse events (Desktop testing)
+      window.addEventListener('pointerdown', (e) => {
+        handleStart(e.clientY);
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        handleMove(e.clientY, e);
+      });
+
+      window.addEventListener('pointerup', handleEnd);
+
+      // Synchronization Routine
+      window.executeSyncSequence = function() {
+        if (isRefreshing) return;
+        isRefreshing = true;
+        triggerHaptic(15);
+
+        // Visual lock at resting height
+        indicator.style.height = '56px';
+        indicator.style.opacity = '1';
+        ptrArrow.classList.add('hidden');
+        ptrSpinner.classList.remove('hidden');
+        ptrCheck.classList.add('hidden');
+        ptrLabel.textContent = 'Syncing TReDS auctions...';
+        ptrLabel.className = 'text-xs font-bold text-brand-blue';
+        ptrSubtext.textContent = 'Querying RXIL, M1xchange & Invoicemart';
+        if (ptrBadgeContainer) {
+          ptrBadgeContainer.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200/50');
+          ptrBadgeContainer.classList.add('border-blue-200');
+        }
+        headerSyncIcon.classList.add('spin-fast');
+
+        // Simulate network exchange latency
+        setTimeout(() => {
+          // Success State
+          triggerHaptic(20);
+          ptrSpinner.classList.add('hidden');
+          ptrCheck.classList.remove('hidden');
+          ptrLabel.textContent = 'TReDS Auctions Updated';
+          ptrLabel.className = 'text-xs font-bold text-emerald-600';
+          ptrSubtext.textContent = 'Live bids refreshed · 3 exchange feeds sync';
+          syncStatusText.textContent = 'Synced just now · RXIL v2.4 Live';
+          headerSyncIcon.classList.remove('spin-fast');
+
+          // Dynamically update rates slightly to reflect real-time live data
+          document.getElementById('stat-rxil-rate').textContent = '8.12%';
+          document.getElementById('stat-m1-rate').textContent = '8.20%';
+          document.getElementById('stat-invoicemart-rate').textContent = '8.28%';
+
+          showToast('✓ TReDS Auctions & Discounting Rates Refreshed');
+
+          // Collapse
+          setTimeout(() => {
+            indicator.style.height = '0px';
+            indicator.style.opacity = '0';
+            setTimeout(() => {
+              ptrArrow.classList.remove('hidden');
+              ptrArrow.style.transform = 'rotate(0deg)';
+              ptrCheck.classList.add('hidden');
+              ptrLabel.textContent = 'Pull down to refresh TReDS rates';
+              ptrLabel.className = 'text-xs font-bold text-slate-700';
+              ptrSubtext.textContent = 'Direct RBI factoring auction sync';
+              if (ptrBadgeContainer) {
+                ptrBadgeContainer.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200/50');
+                ptrBadgeContainer.classList.add('border-blue-200');
+              }
+              isRefreshing = false;
+            }, 300);
+          }, 900);
+        }, 1400);
+      };
+
+      window.triggerManualSync = function() {
+        if (isRefreshing) return;
+        indicator.style.height = '56px';
+        indicator.style.opacity = '1';
+        executeSyncSequence();
+      };
+
+      window.simulateDiscountFlow = function(invId, amount) {
+        triggerHaptic(15);
+        showToast(`Proceeding to discount ${invId} (${amount}) on TReDS`);
+      };
+    })();
+  </script>
+</body></html>

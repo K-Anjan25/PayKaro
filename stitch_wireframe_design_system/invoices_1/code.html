@@ -1,0 +1,883 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PayKaro — Invoices Ledger</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "obsidian": "#0B132B",
+            "obsidian-surface": "#0F1A3A",
+            "primary": "#0037b0",
+            "primary-container": "#1d4ed8",
+            "primary-hover": "#1742c0",
+            "accent-cyan": "#0ea5e9",
+            "on-surface": "#0b1c30",
+            "surface": "#f8f9ff",
+            "surface-container": "#f1f5fd",
+            "surface-subtle": "#f8fafc",
+            "surface-white": "#ffffff",
+            "border-subtle": "#e2e8f0",
+            "border-strong": "#cbd5e1",
+            "text-primary": "#0f172a",
+            "text-secondary": "#475569",
+            "text-muted": "#64748b",
+            "status-settled-bg": "#ecfdf5",
+            "status-settled-text": "#047857",
+            "status-settled-border": "#a7f3d0",
+            "status-financed-bg": "#eff6ff",
+            "status-financed-text": "#1d4ed8",
+            "status-financed-border": "#bfdbfe",
+            "status-accepted-bg": "#f0fdf4",
+            "status-accepted-text": "#15803d",
+            "status-accepted-border": "#bbf7d0",
+            "status-raised-bg": "#f8fafc",
+            "status-raised-text": "#334155",
+            "status-raised-border": "#cbd5e1",
+            "status-disputed-bg": "#fef2f2",
+            "status-disputed-text": "#b91c1c",
+            "status-disputed-border": "#fecaca",
+            "ageing-current": "#10b981",
+            "ageing-1-30": "#3b82f6",
+            "ageing-31-60": "#f59e0b",
+            "ageing-61-90": "#ea580c",
+            "ageing-90-plus": "#dc2626"
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    /* Hide scrollbar for neatness */
+    ::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-surface text-text-primary min-h-screen antialiased flex flex-col">
+<!-- 1. Shell & Header per WIREFRAMES.md -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-white border-b border-border-subtle shadow-sm">
+<!-- Top utility bar -->
+<div class="h-9 border-b border-border-subtle bg-slate-50/80 backdrop-blur px-4 sm:px-8 flex items-center justify-between text-xs text-text-secondary">
+<div class="flex items-center gap-2">
+<span class="font-bold text-obsidian tracking-tight">Shree Precision Components</span>
+<span class="text-border-strong">|</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-primary-container border border-blue-100">
+          Demo workspace
+        </span>
+</div>
+<div class="flex items-center gap-4 text-xs font-medium">
+<a class="hover:text-primary transition-colors" data-path="pricing" href="#">Pricing</a>
+<span class="text-border-strong">·</span>
+<a class="hover:text-primary transition-colors" data-path="help" href="#">Help</a>
+<span class="text-border-strong tracking-widest">······</span>
+<a class="hover:text-primary transition-colors" data-path="contact" href="#">Contact</a>
+<span class="text-border-strong">·</span>
+<a class="hover:text-primary transition-colors" data-path="sign-out" href="#">Sign out</a>
+</div>
+</div>
+<!-- Main Header -->
+<div class="h-16 px-4 sm:px-8 flex items-center justify-between gap-6 bg-surface-white">
+<!-- Logo -->
+<div class="flex items-center gap-3 shrink-0">
+<a class="flex items-center group" href="/overview"><span class="text-2xl font-extrabold tracking-tight text-obsidian">Pay<span class="text-primary-container">Karo</span></span></a>
+</div>
+<!-- Search Bar -->
+<div class="flex-1 max-w-xl mx-2">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-text-muted text-[19px] pointer-events-none">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-slate-50 border border-border-subtle rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary-container focus:bg-white transition-all shadow-inner" id="global-header-search" placeholder="Search invoices, buyers, GSTIN..." type="text">
+</div>
+</div>
+<!-- Action & Profile -->
+<div class="flex items-center gap-4 shrink-0">
+<!-- + New invoice button linking to /invoices/create -->
+<a class="inline-flex items-center gap-1.5 h-10 px-4 bg-obsidian hover:bg-slate-800 text-white font-semibold text-sm rounded-lg shadow-sm hover:shadow transition-all group" data-path="new-invoice" href="/invoices/create">
+<span class="material-symbols-outlined text-[18px] text-accent-cyan group-hover:scale-110 transition-transform">add</span>
+<span>+ New invoice</span>
+</a>
+<div class="h-6 w-px bg-border-subtle hidden sm:block"></div>
+<!-- User Avatar: Sunita Rao, OWNER -->
+<div class="flex items-center gap-3 pl-1">
+<img alt="Sunita Rao" class="w-9 h-9 rounded-full object-cover ring-2 ring-blue-100 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U">
+<div class="hidden lg:flex flex-col text-left">
+<span class="font-bold text-xs text-text-primary leading-tight">Sunita Rao</span>
+<span class="font-mono text-[10px] font-bold text-accent-cyan tracking-wider uppercase">OWNER</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Bar -->
+<div class="h-11 px-4 sm:px-8 border-t border-border-subtle bg-surface-white flex items-center overflow-x-auto">
+<nav class="flex items-center gap-8 h-full min-w-max text-sm font-semibold">
+<a class="h-full flex items-center text-text-secondary hover:text-text-primary border-b-2 border-transparent transition-colors" data-path="overview" href="/overview">Overview</a>
+<a aria-current="page" class="h-full flex items-center border-b-2 border-primary-container text-primary-container font-bold transition-colors" data-path="invoices" href="/invoices">Invoices</a>
+<a class="h-full flex items-center text-text-secondary hover:text-text-primary border-b-2 border-transparent transition-colors" data-path="customers" href="/customers">Customers</a>
+<a class="h-full flex items-center text-text-secondary hover:text-text-primary border-b-2 border-transparent transition-colors" data-path="finance" href="/finance">Finance</a>
+<a class="h-full flex items-center text-text-secondary hover:text-text-primary border-b-2 border-transparent transition-colors" data-path="reports" href="/reports">Reports</a>
+<a class="h-full flex items-center text-text-secondary hover:text-text-primary border-b-2 border-transparent transition-colors" data-path="settings" href="/settings">Settings</a>
+</nav>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full pt-[148px] flex-1 px-4 sm:px-8 py-6 max-w-[1440px] mx-auto flex flex-col gap-6">
+<!-- KPI Metric Cards Bar -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-surface-white p-4 rounded-xl border border-border-subtle shadow-sm flex items-center justify-between">
+<div>
+<span class="font-mono text-[11px] font-semibold uppercase tracking-wider text-text-muted">Total Outstanding</span>
+<div class="font-bold text-xl sm:text-2xl text-obsidian tracking-tight mt-1 font-mono">₹71,20,000.00</div>
+<p class="text-xs text-text-secondary mt-0.5">15 active invoices tracked</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+</div>
+<div class="bg-surface-white p-4 rounded-xl border border-border-subtle shadow-sm flex items-center justify-between">
+<div>
+<span class="font-mono text-[11px] font-semibold uppercase tracking-wider text-text-muted">Overdue &gt; 45 Days</span>
+<div class="font-bold text-xl sm:text-2xl text-ageing-90-plus tracking-tight mt-1 font-mono">₹39,95,000.00</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-ageing-90-plus"></span>
+<span class="text-xs text-ageing-90-plus font-semibold">5 statutory defaults</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center text-ageing-90-plus">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+</div>
+<div class="bg-surface-white p-4 rounded-xl border border-border-subtle shadow-sm flex items-center justify-between">
+<div>
+<span class="font-mono text-[11px] font-semibold uppercase tracking-wider text-text-muted">TReDS Discounted</span>
+<div class="font-bold text-xl sm:text-2xl text-primary-container tracking-tight mt-1 font-mono">₹12,30,000.00</div>
+<p class="text-xs text-text-secondary mt-0.5">2 bids funded at 7.8% p.a.</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700">
+<span class="material-symbols-outlined text-[22px]">currency_rupee</span>
+</div>
+</div>
+<div class="bg-surface-white p-4 rounded-xl border border-border-subtle shadow-sm flex items-center justify-between">
+<div>
+<span class="font-mono text-[11px] font-semibold uppercase tracking-wider text-text-muted">Statutory Interest Claimable</span>
+<div class="font-bold text-xl sm:text-2xl text-amber-700 tracking-tight mt-1 font-mono">₹2,84,312.00</div>
+<p class="text-xs text-text-secondary mt-0.5">Section 16 RBI 3× Bank rate</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+</div>
+</div>
+<!-- Screen Title & Top Action: "+ New invoice" button (Export CSV strictly removed per WIREFRAMES.md) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h1 class="text-2xl sm:text-3xl font-extrabold text-obsidian tracking-tight">Invoices</h1>
+<p class="text-xs sm:text-sm text-text-muted mt-1">MSME statutory receivable portfolio &amp; TReDS discounting control ledger</p>
+</div>
+<div class="flex items-center gap-3">
+<a class="inline-flex items-center gap-1.5 h-10 px-4 bg-primary-container hover:bg-primary-hover text-white font-semibold text-sm rounded-lg shadow-sm hover:shadow transition-all" data-path="new-invoice" href="/invoices/create">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ New invoice</span>
+</a>
+</div>
+</div>
+<!-- Block 1: Status Tabs strictly: "All · Raised · Accepted · Financed · Settled · Disputed" -->
+<div class="bg-surface-white rounded-xl border border-border-subtle p-2 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+<div class="flex flex-wrap items-center gap-1.5" id="status-tab-group" role="tablist">
+<!-- Tab: All -->
+<button class="tab-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2 bg-obsidian text-white shadow-sm transition-all" data-filter-status="ALL" type="button">
+<span>All</span>
+<span class="px-1.5 py-0.5 rounded-full font-mono text-[11px] bg-slate-700 text-white">15</span>
+</button>
+<!-- Tab: Raised -->
+<button class="tab-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 text-text-secondary hover:text-text-primary hover:bg-slate-50 transition-all" data-filter-status="RAISED" type="button">
+<span>Raised</span>
+<span class="px-1.5 py-0.5 rounded-full font-mono text-[11px] bg-slate-100 text-text-muted">4</span>
+</button>
+<!-- Tab: Accepted -->
+<button class="tab-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 text-text-secondary hover:text-text-primary hover:bg-slate-50 transition-all" data-filter-status="ACCEPTED" type="button">
+<span>Accepted</span>
+<span class="px-1.5 py-0.5 rounded-full font-mono text-[11px] bg-slate-100 text-text-muted">3</span>
+</button>
+<!-- Tab: Financed -->
+<button class="tab-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 text-text-secondary hover:text-text-primary hover:bg-slate-50 transition-all" data-filter-status="FINANCED" type="button">
+<span>Financed</span>
+<span class="px-1.5 py-0.5 rounded-full font-mono text-[11px] bg-slate-100 text-text-muted">4</span>
+</button>
+<!-- Tab: Settled -->
+<button class="tab-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 text-text-secondary hover:text-text-primary hover:bg-slate-50 transition-all" data-filter-status="SETTLED" type="button">
+<span>Settled</span>
+<span class="px-1.5 py-0.5 rounded-full font-mono text-[11px] bg-slate-100 text-text-muted">3</span>
+</button>
+<!-- Tab: Disputed -->
+<button class="tab-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 text-text-secondary hover:text-text-primary hover:bg-slate-50 transition-all" data-filter-status="DISPUTED" type="button">
+<span>Disputed</span>
+<span class="px-1.5 py-0.5 rounded-full font-mono text-[11px] bg-red-100 text-status-disputed-text">1</span>
+</button>
+</div>
+<!-- Quick statutory monitor pill -->
+<div class="hidden xl:flex items-center gap-2 text-xs font-medium text-text-muted pr-3">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-mono text-[11px]">Section 15 MSMED 45-day SLA Monitor Active</span>
+</div>
+</div>
+<!-- Block 2: Filters (Buyer dropdown + Search box) -->
+<div class="bg-surface-white rounded-xl border border-border-subtle p-3 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-sm">
+<div class="flex flex-col sm:flex-row items-center gap-3 flex-1">
+<!-- Buyer dropdown: "All Buyers" -->
+<div class="w-full sm:w-64">
+<label class="sr-only" for="buyer-filter">Filter by buyer</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[18px] pointer-events-none">domain</span>
+<select class="w-full h-10 pl-9 pr-9 bg-slate-50 hover:bg-white text-text-primary text-xs sm:text-sm font-medium rounded-lg border border-border-subtle focus:outline-none focus:ring-2 focus:ring-primary-container appearance-none cursor-pointer transition-colors" id="buyer-filter">
+<option value="ALL">All Buyers</option>
+<option value="Tata Motors Ltd">Tata Motors Ltd</option>
+<option value="Larsen &amp; Toubro Ltd">Larsen &amp; Toubro Ltd</option>
+<option value="Bharat Heavy Electricals Ltd">Bharat Heavy Electricals Ltd</option>
+<option value="Mahindra &amp; Mahindra">Mahindra &amp; Mahindra</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-muted text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Search box: "Search invoice number or buyer name..." -->
+<div class="w-full flex-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[18px] pointer-events-none">search</span>
+<input class="w-full h-10 pl-9 pr-4 bg-slate-50 hover:bg-white text-text-primary placeholder:text-text-muted text-xs sm:text-sm rounded-lg border border-border-subtle focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" id="search-filter" placeholder="Search invoice number or buyer name..." type="text">
+</div>
+</div>
+<!-- Live Filter feedback & Reset button -->
+<div class="flex items-center justify-between md:justify-end gap-3 pt-1 md:pt-0 border-t md:border-t-0 border-border-subtle">
+<span class="font-mono text-xs text-text-muted" id="filter-summary">Showing 10 of 15 records</span>
+<button class="px-2 py-1 text-xs font-bold text-text-secondary hover:text-obsidian uppercase tracking-wider transition-colors" id="reset-filters" type="button">
+          Reset
+        </button>
+</div>
+</div>
+<!-- Block 3: Table — EXACTLY 7 columns verbatim: Invoice | Customer | Due Date | Balance | Ageing | Status | Ready -->
+<div class="bg-surface-white rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="w-full overflow-x-auto">
+<table class="w-full min-w-[900px] text-left border-collapse" id="invoices-table">
+<thead>
+<tr class="bg-slate-50/90 border-b border-border-subtle text-xs font-bold uppercase tracking-wider text-text-secondary h-10">
+<th class="sticky left-0 bg-slate-50/95 px-4 py-2.5 z-10 shadow-[1px_0_0_0_#E2E8F0]" scope="col">Invoice</th>
+<th class="px-4 py-2.5" scope="col">Customer</th>
+<th class="px-4 py-2.5" scope="col">Due Date</th>
+<th class="px-4 py-2.5 text-right font-mono" scope="col">Balance</th>
+<th class="px-4 py-2.5 text-center" scope="col">Ageing</th>
+<th class="px-4 py-2.5" scope="col">Status</th>
+<th class="px-4 py-2.5 text-right" scope="col">Ready</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle text-sm" id="table-body">
+<!-- Row 1: INV-2026-015 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group" data-ageing="Current" data-buyer="Tata Motors Ltd" data-status="RAISED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-primary-container hover:underline" href="/invoices/INV-2026-015">INV-2026-015</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Tata Motors Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AAACT2727Q1ZW</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                12 May 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-primary">
+                ₹6,40,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Current
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                  Raised
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-semibold text-text-secondary">90/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+</div>
+</td>
+</tr>
+<!-- Row 2: INV-2026-014 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group" data-ageing="Current" data-buyer="Larsen &amp; Toubro Ltd" data-status="ACCEPTED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-primary-container hover:underline" href="/invoices/INV-2026-014">INV-2026-014</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Larsen &amp; Toubro Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AABCL0123M1Z9</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                28 Apr 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-primary">
+                ₹4,15,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Current
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-status-accepted-text border border-status-accepted-border">
+                  Accepted
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-bold text-emerald-600">100/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+</div>
+</td>
+</tr>
+<!-- Row 3: INV-2026-012 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group" data-ageing="Current" data-buyer="Larsen &amp; Toubro Ltd" data-status="RAISED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-primary-container hover:underline" href="/invoices/INV-2026-012">INV-2026-012</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Larsen &amp; Toubro Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AABCL0123M1Z9</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                14 Apr 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-primary">
+                ₹9,80,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Current
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                  Raised
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-semibold text-text-secondary">75/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+</div>
+</td>
+</tr>
+<!-- Row 4: INV-2026-010 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group" data-ageing="1-30" data-buyer="Mahindra &amp; Mahindra" data-status="FINANCED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-primary-container hover:underline" href="/invoices/INV-2026-010">INV-2026-010</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Mahindra &amp; Mahindra</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AAACM2929P1ZX</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                02 Apr 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-primary">
+                ₹5,20,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                  1-30
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-status-financed-text border border-status-financed-border">
+                  Financed
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-bold text-emerald-600">100/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+</div>
+</td>
+</tr>
+<!-- Row 5: INV-2026-008 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group" data-ageing="1-30" data-buyer="Tata Motors Ltd" data-status="ACCEPTED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-primary-container hover:underline" href="/invoices/INV-2026-008">INV-2026-008</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Tata Motors Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AAACT2727Q1ZW</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                25 Mar 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-primary">
+                ₹3,60,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                  1-30
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-status-accepted-text border border-status-accepted-border">
+                  Accepted
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-semibold text-text-secondary">95/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+</div>
+</td>
+</tr>
+<!-- Row 6: INV-2026-007 -->
+<tr class="invoice-row hover:bg-red-50/40 transition-colors group bg-red-50/20" data-ageing="31-60" data-buyer="Bharat Heavy Electricals Ltd" data-status="DISPUTED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-red-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-status-disputed-text hover:underline" href="/invoices/INV-2026-007">INV-2026-007</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Bharat Heavy Electricals Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 07AAACB1403B1Z2</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                15 Mar 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-status-disputed-text">
+                ₹14,20,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                  31-60
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-status-disputed-text border border-status-disputed-border">
+                  Disputed
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-semibold text-text-secondary">80/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+</div>
+</td>
+</tr>
+<!-- Row 7: INV-2026-005 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group" data-ageing="31-60" data-buyer="Mahindra &amp; Mahindra" data-status="FINANCED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-primary-container hover:underline" href="/invoices/INV-2026-005">INV-2026-005</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Mahindra &amp; Mahindra</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AAACM2929P1ZX</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                01 Mar 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-primary">
+                ₹7,10,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                  31-60
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-status-financed-text border border-status-financed-border">
+                  Financed
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-bold text-emerald-600">100/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+</div>
+</td>
+</tr>
+<!-- Row 8: INV-2026-003 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group" data-ageing="61-90" data-buyer="Tata Motors Ltd" data-status="RAISED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-primary-container hover:underline" href="/invoices/INV-2026-003">INV-2026-003</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-primary">Tata Motors Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AAACT2727Q1ZW</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                10 Feb 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-orange-600">
+                ₹8,90,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-orange-50 text-orange-800 border border-orange-200">
+                  61-90
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                  Raised
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-semibold text-text-secondary">85/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+</div>
+</td>
+</tr>
+<!-- Row 9: INV-2026-002 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group opacity-90" data-ageing="90+" data-buyer="Larsen &amp; Toubro Ltd" data-status="SETTLED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-text-secondary hover:underline" href="/invoices/INV-2026-002">INV-2026-002</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-secondary">Larsen &amp; Toubro Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 27AABCL0123M1Z9</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                18 Jan 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-secondary">
+                ₹11,35,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-text-muted border border-slate-200">
+                  90+
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-status-settled-text border border-status-settled-border">
+                  Settled
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-bold text-emerald-600">100/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+</div>
+</td>
+</tr>
+<!-- Row 10: INV-2026-001 -->
+<tr class="invoice-row hover:bg-blue-50/40 transition-colors group opacity-90" data-ageing="90+" data-buyer="Bharat Heavy Electricals Ltd" data-status="SETTLED">
+<td class="sticky left-0 bg-surface-white group-hover:bg-blue-50/40 px-4 py-3.5 z-10 shadow-[1px_0_0_0_#E2E8F0]">
+<div class="flex items-center gap-2">
+<a class="font-mono font-bold text-text-secondary hover:underline" href="/invoices/INV-2026-001">INV-2026-001</a>
+<span class="material-symbols-outlined text-text-muted text-[15px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-4 py-3.5">
+<div class="flex flex-col">
+<span class="font-semibold text-text-secondary">Bharat Heavy Electricals Ltd</span>
+<span class="font-mono text-[11px] text-text-muted">GSTN: 07AAACB1403B1Z2</span>
+</div>
+</td>
+<td class="px-4 py-3.5 text-text-secondary whitespace-nowrap">
+                05 Jan 2026
+              </td>
+<td class="px-4 py-3.5 text-right font-mono font-bold text-text-secondary">
+                ₹5,50,000.00
+              </td>
+<td class="px-4 py-3.5 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-text-muted border border-slate-200">
+                  90+
+                </span>
+</td>
+<td class="px-4 py-3.5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-status-settled-text border border-status-settled-border">
+                  Settled
+                </span>
+</td>
+<td class="px-4 py-3.5 text-right">
+<div class="inline-flex items-center gap-2 justify-end">
+<span class="font-mono text-xs font-bold text-emerald-600">100/100</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Block 4: Pagination ("15 rows per page" standard pagination controls) -->
+<div class="bg-surface-white rounded-xl border border-border-subtle p-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+<div class="flex items-center gap-2 text-xs sm:text-sm text-text-secondary">
+<span>Showing <span class="font-bold text-text-primary">1 - 10</span> of <span class="font-bold text-text-primary">15</span> invoices</span>
+<span class="text-border-strong hidden sm:inline">|</span>
+<span class="font-mono text-xs text-text-muted hidden sm:inline">15 rows per page</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="h-8 px-3 rounded-lg text-xs font-semibold text-text-muted bg-slate-100 cursor-not-allowed flex items-center gap-1 opacity-60" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<span>Previous</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg text-xs font-bold bg-obsidian text-white flex items-center justify-center shadow-sm" type="button">1</button>
+<button class="w-8 h-8 rounded-lg text-xs font-semibold text-text-secondary hover:bg-slate-100 hover:text-text-primary flex items-center justify-center transition-colors" type="button">2</button>
+</div>
+<button class="h-8 px-3 rounded-lg text-xs font-semibold text-text-primary hover:bg-slate-100 flex items-center gap-1 transition-colors border border-border-subtle shadow-sm" type="button">
+<span>Next</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- MSMED Act 2006 Statutory Evidence Readiness & Fast-track Liquidity -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-2">
+<!-- Evidence checklist -->
+<div class="bg-surface-white p-5 rounded-xl border border-border-subtle shadow-sm lg:col-span-2">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h2 class="text-base font-bold text-obsidian tracking-tight">MSMED Act 2006 Statutory Evidence Readiness</h2>
+<p class="text-xs text-text-muted mt-0.5">Automated document dossier readiness required before launching Samadhaan Tribunal filing</p>
+</div>
+<span class="px-2 py-0.5 rounded font-mono text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Audit Compliant
+          </span>
+</div>
+<div class="space-y-2">
+<div class="h-11 px-3.5 bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span class="text-xs sm:text-sm font-semibold text-text-primary">Original Purchase Order (PO)</span>
+</div>
+<span class="font-mono text-xs text-text-muted">10/10 Invoices Linked</span>
+</div>
+<div class="h-11 px-3.5 bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span class="text-xs sm:text-sm font-semibold text-text-primary">Proof of Delivery / Consignment Note (LR)</span>
+</div>
+<span class="font-mono text-xs text-text-muted">10/10 Invoices Linked</span>
+</div>
+<div class="h-11 px-3.5 bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-amber-500 text-[18px]">pending</span>
+<span class="text-xs sm:text-sm font-semibold text-text-primary">Goods Receipt Note (GRN) from Buyer ERP</span>
+</div>
+<span class="font-mono text-xs text-amber-700 font-semibold">Missing for INV-2026-012</span>
+</div>
+<div class="h-11 px-3.5 bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span class="text-xs sm:text-sm font-semibold text-text-primary">GST E-Invoice &amp; IRN Generation QR</span>
+</div>
+<span class="font-mono text-xs text-text-muted">NIC Cleared (100%)</span>
+</div>
+</div>
+</div>
+<!-- TReDS Fast-Track panel in Obsidian Flow design language -->
+<div class="bg-obsidian text-white p-5 rounded-xl shadow-md border border-slate-800 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="px-2 py-0.5 rounded font-mono text-[10px] font-extrabold bg-blue-500/20 text-accent-cyan border border-blue-400/30 uppercase tracking-widest">
+              TReDS Fast-Track
+            </span>
+<span class="material-symbols-outlined text-[20px] text-accent-cyan animate-bounce">bolt</span>
+</div>
+<h3 class="text-lg font-bold tracking-tight text-white">Need immediate liquidity?</h3>
+<p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+            3 verified invoices totaling <span class="font-mono font-bold text-accent-cyan">₹20,35,000.00</span> are pre-approved for RXIL &amp; M1xchange reverse factoring with 24hr settlement.
+          </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-800">
+<a class="w-full h-10 px-4 rounded-lg bg-primary-container hover:bg-primary-hover font-semibold text-xs sm:text-sm text-white flex items-center justify-center gap-2 transition-all shadow hover:shadow-blue-500/20" data-path="finance" href="/finance">
+<span>Explore Financing Bids</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</main>
+<!-- Global Footer per WIREFRAMES.md -->
+<footer class="w-full bg-surface-white border-t border-border-subtle mt-12 py-5">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-text-muted gap-3">
+<div>
+        © 2025 PayKaro. MSMED Act 2006 Statutory Compliance &amp; Receivables Infrastructure.
+      </div>
+<div class="flex items-center gap-6">
+<span class="font-mono text-emerald-600 font-semibold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          GSTN &amp; TReDS Verified
+        </span>
+<a class="hover:text-obsidian transition-colors" data-path="help" href="#">Compliance Support</a>
+<a class="hover:text-obsidian transition-colors" data-path="settings" href="#">Audit Logs</a>
+</div>
+</div>
+</footer>
+<!-- Filter & Tab Interaction Logic -->
+<script>
+    (function() {
+      const tabButtons = document.querySelectorAll('#status-tab-group .tab-btn');
+      const rows = document.querySelectorAll('.invoice-row');
+      const searchInput = document.getElementById('search-filter');
+      const headerSearchInput = document.getElementById('global-header-search');
+      const buyerSelect = document.getElementById('buyer-filter');
+      const summarySpan = document.getElementById('filter-summary');
+      const resetBtn = document.getElementById('reset-filters');
+
+      let currentStatus = 'ALL';
+
+      function applyFilters() {
+        const query = ((searchInput ? searchInput.value : '') || '').toLowerCase().trim();
+        const selectedBuyer = buyerSelect ? buyerSelect.value : 'ALL';
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+          const rowBuyer = row.getAttribute('data-buyer') || '';
+          const rowStatus = row.getAttribute('data-status') || '';
+          const textContent = row.textContent.toLowerCase();
+
+          const matchesStatus = (currentStatus === 'ALL') || (rowStatus === currentStatus);
+          const matchesBuyer = (selectedBuyer === 'ALL') || (rowBuyer.toLowerCase().includes(selectedBuyer.toLowerCase()));
+          const matchesSearch = !query || textContent.includes(query);
+
+          if (matchesStatus && matchesBuyer && matchesSearch) {
+            row.style.display = '';
+            visibleCount++;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+
+        if (summarySpan) {
+          summarySpan.textContent = `Showing ${visibleCount} of 15 records`;
+        }
+      }
+
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabButtons.forEach(b => {
+            b.classList.remove('bg-obsidian', 'text-white', 'shadow-sm');
+            b.classList.add('text-text-secondary');
+            const badge = b.querySelector('span:last-child');
+            if (badge) {
+              badge.classList.remove('bg-slate-700', 'text-white');
+              badge.classList.add('bg-slate-100', 'text-text-muted');
+            }
+          });
+
+          btn.classList.add('bg-obsidian', 'text-white', 'shadow-sm');
+          btn.classList.remove('text-text-secondary');
+          const badge = btn.querySelector('span:last-child');
+          if (badge) {
+            badge.classList.remove('bg-slate-100', 'text-text-muted');
+            badge.classList.add('bg-slate-700', 'text-white');
+          }
+
+          currentStatus = btn.getAttribute('data-filter-status') || 'ALL';
+          applyFilters();
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+      }
+      if (headerSearchInput) {
+        headerSearchInput.addEventListener('input', (e) => {
+          if (searchInput) {
+            searchInput.value = e.target.value;
+            applyFilters();
+          }
+        });
+      }
+      if (buyerSelect) {
+        buyerSelect.addEventListener('change', applyFilters);
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          if (headerSearchInput) headerSearchInput.value = '';
+          if (buyerSelect) buyerSelect.value = 'ALL';
+          const allTab = document.querySelector('[data-filter-status="ALL"]');
+          if (allTab) {
+            allTab.click();
+          } else {
+            currentStatus = 'ALL';
+            applyFilters();
+          }
+        });
+      }
+    })();
+  </script>
+
+
+</body></html>

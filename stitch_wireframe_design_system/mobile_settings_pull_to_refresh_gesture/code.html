@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-100" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>PayKaro - Mobile Settings &amp; Entity Registry</title>
+<!-- Tailwind CSS v3 with Forms & Container Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0b132b',
+              blue: '#1d4ed8',
+              indigo: '#2563eb',
+              lightBlue: '#eff6ff',
+              surface: '#f8fafc',
+              border: '#e2e8f0',
+              accent: '#f59e0b',
+              success: '#059669',
+              danger: '#dc2626'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Core Layout Styles -->
+<style data-purpose="core-layout">
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    /* Hide default scrollbars while keeping smooth scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<!-- Pull-To-Refresh Interaction Styles -->
+<style data-purpose="ptr-animation">
+    #ptr-drawer {
+      height: 0px;
+      overflow: hidden;
+      will-change: height, opacity;
+      transition: height 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    #ptr-drawer.refreshing {
+      height: 60px !important;
+      transition: height 0.25s ease-out;
+    }
+    #ptr-drawer.collapsing {
+      height: 0px !important;
+      transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes spin-ring {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .animate-spin-ring {
+      animation: spin-ring 0.85s linear infinite;
+    }
+  </style>
+</head>
+<body class="h-full flex items-center justify-center p-0 sm:p-4 bg-slate-200">
+<!-- BEGIN: Mobile Device Frame (iOS 390px Viewport) -->
+<div class="w-full max-w-[412px] h-[100dvh] max-h-[890px] bg-slate-50 flex flex-col shadow-2xl relative sm:rounded-[44px] overflow-hidden border-0 sm:border-[8px] sm:border-slate-800">
+<!-- iOS Dynamic Island & Status Bar Simulation -->
+<div class="w-full bg-white pt-2 px-6 flex justify-between items-center z-40 select-none">
+<span class="text-xs font-bold text-slate-800 tracking-tight">9:41</span>
+<div class="w-24 h-4 bg-slate-900 rounded-full mx-auto -mt-1 hidden sm:block"></div>
+<div class="flex items-center space-x-1.5 text-slate-700">
+<!-- Cellular Bars -->
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9v7c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-7c0-4.97-4.03-9-9-9z" opacity=".2"></path><path d="M2 17h20v2H2zM6 13h12v2H6zm3-4h6v2H9zm2-4h2v2h-2z"></path></svg>
+<!-- Wifi -->
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4z"></path></svg>
+<!-- Battery -->
+<svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><rect fill="none" height="12" rx="2" stroke="currentColor" stroke-width="2" width="17" x="2" y="6"></rect><rect height="8" rx="1" width="11" x="4" y="8"></rect><rect height="4" rx="0.8" width="2" x="20" y="10"></rect></svg>
+</div>
+</div>
+<!-- BEGIN: Top App Bar -->
+<header class="bg-white border-b border-slate-200/90 px-4 pt-2.5 pb-2.5 flex items-center justify-between shrink-0 z-30 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+<div>
+<!-- Pure Typographic Wordmark: Exactly Pay + indigo Karo -->
+<div class="flex items-center space-x-2">
+<h1 class="text-xl font-extrabold tracking-tight text-[#0b132b]">
+            Pay<span class="text-[#1d4ed8]">Karo</span>
+</h1>
+<span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
+            SOVEREIGN MSME
+          </span>
+</div>
+<p class="text-[11px] font-medium text-slate-500 mt-0.5 flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+          Shree Precision Components • Settings
+        </p>
+</div>
+<!-- Action Items: Manual PTR Sync Trigger, Notification Bell, User Avatar -->
+<div class="flex items-center space-x-2.5">
+<!-- Manual PTR trigger icon button -->
+<button aria-label="Refresh KYC Records" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-700 hover:bg-slate-100 transition active:scale-95" id="header-sync-btn" type="button">
+<svg class="w-4 h-4" fill="none" id="header-sync-svg" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Notification Bell with Active Pip -->
+<button aria-label="Notifications" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-700 hover:bg-slate-100 transition relative" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-500 rounded-full ring-2 ring-white"></span>
+</button>
+<!-- User Profile Avatar (Sunita Rao - SR) -->
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-700 to-indigo-900 text-white text-xs font-bold flex items-center justify-center ring-2 ring-blue-600/30 shadow-sm">
+            SR
+          </div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white"></span>
+</div>
+</div>
+</header>
+<!-- END: Top App Bar -->
+<!-- BEGIN: Quick Action & Live Status Bar -->
+<div class="bg-slate-100/90 border-b border-slate-200 px-4 py-2 flex items-center justify-between text-xs shrink-0 select-none">
+<div class="flex items-center space-x-1.5 overflow-hidden text-slate-700 font-medium">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="truncate text-[11px]" id="sync-timestamp-text">Synced just now • GSTN v2.1</span>
+</div>
+<!-- Accessible Pull to Refresh Trigger Button -->
+<button class="inline-flex items-center space-x-1 px-2.5 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-[11px] font-semibold tracking-tight shadow-sm active:scale-95 transition-all" id="one-tap-ptr-btn" type="button">
+<svg class="w-3 h-3 text-blue-600 animate-spin-reverse" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Test Pull to Refresh</span>
+</button>
+</div>
+<!-- END: Quick Action & Live Status Bar -->
+<!-- BEGIN: Scrollable Container with Pull-To-Refresh Gestures -->
+<main class="flex-1 overflow-y-auto no-scrollbar relative bg-slate-50 overscroll-y-contain" id="scroll-viewport">
+<!-- BEGIN: Pull Indicator Drawer -->
+<div class="w-full bg-gradient-to-b from-blue-50 via-indigo-50/70 to-slate-50 flex items-center justify-center border-b border-blue-100 shadow-inner select-none" id="ptr-drawer">
+<div class="flex items-center space-x-2.5 px-4 py-2">
+<!-- Dual-ring or Pull icon -->
+<div class="w-7 h-7 rounded-full bg-white border border-blue-300 shadow-sm flex items-center justify-center text-blue-600 transition-transform" id="ptr-icon-container">
+<svg class="w-4 h-4 transition-transform duration-150" fill="none" id="ptr-arrow-svg" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<div class="hidden w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" id="ptr-spinner-svg"></div>
+</div>
+<!-- Dynamic Status Text -->
+<span class="text-xs font-semibold text-slate-700 tracking-tight" id="ptr-label">
+            Pull down to verify GSTN &amp; Udyam records
+          </span>
+</div>
+</div>
+<!-- END: Pull Indicator Drawer -->
+<div class="p-4 space-y-4 pb-24">
+<!-- Screen Header Title and Verification Summary -->
+<div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center space-x-1.5 mb-1">
+<span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-100">
+                  Entity Registry
+                </span>
+<span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md border border-emerald-100 flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1"></span> KYC Verified
+                </span>
+</div>
+<h2 class="text-lg font-extrabold text-slate-900 tracking-tight">
+                Settings &amp; Statutory KYC
+              </h2>
+<p class="text-xs text-slate-500 mt-0.5">
+                Statutory compliance, banking credentials &amp; TReDS membership under MSMED Act.
+              </p>
+</div>
+</div>
+<!-- Account Owner Role Strip -->
+<div class="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<div class="w-7 h-7 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold flex items-center justify-center">
+                SR
+              </div>
+<div>
+<p class="text-xs font-semibold text-slate-800 leading-tight">Sunita Rao</p>
+<p class="text-[10px] text-slate-500">Managing Director (MD)</p>
+</div>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">
+              Owner (Full Admin Access)
+            </span>
+</div>
+</div>
+<!-- Statutory Compliance Lock Banner -->
+<div class="rounded-xl p-3 bg-amber-50/80 border border-amber-200/70 flex items-start space-x-2.5">
+<div class="p-1 rounded bg-amber-100 text-amber-800 shrink-0 mt-0.5">
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<div class="text-xs text-amber-900 leading-relaxed">
+<span class="font-bold">Statutory Audit Lock:</span> Primary entity registration records are immutably tied to MCA21 &amp; GSTN APIs under MSMED Act 2006. Manual overrides require certified digital signature.
+          </div>
+</div>
+<!-- BEGIN: Section 1 - Enterprise Identity -->
+<section class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="w-6 h-6 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">
+                1
+              </span>
+<h3 class="text-sm font-bold text-slate-900">Enterprise Identity &amp; Tax</h3>
+</div>
+<span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              Live Connected
+            </span>
+</div>
+<div class="space-y-2.5 pt-1">
+<!-- Business Name -->
+<div>
+<label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
+                Registered Legal Name
+              </label>
+<div class="relative">
+<input class="w-full bg-slate-50 text-slate-800 text-xs font-semibold rounded-lg border-slate-200 px-3 py-2 cursor-not-allowed focus:ring-0 focus:border-slate-200" readonly="" type="text" value="Shree Precision Components Pvt Ltd"/>
+<span class="absolute right-2.5 top-2.5 text-[10px] font-bold text-slate-400">Pvt Ltd</span>
+</div>
+</div>
+<!-- GSTIN & PAN Grid -->
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
+                  GSTIN
+                </label>
+<div class="bg-slate-50 rounded-lg p-2 border border-slate-200">
+<span class="text-xs font-mono font-bold text-slate-800">07AABCS1429B1Z8</span>
+<span class="block text-[9px] text-emerald-600 font-semibold mt-0.5">• Active • Delhi</span>
+</div>
+</div>
+<div>
+<label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
+                  Permanent Acc No (PAN)
+                </label>
+<div class="bg-slate-50 rounded-lg p-2 border border-slate-200">
+<span class="text-xs font-mono font-bold text-slate-800">AABCS1429B</span>
+<span class="block text-[9px] text-emerald-600 font-semibold mt-0.5">• Verified</span>
+</div>
+</div>
+</div>
+<!-- Udyam Registration Number -->
+<div>
+<label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
+                MSME Udyam Registration
+              </label>
+<div class="flex items-center justify-between bg-blue-50/50 rounded-lg p-2.5 border border-blue-100">
+<div>
+<span class="text-xs font-mono font-bold text-blue-950">UDYAM-DL-04-0019284</span>
+<span class="block text-[10px] text-blue-700 font-medium">Category: Small Enterprise (Manufacturing)</span>
+</div>
+<span class="px-2 py-0.5 bg-blue-600 text-white rounded text-[10px] font-bold shadow-xs">
+                  Verified
+                </span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Section 1 -->
+<!-- BEGIN: Section 2 - Statutory Banking & Clearing -->
+<section class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="w-6 h-6 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">
+                2
+              </span>
+<h3 class="text-sm font-bold text-slate-900">Statutory Banking &amp; Escrow</h3>
+</div>
+<span class="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+              Auto-Settlement
+            </span>
+</div>
+<div class="p-3 bg-slate-50 rounded-xl border border-slate-200/90 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-blue-900 text-xs">
+                  SBI
+                </div>
+<div>
+<p class="text-xs font-bold text-slate-900 leading-tight">State Bank of India</p>
+<p class="text-[10px] text-slate-500">Industrial Finance Branch, Connaught Place</p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-emerald-700 bg-emerald-100/60 px-2 py-0.5 rounded">
+                Primary
+              </span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200/60 text-xs">
+<div>
+<span class="text-[10px] font-semibold text-slate-500 block">Account Number</span>
+<span class="font-mono font-bold text-slate-800">•••• •••• 4091</span>
+</div>
+<div>
+<span class="text-[10px] font-semibold text-slate-500 block">IFSC Code</span>
+<span class="font-mono font-bold text-slate-800">SBIN0004091</span>
+</div>
+</div>
+<div class="pt-1.5 flex items-center text-[10px] text-slate-500 font-medium">
+<svg class="w-3.5 h-3.5 text-emerald-600 mr-1 shrink-0" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg>
+              CMS, T+0 RTGS settlement and e-NACH mandate verified
+            </div>
+</div>
+</section>
+<!-- END: Section 2 -->
+<!-- BEGIN: Section 3 - TReDS Multi-Exchange Membership -->
+<section class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="w-6 h-6 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">
+                3
+              </span>
+<h3 class="text-sm font-bold text-slate-900">TReDS Multi-Exchange Linkages</h3>
+</div>
+<span class="text-[10px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+              RBI Licensed
+            </span>
+</div>
+<div class="space-y-2">
+<!-- RXIL Exchange Entry -->
+<div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 bg-white">
+<div class="flex items-center space-x-2.5">
+<div class="w-7 h-7 rounded bg-blue-900 text-white font-black text-[10px] flex items-center justify-center">
+                  RX
+                </div>
+<div>
+<p class="text-xs font-bold text-slate-900">Receivables Exchange of India (RXIL)</p>
+<p class="text-[10px] font-mono text-slate-500">ID: RXIL-MEM-99201</p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Active
+              </span>
+</div>
+<!-- M1xchange Entry -->
+<div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 bg-white">
+<div class="flex items-center space-x-2.5">
+<div class="w-7 h-7 rounded bg-amber-600 text-white font-black text-[10px] flex items-center justify-center">
+                  M1
+                </div>
+<div>
+<p class="text-xs font-bold text-slate-900">M1xchange (Mynd Solutions)</p>
+<p class="text-[10px] font-mono text-slate-500">ID: M1-MSME-4402</p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Active
+              </span>
+</div>
+<!-- Invoicemart Entry -->
+<div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 bg-slate-50/70">
+<div class="flex items-center space-x-2.5">
+<div class="w-7 h-7 rounded bg-slate-400 text-white font-black text-[10px] flex items-center justify-center">
+                  IM
+                </div>
+<div>
+<p class="text-xs font-bold text-slate-700">Invoicemart (A. TREDS)</p>
+<p class="text-[10px] font-mono text-slate-400">ID: Not Provisioned</p>
+</div>
+</div>
+<span class="text-[10px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                Pending KYC
+              </span>
+</div>
+</div>
+</section>
+<!-- END: Section 3 -->
+<!-- BEGIN: Section 4 - Actions & Audit Information -->
+<div class="space-y-2 pt-1">
+<button class="w-full py-3 px-4 bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-700/20 flex items-center justify-center space-x-2 transition" id="save-settings-btn" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Save Changes</span>
+</button>
+<p class="text-[11px] text-center text-slate-400 font-medium">
+            Next automated MCA21 &amp; GSTN registry reconcile: 23:59 IST
+          </p>
+</div>
+<!-- END: Section 4 -->
+</div>
+<!-- Toast Notification for Gestures / Actions -->
+<div class="pointer-events-none fixed bottom-20 left-1/2 -translate-x-1/2 w-[90%] max-w-[360px] bg-slate-900/95 text-white backdrop-blur px-4 py-2.5 rounded-xl shadow-xl border border-slate-700 flex items-center space-x-3 opacity-0 transition-opacity duration-300 z-50" id="toast">
+<div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+</div>
+<div class="flex-1 text-xs">
+<p class="font-bold text-slate-100" id="toast-title">Registries Synchronized</p>
+<p class="text-[10px] text-slate-300" id="toast-desc">GSTN, Udyam &amp; TReDS records verified 100% compliant.</p>
+</div>
+</div>
+</main>
+<!-- END: Scrollable Container -->
+<!-- BEGIN: 5-Tab Bottom Navigation Bar (Design System Match) -->
+<nav class="bg-white border-t border-slate-200 px-2 py-1.5 shrink-0 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+<div class="grid grid-cols-5 items-center">
+<!-- Tab 1: Overview -->
+<a class="flex flex-col items-center py-1 text-slate-500 hover:text-blue-700 transition" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<rect height="7" rx="1.5" width="7" x="3" y="3"></rect>
+<rect height="7" rx="1.5" width="7" x="14" y="3"></rect>
+<rect height="7" rx="1.5" width="7" x="14" y="14"></rect>
+<rect height="7" rx="1.5" width="7" x="3" y="14"></rect>
+</svg>
+<span class="text-[10px] font-medium tracking-tight">Overview</span>
+</a>
+<!-- Tab 2: Invoices -->
+<a class="flex flex-col items-center py-1 text-slate-500 hover:text-blue-700 transition" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] font-medium tracking-tight">Invoices</span>
+</a>
+<!-- Tab 3: Customers -->
+<a class="flex flex-col items-center py-1 text-slate-500 hover:text-blue-700 transition" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] font-medium tracking-tight">Customers</span>
+</a>
+<!-- Tab 4: Finance -->
+<a class="flex flex-col items-center py-1 text-slate-500 hover:text-blue-700 transition" href="#">
+<svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] font-medium tracking-tight">Finance</span>
+</a>
+<!-- Tab 5: Settings (ACTIVE) -->
+<a class="flex flex-col items-center py-1 text-blue-700 font-bold relative transition" href="#">
+<span class="absolute -top-1.5 w-6 h-1 bg-blue-700 rounded-full"></span>
+<svg class="w-5 h-5 mb-0.5 text-blue-700" fill="none" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] tracking-tight">Settings</span>
+</a>
+</div>
+<!-- iOS Home Indicator Pill -->
+<div class="w-32 h-1 bg-slate-300 rounded-full mx-auto mt-2 mb-0.5"></div>
+</nav>
+<!-- END: Bottom Navigation Bar -->
+</div>
+<!-- END: Mobile Device Frame -->
+<!-- BEGIN: Interactive Pull-to-Refresh & Feedback Engine -->
+<script data-purpose="ptr-gestures">
+    document.addEventListener('DOMContentLoaded', () => {
+      const viewport = document.getElementById('scroll-viewport');
+      const drawer = document.getElementById('ptr-drawer');
+      const arrowSvg = document.getElementById('ptr-arrow-svg');
+      const spinnerSvg = document.getElementById('ptr-spinner-svg');
+      const ptrLabel = document.getElementById('ptr-label');
+      const toast = document.getElementById('toast');
+      const toastTitle = document.getElementById('toast-title');
+      const toastDesc = document.getElementById('toast-desc');
+      const oneTapBtn = document.getElementById('one-tap-ptr-btn');
+      const headerSyncBtn = document.getElementById('header-sync-btn');
+      const headerSyncSvg = document.getElementById('header-sync-svg');
+      const syncTimestamp = document.getElementById('sync-timestamp-text');
+
+      const PULL_THRESHOLD = 68;
+      let startY = 0;
+      let currentPull = 0;
+      let isPulling = false;
+      let isRefreshing = false;
+
+      // Haptic Feedback helper with fallback
+      function triggerHaptic(duration = 14) {
+        if ('vibrate' in navigator) {
+          try {
+            navigator.vibrate(duration);
+          } catch (e) {
+            // Ignore if blocked by browser permissions
+          }
+        }
+      }
+
+      // Display brief toast banner
+      let toastTimer = null;
+      function showToast(title, message) {
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTitle.textContent = title;
+        toastDesc.textContent = message;
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0');
+        }, 3200);
+      }
+
+      // Execute Refresh Routine
+      function performRefresh() {
+        if (isRefreshing) return;
+        isRefreshing = true;
+        triggerHaptic(20);
+
+        // Header icon animation
+        if (headerSyncSvg) headerSyncSvg.classList.add('animate-spin');
+
+        // Setup Refreshing UI State
+        drawer.classList.add('refreshing');
+        drawer.style.height = '56px';
+        arrowSvg.classList.add('hidden');
+        spinnerSvg.classList.remove('hidden');
+        ptrLabel.textContent = "Verifying GSTN portal, MCA21 & Udyam API status...";
+
+        setTimeout(() => {
+          // Complete Refresh Sequence
+          ptrLabel.textContent = "Statutory Records Verified · Live KYC Active";
+          triggerHaptic(12);
+
+          // Update sync bar timestamp
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          syncTimestamp.textContent = `Synced at ${timeStr} · GSTN v2.1`;
+
+          showToast("Registries Verified", "Shree Precision entity credentials verified via MCA21 & Udyam API.");
+
+          setTimeout(() => {
+            drawer.classList.remove('refreshing');
+            drawer.classList.add('collapsing');
+            drawer.style.height = '0px';
+
+            setTimeout(() => {
+              drawer.classList.remove('collapsing');
+              arrowSvg.classList.remove('hidden');
+              spinnerSvg.classList.add('hidden');
+              arrowSvg.style.transform = 'rotate(0deg)';
+              ptrLabel.textContent = "Pull down to verify GSTN & Udyam records";
+              if (headerSyncSvg) headerSyncSvg.classList.remove('animate-spin');
+              isRefreshing = false;
+            }, 300);
+          }, 650);
+
+        }, 1600);
+      }
+
+      // Pointer / Touch Start Handler
+      function handleStart(yCoord) {
+        if (viewport.scrollTop <= 0 && !isRefreshing) {
+          startY = yCoord;
+          isPulling = true;
+        }
+      }
+
+      // Pointer / Touch Move Handler with Elastic Physics
+      function handleMove(yCoord) {
+        if (!isPulling || isRefreshing) return;
+        if (viewport.scrollTop > 0) {
+          isPulling = false;
+          drawer.style.height = '0px';
+          return;
+        }
+
+        const delta = yCoord - startY;
+        if (delta > 0) {
+          // Elastic Rubber Band formula: Math.pow(delta, 0.82)
+          const elasticHeight = Math.min(Math.pow(delta, 0.82) * 1.6, 95);
+          drawer.style.height = `${elasticHeight}px`;
+
+          // Progress rotation
+          const rotation = Math.min((elasticHeight / PULL_THRESHOLD) * 180, 180);
+          arrowSvg.style.transform = `rotate(${rotation}deg)`;
+
+          if (elasticHeight >= PULL_THRESHOLD) {
+            ptrLabel.textContent = "Release to sync statutory registries";
+            ptrLabel.classList.add('text-blue-700');
+          } else {
+            ptrLabel.textContent = "Pull down to verify GSTN & Udyam records";
+            ptrLabel.classList.remove('text-blue-700');
+          }
+          currentPull = elasticHeight;
+        }
+      }
+
+      // Pointer / Touch End Handler
+      function handleEnd() {
+        if (!isPulling || isRefreshing) return;
+        isPulling = false;
+
+        if (currentPull >= PULL_THRESHOLD) {
+          performRefresh();
+        } else {
+          drawer.classList.add('collapsing');
+          drawer.style.height = '0px';
+          setTimeout(() => {
+            drawer.classList.remove('collapsing');
+            arrowSvg.style.transform = 'rotate(0deg)';
+            ptrLabel.textContent = "Pull down to verify GSTN & Udyam records";
+          }, 250);
+        }
+        currentPull = 0;
+      }
+
+      // Touch Events for Mobile Screens
+      viewport.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) handleStart(e.touches[0].clientY);
+      }, { passive: true });
+
+      viewport.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 1) handleMove(e.touches[0].clientY);
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', handleEnd, { passive: true });
+      viewport.addEventListener('touchcancel', handleEnd, { passive: true });
+
+      // Pointer Events for Desktop Testing / Emulators
+      viewport.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        handleStart(e.clientY);
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (isPulling) handleMove(e.clientY);
+      });
+
+      window.addEventListener('pointerup', () => {
+        if (isPulling) handleEnd();
+      });
+
+      // Quick Action Button Triggers
+      if (oneTapBtn) {
+        oneTapBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          performRefresh();
+        });
+      }
+
+      if (headerSyncBtn) {
+        headerSyncBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          performRefresh();
+        });
+      }
+
+      // Save Button Feedback
+      const saveBtn = document.getElementById('save-settings-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          triggerHaptic(15);
+          showToast("Settings Saved", "Entity registry cached and queued for statutory audit logging.");
+        });
+      }
+    });
+  </script>
+<!-- END: Interactive Pull-to-Refresh & Feedback Engine -->
+</body></html>

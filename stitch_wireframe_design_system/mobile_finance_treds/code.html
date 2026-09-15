@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>PayKaro — Finance &amp; TReDS Hub</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f8f9ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "surface-container": "#e5eeff",
+            "surface-container-high": "#dce9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "on-surface-variant": "#434655",
+            "primary": "#1d4ed8",
+            "primary-container": "#1d4ed8",
+            "on-primary": "#ffffff",
+            "secondary": "#565d79",
+            "outline": "#747686",
+            "outline-variant": "#c4c5d7",
+            "success": "#16a34a"
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overscroll-behavior-y: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col pb-32">
+<!-- Clean Mobile Header Bar -->
+<header class="sticky top-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-b border-surface-container px-4 py-3 shadow-[0_1px_3px_0_rgba(11,28,48,0.03)]">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<!-- Pure Typographic Wordmark -->
+<div class="flex items-baseline gap-1.5">
+<span class="text-[21px] font-extrabold tracking-tight text-primary leading-none">PayKaro</span>
+<span class="text-[10px] uppercase font-bold tracking-wider text-secondary">TReDS Hub</span>
+</div>
+<!-- Company Identifier Badge -->
+<div class="flex items-center gap-1 mt-1 text-xs font-semibold text-on-surface">
+<span class="truncate max-w-[200px]">Shree Precision Components</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</div>
+</div>
+<!-- User Profile & Action -->
+<div class="flex items-center gap-2.5">
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-secondary hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</button>
+<div class="relative">
+<img alt="Sunita Rao" class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U">
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Mobile Content Area -->
+<main class="flex-1 w-full max-w-md mx-auto px-4 pt-3.5 space-y-4">
+<!-- 2. Live Exchange Feed Ticker -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between px-0.5">
+<span class="text-[11px] font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+          Live Exchange Bids
+        </span>
+<span class="text-[11px] font-semibold text-primary">TReDS Multi-Exchange</span>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 -mx-4 px-4">
+<!-- RXIL -->
+<div class="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 bg-surface-container-lowest border border-surface-container rounded-full shadow-xs">
+<span class="text-xs font-bold text-on-surface">RXIL</span>
+<span class="text-xs font-extrabold text-primary">6.42%</span>
+<span class="text-[10px] text-secondary font-medium">p.a.</span>
+<span class="w-1 h-1 rounded-full bg-emerald-500"></span>
+<span class="text-[10px] font-semibold text-emerald-600">Active</span>
+</div>
+<!-- M1xchange -->
+<div class="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 bg-surface-container-lowest border border-surface-container rounded-full shadow-xs">
+<span class="text-xs font-bold text-on-surface">M1xchange</span>
+<span class="text-xs font-extrabold text-primary">6.38%</span>
+<span class="text-[10px] text-secondary font-medium">p.a.</span>
+<span class="w-1 h-1 rounded-full bg-emerald-500"></span>
+<span class="text-[10px] font-semibold text-emerald-600">Active</span>
+</div>
+<!-- Invoicemart -->
+<div class="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 bg-surface-container-lowest border border-surface-container rounded-full shadow-xs">
+<span class="text-xs font-bold text-on-surface">Invoicemart</span>
+<span class="text-xs font-extrabold text-primary">6.45%</span>
+<span class="text-[10px] text-secondary font-medium">p.a.</span>
+<span class="w-1 h-1 rounded-full bg-emerald-500"></span>
+<span class="text-[10px] font-semibold text-emerald-600">Active</span>
+</div>
+</div>
+</div>
+<!-- 3. Liquidity Velocity & Readiness KPI -->
+<div class="bg-surface-container-lowest border border-surface-container/80 rounded-2xl p-4 shadow-sm space-y-3.5">
+<div class="flex items-start justify-between">
+<div>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-widest">Liquidity Velocity</span>
+<h2 class="text-[19px] font-extrabold text-on-surface tracking-tight mt-0.5">
+            Finance-ready: 4 <span class="text-secondary font-medium text-sm">of 15 invoices</span>
+</h2>
+</div>
+<div class="w-8 h-8 rounded-xl bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<!-- Institutional gate benchmark -->
+<div class="flex items-center gap-2 p-2.5 bg-surface-container-low/70 rounded-xl border border-surface-container">
+<span class="material-symbols-outlined text-primary text-[18px]">trending_up</span>
+<span class="text-xs text-on-surface font-medium leading-tight">
+          Institutional gate: <strong class="text-primary font-bold">needs 85/100 readiness</strong> for automated settlement.
+        </span>
+</div>
+<!-- Progress Meter -->
+<div class="space-y-1.5 pt-0.5">
+<div class="flex justify-between items-center text-xs">
+<span class="text-secondary font-medium">Current Average Readiness</span>
+<span class="text-on-surface font-bold">78 <span class="text-secondary font-normal">/ 100</span></span>
+</div>
+<div class="relative w-full h-2.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 78%;"></div>
+<!-- 85 Threshold Marker -->
+<div class="absolute top-0 bottom-0 w-1 bg-on-surface" style="left: 85%;" title="85 Gate"></div>
+</div>
+<div class="flex justify-between text-[11px] text-secondary font-medium pt-0.5">
+<span>Score: <strong class="text-primary">78</strong></span>
+<span class="text-on-surface font-semibold">Threshold: 85</span>
+<span>Max: 100</span>
+</div>
+</div>
+</div>
+<!-- Available Factoring Limit & Velocity Pill -->
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-container-lowest border border-surface-container/80 p-3.5 rounded-2xl shadow-sm space-y-1">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[15px]">account_balance_wallet</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Available Limit</span>
+</div>
+<div class="text-[18px] font-extrabold text-on-surface tracking-tight">₹18,40,000.00</div>
+<div class="text-[11px] text-primary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">verified_user</span> Pre-approved
+        </div>
+</div>
+<div class="bg-surface-container-lowest border border-surface-container/80 p-3.5 rounded-2xl shadow-sm space-y-1">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[15px]">bolt</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Settlement</span>
+</div>
+<div class="text-[18px] font-extrabold text-on-surface tracking-tight">T+1 Velocity</div>
+<div class="text-[11px] text-secondary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary">sync_alt</span> 24h Direct RTGS
+        </div>
+</div>
+</div>
+<!-- 4. Bidding Queue Segmented Tabs -->
+<div class="space-y-3 pt-1">
+<div class="flex items-center justify-between">
+<h3 class="text-base font-bold text-on-surface">Invoice Bidding Queue</h3>
+<span class="text-[11px] font-semibold text-secondary">MSMED Act 2006</span>
+</div>
+<!-- Tab Buttons -->
+<div class="flex p-1 bg-surface-container/80 rounded-xl"><button class="flex-1 py-2.5 px-4 rounded-xl text-xs font-bold bg-surface-container-lowest text-primary shadow-xs transition-all flex items-center justify-center gap-1.5" id="tab-ready" onclick="toggleQueue('ready')" type="button"><span class="">Ready</span><span class="px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-primary/10 text-primary">4</span></button><button class="flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-secondary hover:text-on-surface transition-all flex items-center justify-center gap-1.5" id="tab-blocked" onclick="toggleQueue('blocked')" type="button"><span class="">Blocked / Deficient</span><span class="px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-surface-container-high text-secondary">11</span></button></div>
+<!-- Ready Invoices List -->
+<div class="space-y-2.5" id="queue-ready-view">
+<!-- Ready 1 -->
+<div class="bg-surface-container-lowest border border-surface-container/80 rounded-xl p-3.5 shadow-sm space-y-2.5">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-on-surface">INV-2026-006</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">Readiness 92/100</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface mt-0.5">Tata Advanced Systems Ltd</h4>
+</div>
+<div class="text-right">
+<div class="text-base font-extrabold text-on-surface leading-tight">₹4,20,500</div>
+<div class="text-[11px] font-bold text-primary">7.85% p.a. Best Bid</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60">
+<span class="text-[11px] text-secondary font-medium">Due: 38 Days</span>
+<button class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-primary text-on-primary text-xs font-bold rounded-xl shadow-xs hover:bg-primary/90 active:scale-95 transition-all" type="button"><span class="">Finance Now</span><span class="material-symbols-outlined text-[15px]">arrow_forward</span></button>
+</div>
+</div>
+<!-- Ready 2 -->
+<div class="bg-surface-container-lowest border border-surface-container/80 rounded-xl p-3.5 shadow-sm space-y-2.5">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-on-surface">INV-2026-009</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">Readiness 88/100</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface mt-0.5">Bharat Heavy Electricals Ltd</h4>
+</div>
+<div class="text-right">
+<div class="text-base font-extrabold text-on-surface leading-tight">₹7,80,000</div>
+<div class="text-[11px] font-bold text-primary">6.95% p.a. Best Bid</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60">
+<span class="text-[11px] text-secondary font-medium">Due: 45 Days</span>
+<button class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-primary text-on-primary text-xs font-bold rounded-xl shadow-xs hover:bg-primary/90 active:scale-95 transition-all" type="button"><span class="">Finance Now</span><span class="material-symbols-outlined text-[15px]">arrow_forward</span></button>
+</div>
+</div>
+<!-- Ready 3 -->
+<div class="bg-surface-container-lowest border border-surface-container/80 rounded-xl p-3.5 shadow-sm space-y-2.5">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-on-surface">INV-2026-012</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">Readiness 86/100</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface mt-0.5">Mahindra Defense Systems</h4>
+</div>
+<div class="text-right">
+<div class="text-base font-extrabold text-on-surface leading-tight">₹3,45,000</div>
+<div class="text-[11px] font-bold text-primary">7.10% p.a. Best Bid</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60">
+<span class="text-[11px] text-secondary font-medium">Due: 30 Days</span>
+<button class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-primary text-on-primary text-xs font-bold rounded-xl shadow-xs hover:bg-primary/90 active:scale-95 transition-all" type="button"><span class="">Finance Now</span><span class="material-symbols-outlined text-[15px]">arrow_forward</span></button>
+</div>
+</div>
+<!-- Ready 4 -->
+<div class="bg-surface-container-lowest border border-surface-container/80 rounded-xl p-3.5 shadow-sm space-y-2.5">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-on-surface">INV-2026-015</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">Readiness 94/100</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface mt-0.5">Larsen &amp; Toubro Precision</h4>
+</div>
+<div class="text-right">
+<div class="text-base font-extrabold text-on-surface leading-tight">₹2,94,500</div>
+<div class="text-[11px] font-bold text-primary">6.60% p.a. Best Bid</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60">
+<span class="text-[11px] text-secondary font-medium">Due: 22 Days</span>
+<button class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-primary text-on-primary text-xs font-bold rounded-xl shadow-xs hover:bg-primary/90 active:scale-95 transition-all" type="button"><span class="">Finance Now</span><span class="material-symbols-outlined text-[15px]">arrow_forward</span></button>
+</div>
+</div>
+</div>
+<!-- Blocked Invoices List -->
+<div class="space-y-2.5 hidden" id="queue-blocked-view">
+<div class="bg-surface-container-lowest border border-surface-container/80 rounded-xl p-3.5 shadow-sm space-y-2">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-on-surface">INV-2026-002</span>
+<span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">Deficient (62/100)</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface mt-0.5">Kalyani Steels Pvt Ltd</h4>
+</div>
+<div class="text-right">
+<div class="text-base font-extrabold text-on-surface leading-tight">₹6,15,000</div>
+<div class="text-[11px] font-semibold text-secondary">Awaiting GRN</div>
+</div>
+</div>
+<p class="text-xs text-secondary">Buyer Goods Receipt Note (GRN) pending confirmation on exchange portal.</p>
+</div>
+<div class="bg-surface-container-lowest border border-surface-container/80 rounded-xl p-3.5 shadow-sm space-y-2">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-on-surface">INV-2026-004</span>
+<span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">Deficient (45/100)</span>
+</div>
+<h4 class="text-sm font-bold text-on-surface mt-0.5">Apex Auto Ancillaries</h4>
+</div>
+<div class="text-right">
+<div class="text-base font-extrabold text-on-surface leading-tight">₹1,95,000</div>
+<div class="text-[11px] font-semibold text-secondary">Unregistered</div>
+</div>
+</div>
+<p class="text-xs text-secondary">Buyer enterprise not registered on TReDS platforms.</p>
+</div>
+</div>
+</div>
+<!-- 5. Statutory MSMED & RBI Protection Banner -->
+<div class="bg-surface-container-low border border-surface-container rounded-xl p-3.5 space-y-1.5">
+<div class="flex items-center gap-1.5 text-on-surface font-bold text-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">gavel</span>
+<span>Statutory MSMED &amp; RBI Protection</span>
+</div>
+<p class="text-[11px] leading-relaxed text-secondary font-medium">
+        Non-recourse factoring under Section 15 &amp; 16 of the MSMED Act 2006. Once accepted on TReDS, buyer assumes full payment obligation without supplier recourse.
+      </p>
+</div>
+</main>
+<!-- 6. Persistent Mobile Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-container py-2.5 px-4 shadow-sm"><div class="max-w-md mx-auto grid grid-cols-5 gap-1 items-center"><a class="flex flex-col items-center justify-center py-2 text-secondary hover:text-on-surface transition-colors active:scale-95" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="text-[10px] font-medium mt-1">Overview</span></a><a class="flex flex-col items-center justify-center py-2 text-secondary hover:text-on-surface transition-colors active:scale-95" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="text-[10px] font-medium mt-1">Invoices</span></a><a class="flex flex-col items-center justify-center py-2 text-secondary hover:text-on-surface transition-colors active:scale-95" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="text-[10px] font-medium mt-1">Customers</span></a><a class="flex flex-col items-center justify-center py-1.5 text-primary active:scale-95" href="#"><div class="w-10 h-8 rounded-full bg-primary/10 flex items-center justify-center mb-0.5"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">account_balance</span></div><span class="text-[10px] font-bold">Finance</span></a><a class="flex flex-col items-center justify-center py-2 text-secondary hover:text-on-surface transition-colors active:scale-95" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="text-[10px] font-medium mt-1">Settings</span></a></div></nav>
+<!-- Interactive script for segmented tabs -->
+<script>
+    function toggleQueue(mode) {
+      const readyView = document.getElementById('queue-ready-view');
+      const blockedView = document.getElementById('queue-blocked-view');
+      const tabReady = document.getElementById('tab-ready');
+      const tabBlocked = document.getElementById('tab-blocked');
+
+      if (mode === 'ready') {
+        readyView.classList.remove('hidden');
+        blockedView.classList.add('hidden');
+        tabReady.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-bold bg-surface-container-lowest text-primary shadow-xs transition-all flex items-center justify-center gap-1.5";
+        tabBlocked.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-bold text-secondary hover:text-on-surface transition-all flex items-center justify-center gap-1.5";
+      } else {
+        readyView.classList.add('hidden');
+        blockedView.classList.remove('hidden');
+        tabBlocked.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-bold bg-surface-container-lowest text-primary shadow-xs transition-all flex items-center justify-center gap-1.5";
+        tabReady.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-bold text-secondary hover:text-on-surface transition-all flex items-center justify-center gap-1.5";
+      }
+    }
+  </script>
+
+
+</body></html>

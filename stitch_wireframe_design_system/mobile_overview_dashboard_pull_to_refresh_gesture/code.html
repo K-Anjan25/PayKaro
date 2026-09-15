@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#0037b0", "tertiary-fixed": "#c9e6ff", "primary-fixed-dim": "#b7c4ff", "inverse-surface": "#213145", "surface-variant": "#d3e4fe", "on-secondary-fixed": "#131a33", "secondary-fixed": "#dbe1ff", "on-tertiary-container": "#abdaff", "on-primary-container": "#cad3ff", "on-error": "#ffffff", "surface-container-high": "#dce9ff", "on-background": "#0b1c30", "secondary": "#565d79", "on-primary-fixed-variant": "#0039b5", "surface-container-highest": "#d3e4fe", "error": "#ba1a1a", "on-surface-variant": "#434655", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#3e4660", "secondary-fixed-dim": "#bec5e5", "primary-container": "#1d4ed8", "surface-tint": "#2151da", "on-surface": "#0b1c30", "secondary-container": "#d8deff", "primary-fixed": "#dce1ff", "on-primary": "#ffffff", "tertiary": "#00496b", "inverse-primary": "#b7c4ff", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed-variant": "#004c6e", "tertiary-container": "#00628d", "on-error-container": "#93000a", "surface-container": "#e5eeff", "background": "#f8f9ff", "error-container": "#ffdad6", "on-tertiary": "#ffffff", "outline-variant": "#c4c5d7", "surface-dim": "#cbdbf5", "on-tertiary-fixed": "#001e2f", "surface": "#f8f9ff", "on-secondary": "#ffffff", "on-secondary-container": "#5a627e", "on-primary-fixed": "#001551", "surface-bright": "#f8f9ff", "outline": "#747686", "tertiary-fixed-dim": "#89ceff", "surface-container-low": "#eff4ff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-md": "1rem", "gutter": "1.5rem", "space-xl": "2rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "gutter-mobile": "1rem", "margin-mobile": "1rem", "space-xs": "0.25rem", "margin": "2rem" }, fontFamily: { "label-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"] }, fontSize: { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" }] } } } }</script><style>@layer base { html, body { width: 100%; margin: 0; padding: 0; min-height: 100%; } body { overscroll-behavior-y: none; -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } } ::-webkit-scrollbar { display: none; }
+@keyframes ptr-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.ptr-spinning { animation: ptr-spin 0.8s linear infinite; }
+</style></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased flex flex-col min-h-screen select-none md:select-auto"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-sm min-w-0 flex-1"><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="text-xl font-bold tracking-tight text-slate-900">Pay<span class="text-blue-700">Karo</span></span><span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold uppercase tracking-wider">SOVEREIGN MSME</span></div><div class="flex items-center gap-1 min-w-0"><span class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span><span class="font-label-sm text-label-sm text-secondary truncate max-w-[130px]">Shree Precision Components</span></div></div></div><div class="flex items-center gap-0.5 flex-shrink-0"><button aria-label="Search" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container/60 active:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Notifications" class="relative w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container/60 active:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></button><div class="pl-1 flex items-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant/40" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U"/></div></div></div></header>
+<!-- Notification Toast for Sync Confirmation -->
+<div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 -translate-y-3 max-w-[92%] w-max" id="sync-toast">
+<div class="bg-slate-900 text-white px-3.5 py-2 rounded-full shadow-lg text-[11px] font-semibold flex items-center gap-2 border border-slate-700/60 backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+<span id="toast-text">MSMED Ledger Synchronized · Live Repo Rates Active</span>
+</div>
+</div>
+<main class="flex-1 flex flex-col relative w-full pt-16 pb-20 bg-surface overflow-x-hidden touch-pan-y" id="ptr-scroll-container">
+<!-- Pull to Refresh Visual Indicator Canvas (Positioned above moving body content) -->
+<div class="w-full flex items-center justify-center overflow-hidden h-0 opacity-0 transition-all pointer-events-none bg-surface-container-low/70 border-b border-outline-variant/20" id="ptr-indicator">
+<div class="flex items-center gap-2.5 py-2 px-4">
+<div class="w-7 h-7 rounded-full bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex items-center justify-center text-primary transition-transform duration-150" id="ptr-icon-wrap">
+<span class="material-symbols-outlined text-[17px]" id="ptr-icon">arrow_downward</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface" id="ptr-label">Pull down to refresh MSMED ledger</span>
+<span class="text-[10px] text-secondary" id="ptr-sublabel">Sync RBI repo, TReDS status &amp; statutory interest</span>
+</div>
+</div>
+</div>
+<!-- Elastic Pullable Dashboard Content Container -->
+<div class="flex flex-col w-full pb-6 will-change-transform" id="ptr-content">
+<!-- Currency & Clearing Ticker Strip -->
+<div class="w-full bg-surface-container-low px-gutter-mobile py-2 flex items-center justify-between shadow-sm border-b border-outline-variant/20">
+<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+<span class="w-2 h-2 rounded-full bg-primary flex-shrink-0 animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">RBI MSMED Clearing</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold ml-1" id="live-clearing-badge">Live • ₹ T+0</span>
+<span class="text-outline-variant mx-1.5">•</span>
+<span class="font-label-sm text-label-sm text-secondary">Statutory Rate:</span>
+<span class="font-label-sm text-label-sm text-primary font-bold" id="statutory-rate-badge">20.25% (3× Bank Rate)</span>
+</div>
+<button aria-label="Refresh rates and ledger" class="text-secondary hover:text-primary active:scale-90 transition-all flex-shrink-0 pl-2 p-1 rounded-md hover:bg-surface-container" id="manual-refresh-btn" title="Pull/Trigger Refresh" type="button">
+<span class="material-symbols-outlined text-[17px] transition-transform" id="manual-refresh-icon">sync</span>
+</button>
+</div>
+<div class="px-gutter-mobile flex flex-col gap-space-md mt-3">
+<!-- Header Greeting & Micro Switcher -->
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Sovereign Treasury</span>
+<span class="text-[10px] text-primary/80 font-semibold px-1.5 py-0.2 bg-primary/10 rounded-full" id="last-synced-time">Updated just now</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Institutional Ledger</h2>
+</div>
+<div class="flex items-center gap-1 bg-surface-container p-1 rounded-lg">
+<button class="px-2.5 py-1 rounded-md bg-surface-container-lowest text-primary font-label-sm text-label-sm shadow-sm transition-all font-semibold" type="button">INR</button>
+<button class="px-2.5 py-1 rounded-md text-secondary hover:text-on-surface font-label-sm text-label-sm transition-all" type="button">USD</button>
+</div>
+</div>
+<!-- Section 1: 4 KPI Cards in Strict Order -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- KPI 1: Outstanding -->
+<div class="bg-surface-container-lowest p-3.5 rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-secondary">Total Outstanding</span>
+<div class="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+</div>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">₹24,85,200</span>
+<span class="text-body-sm font-body-sm text-secondary">.00</span>
+</div>
+<div class="flex items-center gap-1 mt-2">
+<span class="font-label-sm text-label-sm text-primary font-semibold">14 Active Claims</span>
+</div>
+</div>
+<!-- KPI 2: Overdue -->
+<div class="bg-surface-container-lowest p-3.5 rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-error font-semibold">Overdue</span>
+<div class="w-6 h-6 rounded-md bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+</div>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-error font-bold tracking-tight">₹5,58,000</span>
+<span class="text-body-sm font-body-sm text-error/80">.00</span>
+</div>
+<div class="flex items-center gap-1 mt-2">
+<span class="px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">3 overdue</span>
+<span class="font-label-sm text-label-sm text-secondary">&gt;45 days</span>
+</div>
+</div>
+<!-- KPI 3: Interest Accrued -->
+<div class="bg-surface-container-lowest p-3.5 rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-secondary">Statutory Interest</span>
+<div class="w-6 h-6 rounded-md bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+</div>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">₹46,320</span>
+<span class="text-body-sm font-body-sm text-secondary">.00</span>
+</div>
+<div class="flex items-center gap-1 mt-2">
+<span class="font-label-sm text-label-sm text-secondary truncate">Section 16 compounding</span>
+</div>
+</div>
+<!-- KPI 4: Receivable in 30d -->
+<div class="bg-surface-container-lowest p-3.5 rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-secondary">In 30 Days</span>
+<div class="w-6 h-6 rounded-md bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</div>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">₹8,42,100</span>
+<span class="text-body-sm font-body-sm text-secondary">.00</span>
+</div>
+<div class="flex items-center gap-1 mt-2">
+<span class="font-label-sm text-label-sm text-primary font-semibold">6 invoices regular</span>
+</div>
+</div>
+</div>
+<!-- Section 2: 'Needs attention' alert list with Dismiss all -->
+<div class="flex flex-col gap-2.5" id="alert-section">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-error text-[18px]">priority_high</span>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Needs Attention</h3>
+<span class="px-1.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">1 Action</span>
+</div>
+<button class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high active:bg-surface-container-highest transition-colors font-label-sm text-label-sm font-semibold" id="dismiss-alerts-btn" type="button">
+          Dismiss all
+        </button>
+</div>
+<!-- Amber Warning Card for INV-2026-007 -->
+<div class="bg-surface-container-lowest p-3.5 rounded-lg shadow-sm transition-all duration-300" id="bhel-alert-card">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-md bg-amber-100 flex items-center justify-center text-amber-800 flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm font-bold text-amber-900 bg-amber-50 px-2 py-0.5 rounded-md">INV-2026-007</span>
+<span class="font-label-sm text-label-sm text-error font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">timer</span> Due in 4 days
+              </span>
+</div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold mt-1 truncate">BHEL Boiler Mountings Batch #4</h4>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+              Dispute filing deadline for statutory MSME Samadhaan escalation. Claim amount: <span class="text-on-surface font-semibold">₹3,45,000.00</span>
+</p>
+<div class="flex items-center gap-2 mt-3">
+<button class="flex-1 py-1.5 px-3 rounded-md bg-primary text-on-primary font-label-sm text-label-sm font-semibold shadow-sm hover:bg-primary-container active:scale-[0.99] transition-all text-center flex items-center justify-center gap-1" type="button">
+<span>File Formal Notice</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+<button class="py-1.5 px-2.5 rounded-md bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold hover:bg-surface-container-high transition-colors" type="button">
+                View Ledger
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: 'Ageing Summary' 5-Bucket Chart -->
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Maturity Analysis</span>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Ageing Summary</h3>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Total: ₹24.9L</span>
+</div>
+<!-- Segmented Bar Visualization -->
+<div class="flex h-3.5 w-full rounded-full overflow-hidden bg-surface-container gap-0.5 p-0.5">
+<div class="h-full rounded-l-full bg-primary" style="width: 51.8%;" title="Current: ₹12.9L"></div>
+<div class="h-full bg-surface-tint" style="width: 22.1%;" title="1-30d: ₹5.5L"></div>
+<div class="h-full bg-secondary" style="width: 14.0%;" title="31-60d: ₹3.5L"></div>
+<div class="h-full bg-amber-500" style="width: 8.1%;" title="61-90d: ₹2.0L"></div>
+<div class="h-full rounded-r-full bg-error" style="width: 4.0%;" title="90+d: ₹1.0L"></div>
+</div>
+<!-- 5-Bucket Value Strip -->
+<div class="grid grid-cols-5 gap-1 pt-1">
+<div class="flex flex-col items-center text-center">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-secondary">Current</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold mt-0.5">₹12.9L</span>
+<span class="font-body-sm text-body-sm text-secondary">51.8%</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>
+<span class="font-label-sm text-label-sm text-secondary">1-30d</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold mt-0.5">₹5.5L</span>
+<span class="font-body-sm text-body-sm text-secondary">22.1%</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-secondary">31-60d</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold mt-0.5">₹3.5L</span>
+<span class="font-body-sm text-body-sm text-secondary">14.0%</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+<span class="font-label-sm text-label-sm text-secondary">61-90d</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold mt-0.5">₹2.0L</span>
+<span class="font-body-sm text-body-sm text-secondary">8.1%</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span class="font-label-sm text-label-sm text-secondary">90+d</span>
+</div>
+<span class="font-label-md text-label-md text-error font-bold mt-0.5">₹1.0L</span>
+<span class="font-body-sm text-body-sm text-secondary">4.0%</span>
+</div>
+</div>
+</div>
+<!-- Section 4: Receivables Status Pipeline (Compact Cards) -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Receivables Status Pipeline</h3>
+<span class="font-label-sm text-label-sm text-secondary">Bucket Distribution</span>
+</div>
+<!-- Horizontal Scrollable Pipeline Rail -->
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-gutter-mobile px-gutter-mobile">
+<!-- Bucket 1: Current -->
+<div class="w-[145px] flex-shrink-0 bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">Current</span>
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+</div>
+<div class="mt-3">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹12,90,000</div>
+<div class="font-body-sm text-body-sm text-secondary">7 Invoices Safe</div>
+</div>
+<div class="mt-2 text-[10px] font-semibold text-primary">Est. Cleared: 15d avg</div>
+</div>
+<!-- Bucket 2: 1-30d -->
+<div class="w-[145px] flex-shrink-0 bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-semibold">1-30d</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">hourglass_top</span>
+</div>
+<div class="mt-3">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹5,50,000</div>
+<div class="font-body-sm text-body-sm text-secondary">3 Invoices Grace</div>
+</div>
+<div class="mt-2 text-[10px] font-semibold text-secondary">Follow-up triggered</div>
+</div>
+<!-- Bucket 3: 31-60d -->
+<div class="w-[145px] flex-shrink-0 bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold">31-60d</span>
+<span class="material-symbols-outlined text-[16px] text-amber-700">warning</span>
+</div>
+<div class="mt-3">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹3,50,000</div>
+<div class="font-body-sm text-body-sm text-secondary">2 Invoices Escalated</div>
+</div>
+<div class="mt-2 text-[10px] font-semibold text-amber-800">Interest begins</div>
+</div>
+<!-- Bucket 4: 61-90d -->
+<div class="w-[145px] flex-shrink-0 bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-900 font-label-sm text-label-sm font-semibold">61-90d</span>
+<span class="material-symbols-outlined text-[16px] text-orange-700">report_problem</span>
+</div>
+<div class="mt-3">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹2,00,000</div>
+<div class="font-body-sm text-body-sm text-secondary">1 Major Dispute</div>
+</div>
+<div class="mt-2 text-[10px] font-semibold text-orange-800">Council intimation</div>
+</div>
+<!-- Bucket 5: 90+d -->
+<div class="w-[145px] flex-shrink-0 bg-surface-container-lowest p-3 rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">90+d</span>
+<span class="material-symbols-outlined text-[16px] text-error">gavel</span>
+</div>
+<div class="mt-3">
+<div class="font-label-lg text-label-lg font-bold text-error">₹1,00,000</div>
+<div class="font-body-sm text-body-sm text-secondary">1 Samadhaan Action</div>
+</div>
+<div class="mt-2 text-[10px] font-semibold text-error">Statutory demand</div>
+</div>
+</div>
+</div>
+<!-- Section 5: 'Recent Invoices' Compact List -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Recent Invoices</h3>
+<span class="font-label-sm text-label-sm text-secondary">• May 2026</span>
+</div>
+<a class="font-label-sm text-label-sm text-primary font-bold hover:underline flex items-center gap-0.5" href="#invoices">
+<span>View all 14</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</a>
+</div>
+<!-- Invoices Stack -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden flex flex-col">
+<!-- Item 1: Overdue BHEL Dispute -->
+<div class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-md bg-amber-50 text-amber-700 flex items-center justify-center flex-shrink-0 font-bold font-label-sm">
+              BH
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-bold text-on-surface truncate">Bharat Heavy Electricals (BHEL)</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-secondary">
+<span>INV-2026-007</span>
+<span>•</span>
+<span>Due 4d ago</span>
+</div>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹3,45,000</div>
+<span class="inline-block px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold">Overdue</span>
+</div>
+</div>
+<!-- Separator -->
+<div class="h-[1px] w-full bg-surface-container"></div>
+<!-- Item 2: Tata Motors Settled -->
+<div class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-md bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold font-label-sm">
+              TM
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-bold text-on-surface truncate">Tata Motors CV Division</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-secondary">
+<span>INV-2026-012</span>
+<span>•</span>
+<span>Cleared today</span>
+</div>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹4,20,500</div>
+<span class="inline-block px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-semibold">Settled</span>
+</div>
+</div>
+<!-- Separator -->
+<div class="h-[1px] w-full bg-surface-container"></div>
+<!-- Item 3: Larsen & Toubro Pending Regular -->
+<div class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-md bg-primary-fixed text-primary flex items-center justify-center flex-shrink-0 font-bold font-label-sm">
+              LT
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-bold text-on-surface truncate">Larsen &amp; Toubro Hydrocarbon</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-secondary">
+<span>INV-2026-015</span>
+<span>•</span>
+<span>Due in 18d</span>
+</div>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹8,42,100</div>
+<span class="inline-block px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">Pending</span>
+</div>
+</div>
+<!-- Separator -->
+<div class="h-[1px] w-full bg-surface-container"></div>
+<!-- Item 4: Mahindra Defense -->
+<div class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-md bg-surface-container text-on-surface flex items-center justify-center flex-shrink-0 font-bold font-label-sm">
+              MD
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-bold text-on-surface truncate">Mahindra Defense Systems Ltd</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-secondary">
+<span>INV-2026-004</span>
+<span>•</span>
+<span>Due in 24d</span>
+</div>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<div class="font-label-lg text-label-lg font-bold text-on-surface">₹2,13,000</div>
+<span class="inline-block px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">Pending</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Institutional Reassurance / Compliance Stamp -->
+<div class="p-3 bg-surface-container-low rounded-lg flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-md bg-primary text-on-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-sm text-label-sm font-bold text-on-surface">MSMED Act 2006 Compliant Auto-Auditing</div>
+<div class="font-body-sm text-body-sm text-secondary">Statutory interest compounding verified against RBI prompt settlement rates.</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-label-md font-bold"><div class="flex items-center justify-around h-16 px-1"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[48px] h-12 gap-0.5 transition-colors text-primary font-label-md font-bold" data-path="overview" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-label-sm text-label-sm leading-none">Overview</span></a><a class="flex flex-col items-center justify-center min-w-[48px] h-12 gap-0.5 text-on-surface-variant transition-colors" data-path="invoices" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-sm text-label-sm leading-none">Invoices</span></a><a class="flex flex-col items-center justify-center min-w-[48px] h-12 gap-0.5 text-on-surface-variant transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-sm text-label-sm leading-none">Customers</span></a><a class="flex flex-col items-center justify-center min-w-[48px] h-12 gap-0.5 text-on-surface-variant transition-colors" data-path="finance" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-label-sm text-label-sm leading-none">Finance</span></a><a class="flex flex-col items-center justify-center min-w-[48px] h-12 gap-0.5 text-on-surface-variant transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">query_stats</span><span class="font-label-sm text-label-sm leading-none">Reports</span></a><a class="flex flex-col items-center justify-center min-w-[48px] h-12 gap-0.5 text-on-surface-variant transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-sm text-label-sm leading-none">Settings</span></a></div></nav>
+<script>
+  (function() {
+    // Existing dismiss alert button handler
+    const dismissBtn = document.getElementById('dismiss-alerts-btn');
+    const alertCard = document.getElementById('bhel-alert-card');
+    const alertSection = document.getElementById('alert-section');
+
+    if (dismissBtn && alertCard) {
+      dismissBtn.addEventListener('click', function() {
+        alertCard.style.opacity = '0';
+        alertCard.style.transform = 'translateY(-8px)';
+        setTimeout(function() {
+          alertCard.style.display = 'none';
+          const emptyNotice = document.createElement('div');
+          emptyNotice.className = 'p-3 rounded-lg bg-surface-container-low text-secondary font-label-sm text-label-sm flex items-center gap-2';
+          emptyNotice.innerHTML = '<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span> All immediate disputes and deadlines cleared.';
+          alertSection.appendChild(emptyNotice);
+          dismissBtn.style.display = 'none';
+        }, 250);
+      });
+    }
+
+    // --- Pull to Refresh Implementation (Touch & Pointer Gestures) ---
+    const container = document.getElementById('ptr-scroll-container');
+    const content = document.getElementById('ptr-content');
+    const indicator = document.getElementById('ptr-indicator');
+    const ptrIconWrap = document.getElementById('ptr-icon-wrap');
+    const ptrIcon = document.getElementById('ptr-icon');
+    const ptrLabel = document.getElementById('ptr-label');
+    const ptrSublabel = document.getElementById('ptr-sublabel');
+    const toast = document.getElementById('sync-toast');
+    const toastText = document.getElementById('toast-text');
+    const manualRefreshBtn = document.getElementById('manual-refresh-btn');
+    const manualRefreshIcon = document.getElementById('manual-refresh-icon');
+    const lastSyncedTime = document.getElementById('last-synced-time');
+    const liveClearingBadge = document.getElementById('live-clearing-badge');
+    const statutoryRateBadge = document.getElementById('statutory-rate-badge');
+
+    let startY = 0;
+    let currentY = 0;
+    let isDragging = false;
+    let isRefreshing = false;
+    let passedThreshold = false;
+
+    const THRESHOLD = 65; // Distance to trigger refresh
+    const MAX_PULL = 110;  // Rubber band max pull cap
+    const ACTIVE_HEIGHT = 56; // Snapped height during sync
+
+    function getScrollTop() {
+      return window.pageYOffset || document.documentElement.scrollTop || container.scrollTop || 0;
+    }
+
+    function showToast(msg) {
+      if (!toast) return;
+      if (msg) toastText.textContent = msg;
+      toast.classList.remove('opacity-0', '-translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-3');
+      }, 3500);
+    }
+
+    function triggerRefresh() {
+      if (isRefreshing) return;
+      isRefreshing = true;
+
+      // Animate indicator to refreshing state
+      indicator.style.transition = 'height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease';
+      indicator.style.height = ACTIVE_HEIGHT + 'px';
+      indicator.style.opacity = '1';
+
+      content.style.transition = 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      content.style.transform = 'translateY(0px)';
+
+      ptrIconWrap.style.transform = 'rotate(0deg)';
+      ptrIcon.textContent = 'sync';
+      ptrIcon.classList.add('ptr-spinning');
+      ptrLabel.textContent = 'Syncing with RBI repo & TReDS exchanges...';
+      ptrSublabel.textContent = 'Verifying Section 16 statutory compounding rates';
+
+      if (manualRefreshIcon) {
+        manualRefreshIcon.classList.add('ptr-spinning');
+      }
+
+      // Simulate network sync completion
+      setTimeout(() => {
+        // Success state
+        ptrIcon.classList.remove('ptr-spinning');
+        ptrIcon.textContent = 'check_circle';
+        ptrIconWrap.classList.remove('text-primary');
+        ptrIconWrap.classList.add('text-emerald-600', 'bg-emerald-50');
+        ptrLabel.textContent = 'Ledger Synchronized';
+        ptrSublabel.textContent = 'RBI Repo: 6.50% · MSMED Sec 16 rate active';
+
+        // Update live header values
+        if (liveClearingBadge) {
+          liveClearingBadge.innerHTML = 'Live • ₹ T+0 <span class="text-emerald-600 text-[10px] font-bold">✓ Synced</span>';
+        }
+        if (statutoryRateBadge) {
+          statutoryRateBadge.textContent = '20.25% (3× Bank Rate)';
+        }
+        if (lastSyncedTime) {
+          lastSyncedTime.textContent = 'Synced just now';
+          lastSyncedTime.classList.add('bg-emerald-50', 'text-emerald-700');
+        }
+        if (manualRefreshIcon) {
+          manualRefreshIcon.classList.remove('ptr-spinning');
+        }
+
+        showToast('MSMED Ledger Synchronized · Statutory Repo Rate 6.50% · Invoices Current');
+
+        // Smooth collapse back to resting
+        setTimeout(() => {
+          indicator.style.transition = 'height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+          indicator.style.height = '0px';
+          indicator.style.opacity = '0';
+
+          setTimeout(() => {
+            isRefreshing = false;
+            passedThreshold = false;
+            ptrIcon.textContent = 'arrow_downward';
+            ptrIconWrap.classList.remove('text-emerald-600', 'bg-emerald-50');
+            ptrIconWrap.classList.add('text-primary');
+            ptrLabel.textContent = 'Pull down to refresh MSMED ledger';
+            ptrSublabel.textContent = 'Sync RBI repo, TReDS status & statutory interest';
+            indicator.style.transition = '';
+            content.style.transition = '';
+          }, 350);
+        }, 600);
+      }, 1300);
+    }
+
+    function cancelPull() {
+      indicator.style.transition = 'height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease';
+      content.style.transition = 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      indicator.style.height = '0px';
+      indicator.style.opacity = '0';
+      content.style.transform = 'translateY(0px)';
+      ptrIconWrap.style.transform = 'rotate(0deg)';
+      passedThreshold = false;
+    }
+
+    // Touch & Pointer Handlers (support touch on mobile + mouse pointer drag on desktop)
+    function handleStart(y) {
+      if (isRefreshing) return;
+      if (getScrollTop() <= 1) {
+        startY = y;
+        isDragging = true;
+        passedThreshold = false;
+        indicator.style.transition = 'none';
+        content.style.transition = 'none';
+      }
+    }
+
+    function handleMove(y, e) {
+      if (!isDragging || isRefreshing) return;
+      const rawDelta = y - startY;
+
+      if (rawDelta > 0 && getScrollTop() <= 0) {
+        if (e.cancelable && (e.type === 'touchmove' || e.type === 'pointermove')) {
+          // Prevent standard scroll bounce while engaging pull
+          e.preventDefault();
+        }
+
+        // Damped rubber-band formula
+        const pullDistance = Math.min(MAX_PULL, Math.pow(rawDelta, 0.84) * 2.2);
+        
+        indicator.style.height = pullDistance + 'px';
+        indicator.style.opacity = Math.min(1, pullDistance / (THRESHOLD * 0.7));
+        content.style.transform = `translateY(${Math.max(0, pullDistance - 4)}px)`;
+
+        // Rotation & Label state based on threshold
+        const progress = Math.min(1, pullDistance / THRESHOLD);
+        const rotation = progress * 180;
+        ptrIconWrap.style.transform = `rotate(${rotation}deg)`;
+
+        if (pullDistance >= THRESHOLD) {
+          if (!passedThreshold) {
+            passedThreshold = true;
+            if (navigator.vibrate) {
+              try { navigator.vibrate(14); } catch(err) {}
+            }
+          }
+          ptrLabel.textContent = 'Release to sync RBI rates & invoices';
+          ptrSublabel.textContent = 'Instant clearing validation';
+          ptrIcon.textContent = 'arrow_upward';
+        } else {
+          passedThreshold = false;
+          ptrLabel.textContent = 'Pull down to refresh MSMED ledger';
+          ptrSublabel.textContent = 'Sync RBI repo, TReDS status & statutory interest';
+          ptrIcon.textContent = 'arrow_downward';
+        }
+      } else if (rawDelta < 0) {
+        isDragging = false;
+        cancelPull();
+      }
+    }
+
+    function handleEnd() {
+      if (!isDragging || isRefreshing) return;
+      isDragging = false;
+
+      if (passedThreshold) {
+        triggerRefresh();
+      } else {
+        cancelPull();
+      }
+    }
+
+    // Touch Event Listeners
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) handleStart(e.touches[0].clientY);
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1) handleMove(e.touches[0].clientY, e);
+    }, { passive: false });
+
+    window.addEventListener('touchend', handleEnd, { passive: true });
+    window.addEventListener('touchcancel', cancelPull, { passive: true });
+
+    // Pointer Event Listeners for Desktop Drag Simulation
+    let pointerActive = false;
+    window.addEventListener('pointerdown', (e) => {
+      // Only track primary mouse button drag or pen
+      if (e.button === 0 && getScrollTop() <= 0) {
+        pointerActive = true;
+        handleStart(e.clientY);
+      }
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (pointerActive) {
+        handleMove(e.clientY, e);
+      }
+    });
+
+    window.addEventListener('pointerup', (e) => {
+      if (pointerActive) {
+        pointerActive = false;
+        handleEnd();
+      }
+    });
+
+    window.addEventListener('pointercancel', () => {
+      if (pointerActive) {
+        pointerActive = false;
+        cancelPull();
+      }
+    });
+
+    // Manual Trigger Button Access
+    if (manualRefreshBtn) {
+      manualRefreshBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+          triggerRefresh();
+        }, 150);
+      });
+    }
+  })();
+</script></body></html>

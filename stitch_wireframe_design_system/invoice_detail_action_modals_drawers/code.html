@@ -1,0 +1,581 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-fixed": "#001e2f",
+          "on-primary-container": "#cad3ff",
+          "on-primary-fixed-variant": "#0039b5",
+          "surface-tint": "#2151da",
+          "surface-container": "#e5eeff",
+          "on-surface": "#0b1c30",
+          "outline-variant": "#c4c5d7",
+          "secondary-container": "#d8deff",
+          "surface-bright": "#f8f9ff",
+          "on-primary-fixed": "#001551",
+          "secondary-fixed-dim": "#bec5e5",
+          "inverse-surface": "#213145",
+          "on-tertiary-fixed-variant": "#004c6e",
+          "tertiary-fixed-dim": "#89ceff",
+          "background": "#f8f9ff",
+          "on-secondary": "#ffffff",
+          "surface-container-low": "#eff4ff",
+          "tertiary": "#00496b",
+          "error": "#ba1a1a",
+          "on-secondary-fixed-variant": "#3e4660",
+          "on-tertiary": "#ffffff",
+          "tertiary-fixed": "#c9e6ff",
+          "on-secondary-container": "#5a627e",
+          "surface-dim": "#cbdbf5",
+          "inverse-primary": "#b7c4ff",
+          "error-container": "#ffdad6",
+          "on-background": "#0b1c30",
+          "surface-variant": "#d3e4fe",
+          "on-secondary-fixed": "#131a33",
+          "on-primary": "#ffffff",
+          "primary": "#0037b0",
+          "on-error-container": "#93000a",
+          "surface-container-high": "#dce9ff",
+          "on-surface-variant": "#434655",
+          "surface-container-highest": "#d3e4fe",
+          "surface-container-lowest": "#ffffff",
+          "secondary-fixed": "#dbe1ff",
+          "on-error": "#ffffff",
+          "primary-fixed": "#dce1ff",
+          "outline": "#747686",
+          "primary-container": "#1d4ed8",
+          "surface": "#f8f9ff",
+          "on-tertiary-container": "#abdaff",
+          "secondary": "#565d79",
+          "tertiary-container": "#00628d",
+          "inverse-on-surface": "#eaf1ff",
+          "primary-fixed-dim": "#b7c4ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-sm": "0.5rem",
+          "space-xl": "2rem",
+          "margin": "2rem",
+          "gutter": "1.5rem",
+          "margin-mobile": "1rem",
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "space-lg": "1.5rem",
+          "gutter-mobile": "1rem"
+        },
+        "fontFamily": {
+          "body-sm": ["Plus Jakarta Sans"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "body-md": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "label-md": ["Plus Jakarta Sans"],
+          "body-lg": ["Plus Jakarta Sans"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "headline-xl-mobile": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "headline-xl": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400"}],
+          "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+          "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+          "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+          "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+          "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+          "headline-xl-mobile": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+          "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "700"}]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-40 flex flex-col justify-between max-w-7xl mx-auto px-6 lg:px-12"><div class="flex items-center justify-between py-space-xs text-on-surface-variant font-label-sm text-label-sm"><div class="flex items-center gap-space-sm"><span class="font-semibold text-on-surface">Shree Precision Components</span><span class="text-outline-variant">·</span><span class="bg-surface-container px-space-xs py-0.5 rounded-full text-primary font-medium">Demo workspace</span><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Pricing</a><span class="text-outline-variant">·</span><a class="hover:text-primary transition-colors" href="#">Help</a></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">Contact</a><span class="text-outline-variant">·</span><a class="hover:text-error transition-colors" href="#">Sign out</a></div></div><div class="flex items-center justify-between py-space-sm gap-space-lg"><div class="flex items-center gap-space-md"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface leading-none tracking-tight">PayKaro</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1">Receivables &amp; Cashflow</span></div></div><div class="flex-1 max-w-lg mx-space-md"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-outline">search</span><input class="w-full pl-10 pr-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all shadow-[inset_0_1px_2px_rgba(11,19,43,0.05)]" placeholder="Search invoices, buyers..." type="text"></div></div><div class="flex items-center gap-space-lg"><button class="flex items-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-2 rounded-lg transition-all shadow-[0_1px_3px_rgba(11,19,43,0.04)]" type="button"><span class="material-symbols-outlined text-body-lg">add</span><span>New invoice</span></button><div class="flex items-center gap-space-sm pl-space-sm"><img alt="Sunita Rao profile photo" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U"><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Sunita Rao</span><span class="font-label-sm text-label-sm text-outline leading-tight font-semibold tracking-wider">OWNER</span></div></div></div></div><nav class="flex items-center gap-space-xs pb-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg shadow-sm"><a aria-current="page" class="px-space-md py-1.5 transition-colors bg-primary-container text-on-primary font-bold rounded-lg shadow-sm" data-path="overview" href="#">Overview</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="invoices" href="#">Invoices</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="customers" href="#">Customers</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="finance" href="#">Finance</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="reports" href="#">Reports</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="settings" href="#">Settings</a></nav></div></header><main class="w-full pt-40 bg-background max-w-7xl mx-auto px-6 lg:px-12"><div class="flex flex-col w-full relative">
+<!-- Invoice Detail Backdrop (Visible and dimmed underneath the overlay flows) -->
+<div class="w-full filter blur-[2px] opacity-40 select-none pointer-events-none transition-all duration-300">
+<div class="flex items-center justify-between py-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-sm">receipt_long</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-md text-headline-md text-on-surface tracking-tight">INV-2026-007</span>
+<span class="px-space-sm py-0.5 rounded-full bg-amber-50 text-amber-700 text-label-sm font-label-sm">Partially Paid</span>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container text-tertiary text-label-sm font-label-sm">TReDS Registered</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Bharat Heavy Electricals Ltd (BHEL) · Purchase Order: PO-BHEL-ND-88310</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Download Tax Invoice</button>
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md">Action Workflow</button>
+</div>
+</div>
+<!-- Summary Metrics Layer -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md my-space-md">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-label-sm text-label-sm text-outline">TOTAL INVOICE VALUE</span>
+<div class="font-headline-md text-headline-md text-on-surface mt-1">₹12,65,000.00</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">GST (18%): ₹1,92,966.10 incl.</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-label-sm text-label-sm text-outline">SETTLED TO DATE</span>
+<div class="font-headline-md text-headline-md text-primary mt-1">₹4,22,900.00</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">1 Tranche via RTGS (02 Apr)</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-label-sm text-label-sm text-outline">OUTSTANDING BALANCE</span>
+<div class="font-headline-md text-headline-md text-error mt-1">₹8,42,100.00</div>
+<div class="font-body-sm text-body-sm text-error mt-1">Overdue by 142 days</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="font-label-sm text-label-sm text-outline">MSME PENAL INTEREST</span>
+<div class="font-headline-md text-headline-md text-tertiary mt-1">₹1,14,312.40</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">3× RBI Bank Rate compounded</div>
+</div>
+</div>
+<!-- Ledger Table Sample Backdrop -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm p-space-lg mt-space-md">
+<div class="font-label-lg text-label-lg text-on-surface pb-space-sm">Line Items &amp; Milestone Reconciliation</div>
+<div class="h-28 rounded-lg bg-surface-container-low flex items-center justify-center text-outline text-body-sm font-body-sm">
+        Itemized schedule, GRN receipt proofs &amp; e-Way Bill tracking logs
+      </div>
+</div>
+</div>
+<!-- Micro-Action Orchestrator Canvas / Modal Stage -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-space-md sm:p-space-lg bg-inverse-surface/60 backdrop-blur-md">
+<!-- Unified High-Velocity Finance Command Container -->
+<div class="relative w-full max-w-4xl bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[942px] transition-all">
+<!-- Top Action Switcher Navigation Ribbon -->
+<div class="bg-surface-container-low px-space-lg pt-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-sm">account_balance_wallet</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface tracking-tight">Invoice Financial Control Hub</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">INV-2026-007 · BHEL · Buyer GSTIN: 07AAACB1234P1ZV</span>
+</div>
+</div>
+<!-- Workflow Switcher Tabs (3 Distinct Micro-Actions) -->
+<div class="flex items-center p-1 bg-surface-container rounded-lg self-start sm:self-auto" id="flowTabs">
+<button class="px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all flex items-center gap-1.5 bg-primary-container text-on-primary shadow-sm" id="tab-record" onclick="switchWorkflow('record')">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+<span>1. Record Payment</span>
+</button>
+<button class="px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest" id="tab-treds" onclick="switchWorkflow('treds')">
+<span class="material-symbols-outlined text-[16px]">assured_workload</span>
+<span>2. TReDS Financing</span>
+</button>
+<button class="px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest" id="tab-msefc" onclick="switchWorkflow('msefc')">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+<span>3. MSEFC Claim</span>
+</button>
+</div>
+</div>
+<!-- Outstanding Balance Notice Bar -->
+<div class="px-space-lg py-space-sm bg-surface-container-high flex flex-wrap items-center justify-between gap-space-sm text-on-surface">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-label-sm text-label-sm font-semibold">142D DELINQUENT</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Remaining Balance:</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹8,42,100.00</span>
+<span class="font-body-sm text-body-sm text-outline">/ Total ₹12,65,000.00</span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
+<span>MSME Act 2006 Sec 16 Active</span>
+</div>
+</div>
+<!-- WORKFLOW PANEL 1: RECORD PAYMENT MODAL (Primary Active Focus) -->
+<div class="workflow-panel flex-1 overflow-y-auto p-space-lg flex flex-col gap-space-md" id="panel-record">
+<div>
+<div class="flex items-baseline justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Record Payment — INV-2026-007</h2>
+<span class="font-label-sm text-label-sm text-outline">Step 1 of 1 · Instant Ledger Post</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+            Log incoming remittance from buyer or bank to adjust balance, close interest accumulation, and dispatch statutory receipt.
+          </p>
+</div>
+<!-- Pre-calculated Fast Fill Chips -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Quick Amount Allocations</label>
+<div class="flex flex-wrap gap-space-xs">
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-highest text-primary font-label-md text-label-md flex items-center gap-1.5 transition-colors" onclick="setAmount('842100.00')" type="button">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Full Outstanding: ₹8,42,100.00</span>
+</button>
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" onclick="setAmount('400000.00')" type="button">
+<span class="material-symbols-outlined text-[16px]">pie_chart</span>
+<span>Tranche 2: ₹4,00,000.00</span>
+</button>
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" onclick="setAmount('200000.00')" type="button">
+<span>Partial: ₹2,00,000.00</span>
+</button>
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-highest text-tertiary font-label-md text-label-md flex items-center gap-1.5 transition-colors" onclick="setAmount('114312.40')" type="button">
+<span>Interest Only: ₹1,14,312.40</span>
+</button>
+</div>
+</div>
+<!-- Strict WIREFRAMES Form Fields -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-xs">
+<!-- Amount Input Field -->
+<div class="flex flex-col gap-1 sm:col-span-1">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between" for="payment-amount">
+<span>Payment Amount (₹) <span class="text-error">*</span></span>
+<span class="text-outline font-label-sm text-label-sm">INR Currency</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 font-label-lg text-label-lg text-outline font-semibold">₹</span>
+<input class="w-full pl-8 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-headline-sm text-headline-sm font-semibold focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" id="payment-amount" step="0.01" type="number" value="842100.00">
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Remaining after this entry: <strong class="text-on-surface" id="math-remaining">₹0.00</strong></span>
+</div>
+<!-- Paid On Date Picker -->
+<div class="flex flex-col gap-1 sm:col-span-1">
+<label class="font-label-md text-label-md text-on-surface" for="payment-date">
+              Paid On <span class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full pl-3 pr-10 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" id="payment-date" type="text" value="12 May 2026">
+<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-body-lg">calendar_today</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Value date for credit reconciliation</span>
+</div>
+<!-- Settlement Method Dropdown -->
+<div class="flex flex-col gap-1 sm:col-span-1">
+<label class="font-label-md text-label-md text-on-surface" for="payment-method">
+              Method <span class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<select class="w-full appearance-none pl-3 pr-10 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" id="payment-method">
+<option selected="" value="rtgs">RTGS — Real Time Gross Settlement</option>
+<option value="neft">NEFT — National Electronic Funds Transfer</option>
+<option value="treds">TReDS Settlement (RXIL / M1xchange)</option>
+<option value="cheque">Cheque / Demand Draft</option>
+<option value="direct">Direct Bank Transfer / Virtual Account</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-body-lg">expand_more</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Direct institutional settlement route</span>
+</div>
+<!-- Transaction Reference Input -->
+<div class="flex flex-col gap-1 sm:col-span-1">
+<label class="font-label-md text-label-md text-on-surface" for="payment-ref">
+              Reference / UTR <span class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full pl-3 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md uppercase tracking-wide focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" id="payment-ref" placeholder="e.g. UTR / CMS reference" type="text" value="CMS-BHEL-00913">
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Matched against State Bank of India clearing ledger</span>
+</div>
+<!-- Notes / Reconciliation Memo -->
+<div class="flex flex-col gap-1 sm:col-span-2">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between" for="payment-memo">
+<span>Notes / Reconciliation Memo</span>
+<span class="text-outline font-label-sm text-label-sm">Optional · Visible to Auditor</span>
+</label>
+<textarea class="w-full p-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all placeholder:text-outline" id="payment-memo" placeholder="e.g. Final tranche credited pursuant to joint reconciliation meeting held on 10 May 2026 with BHEL procurement cell." rows="2"></textarea>
+</div>
+</div>
+<!-- Audit & Compliance Pre-flight validation badge -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-body-lg mt-0.5">verified</span>
+<div class="flex flex-col text-on-surface">
+<span class="font-label-md text-label-md font-semibold">Statutory Settlement Stamp Validated</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+              Upon recording, an automated receipt note will be pushed to BHEL finance cell and GST e-Invoice Portal (IRN registry). Overdue calculation will cease on ₹8,42,100.00.
+            </span>
+</div>
+</div>
+<!-- Modal Footer Actions -->
+<div class="flex items-center justify-between pt-space-sm mt-auto">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" onclick="notifyAction('Cancelled')" type="button">
+            Cancel
+          </button>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-lg text-label-lg transition-colors" onclick="recordPartial()" type="button">
+              Save as Draft
+            </button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg transition-all shadow-md flex items-center gap-2" onclick="executePayment()" type="button">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Record payment &amp; Settle</span>
+</button>
+</div>
+</div>
+</div>
+<!-- WORKFLOW PANEL 2: FINANCE THIS (TReDS Bid Acceptance Drawer) -->
+<div class="workflow-panel hidden flex-1 overflow-y-auto p-space-lg flex flex-col gap-space-md" id="panel-treds">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm font-semibold">RXIL / M1XCHANGE AUCTION</span>
+<span class="text-outline-variant">·</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Best Bid Available</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-1">Finance this Invoice via TReDS Factoring</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              Discount this invoice with zero-recourse to unlock working capital in T+1 business day.
+            </p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-outline">FACTORING ELIGIBLE</span>
+<div class="font-headline-md text-headline-md text-primary font-bold">₹8,42,100.00</div>
+</div>
+</div>
+<!-- Financier Competitive Bids Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<!-- Selected Top Bidder -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest ring-2 ring-primary-container shadow-sm flex flex-col justify-between relative">
+<span class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-[10px]">LOWEST BID</span>
+<div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center font-bold text-primary text-label-sm">SBI</div>
+<div class="font-label-lg text-label-lg text-on-surface">State Bank of India</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-primary font-bold">7.85%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">p.a. discount</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1">Turnaround: 4 hours · Auto-debit on BHEL</p>
+</div>
+<div class="mt-4 pt-space-xs flex items-center justify-between text-label-sm font-label-sm text-on-surface font-semibold">
+<span>Disbursal: ₹8,25,876.00</span>
+<span class="text-primary font-bold">Selected</span>
+</div>
+</div>
+<!-- Secondary Bidder -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center font-bold text-on-surface text-label-sm">HDFC</div>
+<div class="font-label-lg text-label-lg text-on-surface">HDFC Bank Ltd</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">8.10%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">p.a. discount</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1">Turnaround: 6 hours · Zero processing fee</p>
+</div>
+<div class="mt-4 pt-space-xs flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Disbursal: ₹8,24,190.00</span>
+<button class="text-primary font-semibold hover:underline">Select</button>
+</div>
+</div>
+<!-- Third Bidder -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center font-bold text-on-surface text-label-sm">BOB</div>
+<div class="font-label-lg text-label-lg text-on-surface">Bank of Baroda</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">8.35%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">p.a. discount</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1">Turnaround: T+1 settlement</p>
+</div>
+<div class="mt-4 pt-space-xs flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Disbursal: ₹8,22,504.00</span>
+<button class="text-primary font-semibold hover:underline">Select</button>
+</div>
+</div>
+</div>
+<!-- TReDS Cost & Proceeds Breakdown Card -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface font-semibold">TReDS Settlement Summary (SBI Offer @ 7.85%)</span>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm pt-1">
+<div class="p-2 rounded-lg bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-outline block">Invoice Factored</span>
+<span class="font-label-lg text-label-lg text-on-surface font-bold">₹8,42,100.00</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-outline block">Discount Charge</span>
+<span class="font-label-lg text-label-lg text-error font-bold">-₹15,484.00</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-outline block">Platform GST (18%)</span>
+<span class="font-label-lg text-label-lg text-error font-bold">-₹740.00</span>
+</div>
+<div class="p-2 rounded-lg bg-secondary-container text-on-secondary-container">
+<span class="font-label-sm text-label-sm text-secondary block font-semibold">Net Disbursed to Bank</span>
+<span class="font-label-lg text-label-lg text-primary font-bold">₹8,25,876.00</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm mt-auto">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" onclick="switchWorkflow('record')" type="button">
+            Back to Payment
+          </button>
+<div class="flex items-center gap-space-sm">
+<span class="font-body-sm text-body-sm text-outline">Target Date: 13 May 2026 (11:00 AM)</span>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg transition-all shadow-md flex items-center gap-2" onclick="notifyAction('TReDS Bid Confirmed')" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Confirm TReDS Disbursement</span>
+</button>
+</div>
+</div>
+</div>
+<!-- WORKFLOW PANEL 3: START CLAIM (MSEFC Claim Flow Modal) -->
+<div class="workflow-panel hidden flex-1 overflow-y-auto p-space-lg flex flex-col gap-space-md" id="panel-msefc">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-label-sm text-label-sm font-semibold">STATUTORY ESCALATION</span>
+<span class="text-outline-variant">·</span>
+<span class="font-label-sm text-label-sm text-outline">MSME SAMADHAAN Integration</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-1">File Delayed Payment Case — MSEFC Council</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+            Automatic calculation of penal compounding interest under MSMED Act 2006 (Section 16).
+          </p>
+</div>
+<!-- Claim Calculations Callout -->
+<div class="p-space-lg rounded-xl bg-surface-container-low grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">STATUTORY DUE DATE</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-1">22 Dec 2025</span>
+<span class="font-body-sm text-body-sm text-error mt-0.5">45-day statutory limit exceeded</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">COMPOUND INTEREST (3× RBI RATE)</span>
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold mt-1">19.50% p.a.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">RBI Repo 6.50% × 3 compounded monthly</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">TOTAL CLAIMABLE AMOUNT</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold mt-1">₹9,56,412.40</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Principal ₹8,42,100 + Penal ₹1,14,312.40</span>
+</div>
+</div>
+<!-- Escalation Forum Selection Form -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1 sm:col-span-1">
+<label class="font-label-md text-label-md text-on-surface">Designated Settlement Forum</label>
+<div class="relative flex items-center">
+<select class="w-full appearance-none pl-3 pr-10 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container">
+<option selected="">MSEFC Karnataka (Bengaluru Urban District)</option>
+<option>Institutional Mediation Cell (MSME SAMADHAAN)</option>
+<option>Arbitration Tribunal (BHEL Contract Clause 24)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-body-lg">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 sm:col-span-1">
+<label class="font-label-md text-label-md text-on-surface">MSME Registration Number</label>
+<input class="w-full pl-3 pr-4 py-2.5 rounded-lg bg-surface-container text-on-surface-variant font-body-md text-body-md" readonly="" type="text" value="UDYAM-KR-03-0029188">
+</div>
+<div class="flex flex-col gap-1 sm:col-span-2">
+<label class="font-label-md text-label-md text-on-surface">Legal Notice Reference</label>
+<input class="w-full pl-3 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container" type="text" value="NOT-2026-BHEL-091 — 15 Days Pre-Filing Statutory Demand dispatched on 25 Apr 2026">
+</div>
+</div>
+<!-- Compliance Warning -->
+<div class="p-space-sm rounded-lg bg-error-container text-on-error-container flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-error text-headline-sm">warning</span>
+<span class="font-body-sm text-body-sm">
+            Filing on MSEFC initiates institutional conciliation. BHEL finance directors will be served digital summons via National MSME Gateway.
+          </span>
+</div>
+<div class="flex items-center justify-between pt-space-sm mt-auto">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" onclick="switchWorkflow('record')" type="button">
+            Cancel &amp; Return
+          </button>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-lg text-label-lg transition-colors" onclick="notifyAction('Demand Notice PDF Generated')" type="button">
+              Generate 15-Day Demand Notice
+            </button>
+<button class="px-space-lg py-2.5 rounded-lg bg-error hover:bg-red-700 text-on-error font-label-lg text-label-lg transition-all shadow-md flex items-center gap-2" onclick="notifyAction('MSEFC Application Lodged')" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Lodge Application to Council</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Notification Toast Alert Component for Action Responses -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<div class="px-space-lg py-space-md rounded-xl bg-inverse-surface text-inverse-on-surface shadow-2xl flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary-fixed">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-text">Action successful</span>
+</div>
+</div>
+</div>
+<script>
+  // Tab switcher logic
+  function switchWorkflow(mode) {
+    const tabs = ['record', 'treds', 'msefc'];
+    
+    tabs.forEach(t => {
+      const panel = document.getElementById('panel-' + t);
+      const tabBtn = document.getElementById('tab-' + t);
+      
+      if (t === mode) {
+        panel.classList.remove('hidden');
+        tabBtn.className = "px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all flex items-center gap-1.5 bg-primary-container text-on-primary shadow-sm";
+      } else {
+        panel.classList.add('hidden');
+        tabBtn.className = "px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest";
+      }
+    });
+  }
+
+  // Pre-fill amount chip function
+  function setAmount(val) {
+    const amtInput = document.getElementById('payment-amount');
+    amtInput.value = val;
+    updateRemainingMath(val);
+  }
+
+  // Live dynamic remaining balance computation
+  const baseBalance = 842100.00;
+  const paymentAmountInput = document.getElementById('payment-amount');
+  const remainingLabel = document.getElementById('math-remaining');
+
+  function updateRemainingMath(amt) {
+    const parsed = parseFloat(amt) || 0;
+    const rem = baseBalance - parsed;
+    if (rem <= 0) {
+      remainingLabel.textContent = '₹0.00 (Fully Settled)';
+      remainingLabel.className = 'text-primary font-bold';
+    } else {
+      remainingLabel.textContent = '₹' + rem.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      remainingLabel.className = 'text-error font-semibold';
+    }
+  }
+
+  paymentAmountInput.addEventListener('input', (e) => {
+    updateRemainingMath(e.target.value);
+  });
+
+  // Action confirmations & Toast
+  function notifyAction(message) {
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toast-text');
+    toastText.textContent = message;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    setTimeout(() => {
+      toast.classList.add('translate-y-24', 'opacity-0');
+    }, 3200);
+  }
+
+  function recordPartial() {
+    notifyAction('Payment saved to draft reconciliation ledger.');
+  }
+
+  function executePayment() {
+    const val = document.getElementById('payment-amount').value;
+    const ref = document.getElementById('payment-ref').value;
+    notifyAction('Settlement of ₹' + Number(val).toLocaleString('en-IN') + ' recorded against ' + ref + '. Ledger updated.');
+  }
+</script></main><footer class="w-full bg-surface-container-low py-space-xl mt-space-xl"><div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant font-label-sm text-label-sm"><div class="flex items-center gap-space-xs"><span>© 2025 PayKaro Financial Technologies Pvt Ltd. MSME SAMADHAAN &amp; TReDS Connected.</span></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">Statutory Terms</a><a class="hover:text-primary transition-colors" href="#">RBI Guidelines</a><a class="hover:text-primary transition-colors" href="#">Security &amp; Encryption</a></div></div></footer>
+
+</body></html>

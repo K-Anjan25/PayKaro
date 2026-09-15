@@ -1,0 +1,826 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Institutional Profile &amp; Statutory Vault - PayKaro</title>
+<!-- Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-error-container": "#93000a",
+            "surface-bright": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-primary": "#ffffff",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#b7c4ff",
+            "inverse-primary": "#b7c4ff",
+            "tertiary": "#00496b",
+            "primary-container": "#1d4ed8",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-fixed": "#001e2f",
+            "on-tertiary-fixed-variant": "#004c6e",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eaf1ff",
+            "secondary-container": "#d8deff",
+            "on-primary-fixed": "#001551",
+            "on-secondary-container": "#5a627e",
+            "primary-fixed": "#dce1ff",
+            "on-background": "#0b1c30",
+            "surface-tint": "#2151da",
+            "tertiary-container": "#00628d",
+            "primary": "#0037b0",
+            "surface": "#f8f9ff",
+            "secondary-fixed-dim": "#bec5e5",
+            "on-tertiary-container": "#abdaff",
+            "background": "#f8f9ff",
+            "on-surface-variant": "#434655",
+            "tertiary-fixed": "#c9e6ff",
+            "secondary": "#565d79",
+            "on-primary-fixed-variant": "#0039b5",
+            "tertiary-fixed-dim": "#89ceff",
+            "surface-container-high": "#dce9ff",
+            "outline": "#747686",
+            "surface-container-highest": "#d3e4fe",
+            "on-error": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-fixed": "#131a33",
+            "on-primary-container": "#cad3ff",
+            "outline-variant": "#c4c5d7",
+            "secondary-fixed": "#dbe1ff",
+            "surface-container": "#e5eeff",
+            "surface-dim": "#cbdbf5",
+            "surface-variant": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed-variant": "#3e4660",
+            "error": "#ba1a1a",
+            "slate-corporate": "#0f172a"
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 450, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      display: inline-block;
+      line-height: 1;
+    }
+    .filled-symbol {
+      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-white">
+<!-- ================= TOP WORKSPACE SHELL NAVIGATION ================= -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/40 shadow-xs">
+<!-- Top Micro Bar -->
+<div class="h-8 border-b border-outline-variant/30 bg-surface-container-low/60 px-4 sm:px-8 flex items-center justify-between text-xs text-secondary font-medium">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface tracking-tight">Shree Precision Components</span>
+<span class="text-outline-variant">/</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-primary/10 text-primary uppercase tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          Live Production Workspace
+        </span>
+</div>
+<div class="hidden sm:flex items-center gap-4 text-xs">
+<a class="hover:text-primary transition-colors" href="#">Pricing &amp; Limits</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" href="#">Statutory Help</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" href="#">Contact Support</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-error transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">logout</span> Sign out
+        </a>
+</div>
+</div>
+<!-- Main Navigation Bar -->
+<div class="h-16 px-4 sm:px-8 flex items-center justify-between gap-4">
+<!-- Logo + Search -->
+<div class="flex items-center gap-8 flex-1 max-w-2xl">
+<a class="flex items-center gap-2 shrink-0" href="#">
+
+<span class="text-lg font-extrabold tracking-tight text-slate-corporate font-sans flex items-center">
+            PayKaro<span class="text-primary-container">.</span>
+</span>
+</a>
+<!-- Global Search Input -->
+<div class="relative w-full max-w-md hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-4 bg-surface-container-low/60 hover:bg-surface-container-low border border-outline-variant/50 focus:border-primary focus:bg-surface-container-lowest rounded-lg text-xs text-on-surface placeholder:text-secondary/70 focus:outline-none focus:ring-1 focus:ring-primary transition-all font-sans" placeholder="Search invoices, GSTINs, statutory dockets..." type="text">
+</div>
+</div>
+<!-- Actions & Profile Strip -->
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-1.5 h-9 px-3.5 bg-slate-corporate hover:bg-slate-800 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>New Invoice</span>
+</button>
+<div class="h-5 w-px bg-outline-variant/60 mx-1 hidden sm:block"></div>
+<!-- User Profile Pill -->
+<div class="flex items-center gap-2.5 pl-1.5 pr-2.5 py-1 rounded-lg border border-outline-variant/40 bg-surface-container-low/40">
+<div class="relative">
+<img alt="Sunita Rao" class="w-8 h-8 rounded-full object-cover ring-1 ring-white shadow-xs" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U">
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white" title="Active"></span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-xs font-bold text-on-surface leading-tight">Sunita Rao</span>
+<span class="text-[10px] font-semibold text-primary uppercase tracking-wider font-mono">OWNER</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Nav Tab Strip (Settings Active) -->
+<div class="px-4 sm:px-8 border-t border-outline-variant/30 flex items-center overflow-x-auto scrollbar-none">
+<nav class="flex items-center gap-1 -mb-px">
+<a class="px-3.5 py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors" href="#">Overview</a>
+<a class="px-3.5 py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors" href="#">Invoices</a>
+<a class="px-3.5 py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors" href="#">Customers</a>
+<a class="px-3.5 py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors" href="#">Finance</a>
+<a class="px-3.5 py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors" href="#">Reports</a>
+<!-- ACTIVE TAB -->
+<a class="px-3.5 py-2.5 text-xs font-bold text-primary border-b-2 border-primary transition-all flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-[16px] filled-symbol">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+</header>
+<!-- ================= MAIN CONTAINER ================= -->
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-[148px] pb-16">
+<!-- Breadcrumbs & Heading with Role Preview Switcher -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+<div>
+<div class="flex items-center gap-1.5 text-xs font-medium text-secondary mb-1">
+<span class="flex items-center gap-1 hover:text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+            Administration
+          </span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-semibold">Organizational Settings &amp; Statutory Vault</span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-bold text-on-surface tracking-tight">Institutional Profile &amp; Compliance</h1>
+<p class="text-xs sm:text-sm text-secondary mt-1 max-w-2xl leading-relaxed">
+          Manage corporate identity, GSTN/Udyam statutory credentials, automated MSME Samadhaan dispute routing, and role-based clearance permissions.
+        </p>
+</div>
+<!-- Role Preview Switcher Pill (Wireframe Requirement) -->
+<div class="flex items-center gap-2.5 p-1.5 bg-surface-container-low rounded-xl border border-outline-variant/40 shadow-xs self-start lg:self-center">
+<div class="flex items-center gap-1 pl-2 text-[11px] font-bold text-secondary uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-primary">swap_horiz</span>
+<span>Role Preview:</span>
+</div>
+<div class="inline-flex rounded-lg bg-surface-container-lowest p-0.5 border border-outline-variant/30 shadow-2xs" id="roleToggleGroup">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold bg-primary text-white shadow-xs transition-all cursor-pointer" id="btnRoleOwner" onclick="switchRole('owner')" type="button">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span>Owner [Active]</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold text-secondary hover:text-on-surface transition-all cursor-pointer" id="btnRoleAccountant" onclick="switchRole('accountant')" type="button">
+<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+<span>Accountant [Read-Only Demo]</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Active Privilege Notice Banner -->
+<div class="w-full mb-6 p-4 rounded-xl border border-outline-variant/40 bg-surface-container-lowest shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all" id="roleBanner">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0" id="roleBannerIconBox">
+<span class="material-symbols-outlined text-[22px]" id="roleBannerIcon">verified_user</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold text-on-surface" id="roleBannerTitle">Owner Privileges Active</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 uppercase tracking-wider border border-emerald-200" id="roleBannerBadge">
+              Level 0: Super Admin
+            </span>
+</div>
+<p class="text-xs text-secondary mt-0.5" id="roleBannerDesc">
+            Owner role active. Full read/write, tax token access, and statutory submission privileges enabled under Section 15 of MSMED Act 2006.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0 self-start sm:self-center">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-md bg-surface-container-low text-secondary border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px] text-emerald-600">lock</span>
+          256-Bit HSM Key Enforced
+        </span>
+</div>
+</div>
+<!-- TWO-COLUMN BENTO GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- ================= LEFT COLUMN: Account & Business Identity Form (8 COLS) ================= -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- 1. ACCOUNT BLOCK -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-xs overflow-hidden">
+<div class="p-6 border-b border-outline-variant/30 bg-gradient-to-r from-surface-container-low/40 to-transparent">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="relative shrink-0">
+<img alt="Sunita Rao" class="w-16 h-16 rounded-full object-cover ring-2 ring-white shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U">
+<span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 ring-2 ring-white" title="HSM Verified"></span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-lg font-bold text-on-surface">Sunita Rao</h2>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-primary text-white">Owner / Managing Partner</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-medium bg-surface-container text-secondary border border-outline-variant/40">DIN/PAN Signatory</span>
+</div>
+<div class="flex items-center gap-4 text-xs text-secondary mt-1.5 flex-wrap">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">mail</span>
+                      sunita@shreeprecision.in
+                    </span>
+<span class="text-outline-variant">·</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">phone</span>
+                      +91 98450 18294
+                    </span>
+</div>
+</div>
+</div>
+<div class="shrink-0">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  2FA Active (FIDO2)
+                </span>
+</div>
+</div>
+</div>
+<!-- Account Metadata Strip -->
+<div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-outline-variant/30 bg-surface-container-low/30 text-xs">
+<div class="p-4">
+<span class="block text-[10px] font-bold uppercase tracking-wider text-secondary">Delegated Power</span>
+<span class="font-semibold text-on-surface mt-0.5 block">Unrestricted Sole Authorization</span>
+</div>
+<div class="p-4">
+<span class="block text-[10px] font-bold uppercase tracking-wider text-secondary">Aadhaar Linked Vault</span>
+<span class="font-mono font-medium text-on-surface mt-0.5 block tracking-wider">•••• •••• 8201</span>
+</div>
+<div class="p-4">
+<span class="block text-[10px] font-bold uppercase tracking-wider text-secondary">Last Audit Log</span>
+<span class="font-medium text-on-surface mt-0.5 block">Today, 09:41 AM IST (Auto)</span>
+</div>
+</div>
+</section>
+<!-- 2. BUSINESS IDENTITY FORM BLOCK (WIRE FRAME SCREEN 9 ORDER) -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-xs p-6">
+<div class="flex items-center justify-between pb-5 border-b border-outline-variant/30 mb-6">
+<div>
+<h2 class="text-base sm:text-lg font-bold text-on-surface">Legal Entity &amp; Banking Parameters</h2>
+<p class="text-xs text-secondary mt-0.5">Statutory disclosures verified against GSTN Common Portal &amp; RBI Core Banking.</p>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+              VDA-V2 Verified
+            </span>
+</div>
+<form class="space-y-6" id="businessIdentityForm" onsubmit="handleFormSubmit(event)">
+<!-- FIELD 1: Business name -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-bold text-on-surface" for="businessName">
+                  Business name <span class="text-error">*</span>
+</label>
+<span class="text-[11px] text-secondary">Registered Trade Name</span>
+</div>
+<div class="relative">
+<input class="w-full h-10 px-3.5 bg-surface-container-low/40 border border-outline-variant/60 rounded-lg text-sm font-medium text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="businessName" name="businessName" type="text" value="Shree Precision Components">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 text-[18px]">check_circle</span>
+</div>
+</div>
+<!-- FIELDS 2 & 3: GSTIN & PAN (SIDE-BY-SIDE) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<!-- FIELD 2: GSTIN -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-bold text-on-surface" for="gstin">
+                    GSTIN <span class="text-error">*</span>
+</label>
+<span class="text-[11px] text-secondary font-mono">State 29 (KA)</span>
+</div>
+<div class="relative">
+<input class="w-full h-10 px-3.5 bg-surface-container-low/40 border border-outline-variant/60 rounded-lg text-sm font-mono font-medium text-on-surface uppercase focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all tracking-wider" id="gstin" name="gstin" type="text" value="29AADCS1234F1Z5">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 text-[18px]">domain_verification</span>
+</div>
+</div>
+<!-- FIELD 3: PAN -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-bold text-on-surface" for="pan">
+                    PAN <span class="text-error">*</span>
+</label>
+<span class="text-[11px] text-secondary">Company / Firm</span>
+</div>
+<div class="relative">
+<input class="w-full h-10 px-3.5 bg-surface-container-low/40 border border-outline-variant/60 rounded-lg text-sm font-mono font-medium text-on-surface uppercase focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all tracking-wider" id="pan" name="pan" type="text" value="AADCS1234F">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 text-[18px]">badge</span>
+</div>
+</div>
+</div>
+<!-- FIELD 4: Udyam no. -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-bold text-on-surface" for="udyamNo">
+                  Udyam no. <span class="text-error">*</span>
+</label>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                  Verified Small Enterprise (Manufacturing)
+                </span>
+</div>
+<div class="relative">
+<input class="w-full h-10 px-3.5 bg-surface-container-low/40 border border-outline-variant/60 rounded-lg text-sm font-mono font-medium text-on-surface uppercase focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all tracking-wider" id="udyamNo" name="udyamNo" type="text" value="UDYAM-KR-03-0028194">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary text-[18px]">policy</span>
+</div>
+<p class="text-xs text-secondary mt-1.5">
+                MSMED Act 2006 statutory protection enforceable. Grace period capped at 45 calendar days.
+              </p>
+</div>
+<!-- FIELDS 5, 6, 7: BANK PARAMETERS CONTAINER -->
+<div class="p-4 sm:p-5 rounded-xl border border-outline-variant/40 bg-surface-container-low/30 space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">account_balance</span>
+<span class="text-xs font-bold text-on-surface uppercase tracking-wider">Settlement Bank Account</span>
+</div>
+<span class="text-[11px] text-secondary">Primary Escrow Settlement (NACH &amp; TReDS Direct)</span>
+</div>
+<!-- FIELD 5: Bank name -->
+<div>
+<label class="block text-xs font-bold text-on-surface mb-1.5" for="bankName">
+                  Bank name <span class="text-error">*</span>
+</label>
+<input class="w-full h-10 px-3.5 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-sm font-medium text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="bankName" name="bankName" type="text" value="State Bank of India">
+</div>
+<!-- FIELD 6 & 7: Account number & IFSC -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- FIELD 6: Account number -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-bold text-on-surface" for="accountNumber">
+                      Account number <span class="text-error">*</span>
+</label>
+<button class="text-[11px] text-primary hover:underline flex items-center gap-1 cursor-pointer" onclick="toggleAccMask()" type="button">
+<span class="material-symbols-outlined text-[14px]" id="accMaskIcon">visibility</span>
+<span id="accMaskText">Mask</span>
+</button>
+</div>
+<div class="relative">
+<input class="w-full h-10 px-3.5 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-sm font-mono font-medium text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all tracking-wider" id="accountNumber" name="accountNumber" type="text" value="389201948210">
+</div>
+</div>
+<!-- FIELD 7: IFSC -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-bold text-on-surface" for="ifsc">
+                      IFSC <span class="text-error">*</span>
+</label>
+<span class="text-[11px] font-semibold text-emerald-700">Peenya Ind. Area Br.</span>
+</div>
+<input class="w-full h-10 px-3.5 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-sm font-mono font-medium text-on-surface uppercase focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all tracking-wider" id="ifsc" name="ifsc" type="text" value="SBIN0004128">
+</div>
+</div>
+</div>
+<!-- FIELD 8: TReDS registered? -->
+<div class="p-4 sm:p-5 rounded-xl border border-outline-variant/40 bg-surface-container-low/30">
+<div class="flex items-center justify-between mb-3">
+<div>
+<label class="text-xs font-bold text-on-surface block">TReDS registered?</label>
+<p class="text-xs text-secondary mt-0.5">Trade Receivables Discounting System integration for automatic auctioning</p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  Yes / Registered
+                </span>
+</div>
+<!-- Connected exchanges -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+<div class="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-bold text-on-surface">RXIL</span>
+</div>
+<span class="text-[11px] font-mono text-secondary">#RX-8841</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-bold text-on-surface">M1xchange</span>
+</div>
+<span class="text-[11px] font-mono text-secondary">#M1-9024</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-bold text-on-surface">Invoicemart</span>
+</div>
+<span class="text-[11px] font-mono text-secondary">#IV-3109</span>
+</div>
+</div>
+</div>
+<!-- Dynamic 403 / Warning Notification Box for Accountant Preview -->
+<div class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs items-start gap-3 transition-all" id="permissionNotice">
+<span class="material-symbols-outlined text-[20px] text-amber-700 shrink-0">lock_clock</span>
+<div class="flex-1 leading-relaxed">
+<span class="font-bold block text-sm">Role Restriction Notice (403 Forbidden Simulation):</span>
+                You are currently previewing as an <strong>Accountant / Viewer</strong>. Viewing statutory details is permitted for reconciliation; however, submitting modifications will return an explicit <strong>HTTP 403 Forbidden</strong> response. Only DIN/PAN signatories (Owner) may update legal records.
+              </div>
+</div>
+<!-- FORM ACTIONS: PRIMARY BUTTON "Save" (EXACT TEXT) -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-outline-variant/30">
+<div class="flex items-center gap-2 text-xs text-secondary">
+<span class="material-symbols-outlined text-[16px] text-primary">history_toggle_off</span>
+<span>Cryptographically logged to immutable audit trail</span>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+<button class="px-4 py-2 rounded-lg text-xs font-semibold text-secondary hover:text-on-surface transition-colors cursor-pointer" onclick="discardChanges()" type="button">
+                  Cancel
+                </button>
+<button class="min-w-[130px] h-10 px-6 rounded-lg bg-primary hover:bg-primary-container text-white text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer" id="saveButton" type="submit">
+<span class="material-symbols-outlined text-[16px] hidden animate-spin" id="saveSpinner">progress_activity</span>
+<span id="saveButtonLabel">Save</span>
+</button>
+</div>
+</div>
+</form>
+</section>
+<!-- Immutable Ledger Verification Bar -->
+<div class="p-4 rounded-xl border border-outline-variant/40 bg-surface-container-lowest flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div>
+<span class="text-xs font-bold text-on-surface block">Immutable Ledger Verification</span>
+<span class="text-[11px] text-secondary font-mono">SHA-256 Organization State: e9f2a7...c4819d</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg border border-outline-variant/50 bg-surface-container-low/60 hover:bg-surface-container-low text-xs font-semibold text-on-surface flex items-center gap-1.5 transition-colors cursor-pointer shrink-0" onclick="triggerAuditDownload()" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+            Export Audit Trail
+          </button>
+</div>
+</div>
+<!-- ================= RIGHT COLUMN: STATUTORY VAULT PANEL (4 COLS) ================= -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-xs p-6 flex flex-col gap-5">
+<!-- Header Ribbon -->
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant/30">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">assured_workload</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-on-surface">Statutory Vault</h3>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-wider font-mono">MSMED Act 2006</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+              Synchronized
+            </span>
+</div>
+<!-- 1. MSMED Act Section 15 & 16 Protection Status -->
+<div class="p-4 rounded-xl bg-surface-container-low/40 border border-outline-variant/30 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-xs font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]">gavel</span>
+<span>Section 15 &amp; 16 Protection</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 uppercase">Enforced</span>
+</div>
+<p class="text-xs text-secondary leading-relaxed">
+              Compounded monthly penal interest at 3x RBI bank rate applies automatically on buyer receivables post 45 days.
+            </p>
+<div class="space-y-1.5 pt-1">
+<div class="flex items-center justify-between text-xs bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<span class="text-secondary">Benchmark RBI Repo Rate:</span>
+<span class="font-mono font-bold text-on-surface">6.50% p.a.</span>
+</div>
+<div class="flex items-center justify-between text-xs bg-emerald-50 p-2 rounded-lg border border-emerald-200">
+<span class="font-medium text-emerald-800">Statutory Penal Rate (3x):</span>
+<span class="font-mono font-extrabold text-emerald-800">19.50% p.a.</span>
+</div>
+</div>
+</div>
+<!-- 2. Aadhaar e-Sign Linkage (Sunita Rao) -->
+<div class="p-4 rounded-xl bg-surface-container-low/40 border border-outline-variant/30 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-xs font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]">fingerprint</span>
+<span>Aadhaar e-Sign Linkage</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 uppercase">UIDAI Active</span>
+</div>
+<div class="text-xs space-y-1 bg-surface-container-lowest p-2.5 rounded-lg border border-outline-variant/20">
+<div class="flex justify-between">
+<span class="text-secondary">Signatory:</span>
+<span class="font-semibold text-on-surface">Sunita Rao</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Auth Provider:</span>
+<span class="text-on-surface font-medium">NSDL e-Governance</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Timestamp:</span>
+<span class="font-mono text-[11px] text-on-surface">2025-01-15 14:22:09 UTC</span>
+</div>
+</div>
+</div>
+<!-- 3. DSC / NIC Portal Credentials Token -->
+<div class="p-4 rounded-xl bg-surface-container-low/40 border border-outline-variant/30 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-xs font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]">key</span>
+<span>DSC / NIC Credentials</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/10 text-primary uppercase">Class 3 Active</span>
+</div>
+<p class="text-xs text-secondary leading-relaxed">
+              Hardware token linked for automated direct filing of MSME dispute dockets onto government adjudicating portals.
+            </p>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest border border-outline-variant/20 text-xs">
+<span class="text-secondary">Token Validity:</span>
+<span class="font-mono font-bold text-emerald-700">Expires Oct 2026</span>
+</div>
+</div>
+<!-- 4. MSME Samadhaan Webhook Status -->
+<div class="p-4 rounded-xl bg-surface-container-low/40 border border-outline-variant/30 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-xs font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]">hub</span>
+<span>MSME Samadhaan Webhook</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 uppercase">Connected</span>
+</div>
+<p class="text-xs text-secondary leading-relaxed">
+              Auto-dispatches MSEFC dispute packages when overdue invoices breach statutory 45-day threshold.
+            </p>
+<div class="space-y-1 text-xs pt-1">
+<div class="flex items-center justify-between">
+<span class="text-secondary">Endpoint Status:</span>
+<span class="text-emerald-700 font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 200 OK (84ms)
+                </span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-secondary">Next Sync Window:</span>
+<span class="font-mono text-on-surface font-medium">Tonight, 00:00 IST</span>
+</div>
+</div>
+</div>
+<!-- Visual Compliance Readiness Gauge -->
+<div class="p-4 rounded-xl bg-primary/5 border border-primary/20 flex items-center gap-3.5">
+<div class="relative w-12 h-12 shrink-0">
+<svg class="w-12 h-12 -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary">100%</span>
+</div>
+<div>
+<span class="text-xs font-bold text-on-surface block">Statutory Readiness</span>
+<span class="text-[11px] text-secondary">Pre-approved for instant tribunal dispute dockets</span>
+</div>
+</div>
+</div>
+<!-- Statutory Documents Quick Access Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-xs p-5 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface uppercase tracking-wider">Statutory Documents</span>
+<span class="text-[11px] text-secondary">Verified Vault Files</span>
+</div>
+<div class="space-y-2">
+<a class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low/40 hover:bg-surface-container-low border border-outline-variant/30 text-xs text-on-surface transition-all group" href="#" onclick="showToast('Document Opened', 'Viewing UDYAM-KR-03-0028194 authenticated certificate.', 'info'); return false;">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary group-hover:text-primary transition-colors">description</span>
+<span class="font-medium">Udyam Registration Certificate.pdf</span>
+</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">open_in_new</span>
+</a>
+<a class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low/40 hover:bg-surface-container-low border border-outline-variant/30 text-xs text-on-surface transition-all group" href="#" onclick="showToast('Document Opened', 'Viewing GSTN 3B &amp; GSTR-1 matching summary log.', 'info'); return false;">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary group-hover:text-primary transition-colors">receipt_long</span>
+<span class="font-medium">GSTN Active Status Summary.pdf</span>
+</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- ================= TOAST NOTIFICATION MODAL ================= -->
+<div class="fixed bottom-6 right-6 max-w-sm p-4 rounded-xl bg-slate-corporate text-white shadow-2xl transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-start gap-3 border border-slate-700" id="toastNotification">
+<div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5" id="toastIconContainer">
+<span class="material-symbols-outlined text-[18px]" id="toastIcon">check</span>
+</div>
+<div class="flex-1">
+<h4 class="text-xs font-bold tracking-tight" id="toastTitle">Settings Saved</h4>
+<p class="text-xs text-slate-300 mt-0.5 leading-relaxed" id="toastMessage">All organizational identity and statutory configurations were saved successfully.</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors cursor-pointer" onclick="dismissToast()">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- ================= FOOTER ================= -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant/30 py-5 mt-auto">
+<div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-secondary gap-3">
+<div>
+        © 2025 PayKaro. MSMED Act 2006 Statutory Compliance &amp; Receivables Infrastructure.
+      </div>
+<div class="flex items-center gap-4">
+<span class="inline-flex items-center gap-1.5 font-mono text-[11px] text-emerald-700 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+          GSTN &amp; TReDS Verified
+        </span>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" href="#">Compliance Support</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" href="#">Audit Logs</a>
+</div>
+</div>
+</footer>
+<!-- ================= JAVASCRIPT LOGIC ================= -->
+<script>
+    let currentRole = 'owner';
+    let isAccMasked = false;
+    let toastTimeout = null;
+
+    function switchRole(role) {
+      currentRole = role;
+      const btnOwner = document.getElementById('btnRoleOwner');
+      const btnAccountant = document.getElementById('btnRoleAccountant');
+      const bannerTitle = document.getElementById('roleBannerTitle');
+      const bannerDesc = document.getElementById('roleBannerDesc');
+      const bannerBadge = document.getElementById('roleBannerBadge');
+      const bannerIcon = document.getElementById('roleBannerIcon');
+      const bannerIconBox = document.getElementById('roleBannerIconBox');
+      const saveButton = document.getElementById('saveButton');
+      const saveLabel = document.getElementById('saveButtonLabel');
+      const permissionNotice = document.getElementById('permissionNotice');
+
+      if (role === 'owner') {
+        btnOwner.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold bg-primary text-white shadow-xs transition-all cursor-pointer';
+        btnAccountant.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold text-secondary hover:text-on-surface transition-all cursor-pointer';
+
+        bannerTitle.textContent = 'Owner Privileges Active';
+        bannerDesc.textContent = 'Owner role active. Full read/write, tax token access, and statutory submission privileges enabled under Section 15 of MSMED Act 2006.';
+        bannerBadge.textContent = 'Level 0: Super Admin';
+        bannerBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 uppercase tracking-wider border border-emerald-200';
+        bannerIcon.textContent = 'verified_user';
+        bannerIconBox.className = 'w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0';
+
+        saveButton.className = 'min-w-[130px] h-10 px-6 rounded-lg bg-primary hover:bg-primary-container text-white text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer';
+        saveLabel.textContent = 'Save';
+
+        permissionNotice.classList.add('hidden');
+        permissionNotice.classList.remove('flex');
+      } else {
+        btnAccountant.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold bg-slate-corporate text-white shadow-xs transition-all cursor-pointer';
+        btnOwner.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold text-secondary hover:text-on-surface transition-all cursor-pointer';
+
+        bannerTitle.textContent = 'Accountant / Auditor Simulation';
+        bannerDesc.textContent = 'Viewing in restricted accountant mode. Regulatory identity is visible for reconciliation, but statutory updates return HTTP 403 Forbidden.';
+        bannerBadge.textContent = 'Level 2: Read-Only Audit';
+        bannerBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 uppercase tracking-wider border border-amber-300';
+        bannerIcon.textContent = 'visibility';
+        bannerIconBox.className = 'w-10 h-10 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0';
+
+        // Intentionally kept clickable to demonstrate wireframe specification:
+        // "an accountant or viewer can open this page but cannot submit it. Their save returns 403."
+        saveButton.className = 'min-w-[130px] h-10 px-6 rounded-lg bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer';
+        saveLabel.textContent = 'Save (Simulate 403)';
+
+        permissionNotice.classList.remove('hidden');
+        permissionNotice.classList.add('flex');
+      }
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const spinner = document.getElementById('saveSpinner');
+      const label = document.getElementById('saveButtonLabel');
+      
+      spinner.classList.remove('hidden');
+
+      setTimeout(() => {
+        spinner.classList.add('hidden');
+
+        if (currentRole === 'accountant') {
+          // Spec requirement: Their save returns 403.
+          showToast(
+            'HTTP 403 Forbidden',
+            'Permission Denied: Role "Accountant / Auditor" is not permitted to mutate statutory tax and banking credentials. Authorization requires Owner DIN/Aadhaar signature.',
+            'error'
+          );
+        } else {
+          showToast(
+            'Settings Saved Successfully',
+            'Legal entity disclosures and statutory parameters for Shree Precision Components have been updated and timestamped.',
+            'success'
+          );
+        }
+      }, 550);
+    }
+
+    function discardChanges() {
+      document.getElementById('businessName').value = 'Shree Precision Components';
+      document.getElementById('gstin').value = '29AADCS1234F1Z5';
+      document.getElementById('pan').value = 'AADCS1234F';
+      document.getElementById('udyamNo').value = 'UDYAM-KR-03-0028194';
+      document.getElementById('bankName').value = 'State Bank of India';
+      document.getElementById('accountNumber').value = '389201948210';
+      document.getElementById('ifsc').value = 'SBIN0004128';
+
+      showToast('Form Reset', 'Parameters restored to active statutory registry values.', 'info');
+    }
+
+    function toggleAccMask() {
+      const accInput = document.getElementById('accountNumber');
+      const accIcon = document.getElementById('accMaskIcon');
+      const accText = document.getElementById('accMaskText');
+
+      if (!isAccMasked) {
+        accInput.value = '••••••••8210';
+        accIcon.textContent = 'visibility_off';
+        accText.textContent = 'Show';
+        isAccMasked = true;
+      } else {
+        accInput.value = '389201948210';
+        accIcon.textContent = 'visibility';
+        accText.textContent = 'Mask';
+        isAccMasked = false;
+      }
+    }
+
+    function triggerAuditDownload() {
+      showToast('Export Triggered', 'Downloading cryptographically signed audit package: audit-shree-precision-2025.json', 'success');
+    }
+
+    function showToast(title, msg, type) {
+      if (toastTimeout) clearTimeout(toastTimeout);
+
+      const toast = document.getElementById('toastNotification');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastMsg = document.getElementById('toastMessage');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastIconContainer = document.getElementById('toastIconContainer');
+
+      toastTitle.textContent = title;
+      toastMsg.textContent = msg;
+
+      if (type === 'error') {
+        toastIconContainer.className = 'w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 mt-0.5';
+        toastIcon.textContent = 'gpp_bad';
+      } else if (type === 'info') {
+        toastIconContainer.className = 'w-7 h-7 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 mt-0.5';
+        toastIcon.textContent = 'info';
+      } else {
+        toastIconContainer.className = 'w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5';
+        toastIcon.textContent = 'check';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      toastTimeout = setTimeout(() => {
+        dismissToast();
+      }, 5000);
+    }
+
+    function dismissToast() {
+      const toast = document.getElementById('toastNotification');
+      toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }
+  </script>
+
+
+</body></html>

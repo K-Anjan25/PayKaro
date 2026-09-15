@@ -1,0 +1,607 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PayKaro - Statutory Reports</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-error-container": "#93000a",
+            "surface-bright": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-primary": "#ffffff",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#b7c4ff",
+            "inverse-primary": "#b7c4ff",
+            "tertiary": "#00496b",
+            "primary-container": "#1d4ed8",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-fixed": "#001e2f",
+            "on-tertiary-fixed-variant": "#004c6e",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#eaf1ff",
+            "secondary-container": "#d8deff",
+            "on-primary-fixed": "#001551",
+            "on-secondary-container": "#5a627e",
+            "primary-fixed": "#dce1ff",
+            "on-background": "#0b1c30",
+            "surface-tint": "#2151da",
+            "tertiary-container": "#00628d",
+            "primary": "#0037b0",
+            "surface": "#f8f9ff",
+            "secondary-fixed-dim": "#bec5e5",
+            "on-tertiary-container": "#abdaff",
+            "background": "#f8f9ff",
+            "on-surface-variant": "#434655",
+            "tertiary-fixed": "#c9e6ff",
+            "secondary": "#565d79",
+            "on-primary-fixed-variant": "#0039b5",
+            "tertiary-fixed-dim": "#89ceff",
+            "surface-container-high": "#dce9ff",
+            "outline": "#747686",
+            "surface-container-highest": "#d3e4fe",
+            "on-error": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-fixed": "#131a33",
+            "on-primary-container": "#cad3ff",
+            "outline-variant": "#c4c5d7",
+            "secondary-fixed": "#dbe1ff",
+            "surface-container": "#e5eeff",
+            "surface-dim": "#cbdbf5",
+            "surface-variant": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed-variant": "#3e4660",
+            "error": "#ba1a1a"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary selection:text-white">
+<!-- Top App Shell Header -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-outline-variant/40 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+<!-- Utility Sub-bar -->
+<div class="h-9 px-6 bg-surface-container-low border-b border-outline-variant/30 flex items-center justify-between text-xs text-secondary">
+<div class="flex items-center gap-2">
+<span class="font-semibold text-on-surface">Shree Precision Components</span>
+<span class="text-outline-variant">|</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-surface-container text-on-surface-variant border border-outline-variant/50">
+          Demo workspace
+        </span>
+</div>
+<div class="flex items-center gap-4 font-medium">
+<a class="hover:text-primary transition-colors" data-path="pricing" href="#">Pricing</a>
+<a class="hover:text-primary transition-colors" data-path="help" href="#">Help</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-primary transition-colors" data-path="contact" href="#">Contact</a>
+<a class="hover:text-primary transition-colors" data-path="sign-out" href="#">Sign out</a>
+</div>
+</div>
+<!-- Main Navigation Bar -->
+<div class="h-16 px-6 flex items-center justify-between gap-6">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<a class="flex items-center gap-2.5 shrink-0 group" href="#">
+
+<span class="font-bold text-xl tracking-tight text-on-surface">PayKaro</span>
+</a>
+<!-- Search Bar -->
+<div class="relative w-80 hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[19px]">search</span>
+<input class="w-full h-9 pl-9 pr-3 text-xs bg-surface-container-low border border-outline-variant/60 rounded-lg text-on-surface placeholder:text-secondary/70 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Search invoices, buyers..." type="text">
+</div>
+</div>
+<!-- Right action & User profile -->
+<div class="flex items-center gap-4">
+<a class="inline-flex items-center gap-1.5 h-9 px-3.5 bg-on-surface hover:bg-slate-800 text-white font-semibold text-xs rounded-lg shadow-sm transition-all active:scale-[0.98]" data-path="new-invoice" href="#">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>New invoice</span>
+</a>
+<div class="h-5 w-px bg-outline-variant/50"></div>
+<div class="flex items-center gap-2.5 pl-1">
+<img alt="Sunita Rao Avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-outline-variant/30" src="https://lh3.googleusercontent.com/aida/AEtjO1WhbHi8dABDOenbcR5zejuB6VsnkDJuFvMPhb_HMR73-YyCzDOUMoGTLFCVOO7GdadEZMywGE5ZNLNZleAFPcqnDV9WdUtNtw8PihjLMk3wl0TvAcng31fFH4A4q4DhAfEtYMexe-_jkAMfI0aVGPi5ZstkaLIZkuirvOR_7LmYSxAmTPrdVUFUAk69uh3uFMkAXAZ8H7bMIYjhxvvJF38jh91x7d3y4Ukq_c2Wy6m7Ktq8J54Zfd8Mn6U">
+<div class="hidden sm:flex flex-col text-left">
+<span class="font-semibold text-xs text-on-surface leading-tight">Sunita Rao</span>
+<span class="text-[10px] font-bold text-primary tracking-wider uppercase">OWNER</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Workspace Tabs Navigation -->
+<div class="px-6 border-t border-outline-variant/30 bg-white">
+<nav class="flex items-center gap-8">
+<a class="py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="overview" href="#">Overview</a>
+<a class="py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="invoices" href="#">Invoices</a>
+<a class="py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="customers" href="#">Customers</a>
+<a class="py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="finance" href="#">Finance</a>
+<!-- Active Tab: Reports -->
+<a aria-current="page" class="py-2.5 text-xs font-bold text-primary border-b-2 border-primary transition-colors flex items-center gap-1.5" data-path="reports" href="#">
+<span>Reports</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</a>
+<a class="py-2.5 text-xs font-medium text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="settings" href="#">Settings</a>
+</nav>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+<!-- Title Area (Strictly Read-Only, No Export Buttons per WIREFRAMES.md Screen 8) -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-outline-variant/30">
+<div>
+<div class="flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider mb-1">
+<span class="material-symbols-outlined text-sm">assessment</span>
+<span>Statutory Intelligence Engine</span>
+</div>
+<h1 class="text-3xl font-extrabold text-on-surface tracking-tight">Reports</h1>
+<p class="text-sm text-secondary mt-1 max-w-2xl">
+          Audited MSME receivables exposure, payment velocity and statutory ageing reports
+        </p>
+</div>
+<div class="flex items-center gap-3">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-high/70 border border-outline-variant/40 text-on-surface-variant text-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>READ-ONLY AUDIT LEDGER</span>
+</div>
+<a class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary-fixed hover:bg-primary-fixed-dim text-on-primary-fixed text-xs font-semibold transition-colors border border-primary-fixed-dim/50" data-path="finance" href="#">
+<span>View TReDS Liquid Queue</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Block 1: Outstanding by Buyer -->
+<section class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl shadow-sm p-6 mb-8">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-lg font-bold text-on-surface">Outstanding by Buyer</h2>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-secondary">Audited Ledger View</span>
+</div>
+<p class="text-xs text-secondary mt-0.5">Distribution of exposure across CPSEs, public utilities, and private tier-1 anchor corporates</p>
+</div>
+<div class="text-right">
+<div class="text-xs text-secondary font-medium">Total Monitored Portfolio</div>
+<div class="text-xl font-extrabold text-on-surface">₹77,60,000.00</div>
+</div>
+</div>
+<!-- Portfolio allocation bar & breakdown -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/30 mb-6">
+<div class="flex items-center justify-between text-xs font-semibold text-secondary mb-2">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-primary"></span> CPSE / PSU: ₹19.70L (25.4%)</span>
+<span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-slate-700"></span> Private: ₹57.90L (74.6%)</span>
+</div>
+<span class="text-on-surface">Total: ₹77,60,000.00 (100%)</span>
+</div>
+<!-- Segment Bar -->
+<div class="h-3 w-full rounded-full overflow-hidden flex bg-surface-container">
+<div class="bg-primary h-full transition-all" style="width: 25.4%" title="CPSE / PSU: ₹19.70L (25.4%)"></div>
+<div class="bg-slate-700 h-full transition-all" style="width: 74.6%" title="Private: ₹57.90L (74.6%)"></div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-2 mt-3 pt-2 border-t border-outline-variant/20 text-xs text-secondary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">verified</span>
+            L&amp;T: 32.6% · BHEL: 25.4% · Tata Motors: 24.3% · M&amp;M: 17.7%
+          </span>
+<span class="text-[11px] font-medium text-secondary/80">Synchronized nightly via TReDS Platform &amp; GeM portal</span>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/40 bg-surface-container-low text-secondary text-[11px] font-bold uppercase tracking-wider">
+<th class="py-3 px-4 rounded-l-lg">Buyer Organization</th>
+<th class="py-3 px-4">Category</th>
+<th class="py-3 px-4 text-center">Invoices</th>
+<th class="py-3 px-4 text-right">Outstanding Amount</th>
+<th class="py-3 px-4 rounded-r-lg">Operational Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 text-xs">
+<!-- Row 1: Larsen & Toubro -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="font-bold text-on-surface text-sm">Larsen &amp; Toubro</div>
+<div class="text-[11px] text-secondary font-mono">GSTN: 27AAACL0149G1Z8</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-secondary">
+                  Private
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center font-semibold text-on-surface">3</td>
+<td class="py-3.5 px-4 text-right font-bold text-on-surface text-sm">₹25,30,000.00</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  All on-track / Financed
+                </span>
+</td>
+</tr>
+<!-- Row 2: BHEL -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="font-bold text-on-surface text-sm">Bharat Heavy Electricals Ltd (BHEL)</div>
+<div class="text-[11px] text-secondary font-mono">GSTN: 07AAACB4146P1ZU</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed text-on-primary-fixed border border-primary-fixed-dim">
+                  CPSE
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center font-semibold text-on-surface">2</td>
+<td class="py-3.5 px-4 text-right font-bold text-on-surface text-sm">₹19,70,000.00</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-error-container text-on-error-container border border-error/20">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  1 Active dispute
+                </span>
+</td>
+</tr>
+<!-- Row 3: Tata Motors -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="font-bold text-on-surface text-sm">Tata Motors Ltd</div>
+<div class="text-[11px] text-secondary font-mono">GSTN: 27AAACT2727Q1ZW</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-secondary">
+                  Private
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center font-semibold text-on-surface">3</td>
+<td class="py-3.5 px-4 text-right font-bold text-on-surface text-sm">₹18,90,000.00</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                  1 Pending GRN
+                </span>
+</td>
+</tr>
+<!-- Row 4: Mahindra & Mahindra -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="font-bold text-on-surface text-sm">Mahindra &amp; Mahindra</div>
+<div class="text-[11px] text-secondary font-mono">GSTN: 27AAACM1240Q1ZC</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-secondary">
+                  Private
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center font-semibold text-on-surface">2</td>
+<td class="py-3.5 px-4 text-right font-bold text-on-surface text-sm">₹13,70,000.00</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container-high text-secondary border border-outline-variant/40">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Unregistered TReDS
+                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Block 2: Summary KPIs -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h2 class="text-lg font-bold text-on-surface">Summary</h2>
+<p class="text-xs text-secondary mt-0.5">High-level statutory receivables lifecycle and recovery performance</p>
+</div>
+<span class="px-2 py-0.5 rounded text-xs font-semibold bg-surface-container text-secondary">FY 2024–25</span>
+</div>
+<!-- Primary 4 KPI Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="text-xs font-bold uppercase tracking-wider">Total Book Monitored</span>
+<span class="material-symbols-outlined text-primary text-xl">account_balance_wallet</span>
+</div>
+<div class="text-2xl font-black text-on-surface tracking-tight">₹77,60,000.00</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 flex items-center justify-between text-xs text-secondary">
+<span class="font-semibold text-primary">15 Active invoices</span>
+<span>Audited receivables</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="text-xs font-bold uppercase tracking-wider">Statutory 45-Day Compliance</span>
+<span class="material-symbols-outlined text-primary text-xl">verified_user</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-black text-on-surface tracking-tight">73.3%</span>
+<span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">+4.1% MoM</span>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 text-xs text-secondary">
+<span>Under MSMED Act Section 15 mandate</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="text-xs font-bold uppercase tracking-wider">Section 16 Penal Interest</span>
+<span class="material-symbols-outlined text-error text-xl">gavel</span>
+</div>
+<div class="text-2xl font-black text-error tracking-tight">₹48,932.14</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 flex items-center gap-1.5 text-xs text-secondary">
+<span class="material-symbols-outlined text-xs text-error">trending_up</span>
+<span>Accruing at 3x RBI Repo compounded</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-5 shadow-sm">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="text-xs font-bold uppercase tracking-wider">Weighted Avg Velocity</span>
+<span class="material-symbols-outlined text-primary text-xl">schedule</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-black text-on-surface tracking-tight">48 Days</span>
+<span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">+3d vs Mandate</span>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 flex items-center justify-between text-xs text-secondary">
+<span>Target: ≤ 45 Days</span>
+<span class="font-semibold text-error">Overdue trigger</span>
+</div>
+</div>
+</div>
+<!-- Secondary Lifecycle Metrics (Settled YTD, Factored via TReDS, Total Disputed) -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<!-- Settled YTD -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-4 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">payments</span>
+</div>
+<div>
+<div class="text-xs text-secondary font-semibold">Settled YTD</div>
+<div class="text-base font-extrabold text-on-surface">₹38,40,000.00</div>
+</div>
+</div>
+<span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">100% principal</span>
+</div>
+<!-- Live Factored via TReDS -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-4 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary border border-primary-fixed-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">swap_horiz</span>
+</div>
+<div>
+<div class="text-xs text-secondary font-semibold">Live Factored via TReDS</div>
+<div class="text-base font-extrabold text-on-surface">₹48,20,000.00</div>
+</div>
+</div>
+<span class="text-[11px] font-semibold text-primary bg-surface-container-high px-2 py-0.5 rounded">M1x / RXIL</span>
+</div>
+<!-- Total Disputed -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-4 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-error-container text-error border border-error/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">report_problem</span>
+</div>
+<div>
+<div class="text-xs text-secondary font-semibold">Total Disputed</div>
+<div class="text-base font-extrabold text-error">₹14,20,000.00</div>
+</div>
+</div>
+<span class="text-[11px] font-semibold text-error bg-error-container/50 px-2 py-0.5 rounded">MSEFC Filed</span>
+</div>
+</div>
+</section>
+<!-- Block 3: Ageing Ledger (Strict 5 Buckets: Current, 1-30, 31-60, 61-90, 90+) -->
+<section class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl shadow-sm p-6 mb-8">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-lg font-bold text-on-surface">Statutory Ageing Ledger</h2>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-primary text-white">MSMED Act 2006</span>
+</div>
+<p class="text-xs text-secondary mt-0.5">Strict multi-bucket breakdown marking Section 15 45-day statutory payment cutoff threshold</p>
+</div>
+<div class="flex items-center gap-4 text-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<span class="text-secondary font-medium">Safe Window (≤ 45d)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="text-error font-semibold">Section 16 Overdue (&gt; 45d)</span>
+</div>
+</div>
+</div>
+<!-- 5 Visual Metric Bucket Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+<!-- Bucket 1: Current -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Current</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Safe</span>
+</div>
+<div class="text-lg font-extrabold text-on-surface">₹31,20,000.00</div>
+<div class="text-xs text-secondary mt-0.5">4 invoices</div>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 text-[11px] text-secondary font-medium">
+            40.2% of book
+          </div>
+</div>
+<!-- Bucket 2: 1-30 -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-primary uppercase tracking-wider">1–30</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-surface-container-highest text-primary">Standard</span>
+</div>
+<div class="text-lg font-extrabold text-on-surface">₹23,30,000.00</div>
+<div class="text-xs text-secondary mt-0.5">5 invoices</div>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 text-[11px] text-secondary font-medium">
+            30.0% of book
+          </div>
+</div>
+<!-- Bucket 3: 31-60 (Breaches 45d cutoff) -->
+<div class="p-4 rounded-lg bg-amber-50/80 border-2 border-amber-300 relative flex flex-col justify-between">
+<div class="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-amber-700 text-white text-[9px] font-bold uppercase tracking-wider shadow-sm whitespace-nowrap">
+            45d Mandatory Cutoff
+          </div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-amber-900 uppercase tracking-wider">31–60</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-200 text-amber-900">Critical</span>
+</div>
+<div class="text-lg font-extrabold text-amber-950">₹14,20,000.00</div>
+<div class="text-xs text-amber-900 mt-0.5 font-medium">3 invoices (Overdue breach)</div>
+</div>
+<div class="mt-3 pt-2 border-t border-amber-200 text-[11px] text-amber-900 font-bold">
+            Section 16 penal active
+          </div>
+</div>
+<!-- Bucket 4: 61-90 -->
+<div class="p-4 rounded-lg bg-rose-50/80 border border-rose-300 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-error uppercase tracking-wider">61–90</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-200 text-error">Default Risk</span>
+</div>
+<div class="text-lg font-extrabold text-error">₹8,90,000.00</div>
+<div class="text-xs text-rose-900 mt-0.5 font-medium">3 invoices</div>
+</div>
+<div class="mt-3 pt-2 border-t border-rose-200 text-[11px] text-rose-900 font-bold">
+            Samadhaan referral ready
+          </div>
+</div>
+<!-- Bucket 5: 90+ -->
+<div class="p-4 rounded-lg bg-surface-container-low/70 border border-outline-variant/30 flex flex-col justify-between opacity-80">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider">90+</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-surface-container text-secondary">Clean</span>
+</div>
+<div class="text-lg font-extrabold text-on-surface">₹0.00</div>
+<div class="text-xs text-secondary mt-0.5">0 invoices</div>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 text-[11px] text-secondary font-medium">
+            Clean / Zero bad debt
+          </div>
+</div>
+</div>
+<!-- Detailed Ageing Breakdown Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/40 bg-surface-container-low text-secondary text-[11px] font-bold uppercase tracking-wider">
+<th class="py-3 px-4 rounded-l-lg">Bucket Category</th>
+<th class="py-3 px-4">Audited Exposure</th>
+<th class="py-3 px-4 text-center">Invoice Count</th>
+<th class="py-3 px-4">Statutory Implication</th>
+<th class="py-3 px-4 text-right rounded-r-lg">Penal Compounding Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 text-xs">
+<!-- Current (0-15 Days) -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-on-surface">Current (0–15 Days)</td>
+<td class="py-3.5 px-4 font-bold text-on-surface text-sm">₹31,20,000.00</td>
+<td class="py-3.5 px-4 text-center font-semibold text-secondary">4</td>
+<td class="py-3.5 px-4 text-secondary">Within agreed credit terms (Safe window ≤ 45d)</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-emerald-700">Exempt (₹0.00)</span>
+</td>
+</tr>
+<!-- 1-30 Days Outstanding -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-on-surface">1–30 Days Outstanding</td>
+<td class="py-3.5 px-4 font-bold text-on-surface text-sm">₹23,30,000.00</td>
+<td class="py-3.5 px-4 text-center font-semibold text-secondary">5</td>
+<td class="py-3.5 px-4 text-secondary">Safe window (≤ 45d); eligible for immediate TReDS bidding</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-emerald-700">Exempt (₹0.00)</span>
+</td>
+</tr>
+<!-- 31-60 Days -->
+<tr class="bg-amber-50/50 hover:bg-amber-50/80 transition-colors">
+<td class="py-3.5 px-4 font-bold text-amber-900">31–60 Days (Breaches 45d cutoff)</td>
+<td class="py-3.5 px-4 font-bold text-amber-950 text-sm">₹14,20,000.00</td>
+<td class="py-3.5 px-4 text-center font-bold text-amber-950">3</td>
+<td class="py-3.5 px-4 text-amber-900 font-medium">Statutory 45-day threshold surpassed; Sec 16 penal interest activated</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-amber-800">Compounding (₹18,412.00)</span>
+</td>
+</tr>
+<!-- 61-90 Days -->
+<tr class="bg-rose-50/50 hover:bg-rose-50/80 transition-colors">
+<td class="py-3.5 px-4 font-bold text-error">61–90 Days Delinquent</td>
+<td class="py-3.5 px-4 font-bold text-error text-sm">₹8,90,000.00</td>
+<td class="py-3.5 px-4 text-center font-bold text-error">3</td>
+<td class="py-3.5 px-4 text-rose-900 font-medium">Formal Samadhaan application eligible; dispute flag triggered</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-error">Compounding (₹30,520.14)</span>
+</td>
+</tr>
+<!-- 90+ Days Default -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-secondary">90+ Days Default</td>
+<td class="py-3.5 px-4 font-semibold text-secondary text-sm">₹0.00</td>
+<td class="py-3.5 px-4 text-center text-secondary">0</td>
+<td class="py-3.5 px-4 text-secondary">Clean — Zero bad debts recorded</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-semibold text-secondary">Nil (₹0.00)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Link out to TReDS Finance -->
+<section class="rounded-xl bg-gradient-to-r from-primary to-primary-container text-white p-6 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+<span class="material-symbols-outlined text-2xl text-white">currency_rupee</span>
+</div>
+<div>
+<h3 class="text-base font-bold text-white">Accelerate Liquidity via TReDS Factoring</h3>
+<p class="text-xs text-white/80 mt-0.5">Eligible invoices can be discounted immediately on TReDS exchanges without recourse.</p>
+</div>
+</div>
+<a class="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-primary font-bold text-xs shadow hover:bg-surface-container-high transition-all" data-path="finance" href="#">
+<span>Go to TReDS Finance</span>
+<span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+</a>
+</section>
+</main>
+<!-- Clean Footer -->
+<footer class="w-full bg-white border-t border-outline-variant/30 py-5 mt-auto">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-secondary gap-3">
+<div>© 2025 PayKaro. MSMED Act 2006 Statutory Compliance &amp; Receivables Infrastructure.</div>
+<div class="flex items-center gap-5">
+<span class="inline-flex items-center gap-1.5 font-semibold text-emerald-700">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+          GSTN &amp; TReDS Verified
+        </span>
+<a class="hover:text-on-surface transition-colors" data-path="help" href="#">Compliance Support</a>
+<a class="hover:text-on-surface transition-colors" data-path="settings" href="#">Audit Logs</a>
+</div>
+</div>
+</footer>
+
+
+</body></html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PayKaro - New Invoice</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-container": "#d8deff",
+            "primary-fixed-dim": "#b7c4ff",
+            "surface-container-low": "#eff4ff",
+            "on-surface": "#0b1c30",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#cbdbf5",
+            "primary": "#0037b0",
+            "on-primary-fixed": "#001551",
+            "surface-container-high": "#dce9ff",
+            "on-secondary-fixed-variant": "#3e4660",
+            "surface": "#f8f9ff",
+            "tertiary-fixed-dim": "#89ceff",
+            "surface-container": "#e5eeff",
+            "error": "#ba1a1a",
+            "on-background": "#0b1c30",
+            "on-tertiary-fixed-variant": "#004c6e",
+            "surface-tint": "#2151da",
+            "surface-container-highest": "#d3e4fe",
+            "surface-bright": "#f8f9ff",
+            "surface-variant": "#d3e4fe",
+            "error-container": "#ffdad6",
+            "tertiary-container": "#00628d",
+            "tertiary": "#00496b",
+            "inverse-on-surface": "#eaf1ff",
+            "secondary": "#565d79",
+            "on-primary-container": "#cad3ff",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#dbe1ff",
+            "on-error-container": "#93000a",
+            "primary-fixed": "#dce1ff",
+            "inverse-surface": "#213145",
+            "outline": "#747686",
+            "on-tertiary-container": "#abdaff",
+            "inverse-primary": "#b7c4ff",
+            "outline-variant": "#c4c5d7",
+            "on-primary-fixed-variant": "#0039b5",
+            "background": "#f8f9ff",
+            "secondary-fixed-dim": "#bec5e5",
+            "on-secondary-fixed": "#131a33",
+            "on-surface-variant": "#434655",
+            "tertiary-fixed": "#c9e6ff",
+            "on-error": "#ffffff",
+            "on-primary": "#ffffff",
+            "on-tertiary-fixed": "#001e2f",
+            "primary-container": "#1d4ed8",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#5a627e"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen antialiased flex flex-col items-center">
+<!-- Mobile Top App Bar (Sticky Header, NO logo icon, typographic only) -->
+<header class="w-full sticky top-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-b border-slate-200">
+<!-- Top utility context: Workspace & Brand -->
+<div class="px-4 py-2.5 flex items-center justify-between border-b border-slate-100 bg-surface-container-low/70">
+<div class="flex items-center gap-2">
+<span class="font-bold text-base tracking-tight text-primary font-sans">PayKaro</span>
+<span class="text-xs text-outline font-normal">|</span>
+<span class="text-xs text-on-surface-variant font-medium truncate max-w-[140px]">Shree Precision</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+          MSMED 45d
+        </span>
+<img alt="Sunita Rao" class="w-6 h-6 rounded-full object-cover border border-slate-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJiRVVxRS-7xmxQuOxuXI_VH4HgQlzzyydxTEJCy4oPgrLrCJTNenrAzaFKbygK3ebIBUDqYMAe4UiMA-IcIVL4DZlDaDUPBb-zbioGtPuRcfdlaouwu83UfB-n3JC1iBpI8tmPnm5e5OQ0ATOyiUoNGwp4eQvnu6IeS48_SFRTgS5yYFkKd8a_30eToTrDn4lcBfyMxqCW9w9QzNBtJQFLi_LiZoe8a0wIuHWGE_AZPof6X5l0V2V">
+</div>
+</div>
+<!-- Navigation Action Row: Back Button, Title, Step Badge -->
+<div class="px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<a class="text-xs text-primary font-semibold inline-flex items-center gap-1 min-h-[44px] px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">add_circle</span><span class="">+ Add buyer</span></a>
+<div>
+<h1 class="text-lg font-bold text-on-surface leading-tight">New Invoice</h1>
+<p class="text-[11px] text-secondary leading-none mt-0.5">MSME Statutory Compliance</p>
+</div>
+</div>
+<span class="text-xs font-semibold bg-surface-container-high text-primary px-2.5 py-1 rounded-full border border-primary/20">
+        Step 1 of 1
+      </span>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="w-full max-w-[430px] px-4 pt-4 flex flex-col gap-4 pb-32">
+<!-- Toast / Micro-Feedback Notification -->
+<div class="hidden transition-all duration-300 pointer-events-none" id="statutoryToast">
+<div class="bg-inverse-surface text-inverse-on-surface p-2.5 rounded-xl shadow-lg flex items-center gap-2 text-xs font-medium">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">verified_user</span>
+<span id="toastMessage">MSMED 45-day statutory guardrail active</span>
+</div>
+</div>
+<!-- Form Workflow Form Structure -->
+<form class="flex flex-col gap-4" id="invoiceForm" onsubmit="event.preventDefault(); triggerSaveCelebration();">
+<!-- 1. Invoice Number Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-slate-200 shadow-sm">
+<div class="flex justify-between items-center mb-2">
+<label class="text-xs font-bold text-on-surface flex items-center gap-1" for="invNumber">
+            Invoice number
+            <span class="text-error font-bold">*</span>
+</label>
+<span class="text-[11px] font-medium text-secondary bg-surface-container-low px-2 py-0.5 rounded border border-slate-200">
+            Auto-sequenced
+          </span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[18px]">tag</span>
+<input class="w-full pl-9 pr-3 bg-surface-container-low text-on-surface text-sm font-semibold rounded-lg border border-slate-200 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary transition-all font-mono h-12" id="invNumber" name="invoice_number" required="" type="text" value="INV-2026-016">
+</div>
+</div>
+<!-- 2. Buyer Entity with Escape Hatch -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-slate-200 shadow-sm">
+<div class="flex justify-between items-center mb-2">
+<label class="text-xs font-bold text-on-surface flex items-center gap-1" for="buyerSelect">
+            Buyer
+            <span class="text-error font-bold">*</span>
+</label>
+<a class="text-xs text-primary font-semibold inline-flex items-center gap-1 min-h-[44px] px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">add_circle</span><span class="">+ Add buyer</span></a>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[18px]">corporate_fare</span>
+<select class="w-full pl-9 pr-9 bg-surface-container-low text-on-surface text-sm font-medium rounded-lg border border-slate-200 outline-none appearance-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary transition-all h-12" id="buyerSelect" name="buyer">
+<option selected="" value="bhel">Bharat Heavy Electricals (BHEL)</option>
+<option value="tasl">Tata Advanced Systems</option>
+<option value="mdl">Mahindra Defense</option>
+<option value="lt">Larsen &amp; Toubro</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 text-secondary text-[20px] pointer-events-none">expand_more</span>
+</div>
+<div class="mt-2.5 flex items-center gap-1.5 text-secondary text-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600 inline-block shrink-0"></span>
+<span class="truncate">GSTIN &amp; MSME SAMADHAAN verified counterpart</span>
+</div>
+</div>
+<!-- 3 & 4. Dates Container: Invoice Date & Computed Due Date -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col gap-3.5">
+<!-- 3. Invoice Date -->
+<div>
+<label class="text-xs font-bold text-on-surface block mb-2" for="invoiceDate">
+            Invoice date
+          </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-[18px]">calendar_today</span>
+<input class="w-full pl-9 pr-3 bg-surface-container-low text-on-surface text-sm font-medium rounded-lg border border-slate-200 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary transition-all h-12" id="invoiceDate" onchange="recalculateDates()" type="date" value="2026-05-12">
+</div>
+</div>
+<!-- 4. Computed Due Date (READ ONLY + STATUTORY LOCK) -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-slate-200">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-xs font-semibold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">lock</span>
+              Computed due date (Auto)
+            </span>
+<span class="text-[11px] font-bold text-primary bg-surface-container-high px-2 py-0.5 rounded">
+              Section 15 MSMED
+            </span>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="text-lg font-bold text-on-surface" id="computedDueDateDisplay">26 June 2026</span>
+<span class="text-xs font-medium text-secondary">+45 calendar days</span>
+</div>
+<div class="mt-2 flex items-start gap-1.5 py-1.5 px-2.5 rounded bg-surface-container-highest/60 text-on-surface-variant text-[11px]">
+<span class="material-symbols-outlined text-primary text-[15px] shrink-0 mt-0.5">gavel</span>
+<span class="leading-tight">Section 15 MSMED Act non-editable 45-day statutory limit</span>
+</div>
+</div>
+</div>
+<!-- Financial Amounts Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col gap-3.5">
+<!-- 5. Base Amount -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-xs font-bold text-on-surface" for="baseAmount">
+              Base amount (₹)
+            </label>
+<span class="text-xs text-secondary">Pre-tax subtotal</span>
+</div>
+<div class="relative flex items-center">
+<span class="text-base text-secondary absolute left-3 font-bold pointer-events-none">₹</span>
+<input class="w-full pl-8 pr-3 bg-surface-container-low text-on-surface text-base font-bold rounded-lg border border-slate-200 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary transition-all font-mono h-12" id="baseAmount" min="0" oninput="recalculateTotals()" step="1000" type="number" value="650000">
+</div>
+</div>
+<!-- 6. Tax - GST -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-xs font-bold text-on-surface" for="taxRate">
+              Tax — GST (%)
+            </label>
+<span class="text-xs text-primary font-bold" id="taxComputedBadge">₹1,17,000.00 (18%)</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full px-3 pr-8 bg-surface-container-low text-on-surface text-sm font-semibold rounded-lg border border-slate-200 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary transition-all h-12" id="taxRate" max="28" min="0" oninput="recalculateTotals()" placeholder="18" type="number" value="18">
+<span class="absolute right-3 text-xs text-secondary font-bold">%</span>
+</div>
+<p class="mt-1.5 text-[11px] text-secondary">
+            blank = auto 18%, 0 = no GST
+          </p>
+</div>
+<!-- 7. Total Amount (Auto computed, Read-only and Prominently styled) -->
+<div class="bg-primary-container text-on-primary p-4 rounded-xl shadow-sm border border-primary">
+<div class="flex items-center justify-between mb-1.5 opacity-90">
+<span class="text-xs uppercase tracking-wider font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px]">lock</span>
+              Total statutory receivable
+            </span>
+<span class="text-[10px] bg-primary px-2 py-0.5 rounded-full font-semibold border border-white/20">Read Only</span>
+</div>
+<div class="flex items-baseline justify-between mt-1">
+<span class="text-2xl font-bold tracking-tight" id="totalAmountDisplay">
+              ₹7,67,000.00
+            </span>
+<span class="text-xs text-on-primary-container font-bold">INR</span>
+</div>
+<div class="mt-2.5 pt-2.5 border-t border-blue-400/30 flex items-center justify-between text-on-primary-container text-xs">
+<span id="calculationBreakdown">Base ₹6,50,000 + GST ₹1,17,000</span>
+<span class="material-symbols-outlined text-[16px] text-primary-fixed">check_circle</span>
+</div>
+</div>
+</div>
+<!-- 8. Notes & Consignment Ref -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-slate-200 shadow-sm">
+<div class="flex justify-between items-center mb-2">
+<label class="text-xs font-bold text-on-surface" for="notes">
+            Notes &amp; Consignment Ref
+          </label>
+<span class="text-xs text-secondary">Optional</span>
+</div>
+<textarea class="w-full p-3 bg-surface-container-low text-on-surface text-sm rounded-lg border border-slate-200 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none" id="notes" placeholder="e.g. Goods inspected and e-Way bill verified at factory gate." rows="3"></textarea>
+</div>
+<!-- 9. Statutory Guardrail Callout Card -->
+<div class="bg-surface-container-high rounded-xl p-3.5 border border-slate-200 flex gap-2.5 items-start shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">verified</span>
+<div class="flex flex-col gap-0.5">
+<h4 class="text-xs font-bold text-on-surface leading-snug">
+            Statutory Guardrail
+          </h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+            Under Section 15 of MSMED Act 2006, payment terms cannot exceed 45 days. Due date and Total amount are system-computed outputs.
+          </p>
+</div>
+</div>
+<!-- 10. Primary Submit Button -->
+<button class="w-full h-12 bg-primary hover:bg-primary-container text-on-primary font-semibold text-sm rounded-xl shadow flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer" type="submit">
+<span class="material-symbols-outlined text-[20px]">save</span>
+<span>Save Invoice</span>
+</button>
+</form>
+<!-- Visual Asset Card: Inspection Flow & TReDS Linked -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-slate-200 shadow-sm">
+<div class="flex items-center justify-between mb-2.5">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider">MSME Inspection Tag</span>
+<span class="text-xs text-primary font-semibold">TReDS Ready</span>
+</div>
+<div class="relative rounded-lg overflow-hidden h-28 bg-surface-container-high mb-2.5 border border-slate-200">
+<img alt="Industrial factory floor with CNC components" class="w-full h-full object-cover" data-alt="An industrial factory floor in Pune India showing CNC precision milled turbine components stamped with batch inspection serials under warm overhead architectural factory lights, photographed in documentary corporate style with navy and steel accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPuOeX5UX3BHDUZADLjIhTiOD61gbrBOaxO3CqdBQeWHphidmgYldi3H9ITzc5FlG1TLkSaTKab_E3fOLlt-RFbtSda4zVNI_OaiiTrW79YGX5iBvYwNdYxfZXoCWC3ViaH7qH6wC5fZNG_due3RCQtQI_1ARtQD9Zfi1HhZoKt0r8P9OTT-tknVOqS8Yt_o4kcKcR8MmPfePlhF6fZ-c9oQNMPFnOE7qQ8U3VqyJAXX1c4QcB2EOk">
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/85 via-black/20 to-transparent flex items-end p-2.5">
+<span class="text-xs text-inverse-on-surface font-medium">Batch #BHEL-0982 Inspected &amp; Logged</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs text-secondary">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary inline-block"></span> E-Way bill linked</span>
+<span class="font-medium">ISO 9001:2015</span>
+</div>
+</div>
+<!-- Mobile Footer Info -->
+<footer class="pt-2 pb-4 text-center text-xs text-secondary space-y-1">
+<div>© 2025 PayKaro · MSMED Act Statutory Invoicing</div>
+<div class="flex items-center justify-center gap-3 text-[11px]">
+<span class="text-primary font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span> GSTN &amp; TReDS</span>
+<span>·</span>
+<a class="hover:text-primary underline" href="#">Compliance</a>
+<span>·</span>
+<a class="hover:text-primary underline" href="#">Audit Logs</a>
+</div>
+</footer>
+</main>
+<!-- Clean Mobile Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-slate-200"><div class="max-w-[430px] mx-auto px-2 pt-2.5 pb-4 flex items-center justify-around"><a class="flex flex-col items-center justify-center min-h-[48px] py-1.5 px-3 rounded-lg text-secondary hover:text-on-surface transition-colors active:scale-95" data-path="overview" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="text-[10px] font-medium mt-0.5">Overview</span></a><a class="flex flex-col items-center justify-center min-h-[48px] py-1.5 px-3 rounded-lg text-primary transition-colors active:scale-95" data-path="invoices" href="#"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">receipt_long</span><span class="text-[10px] font-bold mt-0.5">Invoices</span></a><a class="flex flex-col items-center justify-center min-h-[48px] py-1.5 px-3 rounded-lg text-secondary hover:text-on-surface transition-colors active:scale-95" data-path="customers" href="#"><span class="material-symbols-outlined text-[22px]">group</span><span class="text-[10px] font-medium mt-0.5">Customers</span></a><a class="flex flex-col items-center justify-center min-h-[48px] py-1.5 px-3 rounded-lg text-secondary hover:text-on-surface transition-colors active:scale-95" data-path="finance" href="#"><span class="material-symbols-outlined text-[22px]">account_balance</span><span class="text-[10px] font-medium mt-0.5">Finance</span></a><a class="flex flex-col items-center justify-center min-h-[48px] py-1.5 px-3 rounded-lg text-secondary hover:text-on-surface transition-colors active:scale-95" data-path="settings" href="#"><span class="material-symbols-outlined text-[22px]">settings</span><span class="text-[10px] font-medium mt-0.5">Settings</span></a></div></nav>
+<script>
+    function formatINR(number) {
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 2
+      }).format(number);
+    }
+
+    function recalculateDates() {
+      const invDateInput = document.getElementById('invoiceDate');
+      const displayNode = document.getElementById('computedDueDateDisplay');
+      if (!invDateInput.value) return;
+
+      const baseDate = new Date(invDateInput.value);
+      baseDate.setDate(baseDate.getDate() + 45);
+
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      displayNode.textContent = baseDate.toLocaleDateString('en-GB', options);
+    }
+
+    function recalculateTotals() {
+      const baseInput = document.getElementById('baseAmount');
+      const taxInput = document.getElementById('taxRate');
+      const taxBadge = document.getElementById('taxComputedBadge');
+      const totalDisplay = document.getElementById('totalAmountDisplay');
+      const breakdown = document.getElementById('calculationBreakdown');
+
+      const baseVal = parseFloat(baseInput.value) || 0;
+      let taxPercent = 18;
+      
+      if (taxInput.value !== '') {
+        taxPercent = parseFloat(taxInput.value) || 0;
+      }
+
+      const calculatedTax = (baseVal * taxPercent) / 100;
+      const totalVal = baseVal + calculatedTax;
+
+      taxBadge.textContent = `${formatINR(calculatedTax)} (${taxPercent}%)`;
+      totalDisplay.textContent = formatINR(totalVal);
+      if (breakdown) {
+        breakdown.textContent = `Base ${formatINR(baseVal)} + GST ${formatINR(calculatedTax)}`;
+      }
+    }
+
+    function triggerSaveCelebration() {
+      alert('Invoice INV-2026-016 registered under MSMED compliance!');
+    }
+  </script>
+
+
+</body></html>
