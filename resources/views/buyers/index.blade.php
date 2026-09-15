@@ -70,13 +70,15 @@
                     @foreach ($buyers as $buyer)
                         <tr data-filter="{{ strtolower($buyer->name.' '.$buyer->gstin) }}">
                             <td>
-                                <div class="buyer-cell">
+                                {{-- The row links to the buyer's own page, which is what
+                                     makes the outstanding figure answerable. --}}
+                                <a class="buyer-cell" href="{{ route('buyers.show', $buyer) }}">
                                     <span class="buyer-avatar">{{ strtoupper(mb_substr($buyer->name, 0, 1)) }}</span>
                                     <div>
                                         <strong>{{ $buyer->name }}</strong>
                                         <div class="pkg-muted">{{ $buyer->type->label() }} buyer</div>
                                     </div>
-                                </div>
+                                </a>
                             </td>
                             <td class="num">{{ $buyer->gstin ?: '—' }}</td>
                             <td><span class="metric-pill metric-pill--soft">{{ $buyer->type->label() }}</span></td>

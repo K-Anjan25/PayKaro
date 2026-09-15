@@ -1572,7 +1572,9 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .ledger-table td,
 .ledger-table th { vertical-align:middle; }
 
-.buyer-cell { justify-content:flex-start; }
+.buyer-cell { justify-content:flex-start; gap:.65rem; text-decoration:none; color:inherit; }
+.buyer-cell strong { color:var(--n-ink); }
+.buyer-cell:hover strong { color:var(--n-blue); text-decoration:underline; }
 .buyer-avatar {
 	display:inline-flex;
 	align-items:center;

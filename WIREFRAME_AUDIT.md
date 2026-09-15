@@ -156,7 +156,7 @@ them is backend work, not frontend work.
 
 | Screen | Reality |
 |---|---|
-| `buyer_detail_bharat_heavy_electricals_ltd_bhel` + its mobile twin (**2**) | **No buyer detail route exists.** `routes/web.php:104-106` defines only `buyers.index`, `buyers.create`, `buyers.store`; `BuyerController` has `index`, `create`, `store`. No `show`, no view. |
+| `buyer_detail_bharat_heavy_electricals_ltd_bhel` + its mobile twin (**2**) | ~~**No buyer detail route exists.**~~ **Built.** `buyers.show` + `BuyerController@show` + `buyers/show.blade.php`: the invoices behind the outstanding figure, the interest accrued on them, an average readiness, and what the TReDS status means for the money — including the CPSE mandate, which is the one follow-up worth making. `BuyerDetailTest`. The two screens collapsed into one responsive page, as the other mobile twins did. |
 | `paykaro_desktop_walkthrough_feature_tour` (**1**) | No tour or onboarding anywhere in `routes/`, `resources/views/` or `app/`. |
 | `mobile_interactive_toast_notification_system` (**1**) | The app uses server-rendered flash messages (`components/flash.blade.php`). No toast system. |
 | **9** `*_pull_to_refresh_gesture` screens | Server-rendered Blade with plain form POSTs. There is no client data layer to refresh. |
@@ -165,7 +165,19 @@ That is **13 of the 63** screens (9 + 2 + 1 + 1). The mobile bottom sheets with
 `navigator.vibrate()` haptics are *not* counted here — record payment, finance and
 claim are all real actions, and a sheet is a legitimate way to present them.
 
-None of the 13 is wrong to design, but each is a feature request, not a restyle.
+**Two of the thirteen are now built** (the buyer detail pair, above). The other
+eleven are the remainder of this section, and they divide cleanly:
+
+- **Worth building, backend work:** the feature tour (an onboarding walkthrough of
+  the five screens a new workspace has to learn). It is real product work, and it is
+  the only remaining one that a supplier would notice.
+- **Not a fit for this architecture, recommended declined:** the nine
+  `*_pull_to_refresh_gesture` screens and the toast system. The app is
+  server-rendered Blade over plain form POSTs — every action is a navigation, so
+  there is nothing to refresh in place, and feedback already arrives as the
+  server-rendered flash in `components/flash.blade.php`. Building either would mean
+  a client data layer that the rest of the product does not have. They should be
+  recorded as declined rather than left on a list as though they were pending.
 
 ---
 

@@ -113,6 +113,9 @@ Route::middleware('auth')->group(function () {
     // Buyers.
     Route::get('/buyers', [BuyerController::class, 'index'])->name('buyers.index');
     Route::get('/buyers/create', [BuyerController::class, 'create'])->name('buyers.create');
+    // After /buyers/create, or `{buyer}` swallows it — the same trap the invoice
+    // routes document at /invoices/new.
+    Route::get('/buyers/{buyer}', [BuyerController::class, 'show'])->name('buyers.show');
     Route::post('/buyers', [BuyerController::class, 'store'])->name('buyers.store');
 
     // Money.
