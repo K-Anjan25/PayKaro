@@ -130,7 +130,7 @@
 			<article class="feature-card">
 				<div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 8h12M6 13l8 4M6 18l8-4"/></svg></div>
 				<h3>Interest that's correct</h3>
-				<p>Statutory interest computed from the invoice at 3× the bank rate, applied daily — so a claim always uses the right number.</p>
+				<p>Statutory interest computed from the invoice at 3× the bank rate, compounded at monthly rests as Section 16 requires — so a claim always uses the right number.</p>
 			</article>
 			<article class="feature-card feature-card--coral">
 				<div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M5.6 18.4 18.4 5.6"/></svg></div>

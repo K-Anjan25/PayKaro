@@ -11,7 +11,7 @@
         </div>
         <div class="screen-head-actions">
             <span class="metric-pill">Sec. 15–24 MSMED compliant</span>
-            <span class="metric-pill">{{ config('paykaro.interest_multiplier') }}× bank rate · accruing daily</span>
+            <span class="metric-pill">{{ config('paykaro.interest_multiplier') }}× bank rate · monthly rests</span>
         </div>
     </div>
 

@@ -206,7 +206,9 @@
                         <p>{{ $latestDispute?->deadlineLabel() ?? 'The deadline will appear once a claim exists.' }}</p>
                     </div>
                     <div class="claim-banner-amount">
-                        <span>Accrued interest</span>
+                        {{-- Says how it got there: the packet argues the schedule, and a
+                             member should be able to see the method on the invoice too. --}}
+                        <span>Accrued interest · Section 16, monthly rests</span>
                         <strong class="num">{{ money($invoice->interest()) }}</strong>
                     </div>
                 </div>

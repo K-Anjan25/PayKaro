@@ -39,7 +39,7 @@
             <div class="metric-eyebrow">Statutory interest accrued</div>
             <div class="metric-value num">{{ money($interest) }}</div>
             <div class="metric-foot">
-                {{ config('paykaro.interest_multiplier') }}× the {{ config('paykaro.bank_rate') }}% bank rate, daily — Section 16, MSMED Act 2006
+                {{ config('paykaro.interest_multiplier') }}× the {{ config('paykaro.bank_rate') }}% bank rate, compound with monthly rests — Section 16, MSMED Act 2006
             </div>
         </article>
         <article class="metric-card metric-card--soft">

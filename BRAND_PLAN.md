@@ -112,8 +112,27 @@ derived from `SPEC.md`'s own framing:
 > **spreadsheets and WhatsApp threads**, it keeps the dated evidence and statutory
 > interest a delayed-payment or TReDS claim actually stands on.
 
-**Build task 1.2** — Ratify or rewrite this. Everything in Phase 3 that cannot be
-justified by it is decoration.
+**Build task 1.2** — ~~Ratify or rewrite this.~~ **Ratified, unchanged, and it now
+has evidence behind it.** The Phase 3 work is what did the ratifying: every item in
+it that survived turned out to be a claim of this sentence made visible, and the one
+item that had been *contradicting* it was removed (§4, the authenticity gate — a
+page that said ₹4.2Cr of receivables had been tracked was not a sentence about
+evidence and statutory interest, it was a different product's sentence).
+
+Two clauses carried more weight than they looked like they would:
+
+- *"unlike spreadsheets and WhatsApp threads"* — named the competitor correctly. The
+  email layer (§4.1) and the month-wise interest schedule exist because those two
+  competitors cannot produce either.
+- *"keeps the dated evidence"* — dated, not merely present. The buyer detail page and
+  the interest schedule are both dated facts; the first-run checklist leads with the
+  evidence trail for the same reason.
+
+**What it is checked against, mechanically:** `paykaro.headline` and
+`paykaro.descriptor` are the only two places the promise may be *stated*
+(`BrandCopyTest`), and `App\Support\Proof` is the only place a figure may come from
+(`AuthenticityTest`). So this sentence is not a document that goes stale — the parts
+of it that can be executed are in the code.
 
 ### 1.3 Brand architecture
 
@@ -136,9 +155,39 @@ PayKaro specifically, before any launch spend:
 - Check the ₹ glyph in the mark: the Indian Rupee sign is a government-adopted
   symbol and combining it with a brand mark has usage questions worth an opinion.
 
-**Build task 1.4** — File the search, record the result in this document. If the
-name is contested, renaming is cheapest *now*: `brand-wordmark.blade.php` already
-splits on camelCase, so a rename is one `APP_NAME` value.
+**Build task 1.4** — **Partly done: an open-web check, not a registry search.**
+Recorded exactly as far as it goes, because the difference matters.
+
+**Found (open web, no IP India query — the registry is not searchable from here):**
+
+| Finding | What it is |
+|---|---|
+| **Paykaro LLP** | An Indian LLP using the name — a live legal entity of the same name in the same jurisdiction |
+| **paykaro.net** | A Bengaluru company, founded 2016, listed as *deadpooled* (defunct). The `.net`, not the `.in` |
+| **"Pay Karo"** (`com.solution.paykaro`) | A multi-recharge Android app by "Paykaro", on Play from 2018, removed **Oct 2022**, not reinstated |
+
+**Not found:** no registered wordmark for "PayKaro" surfaced in these results, and no
+active consumer-payments brand. That is *not* clearance, and the search this task asks
+for — IP India, classes **9 / 36 / 42** — is still outstanding and is the owner's to
+run.
+
+**The useful part of the finding is what it says about the classes.** "Pay Karo" is the
+Hindi imperative *pay!*, which is descriptive of payments and therefore weak as a
+wordmark precisely in **Class 36**. The product does not belong there: it moves no
+money (no PSP, no gateway, no escrow — `SPEC.md` says so outright, and the `security`
+page says the rest). It is a **workflow tool that produces evidence**, which puts it in
+**Class 9 / 42**, and the prior user that most resembles it went defunct four years ago.
+So the exposure is smaller than "a payments-adjacent name in a crowded field" implied
+when this was written — and the reason is the same one the authenticity gate ended up
+leaning on: the honest description of what the product does is also the safer one.
+
+**Practical consequence for the identity:** a descriptive wordmark should not be the
+whole protection, which is what the typographic wordmark treatment in `App\Brand` is
+for — and it is now the only mark, since the graphic emblem is gone (§3.2).
+
+**Still open, and it needs the owner:** the IP India search itself; `paykaro.in`
+availability; and the ₹-glyph question, which is moot *for the wordmark* now that no
+graphic mark is used, but would return if one were reinstated.
 
 ### 1.5 Brand ideals — grade PayKaro against them
 

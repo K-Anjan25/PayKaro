@@ -418,7 +418,7 @@ final class InvoicePipelineTest extends TestCase
             ->assertSee('INV-CLAIM-1')
             ->assertSee('MISSING')
             ->assertSee('Attachment present')
-            ->assertSee('Interest due (3× bank rate 6.5%)');
+            ->assertSee('Interest due (compound, monthly rests at 3× bank rate 5.5%)');
     }
 
     public function test_the_packet_opens_on_the_claimants_own_letterhead(): void

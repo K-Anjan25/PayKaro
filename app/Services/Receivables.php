@@ -37,6 +37,8 @@ final class Receivables
         public readonly int $interestMultiplier,
         public readonly array $weights,
         public readonly int $financeReadyScore,
+        /** @var list<array{from: string, rate: float|int}> bank-rate notifications, oldest first */
+        public readonly array $rateHistory = [],
     ) {}
 
     public static function fromConfig(): self
@@ -50,6 +52,7 @@ final class Receivables
             interestMultiplier: (int) $config['interest_multiplier'],
             weights: (array) $config['readiness_weights'],
             financeReadyScore: (int) $config['finance_ready_score'],
+            rateHistory: array_values((array) ($config['bank_rate_history'] ?? [])),
         );
     }
 
@@ -117,19 +120,74 @@ final class Receivables
     }
 
     /**
-     * Statutory interest on delayed payments under the MSMED framework: three
-     * times the bank rate, per annum, accrued daily on the whole invoice value.
+     * Statutory interest on a delayed payment: compound interest with monthly rests
+     * at three times the bank rate, which is what Section 16 of the MSMED Act 2006
+     * says — not simple interest accrued daily, which is what this used to compute.
+     *
+     * Two things were wrong before this, and they pulled in opposite directions. A
+     * rest charges a *whole month* at 1/12th of the annual rate, so thirty days of
+     * rests cost slightly more than thirty days of daily accrual (1/12 > 30/365) —
+     * the method was understating. The rate, meanwhile, was 6.5%: that is the repo
+     * rate, which is not the instrument the Act refers to, and it is stale besides
+     * (the Bank Rate has been 5.50% since December 2025) — the rate was overstating.
+     * On the demo book the two errors netted out to roughly the right-looking
+     * number, which is the worst kind of wrong.
+     *
+     * The schedule is the answer; this returns its total.
      */
-    public function interest(float $totalAmount, int $overdueDays): float
+    public function interest(float $totalAmount, int $overdueDays, ?DateTimeImmutable $dueDate = null): float
     {
-        if ($overdueDays <= 0) {
-            return 0.0;
+        return $this->interestSchedule($totalAmount, $overdueDays, $dueDate)->total;
+    }
+
+    /**
+     * The month-wise working behind `interest()`: what a claim is filed with, and
+     * what a supplier can check by hand against the dates on their invoice.
+     */
+    public function interestSchedule(
+        float $totalAmount,
+        int $overdueDays,
+        ?DateTimeImmutable $dueDate = null,
+    ): InterestSchedule {
+        return InterestSchedule::build(
+            $totalAmount,
+            $overdueDays,
+            $this->annualInterestRate(),
+            $dueDate,
+            $this->rateHistory === [] ? null : fn (DateTimeImmutable $date): float => $this->rateOn($date),
+        );
+    }
+
+    /** Three times the bank rate, as a per-cent per-annum figure. */
+    public function annualInterestRate(): float
+    {
+        return round($this->bankRate * $this->interestMultiplier, 6);
+    }
+
+    /**
+     * The bank rate in force on a date, from the notifications on record.
+     *
+     * The Act applies the rate "notified by the Reserve Bank" from time to time, so
+     * an invoice that sat through a rate cut is not one rate's worth of interest.
+     * The history ships empty because the notifications are the operator's records
+     * to keep — inventing dates for them would be exactly the kind of unearned
+     * precision the rest of this product refuses.
+     *
+     * @param  list<array{from: string, rate: float|int}>  $rateHistory
+     */
+    private function rateOn(DateTimeImmutable $date): float
+    {
+        $rate = $this->bankRate;
+
+        foreach ($this->rateHistory as $entry) {
+            $from = new DateTimeImmutable((string) $entry['from']);
+
+            if ($from <= $date) {
+                $rate = (float) $entry['rate'];
+            }
         }
 
-        $rate = $this->bankRate * $this->interestMultiplier;
-        $daily = $rate / 100 / 365;
-
-        return round($totalAmount * $daily * $overdueDays, 2);
+        return round($rate * $this->interestMultiplier, 6);
     }
 
     public function ageing(int $overdueDays): AgeingBucket
