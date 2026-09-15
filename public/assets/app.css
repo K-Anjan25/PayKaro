@@ -32,7 +32,7 @@
 	--n-paper-2:#f1f5f9;       /* inset well — inputs, table strips */
 	--n-ink:#0b132b;           /* obsidian — text primary */
 	--n-ink-soft:#334155;      /* secondary body */
-	--n-ink-mute:#64748b;      /* muted subtitles, metadata */
+	--n-ink-mute:#5c6b81;      /* muted subtitles, metadata — 4.95:1 on --n-paper-2 */
 	--n-line:#e2e8f0;          /* dividers, borders */
 	--n-line-2:rgba(11,19,43,.06);
 
@@ -41,12 +41,13 @@
 	--n-blue-strong:#1e40af;   /* hover / pressed */
 	--n-blue-soft:#eff6ff;     /* tint fill, selected row */
 	--n-blue-deep:#0b132b;     /* obsidian anchor for dark bands */
-	--n-gold:#0284c7;          /* TReDS / liquidity accent (vertical bars, chips) */
+	--n-gold:#0590dc;          /* TReDS / liquidity accent — 5.28:1 as text on --n-blue-deep */
 	--n-gold-soft:#f0f9ff;
 	--n-gold-strong:#0369a1;
 
 	/* Overdue / disputed / alerts */
 	--n-coral:#dc2626;
+	--n-on-accent:#ffffff;      /* text on a filled accent — #fff in light, obsidian in dark */
 	--n-coral-strong:#b91c1c;
 	--n-coral-soft:#fef2f2;
 
@@ -54,11 +55,11 @@
 	--n-beige:#f1f5f9;
 
 	/* Status colours — each pairs a text/icon value with a tint and a border */
-	--n-success:#16a34a;       /* settled / cleared */
-	--n-warning:#d97706;       /* pending, day 40–45 countdown */
+	--n-success:#15803d;       /* settled / cleared — 5.02:1 on paper, for the KPI delta */
+	--n-warning:#b45309;       /* pending, day 40–45 countdown — 5.02:1 on paper */
 	--n-info:#2563eb;          /* accepted */
-	--n-amber:#d97706; --n-amber-soft:#fffbeb;
-	--n-orange:#d97706;--n-orange-soft:#fffbeb;
+	--n-amber:#b45309; --n-amber-soft:#fffbeb;
+	--n-orange:#b45309;--n-orange-soft:#fffbeb;
 	--n-red:#dc2626;   --n-red-soft:#fef2f2;
 
 	/* Level 1 elevation — layered tonal, not a dramatic drop */
@@ -73,6 +74,61 @@
 	--n-radius:12px;
 }
 
+/* ----------------------------------------------------------------------------
+   Contrast (BRAND_PLAN §3.4).
+
+   Every pairing the product relies on is declared in App\Brand\Palette with the
+   ratio it has to clear, and tests/Unit/BrandPaletteTest.php fails when one drops
+   below it — so this table is a record of an enforced fact, not a claim. It is
+   generated from the audit; do not hand-edit it.
+
+   Measuring found six failures in the shipped palette, all of them small text a
+   glance had passed:
+
+     --n-ink-mute   4.34:1 on --n-paper-2   every table header in the product
+     --n-success    3.30:1 on --n-paper     the KPI delta beside every metric
+     --n-warning    3.19:1 on --n-paper     the day-40 due-date countdown
+     --n-gold       4.49:1 on the util bar  the TReDS tag, by a hundredth
+     and, in the dark theme, every `background:var(--n-*); color:#fff` rule:
+     the accents flip light there, so primary buttons, active tabs, checked
+     boxes and step bullets were white-on-pale-sky (2.24:1). Those rules now
+     read `--n-on-accent`, which is #fff in light and obsidian in dark.
+
+   Text (4.5:1)                        light     dark
+     --n-ink        on --n-paper          18.38    15.35
+     --n-ink        on --n-canvas         17.61    17.07
+     --n-ink        on --n-paper-2        16.78    16.22
+     --n-ink-soft   on --n-paper          10.35    11.72
+     --n-ink-soft   on --n-canvas          9.92    13.03
+     --n-ink-mute   on --n-paper           5.42     6.79
+     --n-ink-mute   on --n-canvas          5.19     7.55
+     --n-ink-mute   on --n-paper-2         4.95     7.17
+     --n-blue       on --n-paper           6.70     6.85
+     --n-blue       on --n-canvas          6.42     7.61
+     --n-blue       on --n-blue-soft       6.16     6.15
+     --n-info       on --n-paper           5.17     6.85
+     --n-coral      on --n-paper           4.83     6.29
+     --n-coral      on --n-canvas          4.62     6.99
+     --n-success    on --n-paper           5.02     9.05
+     --n-success    on --n-paper-2         4.58     9.56
+     --n-warning    on --n-paper           5.02    10.43
+     --n-warning    on --n-paper-2         4.58    11.01
+     --n-on-accent  on --n-blue            6.70     7.23
+     --n-on-accent  on --n-blue-strong     8.72    10.20
+     --n-on-accent  on --n-gold-strong     5.93    11.03
+     --n-on-accent  on --n-coral           4.83     6.65
+     --n-on-accent  on --n-info            5.17     7.23
+     --n-gold       on #0b1a2c             5.03     8.18
+     #cfd9e7        on #0b1a2c            12.29    12.29
+     rgba(255,255,255,.78) on --n-blue-deep      11.33    11.79
+     rgba(255,255,255,.6) on --n-blue-deep       7.10     7.23
+     --n-paper      on --n-blue-deep      18.38    —  
+   Large text and UI boundaries only (3:1) — accents stay accents
+     --n-gold       on --n-paper           3.48     8.13
+     --n-gold       on --n-canvas          3.34     9.03
+     --n-coral      on --n-coral-soft      4.41     5.83
+   -------------------------------------------------------------------------- */
+
 html.dark {
 	--n-canvas:#070d1e;        /* obsidian scrim */
 	--n-paper:#0e1838;         /* obsidian surface */
@@ -85,6 +141,7 @@ html.dark {
 	--n-blue:#60a5fa; --n-blue-strong:#93c5fd; --n-blue-soft:#142244; --n-blue-deep:#070d1e;
 	--n-gold:#38bdf8; --n-gold-soft:#082f49; --n-gold-strong:#7dd3fc;
 	--n-coral:#f87171; --n-coral-strong:#fca5a5; --n-coral-soft:#3a1519;
+	--n-on-accent:#0b132b;
 	--n-beige:#1e293b;
 	--n-success:#34d399; --n-warning:#fbbf24; --n-info:#60a5fa;
 	--n-amber:#fbbf24; --n-amber-soft:#3a2a10;
@@ -423,9 +480,9 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
    ========================================================================== */
 .pkg-btn { display:inline-flex; align-items:center; justify-content:center; gap:.45rem; border-radius:10px; padding:.55rem 1rem; font-size:.86rem; font-weight:700; border:1px solid var(--n-line); background:var(--n-paper); color:var(--n-ink); cursor:pointer; transition:all .15s; white-space:nowrap; box-shadow:var(--n-shadow); }
 .pkg-btn:hover { border-color:var(--n-blue); color:var(--n-blue); transform:translateY(-1px); }
-.pkg-btn--primary { background:var(--n-blue); border-color:var(--n-blue); color:#fff; box-shadow:0 8px 18px rgba(29,78,216,.25); }
-.pkg-btn--primary:hover { background:var(--n-blue-strong); border-color:var(--n-blue-strong); color:#fff; }
-.pkg-btn--gold { background:var(--n-gold-strong); border-color:var(--n-gold-strong); color:#fff; box-shadow:0 8px 18px rgba(2,132,199,.30); }
+.pkg-btn--primary { background:var(--n-blue); border-color:var(--n-blue); color:var(--n-on-accent); box-shadow:0 8px 18px rgba(29,78,216,.25); }
+.pkg-btn--primary:hover { background:var(--n-blue-strong); border-color:var(--n-blue-strong); color:var(--n-on-accent); }
+.pkg-btn--gold { background:var(--n-gold-strong); border-color:var(--n-gold-strong); color:var(--n-on-accent); box-shadow:0 8px 18px rgba(2,132,199,.30); }
 .pkg-btn--gold:hover { background:#075985; border-color:#075985; color:#fff; }
 .pkg-btn--ghost { background:transparent; border-color:transparent; color:var(--n-ink-soft); box-shadow:none; }
 .pkg-btn--ghost:hover { background:var(--n-paper-2); color:var(--n-ink); border-color:var(--n-line); }
@@ -443,7 +500,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .pkg-tabs { display:flex; gap:.25rem; margin-bottom:1rem; background:var(--n-paper); border:1px solid var(--n-line); padding:.3rem; border-radius:12px; width:fit-content; max-width:100%; overflow-x:auto; box-shadow:var(--n-shadow); }
 .pkg-tab { font-size:.82rem; font-weight:700; color:var(--n-ink-soft); padding:.4rem .9rem; border-radius:9px; white-space:nowrap; }
 .pkg-tab:hover { color:var(--n-ink); }
-.pkg-tab.is-active { background:var(--n-blue); color:#fff; box-shadow:0 4px 10px rgba(29,78,216,.25); }
+.pkg-tab.is-active { background:var(--n-blue); color:var(--n-on-accent); box-shadow:0 4px 10px rgba(29,78,216,.25); }
 
 /* ============================================================================
    Progress
@@ -484,7 +541,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .pkg-check { display:flex; align-items:center; gap:.7rem; background:none; border:1px solid var(--n-line); border-radius:10px; padding:.6rem .8rem; width:100%; text-align:left; cursor:pointer; font-size:.86rem; color:var(--n-ink); transition:all .15s; }
 .pkg-check:hover { border-color:var(--n-blue); }
 .pkg-check-box { width:1.2rem; height:1.2rem; border-radius:7px; border:1px solid var(--n-line); display:inline-flex; align-items:center; justify-content:center; font-size:.8rem; color:transparent; background:var(--n-paper-2); }
-.pkg-check.is-checked .pkg-check-box { background:var(--n-gold-strong); border-color:var(--n-gold-strong); color:#fff; }
+.pkg-check.is-checked .pkg-check-box { background:var(--n-gold-strong); border-color:var(--n-gold-strong); color:var(--n-on-accent); }
 .pkg-score-big { font-size:2.8rem; font-weight:800; letter-spacing:-.04em; color:var(--n-ink); }
 .pkg-score-big span { font-size:1rem; color:var(--n-ink-mute); font-weight:600; }
 .pkg-score-note { margin-top:.8rem; font-size:.85rem; }
@@ -608,9 +665,9 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 
 /* Buttons (page context) */
 .pbtn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:10px; padding:.7rem 1.2rem; font-size:.9rem; font-weight:700; border:1px solid transparent; cursor:pointer; transition:transform .15s, background .15s, color .15s, border-color .15s; white-space:nowrap; }
-.pbtn-primary { background:var(--n-blue); color:#fff; border-color:var(--n-blue); box-shadow:0 10px 24px rgba(29,78,216,.28); }
+.pbtn-primary { background:var(--n-blue); color:var(--n-on-accent); border-color:var(--n-blue); box-shadow:0 10px 24px rgba(29,78,216,.28); }
 .pbtn-primary:hover { background:var(--n-gold-strong); border-color:var(--n-gold-strong); transform:translateY(-1px); }
-.pbtn-blue { background:var(--n-blue); color:#fff; border-color:var(--n-blue); box-shadow:0 10px 24px rgba(29,78,216,.28); }
+.pbtn-blue { background:var(--n-blue); color:var(--n-on-accent); border-color:var(--n-blue); box-shadow:0 10px 24px rgba(29,78,216,.28); }
 .pbtn-blue:hover { background:var(--n-blue-strong); border-color:var(--n-blue-strong); transform:translateY(-1px); }
 .pbtn-outline { background:transparent; color:var(--n-ink); border-color:rgba(11,19,43,.22); }
 .pbtn-outline:hover { background:var(--n-paper); border-color:var(--n-blue); color:var(--n-blue); }
@@ -693,7 +750,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .hero-card-1 { right:-1rem; top:1.6rem; }
 .hero-card-1 .pip { display:inline-flex; align-items:center; gap:.4rem; font-size:.7rem; font-weight:800; color:var(--n-gold-strong); text-transform:uppercase; letter-spacing:.1em; }
 .hero-card-1 .pip::before { content:""; width:.45rem; height:.45rem; border-radius:999px; background:var(--n-gold); animation:pulse 1.8s ease-in-out infinite; }
-.hero-card-2 { left:-1.2rem; bottom:2.6rem; transform:rotate(-3deg); background:var(--n-blue); color:#fff; border-color:var(--n-blue); }
+.hero-card-2 { left:-1.2rem; bottom:2.6rem; transform:rotate(-3deg); background:var(--n-blue); color:var(--n-on-accent); border-color:var(--n-blue); }
 .hero-card-2 .hero-card-label { color:rgba(255,255,255,.6); }
 .hero-card-2 .hero-card-value { color:#fff; font-size:1.1rem; }
 .hero-card-2 .hero-card-note { color:rgba(255,255,255,.8); }
@@ -761,10 +818,10 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 
 /* Step number card (workflow) */
 .step-card { background:var(--n-paper); border:1px solid var(--n-line); border-radius:14px; padding:1.4rem; }
-.step-card .num { width:2.1rem; height:2.1rem; border-radius:8px; background:var(--n-blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; margin-bottom:1rem; }
-.step-card--gold .num { background:var(--n-gold-strong); color:#fff; }
+.step-card .num { width:2.1rem; height:2.1rem; border-radius:8px; background:var(--n-blue); color:var(--n-on-accent); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; margin-bottom:1rem; }
+.step-card--gold .num { background:var(--n-gold-strong); color:var(--n-on-accent); }
 .step-card--soft .num { background:var(--n-paper-2); color:var(--n-ink); border:1px solid var(--n-line); }
-.step-card--coral .num { background:var(--n-coral); color:#fff; }
+.step-card--coral .num { background:var(--n-coral); color:var(--n-on-accent); }
 .step-card h3 { font-family:var(--n-font); font-size:1.1rem; font-weight:700; }
 .step-card p { margin-top:.4rem; font-size:.86rem; line-height:1.55; color:var(--n-ink-soft); }
 
@@ -901,7 +958,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .price-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; }
 @media (max-width:980px) { .price-grid { grid-template-columns:minmax(0,1fr); } }
 .price-card { background:var(--n-paper); border:1px solid var(--n-line); border-radius:18px; padding:2rem 1.8rem; display:flex; flex-direction:column; }
-.price-card.is-hot { background:var(--n-blue); color:#fff; border-color:var(--n-blue); box-shadow:0 30px 60px rgba(29,78,216,.28); }
+.price-card.is-hot { background:var(--n-blue); color:var(--n-on-accent); border-color:var(--n-blue); box-shadow:0 30px 60px rgba(29,78,216,.28); }
 .price-card .label { font-size:.72rem; text-transform:uppercase; letter-spacing:.14em; font-weight:800; color:var(--n-blue); }
 .price-card.is-hot .label { color:var(--n-gold); }
 .price-card .price { font-family:var(--n-display); font-size:2.6rem; font-weight:600; letter-spacing:-.03em; margin-top:.8rem; }
@@ -940,7 +997,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .auth-lbl { display:block; font-size:.72rem; font-weight:700; color:var(--n-ink-mute); margin-bottom:.35rem; }
 .auth-in { width:100%; height:2.65rem; border-radius:10px; border:1px solid var(--n-line); background:var(--n-paper); color:var(--n-ink); padding:0 .9rem; font-size:.9rem; transition:all .15s; margin-bottom:.9rem; }
 .auth-in:focus { outline:none; border-color:var(--n-blue); box-shadow:0 0 0 3px var(--n-blue-soft); }
-.auth-cta { width:100%; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; padding:.7rem 1rem; font-size:.92rem; font-weight:700; border:0; cursor:pointer; background:var(--n-blue); color:#fff; transition:transform .15s, filter .15s; box-shadow:0 10px 22px rgba(29,78,216,.30); }
+.auth-cta { width:100%; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; padding:.7rem 1rem; font-size:.92rem; font-weight:700; border:0; cursor:pointer; background:var(--n-blue); color:var(--n-on-accent); transition:transform .15s, filter .15s; box-shadow:0 10px 22px rgba(29,78,216,.30); }
 .auth-cta:hover { transform:translateY(-1px); filter:brightness(.97); }
 .auth-google { display:flex; align-items:center; justify-content:center; gap:.6rem; width:100%; border-radius:10px; padding:.7rem 1rem; font-size:.92rem; font-weight:700; border:1px solid var(--n-line); background:var(--n-paper); color:var(--n-ink); text-decoration:none; transition:all .15s; margin-bottom:.9rem; }
 .auth-google:hover { border-color:var(--n-blue); background:var(--n-paper-2); transform:translateY(-1px); }
@@ -1652,8 +1709,8 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	margin:0 auto;
 }
 .stage-step.is-done .stage-bullet,
-.stage-step.is-active .stage-bullet { background:var(--n-blue); border-color:var(--n-blue); color:#fff; }
-.stage-step.is-warning .stage-bullet { background:var(--n-coral); border-color:var(--n-coral); color:#fff; }
+.stage-step.is-active .stage-bullet { background:var(--n-blue); border-color:var(--n-blue); color:var(--n-on-accent); }
+.stage-step.is-warning .stage-bullet { background:var(--n-coral); border-color:var(--n-coral); color:var(--n-on-accent); }
 .claim-banner {
 	align-items:flex-start;
 	padding:1rem 1.05rem;
@@ -1936,26 +1993,27 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 		--n-paper-2:#f1f5f9;
 		--n-ink:#0b132b;
 		--n-ink-soft:#334155;
-		--n-ink-mute:#64748b;
+		--n-ink-mute:#5c6b81;
 		--n-line:#e2e8f0;
 		--n-line-2:rgba(11,19,43,.06);
 		--n-blue:#1d4ed8;
 		--n-blue-strong:#1e40af;
 		--n-blue-soft:#eff6ff;
 		--n-blue-deep:#0b132b;
-		--n-gold:#0284c7;
+		--n-gold:#0590dc;
 		--n-gold-soft:#f0f9ff;
 		--n-gold-strong:#0369a1;
 		--n-coral:#dc2626;
 		--n-coral-strong:#b91c1c;
 		--n-coral-soft:#fef2f2;
+		--n-on-accent:#ffffff;
 		--n-beige:#f1f5f9;
-		--n-success:#16a34a;
-		--n-warning:#d97706;
+		--n-success:#15803d;
+		--n-warning:#b45309;
 		--n-info:#2563eb;
-		--n-amber:#d97706;
+		--n-amber:#b45309;
 		--n-amber-soft:#fffbeb;
-		--n-orange:#d97706;
+		--n-orange:#b45309;
 		--n-orange-soft:#fffbeb;
 		--n-red:#dc2626;
 		--n-red-soft:#fef2f2;
