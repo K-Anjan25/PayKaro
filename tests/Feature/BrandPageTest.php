@@ -68,6 +68,26 @@ final class BrandPageTest extends TestCase
             ->assertSee('Clear space: half the tile');
     }
 
+    public function test_it_documents_the_surface_and_elevation_scale(): void
+    {
+        // §3.6: the primitives a new screen has to copy. Each one is read from the
+        // stylesheet, so the page cannot describe a radius the product does not use.
+        $body = $this->get('/brand')->assertOk()->getContent();
+
+        foreach (Palette::surfaces() as $surface) {
+            $this->assertStringContainsString($surface['token'], $body, "{$surface['label']} is missing from the brand book");
+            $this->assertStringContainsString($surface['use'], $body, "{$surface['label']} does not say what it is for");
+        }
+
+        // The four elevation levels and the corner are the load-bearing ones.
+        foreach (['--n-radius', '--n-shadow', '--n-shadow-2', '--n-shadow-3', '--n-inset'] as $token) {
+            $this->assertStringContainsString($token, $body);
+        }
+
+        $this->assertStringContainsString('The accent bars', $body);
+        $this->assertStringContainsString('Three surfaces, in order', $body);
+    }
+
     public function test_it_shows_the_type_scale_the_stylesheet_sets(): void
     {
         $scale = Type::scale();

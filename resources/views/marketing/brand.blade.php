@@ -181,6 +181,65 @@
     </div>
 </section>
 
+{{-- --------------------------------------------------- surface & elevation --}}
+<section class="sec" style="padding:2rem 0;">
+    <div class="container">
+        <div class="pkg-card">
+            <div class="pkg-cardhead">
+                <div>
+                    <h2 class="pkg-h2">Surface, corner and elevation</h2>
+                    <p class="pkg-sub">Why the next screen looks like this one (§3.6). Read from the stylesheet: the three surfaces, the one border colour, the standard corner and the four-level elevation scale.</p>
+                </div>
+            </div>
+
+            <div class="cards-row" style="grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr));">
+                @foreach ($surfaces as $surface)
+                    <div style="border:1px solid var(--n-line);border-radius:var(--n-radius);padding:1rem;background:var(--n-paper);box-shadow:{{ $surface['token'] === '--n-shadow' ? 'var(--n-shadow)' : ($surface['token'] === '--n-shadow-2' ? 'var(--n-shadow-2)' : ($surface['token'] === '--n-shadow-3' ? 'var(--n-shadow-3)' : 'none')) }};">
+                        <div class="metric-pill metric-pill--soft">{{ $surface['label'] }}</div>
+                        <div style="margin-top:.6rem;"><code>{{ $surface['token'] }}</code></div>
+                        <div class="pkg-muted" style="font-size:.72rem;margin-top:.3rem;word-break:break-word;">{{ $surface['value'] }}</div>
+                        <p style="margin:.6rem 0 0;font-size:.85rem;">{{ $surface['use'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="cards-row" style="grid-template-columns:repeat(auto-fit,minmax(min(20rem,100%),1fr));margin-top:1.2rem;">
+                <div class="pkg-card" style="margin:0;">
+                    <div class="pkg-cardhead" style="padding:0 0 .6rem;">
+                        <div>
+                            <h3 class="pkg-h2" style="font-size:1rem;">The accent bars</h3>
+                            <p class="pkg-sub">Two vertical rules, indigo and sky, beside the wordmark and at section heads. They are the one decorative element the system allows: no gradients, no illustrations, no ornament.</p>
+                        </div>
+                    </div>
+                    <div class="pkg-bars" style="padding-left:0;height:3rem;">
+                        <span class="bar-thick"></span>
+                        <span class="bar-thin"></span>
+                    </div>
+                    <div class="pkg-muted" style="font-size:.78rem;margin-top:.4rem;"><code>.pkg-bars .bar-thick</code> (--n-blue, .55rem) · <code>.bar-thin</code> (--n-gold, .18rem)</div>
+                </div>
+
+                <div class="pkg-card" style="margin:0;">
+                    <div class="pkg-cardhead" style="padding:0 0 .6rem;">
+                        <div>
+                            <h3 class="pkg-h2" style="font-size:1rem;">Three surfaces, in order</h3>
+                            <p class="pkg-sub">A card sits on the canvas; a well sits inside a card. Never the reverse, and never a fourth tint.</p>
+                        </div>
+                    </div>
+                    <div style="background:var(--n-canvas);border:1px solid var(--n-line);border-radius:var(--n-radius);padding:.9rem;">
+                        <span class="pkg-muted" style="font-size:.72rem;">canvas</span>
+                        <div style="background:var(--n-paper);border:1px solid var(--n-line);border-radius:var(--n-radius);padding:.9rem;margin-top:.4rem;">
+                            <span class="pkg-muted" style="font-size:.72rem;">paper — a card</span>
+                            <div style="background:var(--n-paper-2);border:1px solid var(--n-line);border-radius:10px;padding:.7rem;margin-top:.4rem;">
+                                <span class="pkg-muted" style="font-size:.72rem;">well — an inset inside it</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- ----------------------------------------------------------------- voice --}}
 <section class="sec" style="padding:2rem 0 4rem;">
     <div class="container">

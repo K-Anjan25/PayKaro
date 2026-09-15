@@ -256,6 +256,77 @@ final class Palette
     }
 
     /**
+     * The look-and-feel primitives (BRAND_PLAN §3.6): the surface, the corner and
+     * the elevation scale, read from the same stylesheet.
+     *
+     * These are the decisions a new screen has to copy to look like the rest of the
+     * product, and none of them were written down — so the next screen re-invented
+     * a corner or reached for a heavier shadow.
+     *
+     * @return list<array{label: string, token: string, value: string, use: string}>
+     */
+    public static function surfaces(): array
+    {
+        $light = self::tokens(self::LIGHT);
+        $raw = self::rawTokens(':root');
+
+        // `label` and `use` make the row self-explaining; `value` is what the
+        // stylesheet actually declares, so the page renders the real radius and the
+        // real shadow rather than a description of them.
+        $rows = [
+            ['label' => 'Canvas', 'token' => '--n-canvas', 'value' => $light['--n-canvas'] ?? '', 'use' => 'the page behind everything'],
+            ['label' => 'Card', 'token' => '--n-paper', 'value' => $light['--n-paper'] ?? '', 'use' => 'the working surface: every panel, sheet and modal'],
+            ['label' => 'Well', 'token' => '--n-paper-2', 'value' => $light['--n-paper-2'] ?? '', 'use' => 'an inset — inputs, table headers, alert fills'],
+            ['label' => 'Line', 'token' => '--n-line', 'value' => $light['--n-line'] ?? '', 'use' => 'the only border colour on a light surface'],
+            ['label' => 'Radius', 'token' => '--n-radius', 'value' => $raw['--n-radius'] ?? '', 'use' => 'the standard corner. Chips use 10px, pills 999px, the mark its own scale'],
+            ['label' => 'Elevation 1', 'token' => '--n-shadow', 'value' => $raw['--n-shadow'] ?? '', 'use' => 'resting cards — layered tonal, not a drop'],
+            ['label' => 'Elevation 2', 'token' => '--n-shadow-2', 'value' => $raw['--n-shadow-2'] ?? '', 'use' => 'dropdowns, flyouts, filter menus'],
+            ['label' => 'Elevation 3', 'token' => '--n-shadow-3', 'value' => $raw['--n-shadow-3'] ?? '', 'use' => 'modals and settlement confirmations'],
+            ['label' => 'Inset', 'token' => '--n-inset', 'value' => $raw['--n-inset'] ?? '', 'use' => 'cavities: search fields, data wells'],
+        ];
+
+        // The obsidian band the utility bar and the marketing footer paint is a
+        // literal rather than a token, so its value is named here instead of read.
+        $rows[] = [
+            'label' => 'Obsidian band',
+            'token' => '--n-blue-deep',
+            'value' => ($light['--n-blue-deep'] ?? '').' / #0b1a2c',
+            'use' => 'the dark strips: utility bar, impact band, marketing footer, and print',
+        ];
+
+        return $rows;
+    }
+
+    /**
+     * Every `--name: value` declaration in a block, without the hex-only filter —
+     * radius and shadow values are not colours.
+     *
+     * @return array<string, string>
+     */
+    private static function rawTokens(string $selector): array
+    {
+        $css = (string) file_get_contents(self::stylesheet());
+        $body = preg_replace('#/\*.*?\*/#s', '', self::block($css, $selector)) ?? '';
+
+        $tokens = [];
+
+        foreach (explode(';', $body) as $declaration) {
+            if (! str_contains($declaration, ':')) {
+                continue;
+            }
+
+            [$name, $value] = explode(':', $declaration, 2);
+            $name = trim($name);
+
+            if (str_starts_with($name, '--')) {
+                $tokens[$name] = trim($value);
+            }
+        }
+
+        return $tokens;
+    }
+
+    /**
      * Tokens that `html.dark` does not restate.
      *
      * A colour token the dark theme forgets is a token that keeps its light value

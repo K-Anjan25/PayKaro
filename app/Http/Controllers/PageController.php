@@ -56,6 +56,7 @@ class PageController extends Controller
             'undarkened' => Palette::undarkened(),
             'scale' => Type::scale(),
             'roles' => Type::roles(),
+            'surfaces' => Palette::surfaces(),
         ]);
     }
 
