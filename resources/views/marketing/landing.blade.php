@@ -5,7 +5,14 @@
 		<div class="hero-inner">
 			<div class="hero-text">
 				<div class="hero-eyebrow"><span class="dot"></span> MSME receivables, simplified</div>
-				<h1 class="hero-title display">Make every<br><em>invoice</em> <span class="accent">count.</span></h1>
+				@php
+					// The hero is the headline's typographic treatment: the last two words
+					// take the italic and the accent. Split from config, never retyped —
+					// a renamed deployment or a new headline must not need a markup edit.
+					$headline = preg_split('/\s+/', (string) config('paykaro.headline'), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+					$emphasis = array_splice($headline, -2);
+				@endphp
+				<h1 class="hero-title display">@if (count($emphasis) === 2){{ implode(' ', $headline) }}<br><em>{{ $emphasis[0] }}</em> <span class="accent">{{ $emphasis[1] }}</span>@else{{ config('paykaro.headline') }}@endif</h1>
 				<p class="hero-lede">PayKaro turns an invoice into a finance-ready asset — one pipeline for what's owed, what's overdue, and what you could finance today, with the evidence and interest numbers that make a claim actually stand.</p>
 				<div class="hero-cta">
 					<a class="pbtn pbtn-primary pbtn-lg" href="{{ route('register') }}">Try PayKaro free</a>
@@ -43,10 +50,12 @@
 <section class="statbar">
 	<div class="container">
 		<div class="statbar-inner">
-			<div class="statbar-item"><p class="v">₹4.2Cr+</p><p class="l">Receivables tracked</p></div>
-			<div class="statbar-item"><p class="v">45 days</p><p class="l">MSME due window</p></div>
-			<div class="statbar-item"><p class="v">3×</p><p class="l">Bank-rate interest</p></div>
-			<div class="statbar-item"><p class="v">60s</p><p class="l">To onboard</p></div>
+			{{-- Every figure here is read from App\Support\Proof, which reads the same config
+			     and enums the domain computes with. BRAND_PLAN §4: the bar used to publish
+			     ₹4.2Cr+ "Receivables tracked" — a literal, with no data behind it. --}}
+			@foreach ($proof as $claim)
+				<div class="statbar-item"><p class="v">{{ $claim['value'] }}</p><p class="l">{{ $claim['label'] }}</p></div>
+			@endforeach
 		</div>
 	</div>
 </section>
@@ -137,10 +146,10 @@
 	<div class="container">
 		<div class="sec-head">
 			<div>
-				<p class="eyebrow">News &amp; updates</p>
+				<p class="eyebrow">Product notes</p>
 				<h2 class="display">From the PayKaro floor.</h2>
 			</div>
-			<p class="lede">What we're shipping, what we're seeing in the field, and the small changes that keep Indian MSMEs in the money.</p>
+			<p class="lede">Written by the PayKaro team while the product is in preview: what we're building, what the statute requires, and the small changes that keep Indian MSMEs in the money. These are our own notes, not a news wire.</p>
 		</div>
 		<div class="news-grid">
 			@foreach($news as $a)
@@ -155,6 +164,24 @@
 				</article>
 			@endforeach
 		</div>
+	</div>
+</section>
+
+{{-- BRAND_PLAN §4: the same standard the legal pages hold — say what we do not
+     claim, in the place a visitor is deciding whether to believe the rest. --}}
+<section class="sec" style="padding:2.5rem 0;">
+	<div class="container">
+		<div class="sec-head" style="grid-template-columns:1fr;">
+			<div>
+				<p class="eyebrow">What we do not claim</p>
+				<h2 class="display" style="font-size:1.6rem;">The numbers above are the ones the product enforces.</h2>
+			</div>
+		</div>
+		<ul class="lede" style="max-width:70ch;line-height:1.9;">
+			@foreach ($limits as $limit)
+				<li>{{ $limit }}</li>
+			@endforeach
+		</ul>
 	</div>
 </section>
 
@@ -178,9 +205,9 @@
 					<div class="glaze"></div>
 				</div>
 				<div class="impact-stats">
-					<div class="impact-stat"><p class="v num">₹4.2Cr+</p><div><p class="l">Receivables tracked</p><p class="n">Across active tenants in the last 30 days.</p></div></div>
-					<div class="impact-stat"><p class="v num">3×</p><div><p class="l">Bank-rate interest</p><p class="n">Statutory multiplier on overdue invoices — applied daily.</p></div></div>
-					<div class="impact-stat"><p class="v num">45d</p><div><p class="l">MSME due window</p><p class="n">The 2026 MSMED Act timeline, surfaced as a live deadline per invoice.</p></div></div>
+					@foreach (array_slice($proof, 1) as $claim)
+						<div class="impact-stat"><p class="v num">{{ $claim['value'] }}</p><div><p class="l">{{ $claim['label'] }}</p><p class="n">{{ $claim['note'] }}</p></div></div>
+					@endforeach
 				</div>
 			</div>
 		</div>
@@ -241,7 +268,9 @@
 		<div class="cta-banner">
 			<div>
 				<p class="eyebrow" style="color:var(--n-ink);">Ready</p>
-				<h2 style="margin-top:.5rem;">Make every invoice count.</h2>
+				{{-- The closing CTA repeats the brand line on purpose — it is the same
+				     promise, so it is the same key, not a retyped copy of it. --}}
+				<h2 style="margin-top:.5rem;">{{ config('paykaro.headline') }}</h2>
 				<p>Free Starter tier. No credit card. Sign in, raise an invoice, and watch the pipeline do the work.</p>
 			</div>
 			<a class="pbtn pbtn-blue pbtn-lg" href="{{ route('register') }}">Try PayKaro free →</a>
@@ -255,7 +284,7 @@
 		<a class="pkg-brand" href="{{ route('landing') }}" style="padding:0;color:#fff;" aria-label="PayKaro home">
 			<div class="pkg-brand-text">
 				<div class="name" style="color:#fff;"><x-brand-wordmark /></div>
-				<div class="sub" style="color:rgba(255,255,255,.6);">MSME invoice &amp; receivables tracker</div>
+				<div class="sub" style="color:rgba(255,255,255,.6);">{{ config('paykaro.descriptor') }}</div>
 			</div>
 		</a>
 		<p class="meta">© {{ now()->year }} PayKaro · Made for India's MSMEs.</p>
@@ -272,7 +301,7 @@
 	<div>
 		<h4>Company</h4>
 		<ul>
-			<li><a href="#news">News</a></li>
+			<li><a href="#news">Product notes</a></li>
 			<li><a href="#impact">Impact</a></li>
 			<li><a href="{{ route('pricing') }}">Pricing</a></li>
 			<li><a href="{{ route('login') }}">Sign in</a></li>
@@ -288,8 +317,11 @@
 	</div>
 </div>
 <div class="page-footer-bottom">
-	<span>© {{ now()->year }} PayKaro · Turn invoice mess into finance-ready receivables.</span>
-	<span>Demo workspace · <a href="{{ route('login') }}" style="color:var(--n-gold);">Sign in</a></span>
+	<span>© {{ now()->year }} {{ config('app.name') }} · {{ config('paykaro.descriptor') }}</span>
+	<span>
+		<a href="{{ route('brand') }}" style="color:var(--n-gold);">Brand</a> ·
+		Demo workspace · <a href="{{ route('login') }}" style="color:var(--n-gold);">Sign in</a>
+	</span>
 </div>
 </footer>
     </x-slot:footer>

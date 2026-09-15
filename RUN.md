@@ -112,17 +112,142 @@ bugs are made of: every `fr` track is `minmax(0,…)`, scroll containers scroll 
 of clipping, `overflow-wrap` is inherited from the page roots, no track is sized by
 `max-content` text, and the fixed-width popup has a viewport clamp.
 
+It also audits the printed claim packet, because that is the one artefact where a visual
+bug has legal consequence: the chrome is hidden, the light palette is re-asserted for
+`html.dark` (and compared token-by-token against `:root`, so a copy cannot quietly go
+stale), each schedule is kept off a page break, and the running footer that carries the
+GSTIN and invoice number is `position:fixed`.
+
 ```bash
-node bridge/overflow-sim.mjs                                  # current sheet
-CSS=public/assets/app.css.before INCLUDE=/dev/null node bridge/overflow-sim.mjs   # control
+node bridge/overflow-sim.mjs                                  # current sheet, 15 checks
+git show main:public/assets/app.css > /tmp/app.css.before
+CSS=/tmp/app.css.before INCLUDE=/dev/null node bridge/overflow-sim.mjs   # control: 2 hazards
 ```
 
 Always run the control too. A checker that parses nothing reports nothing, so the tool
 aborts if it reads fewer than 60 rules and the control run is what proves the checks can
-fail — on the pre-fix sheet it reports 32 hazards; on the current one, zero. Most of
-those 32 were the same single mistake repeated: the base rules guarded their tracks with
+fail. The control above is `main`'s sheet, taken before this work: it reports the two
+missing print facts, and it is also what the original 32-hazard run used. Most of those 32
+were the same single mistake repeated: the base rules guarded their tracks with
 `minmax(0,1fr)` but the responsive overrides re-wrote them as bare `1fr`, re-arming the
-blow-out at exactly the widths where text is most likely to spill.
+blow-out at exactly the widths where text is most likely to spill. The refresh then
+re-introduced four of the same shape under new names — `auto minmax(18rem,1fr) auto` and
+friends — which is why the minimum now sits on the *item* (`min-width:18rem` on the side
+stack) and the track stays shrinkable.
+
+### The brand assets
+
+The favicon, the tab/home-screen icons and the 1200×630 share card are committed
+files — the app still has no build step — but they are *generated*, so they can be
+re-rendered when the palette or the wordmark changes instead of being binaries
+nobody can reproduce:
+
+```bash
+cd /tmp && npm pack @expo-google-fonts/plus-jakarta-sans && tar xzf *.tgz
+cd - && FONT_DIR=/tmp/package node bridge/brand-assets.mjs
+```
+
+It draws with the app's own brand font (Plus Jakarta Sans, the same family the
+layouts load from Google Fonts) and refuses to write a card whose copy overruns the
+text column. Outputs: `public/favicon.ico` (16/32/48), `public/assets/img/icon-32|180|512.png`
+and `public/assets/img/og-default.png`.
+
+`tests/Feature/BrandAssetsTest.php` pins what those files have to be — the ICO is
+not the 0-byte stub it used to be, the PNGs are the sizes their `sizes=` attributes
+claim, and every layout links them and publishes an absolute `og:image`.
+
+## Printed documents
+
+Anything that leaves the product on paper goes through two shared pieces, so a
+filing cannot carry the wrong claimant or the wrong number:
+
+- `components/letterhead.blade.php` — the supplier's own letterhead: their name,
+  GSTIN, PAN, Udyam, remittance account and the signing member, with the document
+  type and number on the right. It is deliberately plain (one rule, no tint, no
+  shadow) because it is read on A4, photocopied, and sometimes scanned back in.
+  `Invoices\\claim.blade.php` opens on it, and the invoice email's masthead follows
+  the same rule: the supplier first, PayKaro once, small, as the tool it was
+  prepared with.
+- The `@media print` section of `public/assets/app.css` — chrome hidden, light
+  tokens re-asserted under `html.dark`, schedules kept off page breaks, `@page`
+  margin, and a fixed footer carrying the GSTIN and invoice number on every sheet.
+
+Both are audited by `bridge/overflow-sim.mjs` (the print section) and
+`tests/Feature/InvoicePipelineTest.php` (the strings a filing is cited by).
+
+## What the marketing pages may claim
+
+`App\Support\Proof` is the only source a marketing page may quote a figure from,
+and it reads the same config and enums the domain computes with — the MSME due
+window, the interest multiplier, the evidence checklist's size, and the
+finance-readiness threshold. Change `PAYKARO_MSME_DUE_DAYS` and the landing page
+changes with it.
+
+That exists because the pages used to publish traction nothing measured: ₹4.2Cr+
+"Receivables tracked" (with "Across active tenants in the last 30 days"), ₹240Cr+
+"invoices cleared", a 99.8% reconciliation rate, an under-48-hour disbursal
+figure, plus "RBI regulated entities", "RBI TReDS direct gateway", "256-bit SSL /
+encrypted ledger" and "GSTN & TReDS verified". `tests/Feature/AuthenticityTest.php`
+lists every one of them: the rendered pages must not contain them, no template may
+reintroduce them (a source scan strips comments first), the published figures must
+follow the configuration, and the landing page must state what it does *not* claim —
+the same standard `App\Support\Legal` already held itself to.
+
+The news feed is the team's own writing and says so: "Product notes", "Written by
+the PayKaro team", tags that do not imply a news desk.
+
+## The first-run checklist
+
+A new workspace's dashboard carries a four-step card — add a buyer, raise an
+invoice, complete an evidence trail, confirm each buyer's TReDS status — read from
+the workspace's own state by `App\Brand\Onboarding`. It is not stored, so a member
+who inherits a populated workspace never sees it, one who starts fresh does, and
+the card disappears when the last step is done. Every step is a write, so a
+read-only member never sees it at all.
+
+## The brand book
+
+`/brand` is the brand guidelines, readable signed out and linked from every
+marketing footer. It is not a document that describes the product — it *renders*
+it: the tokens are read out of `public/assets/app.css`, the contrast ratios are
+measured by `App\Brand\Palette`, and the type scale is parsed from the same
+stylesheet. If the page and the app disagree, the app is right and the page is a
+bug report.
+
+Two classes back it, both §5.2's "guidelines as code":
+
+| Class | Owns | Guarded by |
+|-------|------|-----------|
+| `App\Brand\Palette` | the tokens, and the 31 colour pairings the product relies on with the ratio each must clear | `tests/Unit/BrandPaletteTest.php` — fails below a floor, and fails when a token is declared in `:root` but never restated in `html.dark` |
+| `App\Brand\Type` | the type scale, read from the stylesheet | `tests/Feature/BrandPageTest.php` — the page has to show what the CSS sets |
+
+Measuring is not decoration: the audit found six failing pairings in the shipped
+palette (see the comment beside the tokens in `app.css`). A new screen that needs a
+colour takes a token; a new pairing gets declared in `Palette::pairs()` with the
+reason it exists, and the test says whether it is legible.
+
+## Email
+
+Three messages, all to the buyer, all sent from the invoice page's **Correspondence**
+panel — and all computed from the invoice rather than typed at send time:
+
+| Message | What it carries |
+|---------|-----------------|
+| `InvoiceSentMail` | the invoice, its stored due date (derived by `Receivables`, never hand-entered), and the remittance account |
+| `OverdueReminderMail` | days past due and the interest accrued to date, escalating in tone at 15 and 30 days |
+| `EvidenceRequestMail` | the evidence rows the invoice's own checklist reports as missing |
+
+Each has a plain-text alternative, because MSME accounts-payable inboxes are
+cheap Android clients. `MAIL_MAILER` decides where they go — `log` writes them to
+`storage/logs/laravel.log`, which is the sane default for a demo; set SMTP
+credentials in `.env` to actually deliver.
+
+Sending needs an address on the buyer record (`buyers.email`, nullable). One that
+is missing is not an error: the panel says which buyers cannot be emailed and the
+send button reports it instead of failing. `tests/Feature/InvoiceMailTest.php`
+holds the coherence rule — the reminder quotes the *same interest figure* the
+invoice page shows — plus the role check (a viewer sends nothing) and the tenant
+scope (another workspace's invoice is a 404).
 
 ## Configuration
 
@@ -140,6 +265,8 @@ Everything the app can be told lives in `.env` / `config/paykaro.php`:
 | `PAYKARO_FINANCE_READY_SCORE` | `85` | readiness at/above which an invoice is financeable |
 | `PAYKARO_ALERT_LIMIT` | `6` | rows in the dashboard's "Needs attention" list |
 | `PAYKARO_DEMO` | `true` | labels the workspace "Demo" in the utility bar; turn off for real data |
+| `PAYKARO_HEADLINE` | `Make every invoice count` | the brand line: landing hero, page `<title>`, sign-in shell, share card |
+| `PAYKARO_DESCRIPTOR` | `MSME invoice & receivables tracker` | the line under the wordmark — a descriptor, not a tagline |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | blank | blank means no Google button and `404` on the OAuth routes |
 | `GOOGLE_REDIRECT_URI` | blank | derived from the current request when blank |
 
@@ -212,7 +339,9 @@ Auth: `/login` `/signup` (GET+POST) · `/auth/google` `/auth/google/callback` ·
 
 Workspace: `/dashboard` · `/invoices` (list, `?status=` and `?q=`) · `/invoices/create` ·
 `/invoices/{id}` · `/invoices/{id}/edit` · `PATCH /invoices/{id}/status` ·
-`PUT /invoices/{id}/evidence` · `POST /invoices/{id}/payments` ·
+`PUT /invoices/{id}/evidence` · `POST /invoices/{id}/send` · `POST /invoices/{id}/remind` ·
+`POST /invoices/{id}/request-evidence` ·
+`POST /invoices/{id}/payments` ·
 `POST /invoices/{id}/financings` · `POST /invoices/{id}/disputes` ·
 `GET /invoices/{id}/claim` · `/buyers` `/buyers/create` · `/treds` · `/reports` ·
 `/settings` (GET+PUT) · `POST /alerts/read`.
@@ -261,6 +390,23 @@ Two runtime limitations are accommodated rather than fixed:
   needs them — `bridge/check-lock.mjs` is the one script that wants `intl`, and it is run
   on a machine that has it.
 
-`php artisan test` runs in this runtime too — that is how the port's failures were
-diagnosed and re-run in the sandbox — but CI remains the authority: real PHP 8.3, a real
-Composer, the whole suite.
+The suite runs here too, but not through `php artisan test`: that command shells out to
+`vendor/bin/phpunit` through Symfony Process, and this runtime has no child process to
+spawn. `bridge/test.mjs` starts PHPUnit directly instead, through php-wasm's real CLI SAPI
+— which is where argv, exit codes and STDERR come from:
+
+```bash
+cd bridge && npm ci
+node test.mjs                              # whole suite
+node test.mjs --filter=WorkspacePagesTest  # any PHPUnit argument
+node test.mjs --testdox
+```
+
+Two accommodations are visible if you look for them. `bridge/bootstrap.mjs` writes a
+composer-compatible autoloader, not Composer's `vendor/bin` shims, so the launcher is
+named by its path. And the runner sets `PAYKARO_SANDBOX_PHPUNIT=1`, which
+`tests/TestCase.php` reads to skip Laravel's mocked console output: building that mock
+traps the WebAssembly runtime, and `RefreshDatabase` migrates through the exact call that
+builds it, so a database-backed test would die before its first assertion. On CI the
+variable is unset and the mock is used as normal — CI remains the authority: real PHP
+8.3, a real Composer, the whole suite, and every assertion on artisan output.

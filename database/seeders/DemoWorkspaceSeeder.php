@@ -59,10 +59,13 @@ class DemoWorkspaceSeeder extends Seeder
             ],
             owner: ['name' => 'Sunita Rao', 'email' => 'sunita@shreeprecision.in'],
             buyers: [
-                ['Bharat Heavy Electricals Ltd', '36AABCB1234C1Z3', BuyerType::Cpse, TredsOnboarding::Yes],
-                ['Telangana State Powergen', '36AAACT5678D1Z8', BuyerType::Psu, TredsOnboarding::Yes],
-                ['Orbit Auto Components Pvt Ltd', '36AAGCO9876E1Z2', BuyerType::Private, TredsOnboarding::No],
-                ['Hydrofit Engineering LLP', '36AAJFH2468F1Z9', BuyerType::Private, TredsOnboarding::Unknown],
+                ['Bharat Heavy Electricals Ltd', '36AABCB1234C1Z3', BuyerType::Cpse, TredsOnboarding::Yes, 'ap@bhel-demo.example'],
+                ['Telangana State Powergen', '36AAACT5678D1Z8', BuyerType::Psu, TredsOnboarding::Yes, 'payables@tspowergen-demo.example'],
+                ['Orbit Auto Components Pvt Ltd', '36AAGCO9876E1Z2', BuyerType::Private, TredsOnboarding::No, 'accounts@orbitauto-demo.example'],
+                // Deliberately left without an address: a customer record with a name
+                // and a GSTIN and nothing else is the normal case, and the workspace
+                // has to say so rather than fail when someone tries to email them.
+                ['Hydrofit Engineering LLP', '36AAJFH2468F1Z9', BuyerType::Private, TredsOnboarding::Unknown, null],
             ],
             invoices: [
                 [0, 'INV-2026-001', -92, 485000, InvoiceStatus::Settled, ['po', 'delivery_ack', 'grn', 'invoice_copy', 'contract']],
@@ -96,8 +99,8 @@ class DemoWorkspaceSeeder extends Seeder
             ],
             owner: ['name' => 'Farhan Ali', 'email' => 'farhan@metrowceramics.in'],
             buyers: [
-                ['Delhi Metro Rail Corp', '07AADCM2222H1Z1', BuyerType::Psu, TredsOnboarding::Yes],
-                ['Urban Structures Pvt Ltd', '29AABFU3333K1Z7', BuyerType::Private, TredsOnboarding::Unknown],
+                ['Delhi Metro Rail Corp', '07AADCM2222H1Z1', BuyerType::Psu, TredsOnboarding::Yes, 'vendor.payments@dmrc-demo.example'],
+                ['Urban Structures Pvt Ltd', '29AABFU3333K1Z7', BuyerType::Private, TredsOnboarding::Unknown, null],
             ],
             invoices: [
                 [0, 'INV-2026-101', -60, 540000, InvoiceStatus::Accepted, ['po', 'delivery_ack', 'grn', 'invoice_copy']],
@@ -117,7 +120,7 @@ class DemoWorkspaceSeeder extends Seeder
      *
      * @param  array<string, mixed>  $business
      * @param  array{name: string, email: string}  $owner
-     * @param  list<array{0: string, 1: string, 2: BuyerType, 3: TredsOnboarding}>  $buyers
+     * @param  list<array{0: string, 1: string, 2: BuyerType, 3: TredsOnboarding, 4: string|null}>  $buyers
      * @param  list<array{0: int, 1: string, 2: int, 3: float|int, 4: InvoiceStatus, 5: list<string>}>  $invoices
      */
     private function workspace(array $business, array $owner, array $buyers, array $invoices): void
@@ -141,6 +144,7 @@ class DemoWorkspaceSeeder extends Seeder
                     'gstin' => $row[1],
                     'type' => $row[2],
                     'treds_onboarded' => $row[3],
+                    'email' => $row[4],
                 ])->id,
                 $buyers,
             );

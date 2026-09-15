@@ -1,6 +1,7 @@
-<x-layouts.auth title="Sign in">
+<x-layouts.auth title="Sign in" copy="Sign in to monitor statutory receivables, TReDS bidding and compliance ledgers.">
+    <div class="screen-kicker">Institutional access</div>
     <h1 class="auth-h">Welcome back</h1>
-    <p class="auth-sub">Sign in to your workspace. Each user sees only their own business's receivables.</p>
+    <p class="auth-sub">Sign in to monitor statutory receivables, TReDS bidding and compliance ledgers.</p>
 
     @if (session('status'))
         <div class="auth-err">{{ session('status') }}</div>
@@ -13,40 +14,39 @@
         <div class="auth-err">{{ $message }}</div>
     @enderror
 
-    <x-auth.google-button />
+    <div class="auth-mini-grid">
+        <div class="auth-mini-card"><strong>MSMED Act</strong><span>45-day clock</span></div>
+        <div class="auth-mini-card"><strong>TReDS API</strong><span>Live bids</span></div>
+        <div class="auth-mini-card"><strong>Samadhaan</strong><span>Auto docket</span></div>
+    </div>
+
+    <x-auth.google-button label="Sign in with Google" />
     @if (\App\Support\GoogleSignIn::enabled())
-        <div class="auth-or">or</div>
+        <div class="auth-or">or continue with email</div>
     @endif
 
     <form method="post" action="{{ route('login') }}">
         @csrf
         <label class="auth-lbl" for="email">Email</label>
-        <input class="auth-in" id="email" type="email" name="email" value="{{ old('email') }}" required placeholder="you@company.in" autofocus autocomplete="username">
+        <input class="auth-in" id="email" type="email" name="email" value="{{ old('email') }}" required placeholder="e.g. sunita@shreeprecision.in" autofocus autocomplete="username">
 
         <label class="auth-lbl" for="password">Password</label>
         <input class="auth-in" id="password" type="password" name="password" required placeholder="••••••••" autocomplete="current-password">
 
-        <label style="display:flex;gap:.45rem;align-items:center;margin:.55rem 0 .2rem;font-size:.8rem;color:var(--n-ink-mute);">
+        <label style="display:flex;gap:.45rem;align-items:center;margin:.55rem 0 1rem;font-size:.84rem;color:var(--n-ink-mute);">
             <input type="checkbox" name="remember" value="1" @checked(old('remember'))>
-            Keep me signed in for a week
+            Remember me on this enterprise terminal
         </label>
 
         <button class="auth-cta" type="submit">Sign in →</button>
     </form>
 
-    <div class="auth-alt">New to {{ config('app.name') }}? <a href="{{ route('register') }}">Create an account</a></div>
+    <div class="auth-alt">Don't have an account? <a href="{{ route('register') }}">Sign up</a></div>
 
     @if (config('paykaro.demo'))
-        <div class="auth-alt" style="margin-top:.9rem;line-height:1.7;">
-            Demo workspace · both owners use password <strong>demo1234</strong>:
-            <code>sunita@shreeprecision.in</code> (15 invoices) and
-            <code>farhan@metrowceramics.in</code> (3).
-            <div style="margin-top:.5rem;">
-                <button class="pkg-btn pkg-btn--link pkg-btn--sm" type="button"
-                        onclick="document.getElementById('email').value='sunita@shreeprecision.in';document.getElementById('password').value='demo1234';document.getElementById('email').focus();">
-                    Fill Sunita's login
-                </button>
-            </div>
+        <div class="support-card support-card--inline" style="margin-top:1.2rem;">
+            <span>Demo access</span>
+            <strong>sunita@shreeprecision.in / demo1234</strong>
         </div>
     @endif
 </x-layouts.auth>

@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Invoices\DisputeController;
 use App\Http\Controllers\Invoices\FinancingController;
 use App\Http\Controllers\Invoices\InvoiceController;
+use App\Http\Controllers\Invoices\InvoiceMailController;
 use App\Http\Controllers\Invoices\PaymentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Workspace\AlertController;
@@ -33,6 +34,11 @@ Route::get('/', HomeController::class)->name('landing');
 Route::get('/pricing', [PageController::class, 'pricing'])->name('pricing');
 Route::get('/help', [PageController::class, 'help'])->name('help');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+
+// The brand book. Public on purpose: the same page has to answer for the tokens
+// and the type scale to whoever is writing the next screen, and a document behind
+// a login is a document that gets copied into a slide deck and then goes stale.
+Route::get('/brand', [PageController::class, 'brand'])->name('brand');
 
 // The legal set. The flat-PHP app had these as footer text with no page behind
 // them; they now have real content, and the paths are unchanged so any existing
@@ -96,6 +102,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/invoices/{invoice}/evidence', [InvoiceController::class, 'updateEvidence'])->name('invoices.evidence');
     Route::get('/invoices/{invoice}/claim', [InvoiceController::class, 'claim'])->name('invoices.claim');
 
+    Route::post('/invoices/{invoice}/send', [InvoiceMailController::class, 'send'])->name('invoices.send');
+    Route::post('/invoices/{invoice}/remind', [InvoiceMailController::class, 'remind'])->name('invoices.remind');
+    Route::post('/invoices/{invoice}/request-evidence', [InvoiceMailController::class, 'requestEvidence'])->name('invoices.request-evidence');
+
     Route::post('/invoices/{invoice}/payments', [PaymentController::class, 'store'])->name('invoices.payments.store');
     Route::post('/invoices/{invoice}/financings', [FinancingController::class, 'store'])->name('invoices.financings.store');
     Route::post('/invoices/{invoice}/disputes', [DisputeController::class, 'store'])->name('invoices.disputes.store');
@@ -103,6 +113,9 @@ Route::middleware('auth')->group(function () {
     // Buyers.
     Route::get('/buyers', [BuyerController::class, 'index'])->name('buyers.index');
     Route::get('/buyers/create', [BuyerController::class, 'create'])->name('buyers.create');
+    // After /buyers/create, or `{buyer}` swallows it — the same trap the invoice
+    // routes document at /invoices/new.
+    Route::get('/buyers/{buyer}', [BuyerController::class, 'show'])->name('buyers.show');
     Route::post('/buyers', [BuyerController::class, 'store'])->name('buyers.store');
 
     // Money.

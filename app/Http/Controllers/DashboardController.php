@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand\Onboarding;
 use App\Models\Alert;
 use App\Models\Invoice;
 use App\Services\Dashboard;
@@ -15,8 +16,18 @@ class DashboardController extends Controller
      */
     public function index(Request $request, Dashboard $dashboard): View
     {
+        $summary = $dashboard->overview();
+        $queue = $dashboard->financeQueue();
+        $readyQueue = $queue->filter(fn (Invoice $invoice) => $invoice->isFinanceReady())->values();
+
         return view('dashboard', [
-            'summary' => $dashboard->overview(),
+            'summary' => $summary,
+            // Absent once every step is done, so a populated workspace never sees it.
+            // Also absent for a read-only member: every step in it is a write, and a
+            // checklist of things you cannot do is worse than no checklist.
+            'onboarding' => $request->user()->role->canWrite()
+                ? Onboarding::checklist()
+                : ['complete' => true, 'steps' => []],
             'recent' => Invoice::query()->withMetrics()->latestFirst()->take(5)->get(),
             'alerts' => Alert::query()
                 ->unread()
@@ -24,6 +35,9 @@ class DashboardController extends Controller
                 ->latest('id')
                 ->limit((int) config('paykaro.alert_limit'))
                 ->get(),
+            'readyQueue' => $readyQueue,
+            'readyAmount' => round($readyQueue->sum(fn (Invoice $invoice) => $invoice->balance()), 2),
+            'indicativeDiscountRate' => round((float) config('paykaro.bank_rate') + 1.35, 2),
         ]);
     }
 }

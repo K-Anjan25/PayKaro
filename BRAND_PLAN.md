@@ -80,6 +80,14 @@ The drift is in what sits *around* it:
 | `resources/views/marketing/article.blade.php:24` | `Turn your receivables into finance-ready assets.` | Fourth wording |
 | `README.md` / `SPEC.md` | `Turn invoice mess into an evidence-complete, finance-ready pipeline.` | Fifth wording |
 
+> **Done.** `paykaro.tagline` was split into `paykaro.headline` (the brand line)
+> and `paykaro.descriptor` (the line under the wordmark) and renamed rather than
+> aliased; every place above now reads a key. `tests/Feature/BrandCopyTest.php`
+> overrides the config and asserts the *rendered page* follows, on every page that
+> states the line — which is how a sixth hard-coded copy (the landing's closing
+> CTA) was found. The three marketing lines were demoted to supporting copy: the
+> auth shell now says what the product does for the invoice, not a second promise.
+
 **Build task 1.1** — Two keys, not one, because the config key is doing the wrong
 job:
 
@@ -184,12 +192,12 @@ Ordered by how much is already decided.
 
 | # | Task | Anchor | Effort |
 |---|------|--------|--------|
-| 3.1 | **Favicon set.** Generate 16/32/48 ICO + `apple-touch-icon` + SVG from the mark; add `rel="icon"` to all three layouts | `public/favicon.ico` is 0 bytes | S |
-| 3.2 | **Mark on tokens.** Replace the literal values in `logo-mark.blade.php` with `currentColor` / CSS vars so the mark follows the theme | lines 10-12 | S |
-| 3.3 | **Minimum-size + clear space.** The ₹ glyph at 34 px is legible; decide the floor (recommend 20 px) and the clear space (recommend ½ tile), and write it into the guidelines (§Phase 5) | — | S |
-| 3.4 | **Contrast.** The token set is already solid (`:root`, both themes). Record the WCAG contrast pairs as comments next to the tokens — the muted-text token on the page background is the risky one | `public/assets/app.css:17-70` | M |
-| 3.5 | **Typography scale.** Fraunces is loaded with `opsz,wght` 9..144; document which optical sizes are used for display vs. body so the two don't drift | layouts | M |
-| 3.6 | **Look and feel.** One page: surface texture, `--n-radius:14px`, shadow, the vertical accent bars. So the *next* screen looks like this one | `app.css` | M |
+| 3.1 | ~~**Favicon set.**~~ Generate 16/32/48 ICO + `apple-touch-icon`; add `rel="icon"` to all three layouts. **Done** — 16/32/48 ICO, 32/180/512 PNG, `partials/brand-meta.blade.php` in all three layouts | `public/favicon.ico` was 0 bytes | S |
+| 3.2 | ~~**Mark on tokens.**~~ **Not needed — measured.** There is no `logo-mark.blade.php` and nothing references one: the design package's manifest requires graphic logo marks to be *removed*, and the mark is the wordmark component plus the letterform tile, which are already set in tokens (`--n-ink`, `--n-blue`, `--n-on-accent`). | lines 10-12 | S |
+| 3.3 | ~~**Minimum-size + clear space.**~~ **Done** — the tile's floor is **16 px** (the tab icon is a single letter for exactly this reason) and the clear space is **half the tile**, both stated on `/brand` and enforced by the sizes the generator writes. Note the mark is the *wordmark plus a tile*, not a ₹ glyph: the design package's manifest requires graphic logo marks to be removed | — | S |
+| 3.4 | ~~**Contrast.**~~ **Done, and it was not solid.** `App\Brand\Palette` declares 31 pairings with the ratio each must clear and measures them in both themes; `BrandPaletteTest` fails below the floor. Six were failing: the muted token was **4.34:1 on the inset well** (every table header — the plan called it), success **3.30:1** and warning **3.19:1** as text, gold **4.49:1** on the utility bar, and in the dark theme all fifteen `color:#fff`-on-accent rules rendered white on pale sky (**2.24:1** primary buttons), now `--n-on-accent` | `public/assets/app.css:17-70` | M |
+| 3.5 | ~~**Typography scale.**~~ **Done** — and the premise was stale: there is no Fraunces anywhere in the product, all three layouts load Plus Jakarta Sans 400–800. `App\Brand\Type` reads the sizes out of the stylesheet and `/brand` prints them with the role each serves; the drift to watch is the sizes, not the family | layouts | M |
+| 3.6 | ~~**Look and feel.**~~ **Done** — `/brand` has a "Surface, corner and elevation" section: the three surfaces read from the stylesheet with their real values, the standard corner, the four-level elevation scale rendered with each shadow applied, the two accent bars shown as themselves, and a nested diagram of canvas → card → well. `Palette::surfaces()` owns it and `BrandPageTest` asserts the page shows what the stylesheet declares | `app.css` | M |
 
 ### Phase 4 · Creating touchpoints
 
@@ -248,24 +256,43 @@ PayKaro's distribution channel is a WhatsApp link; today that link has no previe
 
 ### Phase 5 · Managing assets
 
-- **5.1 Brand book.** One `docs/brand/` page (or a route at `/brand`) covering:
-  the mark and its clear space, the token table, type scale, voice, and the
-  "never" list. Small enough that people actually read it.
-- **5.2 Guidelines as code.** The strongest version of this: `config/paykaro.php`
-  already holds every number the domain computes with, and
-  `App\Services\Receivables` is the only reader. Do the same for brand — one place
-  owns `tagline`, `descriptor`, and the token names, and a test fails if a view
-  hard-codes a hex. That test is what prevents the `logo-mark.blade.php` drift
-  from recurring.
-- **5.3 Change management.** `public/assets/app.css` is a single 63 KB file
-  (64,498 bytes) that `MIGRATION.md` says was ported "markup-for-markup" and is
-  deliberately kept verbatim. Any brand change is a diff to that one file — so
-  require a screenshot of the affected layouts in the PR.
-- **5.4 Brand champions.** For an internal tool of this size, the "champions" are
-  the two seeded demo tenants' personas (Sunita Rao / Shree Precision, Farhan Ali /
-  MetRow Ceramics in `database/seeders/DemoWorkspaceSeeder.php`). Keep the demo
-  book realistic; it is the product's own showroom.
-- **5.5 Measuring success.**
+- ~~**5.1 Brand book.**~~ **Done** — `/brand`, linked from every marketing footer
+  and readable signed out. It covers the mark and its clear space, the token table,
+  the measured contrast pairs, the type scale, voice and the "never" list — and
+  every number on it is read from the product at render time, which is what makes
+  it a bug report rather than a document.
+- ~~**5.2 Guidelines as code.**~~ **Done** — `config/paykaro.php` owns `headline`
+  and `descriptor` (`BrandCopyTest` overrides the config and asserts the *rendered
+  page* follows), `App\Brand\Palette` owns the tokens and their floors
+  (`BrandPaletteTest`), `App\Support\Proof` owns the figures a marketing page may
+  publish (`AuthenticityTest`), and `/brand` renders all of it. The hex-in-a-view
+  assertion shipped too, and the tidy-up it implied turned out to be nearly done
+  already: four files may hold a literal, each with a recorded reason — the mail
+  layer (an inbox has no CSS custom properties), the `theme-color` meta (the browser
+  cannot resolve `var()`), the brand book's icon preview (it shows the committed
+  PNGs) and Google's sign-in mark (their branding guidelines mandate its colours).
+  `BrandPageTest` fails on a new one, and fails if an allowlisted file stops needing
+  its exemption.
+- ~~**5.3 Change management.**~~ **Done** — `public/assets/app.css` is one file every
+  screen shares, so a brand change is always a wide change. `.github/pull_request_template.md`
+  now asks for the three checks (tests, Pint, the overflow sim when a grid moved) and
+  for a screenshot of the affected pages in light **and** dark, plus the printed
+  packet when the print stylesheet changed — the two themes and the printer being the
+  three places a colour change breaks quietly.
+- ~~**5.4 Brand champions.**~~ **Done, and it paid off twice.** The demo book is the
+  product's own showroom, so it is kept realistic: fifteen invoices across four
+  buyers on age-based offsets, three of the four with an accounts-payable address
+  and one deliberately without, and each buyer a different TReDS answer. That
+  variety is what makes the first-run checklist readable (`3 of 4 done` on a
+  populated workspace, with the open step being a real buyer) and what exercises the
+  correspondence panel's both cases.
+- **5.5 Measuring success.** Five of the six metrics already live in code (the table
+  below). **This is the one item in Phase 5 that is not done, and it needs a
+  decision**: instrumenting the click and the reminder→payment funnel means
+  somewhere to send the events, and the product has no analytics sink, no queue
+  worker and no outbound HTTP. Adding one is a hosting and privacy decision — the
+  `privacy` page is explicit that the code embeds no third-party data flow — so it
+  should be made deliberately rather than by dropping a script tag in a layout.
 
 | Metric | Where it already lives |
 |--------|------------------------|
@@ -302,9 +329,34 @@ already set.
 - **(b)** Replace the stat bar with claims the product can prove — the 45-day
   window and 3× multiplier are already true and are the stronger story anyway.
 
+> **Done as (b)**, because (a) would mean publishing the seeded demo book as a
+> traction figure. `App\Support\Proof` is now the only source a marketing page may
+> quote from, and it reads the same config and enums the domain computes with: the
+> due window, the interest multiplier, the size of the evidence checklist and the
+> finance-readiness threshold. Changing `PAYKARO_MSME_DUE_DAYS` changes the landing
+> page, which is what makes the claim checkable.
+
 **Build task 4.2** — Label the authored articles as "From the PayKaro team" /
 "Product notes" rather than a news feed, or mark them clearly as illustrative while
 the product is pre-launch.
+
+> **Done.** The section is "Product notes", its lede says they are the team's own
+> notes and not a news wire, each article carries "Written by the PayKaro team", and
+> the tags no longer imply a news desk or a real customer ("Product note", "Worked
+> example", "Explainer"). The nav link says "Product notes" too.
+
+> **Found while doing it, and fixed: the fabrications were not only about money.**
+> The sign-in shell claimed **"Enterprise security · RBI regulated entities"**
+> (PayKaro is not an RBI-regulated entity), the sign-up cards claimed **"256-bit SSL
+> / Encrypted ledger"** (the security page states there is *no* encryption at rest),
+> **"RBI TReDS / Direct gateway"** (the product tracks TReDS *readiness* per buyer;
+> it is not a gateway) and **"Section 15/16 enforced"** (a statute is enforced by
+> law, not by software), and the workspace footer claimed **"GSTN & TReDS
+> Verified"** (nothing in the product talks to GSTN). All replaced with what the
+> product actually does. `tests/Feature/AuthenticityTest.php` holds the whole set:
+> the retired strings, a source scan so a template written tomorrow cannot
+> reintroduce one, and a config-override test proving the published figures follow
+> the configuration rather than a literal.
 
 ---
 

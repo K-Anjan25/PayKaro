@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand\Palette;
+use App\Brand\Type;
 use App\Support\Legal;
 use App\Support\News;
 use App\Support\Pricing;
@@ -19,6 +21,45 @@ use Illuminate\View\View;
  */
 class PageController extends Controller
 {
+    /**
+     * The brand book (BRAND_PLAN §5.1).
+     *
+     * Everything on the page is read live — the tokens out of the stylesheet, the
+     * ratios measured by App\Brand\Palette, the type sizes out of the CSS — so the
+     * documentation cannot drift from the product. That is §5.2's "guidelines as
+     * code": the page is a rendering of the same source the tests assert.
+     */
+    public function brand(): View
+    {
+        $audit = Palette::audit();
+
+        // One row per declared pairing, carrying both themes' measurements.
+        $pairs = [];
+
+        foreach ($audit as $row) {
+            $key = $row['fg'].'|'.$row['bg'].'|'.$row['use'];
+
+            $pairs[$key]['fg'] = $row['fg'];
+            $pairs[$key]['bg'] = $row['bg'];
+            $pairs[$key]['use'] = $row['use'];
+            $pairs[$key]['min'] = $row['min'];
+            $pairs[$key][$row['theme']] = $row;
+        }
+
+        return view('marketing.brand', [
+            'audit' => $audit,
+            'pairs' => array_values($pairs),
+            'tokens' => [
+                'light' => Palette::tokens(Palette::LIGHT),
+                'dark' => Palette::tokens(Palette::DARK),
+            ],
+            'undarkened' => Palette::undarkened(),
+            'scale' => Type::scale(),
+            'roles' => Type::roles(),
+            'surfaces' => Palette::surfaces(),
+        ]);
+    }
+
     public function pricing(): View
     {
         return view('marketing.pricing', [

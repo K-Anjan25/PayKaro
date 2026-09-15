@@ -31,6 +31,10 @@ class StoreBuyerRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:160'],
+            // Optional here, required by the one action that needs it (sending the
+            // invoice). `email:rfc` rather than the loose default: a typo silently
+            // swallows the invoice and the reminder that follows it.
+            'email' => ['nullable', 'string', 'email:rfc', 'max:190'],
             'gstin' => ['nullable', 'string', new Gstin],
             'type' => ['required', Rule::enum(BuyerType::class)],
             'treds_onboarded' => ['required', Rule::enum(TredsOnboarding::class)],
@@ -41,6 +45,9 @@ class StoreBuyerRequest extends FormRequest
     {
         $this->merge([
             'name' => trim((string) $this->input('name')),
+            'email' => filled($this->input('email'))
+                ? mb_strtolower(trim((string) $this->input('email')))
+                : null,
             'gstin' => filled($this->input('gstin'))
                 ? strtoupper(trim((string) $this->input('gstin')))
                 : null,

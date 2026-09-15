@@ -52,6 +52,16 @@ class InvoicePolicy
         return $this->update($user, $invoice);
     }
 
+    /**
+     * Emailing the buyer commits the business to a document they will reply to,
+     * so it takes the same check as any other write to the book. A viewer reads
+     * the ledger and sends nothing.
+     */
+    public function email(User $user, Invoice $invoice): bool
+    {
+        return $this->update($user, $invoice);
+    }
+
     protected function owns(User $user, Invoice $invoice): bool
     {
         return $user->businessId() === (int) $invoice->business_id;

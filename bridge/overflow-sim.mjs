@@ -93,23 +93,35 @@ function rules(raw) {
     const stack = [];                       // {kind:'sel'|'media', sel, media, bodyFrom}
     let i = 0, tokenStart = 0;
     const mediaAt = () => { for (let k = stack.length - 1; k >= 0; k--) if (stack[k].kind === 'media') return stack[k].media; return null; };
+    const mediaQueryAt = () => { for (let k = stack.length - 1; k >= 0; k--) if (stack[k].kind === 'media') return stack[k].query; return null; };
     while (i < css.length) {
         const ch = css[i];
         if (ch === '{') {
             const text = css.slice(tokenStart, i).trim();
-            const m = /^@media\s*\(([^)]*)\)/.exec(text);
+            /* `@media (max-width:900px)` and `@media print` are both queries; the
+               parenthesised form is not required, and reading only that form made
+               every print rule invisible to this checker. */
+            const m = /^@media\s*([^{]*)$/.exec(text);
             if (m) {
-                const mw = /max-width:\s*([\d.]+)(px|rem)?/.exec(m[1]);
-                stack.push({ kind: 'media', media: mw ? (mw[2] === 'rem' || !mw[2] ? +mw[1] * 16 : +mw[1]) : null });
+                const query = m[1].replace(/^\s*\(|\)\s*$/g, '').trim();
+                const mw = /max-width:\s*([\d.]+)(px|rem)?/.exec(query);
+                /* A print frame is not a viewport, so it is kept out of the
+                   on-screen checks (media -1) — but its query is recorded, which
+                   is how the print section below finds the rules it audits. */
+                stack.push({
+                    kind: 'media',
+                    media: /print/.test(query) ? -1 : (mw ? (mw[2] === 'rem' || !mw[2] ? +mw[1] * 16 : +mw[1]) : null),
+                    query,
+                });
             } else {
-                stack.push({ kind: 'sel', sel: text, bodyFrom: i + 1, media: mediaAt() });
+                stack.push({ kind: 'sel', sel: text, bodyFrom: i + 1, media: mediaAt(), query: mediaQueryAt() });
             }
             i++; tokenStart = i;
         } else if (ch === '}') {
             const f = stack.pop();
             if (f && f.kind === 'sel') {
                 const sel = f.sel.trim().replace(/\s+/g, ' ');
-                if (sel && !sel.startsWith('@')) out.push({ sel, body: css.slice(f.bodyFrom, i), media: f.media });
+                if (sel && !sel.startsWith('@')) out.push({ sel, body: css.slice(f.bodyFrom, i), media: f.media, query: f.query });
             }
             i++; tokenStart = i;
         } else {
@@ -259,6 +271,57 @@ console.log('\n-- fixed-size popups vs the viewport --');
             ok('place() re-measures after the clamp instead of trusting the declared width');
         }
     }
+}
+
+console.log('\n-- the printed claim packet (a filing cited by its GSTIN and number) --');
+{
+    const print = all.filter(r => (r.query || '').includes('print'));
+
+    if (!print.length) {
+        bad('no @media print block', 'the packet prints with app chrome, the dark palette and schedules split across pages');
+    } else {
+        ok(`${print.length} print rule(s) parsed`);
+
+        const hides = sel => print.some(r => matches(r, sel) && /display:\s*none/.test(r.body));
+        const chrome = ['.app-util', '.app-head', '.app-footer', '.theme-toggle', '.claim-actions', '.pkg-btn'];
+        const kept = chrome.filter(s => !hides(s));
+        if (kept.length) bad(`print keeps ${kept.join(', ')}`, 'navigation and buttons do not belong on a statutory filing');
+        else ok(`print hides the app chrome (${chrome.join(', ')})`);
+
+        /* The palette is re-declared for print because `html.dark` would win
+           otherwise — so the copy is compared against :root. Drift here prints a
+           page in a palette nobody chose. */
+        const decls = body => Object.fromEntries([...body.matchAll(/(--[\w-]+)\s*:\s*([^;}]+)/g)].map(m => [m[1], m[2].trim()]));
+        const rootVars = decls((all.find(r => r.sel === ':root') || { body: '' }).body);
+        const light = print.find(r => parts(r).includes('html.dark'));
+
+        if (!light) {
+            bad('print does not re-assert the light palette', 'a member printing from dark mode files a dark page');
+        } else {
+            const vars = decls(light.body);
+            const drifted = Object.entries(vars).filter(([k, v]) => rootVars[k] && v !== rootVars[k] && v !== 'none');
+            if (drifted.length) {
+                bad(`print palette drifts from :root (${drifted.map(([k]) => k).join(', ')})`,
+                    drifted.map(([k, v]) => `${k}: ${v} vs ${rootVars[k]}`).slice(0, 3).join('  ·  '));
+            } else {
+                ok(`print re-asserts ${Object.keys(vars).length} light token(s), each equal to :root (shadows off)`);
+            }
+        }
+
+        const whole = ['.claim-highlight', '.claim-box', '.claim-annexure', '.claim-table-wrap', '.claim-total-row'];
+        const split = whole.filter(s => !print.some(r => matches(r, s) && /break-inside:\s*avoid/.test(r.body)));
+        if (split.length) bad(`print lets ${split.join(', ')} break across pages`, 'a page break through the interest schedule makes the filing unreadable');
+        else ok(`print keeps every schedule whole (${whole.length} selectors, plus table rows)`);
+
+        const foot = print.find(r => matches(r, '.claim-print-foot') && /display:\s*(flex|block|table)/.test(r.body));
+        if (!foot) bad('.claim-print-foot is never shown in print', 'the page has to carry the GSTIN and invoice number it is cited by');
+        else if (!/position:\s*fixed/.test(foot.body)) bad('.claim-print-foot is not position:fixed', 'a footer that is not fixed prints once, not on every page');
+        else ok('.claim-print-foot repeats on every printed page (position:fixed)');
+    }
+
+    const page = /@page\s*\{([^}]*)\}/s.exec(sheet);
+    if (!page || !/margin\s*:/.test(page[1])) bad('no @page margin', 'the printer default clips the running footer');
+    else ok(`@page margin set (${page[1].trim().replace(/\s+/g, ' ')})`);
 }
 
 console.log('\n-- tokens that triggered this (width if unbroken) --');
