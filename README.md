@@ -1,9 +1,12 @@
-# PayKaro — MSME invoice & receivables tracker
+# PayKaro — invoice & receivables tracker
 
-**PayKaro** turns an invoice into a finance-ready asset. It gives India's MSMEs one
-pipeline to track what's owed, what's overdue, and what they could finance today —
-with the evidence and interest numbers that make a delayed-payment or TReDS claim
-actually stand.
+**PayKaro** turns an invoice into a finance-ready asset. One pipeline to see what's
+owed, what's overdue, and what could be financed today — with the interest maths and
+the evidence trail that make a delayed-payment, discounting or TReDS claim stand up.
+
+It is built for Indian B2B businesses: the statutory clock, the compounding interest
+and the MSEFC / TReDS paperwork are part of the product rather than a spreadsheet
+bolted onto it.
 
 A Laravel 12 application: routes, Eloquent models and Blade views. The design system
 is the app's own (`public/assets/app.css`) and was ported markup-for-markup, so the

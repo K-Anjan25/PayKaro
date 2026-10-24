@@ -2,8 +2,8 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "k-anjan25/paykaro",
     "type": "project",
-    "description": "PayKaro — MSME invoice & receivables tracker. Turn invoice mess into an evidence-complete, finance-ready pipeline.",
-    "keywords": ["laravel", "msme", "invoices", "receivables", "treds", "msefc", "multi-tenant"],
+    "description": "PayKaro — invoice & receivables tracker. One finance-ready pipeline for what is owed, what is overdue, and what could be financed today.",
+    "keywords": ["laravel", "invoicing", "receivables", "accounts-receivable", "invoice-financing", "working-capital", "treds", "msefc", "multi-tenant"],
     "license": "MIT",
     "require": {
         "php": "^8.3",
