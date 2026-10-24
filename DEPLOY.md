@@ -352,7 +352,207 @@ agreement, because it is what defines "overdue" and starts the clock.
 | **VPS** (Ubuntu + Nginx + PHP-FPM + MySQL) | The instructions above; the most predictable |
 | **Laravel Forge / Ploi** | Same `.env` and deploy script; the panel provides Nginx, TLS, PHP-FPM and queue supervision |
 | **Shared hosting / cPanel** | Works: PHP 8.3, `DocumentRoot` → `public/`, `mod_rewrite` (`.htaccess` is committed), MySQL, Composer. No daemons needed |
-| **Docker / Fly.io / Render / Railway / Cloud Run** | The repo has **no** `Dockerfile`, `Procfile` or platform manifest yet — one has to be added. The image needs `php:8.3-fpm` (or `-alpine`) with the extensions above, Nginx or Caddy in front, `root public/`, and the release commands from §5 as an entrypoint/release step |
+| **Vercel** | Possible in two ways — the committed `vercel.json` + `api/index.php` (serverless PHP runtime), or Vercel's official Docker/FrankenPHP container. Both need an **external database**. See §12 |
+| **Docker / Fly.io / Render / Railway / Cloud Run** | Only Vercel has manifests committed (§12). Anywhere else the image needs `php:8.3-fpm` (or `-alpine`) with the extensions above, Nginx or Caddy in front, `root public/`, and the release commands from §5 as an entrypoint/release step |
 
 A container image is the natural next step if you want reproducible deploys; the
 app itself needs nothing beyond PHP-FPM, a writable `storage/`, and the database.
+
+---
+
+## 12. Vercel
+
+Yes — this repo is already wired for Vercel, but it is the **second-best** target
+for this app, and the trade-off is worth stating plainly before the how-to.
+
+### What Vercel cannot give this app
+
+Vercel Functions have **no persistent disk**. Only `/tmp` is writable, and it lasts
+as long as one function instance. That rules out the zero-config default:
+
+- **SQLite is out.** `database/paykaro.sqlite` would be recreated empty on cold
+  starts, so a receivables ledger would silently lose rows. An external
+  Postgres/MySQL is mandatory.
+- **File sessions and the file cache are out** (they already are, in the committed
+  `vercel.json` — sessions are moved off disk and the cache is in memory).
+- **No queue worker, no scheduler.** PayKaro needs neither today: mail is sent
+  synchronously inside the request and `routes/console.php` schedules nothing.
+  If you later queue mail, that work moves to Vercel Cron + a queue service.
+- **No uploaded files.** Not a problem — the app stores no documents (§ "What the
+  server needs"); the evidence checklist records that a document exists.
+
+And two commercial/platform facts:
+
+- The **Hobby plan is for non-commercial projects**; a product with paying MSME
+  customers needs **Pro**. Check the current terms before you commit.
+- The serverless route below uses **`vercel-php`**, a community runtime (pinned
+  at `0.7.4`, which is the PHP **8.3** line — the same version `composer.json`
+  pins). Vercel's *official* PHP support is the container path in §12B.
+
+### 12A. Serverless runtime (what is committed)
+
+Three files, already in the repo:
+
+| File | Job |
+|---|---|
+| `vercel.json` | Declares `api/index.php` on `vercel-php@0.7.4`, serves `public/` as the output directory (so the CSS and icons are static, never PHP), rewrites every other path to the function, and pins the `bom1` (Mumbai) region |
+| `api/index.php` | The entrypoint: creates `/tmp/storage`, defaults the caches/views/logs (and sessions) to it **without overriding anything the project sets**, tells the SAPI it is serving `/`, relocates `storage_path()` to `/tmp/storage`, then hands the request to the same `bootstrap/app.php` a PHP-FPM host uses |
+| `.vercelignore` | Keeps `vendor/`, `node_modules/`, local SQLite files, logs and compiled caches out of the upload |
+
+Nothing in `app/`, `routes/`, `resources/` or `public/` differs from the VPS
+deployment. `public/index.php` remains the front controller everywhere else.
+
+#### 1. Create the database (outside Vercel)
+
+Any managed Postgres or MySQL. Postgres example (Neon):
+
+```bash
+# Neon/Supabase pooled connection string, TLS required
+DB_CONNECTION=pgsql
+DB_URL="postgres://USER:PASSWORD@HOST/DBNAME?sslmode=require"
+```
+
+The vercel-php runtime ships `pdo_pgsql`, `pdo_mysql` and `pdo_sqlite`, so all
+three Laravel drivers are available. The schema uses no driver-specific types.
+
+> If `pdo_pgsql` fails to negotiate TLS against a pooler, use the direct (non-pooled)
+> host for migrations and `?sslmode=require` — the runtime bundles an old libpq.
+
+#### 2. Migrate from a machine with PHP — not from the function
+
+```bash
+APP_ENV=production \
+DB_CONNECTION=pgsql \
+DB_URL="postgres://…?sslmode=require" \
+php artisan migrate --force
+```
+
+Do **not** run `migrate --seed`, and do not migrate on cold start: several
+instances start at once and would race. In CI it is one step:
+
+```yaml
+- name: Migrate production database
+  if: github.ref == 'refs/heads/main'
+  run: php artisan migrate --force
+  env:
+    APP_ENV: production
+    DB_CONNECTION: pgsql
+    DB_URL: ${{ secrets.DATABASE_URL }}
+```
+
+#### 3. Set the environment variables
+
+In **Vercel → Project → Settings → Environment Variables** (never in
+`vercel.json`, which is committed):
+
+```dotenv
+APP_NAME=PayKaro
+APP_ENV=production
+APP_DEBUG=false
+APP_KEY=base64:…                 # php artisan key:generate --show
+APP_URL=https://paykaro.vercel.app
+APP_TIMEZONE=Asia/Kolkata
+
+DB_CONNECTION=pgsql
+DB_URL=postgres://…?sslmode=require
+
+SESSION_DRIVER=database          # the sessions table ships; or `cookie`
+SESSION_SECURE_COOKIE=true
+MAIL_MAILER=smtp                 # + MAIL_HOST / MAIL_PORT / MAIL_USERNAME / …
+MAIL_FROM_ADDRESS=invoices@example.com
+MAIL_FROM_NAME=PayKaro
+
+PAYKARO_DEMO=false
+PAYKARO_BANK_RATE=5.5
+PAYKARO_MSME_DUE_DAYS=45
+PAYKARO_INTEREST_MULTIPLIER=3
+PAYKARO_FINANCE_READY_SCORE=85
+
+GOOGLE_CLIENT_ID=…               # optional
+GOOGLE_CLIENT_SECRET=…
+GOOGLE_REDIRECT_URI=https://paykaro.vercel.app/auth/google/callback
+```
+
+`CACHE_STORE=array`, `QUEUE_CONNECTION=sync`, `LOG_CHANNEL=stderr`, the `/tmp`
+cache paths and `SESSION_DRIVER=database` are **defaults set by `api/index.php`**
+when the project does not define them — a value you set in the dashboard always
+wins, so the two lists cannot fight.
+
+`SESSION_DRIVER=database` is the right choice for a finance app (sessions can be
+revoked and are shared across instances). `cookie` also works and removes a
+database round-trip per request; it caps session data at ~4 KB, which this app
+does not approach.
+
+#### 4. Deploy
+
+```bash
+npm i -g vercel
+vercel link
+vercel deploy --prod
+```
+
+Or import the GitHub repository in the Vercel dashboard; every push to `main`
+then deploys. There is **no build command** — the runtime runs `composer install`
+from the committed `composer.lock` itself. Do **not** add `php artisan optimize`
+to a build step: configuration caching bakes in build-time env, while Vercel
+supplies `APP_KEY` and `DB_URL` at runtime. (Route and view caches are safe and
+optional; Laravel reads config fresh.)
+
+#### 5. Verify
+
+```bash
+curl -sS -o /dev/null -w '%{http_code}\n' https://paykaro.vercel.app/up        # 200
+curl -sS -o /dev/null -w '%{http_code}\n' https://paykaro.vercel.app/login     # 200
+curl -sS -o /dev/null -w '%{http_code}\n' https://paykaro.vercel.app/dashboard # 302
+```
+
+Then: the stylesheet loads (it comes from `public/` as a static asset, not from
+PHP), sign in, create an invoice, open `/reports`, and print one claim packet.
+Live logs are in the Vercel dashboard's **Runtime Logs** — that is where
+`LOG_CHANNEL=stderr` sends them.
+
+#### Local check before pushing
+
+The runtime is a thin wrapper around PHP's built-in server, so the entrypoint can
+be exercised locally (the repo's dev flow stays `php artisan serve`):
+
+```bash
+php -S 127.0.0.1:8080 api/index.php
+```
+
+### 12B. Official container path (FrankenPHP)
+
+Vercel now documents a supported way to run Laravel in a **container-backed
+Function** (FrankenPHP + Caddy, built into an image). It keeps a real web server
+and a normal Laravel lifecycle, so it removes most of the `/tmp` juggling — at
+the cost of building an image on every deploy.
+
+It is not committed, because it changes how the repo is packaged. If you want it:
+
+1. `Dockerfile.vercel` — `FROM dunglas/frankenphp:1-php8.3-bookworm`,
+   `install-php-extensions intl zip pdo_pgsql` (or `pdo_mysql`), `composer install
+   --no-dev --optimize-autoloader`, copy the app, create `storage/*` and
+   `bootstrap/cache`, run as `www-data`, `ENV PORT=80`;
+2. `Caddyfile` — `:{$PORT:80} { root * /app/public  encode zstd gzip  php_server }`;
+3. `vercel.json` — replace the `functions`/`rewrites` block with
+   `"services": { "app": { "root": ".", "entrypoint": "Dockerfile.vercel", "runtime": "container" } }`
+   and a catch-all rewrite to that service.
+
+Two rules from Vercel's guide matter here: **migrations run in CI, not at
+container start**, and **do not bake a config cache into the image** (env is
+injected at runtime). Everything else in §12A step 3 still applies — external
+database, `APP_KEY` from the dashboard, `PAYKARO_DEMO=false`.
+
+### Which Vercel path to pick
+
+| | Serverless (`vercel-php`) | Container (FrankenPHP) |
+|---|---|---|
+| Committed already | ✅ | ✗ (3 files to add) |
+| PHP version | 8.3 (runtime `0.7.4`) | whatever the image pins |
+| Cold start | ~250 ms, warm ~5 ms | image pull + boot |
+| Real web server | ✗ (PHP dev server in the lambda) | ✅ Caddy |
+| Image / bundle size limits | ~250 MB unzipped | container image limits |
+| Best for | a demo, a pilot, a low-traffic deployment | a serious production deployment |
+
+Either way the database, sessions and the `PAYKARO_*` numbers are configured the
+same way — and an external database is not optional on Vercel.

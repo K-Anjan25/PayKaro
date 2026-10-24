@@ -76,7 +76,10 @@ running `migrate --seed` against a real book.
 
 [`DEPLOY.md`](DEPLOY.md) is the runbook: server setup, a production `.env`, the
 Nginx/FPM config, the release script, verification, multi-server notes and the
-`APP_KEY` / bank-rate traps.
+`APP_KEY` / bank-rate traps. It also covers **Vercel** (§12): `vercel.json` and
+`api/index.php` are committed for the serverless PHP runtime, with the caveat that
+Vercel has no persistent disk — so the database must be an external Postgres/MySQL,
+and SQLite (the local default) cannot be used there.
 
 ## Tests
 
