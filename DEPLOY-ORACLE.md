@@ -422,17 +422,74 @@ or push it to object storage (Cloudflare R2 / Backblaze B2 free tiers) with
 
 ---
 
-## Step 13 · Keep it running
+## Step 13 · Keep it running — and what "always online" really means
 
-- **Idle reclamation.** Oracle may *stop* an Always Free instance whose
-  95th-percentile CPU, network **and** memory all stay under 20% for 7 days. It
-  stops the machine — **your disk and data stay**. Restart it from the console
-  (or `oci compute instance action --action START`). A quiet app with Nginx +
-  PHP-FPM resident usually clears the memory bar; a daily ping helps the rest:
+### Your PC has nothing to do with it
+
+Once Steps 1–10 are done, the app is served by an Oracle VM in an Oracle data
+centre. It keeps running when your laptop is shut, asleep, on a train, or
+reinstalled. Your machine is only needed to:
+
+| Task | Needs your PC? | When |
+|---|---|---|
+| Serving requests to users | **No** | always — the VM does it |
+| Sending invoice email | **No** | the VM (or an SMTP relay) does it |
+| Nightly backup | **No** | cron on the VM |
+| TLS renewal | **No** | `certbot.timer` on the VM |
+| Deploying a code change | Yes | `git push` + the Step 14 commands |
+| Restarting after Oracle stops the VM | Yes (or your phone) | only if idle reclamation fires |
+
+The one thing that *would* go offline with your PC is running the app locally
+(`php artisan serve`) and calling that "deployed" — a dev server on a laptop is
+not a deployment, and there is no tunnel or port-forward in this guide.
+
+### The single caveat: idle reclamation
+
+Always Free instances may be **stopped** by Oracle if, over a rolling 7 days,
+95th-percentile **CPU, network and memory** are *all* below 20%. Two things make
+that survivable:
+
+- **The boot volume and your database file are not deleted.** Only the instance
+  is stopped; starting it again from the console brings the app back with data
+  intact. (This is why the nightly backup in Step 12 is still not optional.)
+- **A real workspace rarely trips it.** Nginx + PHP-FPM resident, plus a few
+  daily visitors, keeps memory above 20% of 1 GB and clears the network bar. A
+  brand-new site with zero visitors for a week is the risk case:
 
   ```cron
   0 8 * * * curl -fsS -m 10 https://<IP>.sslip.io/up > /dev/null
   ```
+
+  Add that with `crontab -e` (Step 12 shows where). It keeps a little traffic
+  flowing and, more usefully, tells you nothing has silently stopped.
+
+### Want reclamation off the table?
+
+Two options, in order of effort:
+
+1. **Upgrade the tenancy to Pay-As-You-Go** (Billing → Upgrade). Stay inside the
+   Always Free limits and the bill stays ₹0 — Oracle has stated PAYG tenancies
+   are exempt from idle reclamation, and ARM capacity is also more available to
+   them. The trade: exceeding the limits now **bills you** instead of being
+   blocked, so set a **Budget alert** at ₹100 in Billing → Cost Management.
+2. **Keep the daily ping cron** and accept a stop-and-restart in the worst case.
+
+### What else can take it down (and the fix)
+
+| Cause | Symptom | Fix |
+|---|---|---|
+| Idle reclamation | Site unreachable, instance **Stopped** in console | Start it; add the ping cron |
+| VM reboot (patching, host maintenance) | Everything down until boot finishes | Nginx and PHP-FPM are enabled at boot — it self-recovers. Verify: `sudo systemctl is-enabled nginx php8.3-fpm` → `enabled` |
+| App process died | `502 Bad Gateway` | `sudo systemctl restart php8.3-fpm nginx` |
+| Disk full | `500`s, writes fail | `df -h`; prune old backups, `journalctl --vacuum-time=7d` |
+| Certificate expiry | Browser `NET::ERR_CERT_DATE_INVALID` | `sudo certbot renew`; the installed timer normally does it |
+| Card verification lapses | Whole tenancy suspended | Keep a valid card on the account |
+
+### Prove it, once
+
+Deploy, then **shut your laptop down for an hour** and open the site from your
+phone. If it loads, the deployment is independent of your machine — which is the
+whole point.
 
 - **Monthly housekeeping** (5 minutes): `sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt -y upgrade`,
   check `df -h` and `free -h`, confirm `ls /home/ubuntu/backups` is filling up,
