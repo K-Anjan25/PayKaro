@@ -1,0 +1,18 @@
+# FrankenPHP's Caddyfile: the document root is public/, every other path is a
+# Laravel route. `{$PORT:8080}` is what lets one image run unchanged on Railway,
+# Render, Fly.io, DigitalOcean, Cloud Run and a plain `docker run`.
+:{$PORT:8080} {
+	root * /app/public
+
+	encode zstd gzip
+
+	# Static assets (assets/app.css, favicon.ico, robots.txt) are served straight
+	# from disk; everything else goes to public/index.php.
+	php_server
+
+	# Platforms collect stdout — this is the request log, not the app log.
+	# The app log is LOG_CHANNEL=stderr (see the Dockerfile).
+	log {
+		output stdout
+	}
+}

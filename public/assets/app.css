@@ -72,6 +72,12 @@
 	--n-inset:inset 0 1px 2px 0 rgba(11,19,43,.05);
 
 	--n-radius:12px;
+
+	/* The single gutter every page shell uses. The shells themselves are
+	   full-bleed (no `max-width`), so this is the only thing that keeps content
+	   off the glass on a wide monitor — and it grows with the viewport instead of
+	   leaving a capped column stranded in the middle of the screen. */
+	--n-gutter:clamp(1rem, 2.4vw, 3rem);
 }
 
 /* ----------------------------------------------------------------------------
@@ -156,6 +162,9 @@ html.dark {
 /* ============================================================================
    Base
    ========================================================================== */
+/* No default 8px body margin: every shell below is full-bleed, and the default
+   margin would leave a white frame around the sticky header and the footer. */
+html, body { margin:0; padding:0; }
 .pkg { font-family:var(--n-font); background:var(--n-canvas); color:var(--n-ink); min-height:100vh; line-height:1.5; -webkit-font-smoothing:antialiased; letter-spacing:-0.006em; }
 .pkg *, .page * { box-sizing:border-box; }
 .pkg h1,.pkg h2,.pkg h3,.pkg h4 { margin:0; font-family:var(--n-font); color:var(--n-ink); }
@@ -191,9 +200,10 @@ html.dark {
 	letter-spacing:.01em;
 }
 .pkg-util-inner {
-	max-width:84rem;
-	margin:0 auto;
-	padding:.5rem 1.25rem;
+	width:100%;
+	max-width:none;
+	margin:0;
+	padding:.5rem var(--n-gutter);
 	display:flex;
 	align-items:center;
 	gap:.4rem 1.25rem;
@@ -229,9 +239,10 @@ html.dark {
 	box-shadow:0 1px 0 rgba(11,19,43,.04);
 }
 .pkg-head-inner {
-	max-width:84rem;
-	margin:0 auto;
-	padding:0 1.25rem;
+	width:100%;
+	max-width:none;
+	margin:0;
+	padding:0 var(--n-gutter);
 	display:flex;
 	align-items:stretch;
 	gap:0;
@@ -301,9 +312,10 @@ html.dark {
 .pkg-shell { display:block; min-height:100vh; }
 .pkg-main-wrap { min-width:0; }
 .pkg-main {
-	padding:1.6rem 1.5rem 2.5rem;
-	max-width:84rem;
-	margin:0 auto;
+	width:100%;
+	max-width:none;
+	padding:1.6rem var(--n-gutter) 2.5rem;
+	margin:0;
 	min-width:0;
 }
 
@@ -607,7 +619,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .pkg-bucket-fill--danger { background:var(--n-coral); }
 .pkg-bucket-fill--brand { background:linear-gradient(90deg,var(--n-blue),var(--n-gold)); }
 
-.pkg-footer { padding:1.2rem 1.5rem 2rem; font-size:.78rem; color:var(--n-ink-mute); max-width:84rem; margin:0 auto; }
+.pkg-footer { width:100%; padding:1.2rem var(--n-gutter) 2rem; font-size:.78rem; color:var(--n-ink-mute); max-width:none; margin:0; }
 
 /* ============================================================================
    Responsive — top header collapses to a mobile-friendly form.
@@ -626,7 +638,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.pkg-bars { padding:.55rem .7rem .55rem 0; }
 }
 @media (max-width:780px) {
-	.pkg-util-inner { font-size:.7rem; padding:.4rem .9rem; gap:.8rem; }
+	.pkg-util-inner { font-size:.7rem; padding:.4rem var(--n-gutter); gap:.8rem; }
 	.pkg-util-sep:nth-of-type(3) { display:none; }
 	.pkg-util .pkg-util-hide { display:none; }
 	.pkg-grid--4,.pkg-grid--3,.pkg-grid--2 { grid-template-columns:minmax(0,1fr); }
@@ -634,7 +646,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.pkg-invoicemeta { grid-template-columns:repeat(2,minmax(0,1fr)); }
 	.pkg-search input { width:6rem; }
 	.pkg-h1 { font-size:1.55rem; }
-	.pkg-main { padding:1.1rem .9rem 2rem; }
+	.pkg-main { padding:1.1rem var(--n-gutter) 2rem; }
 	.pkg-brand-text .sub { display:none; }
 	.pkg-nav a.is-active::after { display:none; }
 }
@@ -648,15 +660,20 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
    (re-uses the same top header above; below are the new section styles)
    ========================================================================== */
 
-.page { font-family:var(--n-font); background:var(--n-canvas); color:var(--n-ink); }
+/* Public shell: full width and full height, footer at the bottom. */
+.page { font-family:var(--n-font); background:var(--n-canvas); color:var(--n-ink);
+	min-height:100vh; display:flex; flex-direction:column; }
+.page > main { flex:1 0 auto; width:100%; }
 .page *, .page *::before, .page *::after { box-sizing:border-box; }
 .page h1, .page h2, .page h3, .page h4 { margin:0; font-family:var(--n-display); font-weight:600; color:var(--n-ink); letter-spacing:-.02em; }
 .page p { margin:0; }
 .page :where(a) { text-decoration:none; color:inherit; }
 .page button { font-family:inherit; }
 
-/* Editorial helpers */
-.page .container { max-width:78rem; margin:0 auto; padding:0 1.5rem; }
+/* Editorial helpers.
+   The public shell is full-bleed: every section spans the viewport and the
+   gutter — not a centred max-width column — is what insets the content. */
+.page .container { width:100%; max-width:none; margin:0; padding:0 var(--n-gutter); }
 .page .eyebrow { display:inline-flex; align-items:center; gap:.4rem; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.16em; color:var(--n-blue); }
 .page .eyebrow--gold { color:#0369a1; }
 .page .eyebrow--on-dark { color:var(--n-gold); }
@@ -877,17 +894,17 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .news-card:hover .more::after { transform:translateX(3px); }
 
 /* Standalone news article (/news/{slug}) */
-.article-wrap { max-width:46rem; margin:1.6rem auto 0; }
+.article-wrap { width:100%; max-width:none; margin:1.6rem 0 0; }
 .article-meta { display:flex; align-items:center; gap:.6rem; font-size:.74rem; text-transform:uppercase; letter-spacing:.12em; color:var(--n-blue); font-weight:800; }
 .article-meta .tag { background:var(--n-blue-soft); border-radius:999px; padding:.2rem .6rem; }
 .article-title { font-family:var(--n-display); font-weight:600; font-size:clamp(1.9rem,4vw,2.8rem); line-height:1.1; letter-spacing:-.025em; color:var(--n-ink); margin:.8rem 0 .9rem; }
 .article-dek { color:var(--n-ink-soft); font-size:1.1rem; line-height:1.6; }
-.article-hero { max-width:56rem; margin:2.2rem auto 0; border-radius:18px; overflow:hidden; border:1px solid var(--n-line); }
+.article-hero { width:100%; max-width:none; margin:2.2rem 0 0; border-radius:18px; overflow:hidden; border:1px solid var(--n-line); }
 .article-hero img { width:100%; aspect-ratio:16/7; object-fit:cover; display:block; }
 .article-body { max-width:44rem; margin:0 auto; padding:2.6rem 1.5rem 0; font-size:1.04rem; line-height:1.78; color:var(--n-ink-soft); }
 .article-body h2 { font-family:var(--n-display); font-weight:600; color:var(--n-ink); font-size:1.45rem; letter-spacing:-.02em; margin:2.4rem 0 .9rem; }
 .article-body p { margin:0 0 1.2rem; }
-.article-cta { max-width:44rem; margin:2.6rem auto 0; background:var(--n-blue-deep); color:#fff; border-radius:18px; padding:2.4rem 2rem; text-align:center; }
+.article-cta { width:100%; max-width:none; margin:2.6rem 0 0; background:var(--n-blue-deep); color:#fff; border-radius:18px; padding:2.4rem 2rem; text-align:center; }
 .article-cta .display { color:#fff; font-size:clamp(1.5rem,2.6vw,2rem); margin-top:.6rem; }
 .article-cta p:not(.eyebrow) { color:rgba(255,255,255,.78); margin-top:.6rem; font-size:1rem; }
 @media (max-width:720px) { .article-body { padding:2rem 0 0; } .article-cta { margin-bottom:0; } }
@@ -937,8 +954,8 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .page-footer a:hover { color:var(--n-gold); }
 .page-footer .meta { font-size:.78rem; color:rgba(255,255,255,.55); margin-top:1rem; }
 /* The brand line in the marketing footer: one placement, every public page. */
-.page-footer-line { max-width:78rem; margin:0 auto; padding:0 1.5rem; color:#fff; font-size:1.05rem; font-weight:800; letter-spacing:-.02em; }
-.page-footer-bottom { max-width:78rem; margin:1.5rem auto 0; padding:1rem 1.5rem 0; border-top:1px solid rgba(255,255,255,.14); display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; font-size:.78rem; color:rgba(255,255,255,.6); }
+.page-footer-line { width:100%; max-width:none; margin:0; padding:0 var(--n-gutter); color:#fff; font-size:1.05rem; font-weight:800; letter-spacing:-.02em; }
+.page-footer-bottom { width:100%; max-width:none; margin:1.5rem 0 0; padding:1rem var(--n-gutter) 0; border-top:1px solid rgba(255,255,255,.14); display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; font-size:.78rem; color:rgba(255,255,255,.6); }
 
 /* ============================================================================
    First-run checklist — the dashboard card a new workspace sees (§6).
@@ -1080,8 +1097,9 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .legal-toc-links a { font-size:.75rem; font-weight:700; color:var(--n-blue); text-decoration:none; }
 .legal-toc-links a:hover { text-decoration:underline; }
 
-/* The container is 78rem; unbounded, this column ran to ~120 characters a line
-   and pushed prose to the edge of the viewport. */
+/* The shell is full-bleed, so the measure — not the container — is what keeps a
+   paragraph readable. Unbounded, this column runs to ~120 characters a line on a
+   desktop and prose spreads to the edge of the viewport. */
 .legal-prose { max-width:70ch; }
 .legal-prose p { font-size:.92rem; line-height:1.75; color:var(--n-ink-soft); margin:.7rem 0; }
 .legal-part { padding-bottom:1.9rem; margin-bottom:1.9rem; border-bottom:1px solid var(--n-line-2); }
@@ -1121,20 +1139,32 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	border:0;
 }
 
-.app-shell { min-height:100vh; background:var(--n-canvas); }
+/* The workspace shell fills the viewport in both directions: full width (above)
+   and at least one screen tall, with the footer pinned to the bottom when a
+   short page — settings, a form — would otherwise stop halfway down. */
+.app-shell {
+	min-height:100vh;
+	background:var(--n-canvas);
+	display:flex;
+	flex-direction:column;
+}
 .app-util {
 	background:rgba(255,255,255,.72);
 	backdrop-filter:blur(12px);
 	border-bottom:1px solid var(--n-line);
 }
+/* Full-bleed workspace chrome: the utility bar, header, nav and footer line up
+   with the content below them edge to edge, rather than all four being capped
+   at 84rem while their own backgrounds run the full width. */
 .app-util-inner,
 .app-head-main,
 .app-head-nav,
 .app-footer {
-	max-width:84rem;
-	margin:0 auto;
-	padding-left:1.5rem;
-	padding-right:1.5rem;
+	width:100%;
+	max-width:none;
+	margin:0;
+	padding-left:var(--n-gutter);
+	padding-right:var(--n-gutter);
 }
 .app-util-inner {
 	display:flex;
@@ -1291,7 +1321,8 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .app-drawer.is-open { display:block; }
 .app-drawer a { display:block; padding:.8rem 0; border-bottom:1px solid var(--n-line-2); font-weight:600; color:var(--n-ink-soft); }
 .app-drawer a.is-active { color:var(--n-blue); }
-.app-main-wrap { min-width:0; }
+.app-main-wrap { min-width:0; flex:1 1 auto; display:flex; flex-direction:column; }
+.app-main-wrap > .pkg-main { flex:1 0 auto; }
 .app-footer {
 	display:flex;
 	align-items:center;
@@ -1839,9 +1870,12 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 .bucket-mini-top { justify-content:flex-start; gap:.45rem; flex-wrap:wrap; margin-bottom:.65rem; }
 .bucket-mini-value { font-size:1.6rem; font-weight:800; letter-spacing:-.04em; color:var(--n-ink); }
 
+/* The packet is a page of its own: it fills the workspace width on screen
+   (the schedules are wide tables) and drops the inset when printed. */
 .claim-sheet {
-	max-width:58rem;
-	margin:0 auto 1.5rem;
+	width:100%;
+	max-width:none;
+	margin:0 0 1.5rem;
 	background:var(--n-paper);
 	border:1px solid var(--n-line);
 	border-radius:24px;
@@ -1965,7 +1999,7 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.app-head-nav,
 	.app-util-inner,
 	.app-footer,
-	.pkg-main { padding-left:1rem; padding-right:1rem; }
+	.pkg-main { padding-left:var(--n-gutter); padding-right:var(--n-gutter); }
 	.metric-grid--4,
 	.metric-grid--3,
 	.auth-mini-grid,
@@ -2069,6 +2103,13 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.pkg-main,
 	.pkg-card,
 	.claim-sheet { background:#fff !important; box-shadow:none !important; }
+
+	/* A paper sheet is not a 100vh flex column: the shell rules that pin the
+	   footer on screen are dropped, or a short packet prints with a blank page. */
+	body.pkg,
+	body.page,
+	.app-shell,
+	.app-main-wrap { min-height:0; display:block; }
 
 	.claim-sheet {
 		max-width:none;

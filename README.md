@@ -66,6 +66,36 @@ Full instructions, the Google configuration and how to point at MySQL are in
 [`RUN.md`](RUN.md). [`MIGRATION.md`](MIGRATION.md) lists what changed on the way off
 the flat-PHP implementation and what was deliberately kept.
 
+## Deploy
+
+Production is the standard Laravel shape — PHP 8.3 + Composer, document root on
+`public/`, MySQL/PostgreSQL, SMTP — and nothing is built: the CSS is committed and
+there is no queue worker or scheduled task. The three deployment-specific steps are
+setting the `PAYKARO_*` statutory numbers, turning `PAYKARO_DEMO=false`, and never
+running `migrate --seed` against a real book.
+
+[`DEPLOY.md`](DEPLOY.md) is the runbook: server setup, a production `.env`, the
+Nginx/FPM config, the release script, verification, multi-server notes and the
+`APP_KEY` / bank-rate traps.
+
+Two more targets are wired up in the repo:
+
+- **Any container platform** — `Dockerfile` (FrankenPHP + Caddy, PHP 8.3, one
+  process on `$PORT`), `Caddyfile`, `docker/entrypoint.sh` and a
+  `docker-compose.yml` for local parity. Fly.io (Mumbai), Railway, Render,
+  DigitalOcean App Platform (Bangalore), Cloud Run, AWS and Azure all deploy the
+  same image — see §13.
+- **Free, always on** — Oracle Cloud's Always Free tier (regions in Mumbai and
+  Hyderabad) or Northflank's free Sandbox; §14 also covers Render + Neon and what
+  each free tier really costs you. [`DEPLOY-ORACLE.md`](DEPLOY-ORACLE.md) is the
+  step-by-step for the Oracle route: VM → firewall → Nginx → TLS on a free
+  `sslip.io` hostname → backups.
+- **Vercel** — `vercel.json` + `api/index.php` for the serverless PHP runtime
+  (§12). No persistent disk there, so the database must be an external
+  Postgres/MySQL; SQLite (the local default) cannot be used.
+  [`DEPLOY-VERCEL.md`](DEPLOY-VERCEL.md) is the step-by-step: Neon database,
+  migrations from GitHub Actions, env vars, verification, troubleshooting.
+
 ## Tests
 
 ```bash
