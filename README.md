@@ -66,6 +66,18 @@ Full instructions, the Google configuration and how to point at MySQL are in
 [`RUN.md`](RUN.md). [`MIGRATION.md`](MIGRATION.md) lists what changed on the way off
 the flat-PHP implementation and what was deliberately kept.
 
+## Deploy
+
+Production is the standard Laravel shape — PHP 8.3 + Composer, document root on
+`public/`, MySQL/PostgreSQL, SMTP — and nothing is built: the CSS is committed and
+there is no queue worker or scheduled task. The three deployment-specific steps are
+setting the `PAYKARO_*` statutory numbers, turning `PAYKARO_DEMO=false`, and never
+running `migrate --seed` against a real book.
+
+[`DEPLOY.md`](DEPLOY.md) is the runbook: server setup, a production `.env`, the
+Nginx/FPM config, the release script, verification, multi-server notes and the
+`APP_KEY` / bank-rate traps.
+
 ## Tests
 
 ```bash
