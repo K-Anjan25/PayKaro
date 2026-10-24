@@ -85,6 +85,9 @@ Two more targets are wired up in the repo:
   `docker-compose.yml` for local parity. Fly.io (Mumbai), Railway, Render,
   DigitalOcean App Platform (Bangalore), Cloud Run, AWS and Azure all deploy the
   same image — see §13.
+- **Free, always on** — Oracle Cloud's Always Free tier (regions in Mumbai and
+  Hyderabad) or Northflank's free Sandbox; §14 also covers Render + Neon and what
+  each free tier really costs you.
 - **Vercel** — `vercel.json` + `api/index.php` for the serverless PHP runtime
   (§12). No persistent disk there, so the database must be an external
   Postgres/MySQL; SQLite (the local default) cannot be used.

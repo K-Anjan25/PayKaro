@@ -349,7 +349,10 @@ agreement, because it is what defines "overdue" and starts the clock.
 
 | Target | Notes |
 |---|---|
-| **VPS** (Ubuntu + Nginx + PHP-FPM + MySQL) | The instructions above; the most predictable |
+| **VPS** (Ubuntu + Nginx + PHP-FPM + MySQL) | The instructions above; the most predictable. Oracle Cloud's Always Free tier (§14A) is this same recipe at ₹0 |
+| **Northflank Sandbox** | Free forever, always on, 1 database included — the best $0 PaaS for this app (§14B) |
+| **Render free** | $0 but sleeps after 15 min; pair it with Neon, not Render's expiring Postgres (§14C) |
+| **Google Cloud Run / Azure Container Apps** | Always-free monthly quota, scales to zero, needs a card — effectively $0 at pilot traffic and an India region |
 | **Laravel Forge / Ploi** | Same `.env` and deploy script; the panel provides Nginx, TLS, PHP-FPM and queue supervision |
 | **Shared hosting / cPanel** | Works: PHP 8.3, `DocumentRoot` → `public/`, `mod_rewrite` (`.htaccess` is committed), MySQL, Composer. No daemons needed |
 | **Vercel** | Possible in two ways — the committed `vercel.json` + `api/index.php` (serverless PHP runtime), or the container image from §13 via Vercel's Docker/FrankenPHP path. Both need an **external database**. See §12 |
@@ -688,3 +691,124 @@ need them.
 - **Managed backups for less than a plan tier.** On Railway and Fly, Postgres is
   something you operate: schedule `pg_dump` yourself, or use a managed provider
   (Neon, Supabase, RDS) and keep only the app on the PaaS.
+
+---
+
+## 14. Running it for ₹0 — what "completely free" actually means here
+
+Free tiers split into three groups, and for this app the distinction is not
+academic: a receivables ledger that silently loses rows, or that sleeps for a
+minute every time a supplier opens it, is worse than paying ₹500/month.
+
+| Group | Means | Who is in it |
+|---|---|---|
+| **Free forever, always on** | $0 indefinitely, no cold start, no expiry | Oracle Cloud Always Free (AMD micro VMs, or 2 OCPU/12 GB ARM), Northflank Sandbox |
+| **Free forever, but cold starts** | $0, sleeps after an idle window (15 min – 1 h), 1–5 s to a minute to wake | Render free web service, Vercel Hobby (non-commercial only), Hugging Face Spaces |
+| **Free only within a monthly quota** | $0 *if* you stay under it; a card is required and overage bills | Google Cloud Run, Azure Container Apps (`asia-south1` Mumbai / Central India available) |
+| **Not free any more** | — | Railway (no tier; $5/mo minimum), Fly.io (no allowance for orgs created after Oct 2024), Koyeb (closed to new users Feb 2026, Pro $29), Heroku |
+
+### The free database decides the free platform
+
+The app needs an external database on any PaaS (§8), so the DB free tier matters
+as much as the host. Ranked for this workload:
+
+| Option | Free allowance | Idle behaviour | Verdict |
+|---|---|---|---|
+| **Neon** (Postgres) | 1 GB/project, no expiry, no card | Suspends after 5 min, **wakes automatically in ~0.5 s** | ✅ Best. A ledger that wakes itself is usable |
+| **Supabase** (Postgres) | 500 MB, 2 projects | **Pauses after 7 days of inactivity — manual restore from the dashboard** | ⚠️ The app stays down until you log in and click. Fine for a demo, not for invoices |
+| **Render Postgres** | 1 GB | **Expires 30 days after creation**, then a 14-day grace period, then deleted | ❌ A countdown, not a free tier |
+| **Neon/Supabase self-host, or Postgres on the Oracle VM** | whatever the VM has | always on | ✅ If you take the Oracle VM route, this is free and permanent |
+| Turso (libSQL) | 9 GB | always on | ❌ SQLite-compatible, not SQLite; Laravel would need a different driver |
+
+For Neon, point Laravel at the **direct** (non-pooled) host, not the PgBouncer
+endpoint — transaction pooling breaks PDO's named prepared statements. Traffic
+here is low; the direct connection is the safer default:
+
+```dotenv
+DB_CONNECTION=pgsql
+DB_URL="postgres://USER:PASSWORD@ep-xxx.REGION.aws.neon.tech/paykaro?sslmode=require"
+```
+
+### 14A. The genuinely-free, genuinely-always-on option: Oracle Cloud Always Free
+
+The only option that is $0 forever, always on, has **regions in Mumbai
+(`ap-mumbai-1`) and Hyderabad (`ap-hyderabad-1`)**, and keeps a local disk — so
+SQLite (the app's zero-config default) is back on the table, and cold starts and
+sleeping simply do not exist.
+
+What the free tenancy includes (2026, after the cut):
+
+| Resource | Always Free | Note |
+|---|---|---|
+| AMD micro VMs | 2 × `VM.Standard.E2.1.Micro` (1/8 OCPU, 1 GB) | Unchanged by the 2026 cut; enough for this app |
+| Ampere A1 (ARM) | **2 OCPU / 12 GB** total | Halved from 4/24 on 15 June 2026, enforced from 18 Aug 2026 |
+| Block storage | 200 GB total | Plenty for the app + a SQLite file |
+| Egress | 10 TB/month | |
+| Autonomous DB | 2 × 20 GB | |
+
+Two rules to respect, or the instance disappears:
+
+- **Idle reclamation** — an Always Free instance can be reclaimed if, over 7 days,
+  95th-percentile CPU, network **and** memory are all under 20%. A real workspace
+  with traffic clears this; a forgotten demo box does not. A cron that touches the
+  app daily (`curl https://your-host/up`) is the usual insurance.
+- **A1 capacity is scarce in India.** "Out of host capacity" on ARM is common in
+  Mumbai/Hyderabad; the AMD micro shapes are the reliable route, and they are
+  sufficient here (PHP-FPM + SQLite/Postgres at a few requests per second).
+
+Signup needs a card for identity verification (a temporary hold, not a charge),
+and Oracle rejects some signups for fraud-scoring reasons. Once in:
+
+```bash
+# On the VM (Ubuntu 24.04 image), the §1–§5 recipe applies unchanged:
+sudo apt install php8.3-fpm php8.3-cli php8.3-mbstring php8.3-xml php8.3-curl \
+                 php8.3-sqlite3 nginx composer unzip git
+# …then follow §2–§6 exactly.
+```
+
+You are the operator: OS patching, `pg_dump`/file backups, TLS renewal. That is
+the trade for ₹0 with no cold starts.
+
+### 14B. Best free PaaS: Northflank Sandbox
+
+2 services + 1 database + 2 cron jobs, **always on with no sleeping**, $0,
+cancel-any-time pay-as-you-go above it. It builds the repo's `Dockerfile`
+directly, so nothing new is needed:
+
+1. New project → *Service* → deploy from your GitHub repo → build type
+   **Dockerfile**, port `8080`, health check `/up`.
+2. Add a *Postgres* addon; copy its connection string into `DB_URL`.
+3. Environment: `APP_KEY`, `APP_URL`, `DB_CONNECTION=pgsql`, `DB_URL`,
+   `SESSION_DRIVER=database`, `CACHE_STORE=database`, `TRUSTED_PROXIES=*`,
+   `PAYKARO_DEMO=false`, and the `PAYKARO_*` numbers.
+4. Migrate once from the service's console (or locally against the addon):
+   `php artisan migrate --force`. Leave `RUN_MIGRATIONS` off afterwards.
+
+One caveat, stated on both sides of their own docs: the pricing page says "No card
+needed" while the billing docs say a payment method is required to create any
+resource. Expect to add a card for verification; the Sandbox itself does not
+charge.
+
+### 14C. Free-but-sleeping: Render + Neon
+
+The easiest $0 demo of this app, if you accept a ~1 minute cold start when nobody
+has visited for 15 minutes:
+
+1. Render → *New → Web Service* → your repo → **Docker** → region **Singapore** →
+   health check `/up`.
+2. Neon → create a project → copy the **direct** connection string.
+3. Same environment variables as 14B, plus `RUN_MIGRATIONS=true` for the first
+   deploy only (single instance).
+4. Expect `750` free instance-hours/month per workspace, and a spin-up of about a
+   minute after idle. Do **not** use Render's own free Postgres: it expires 30
+   days after creation.
+
+### Two things to accept about every free tier
+
+- **No SLA, no backup, no warning.** Oracle halved its free ARM allocation with
+  no announcement; Render cut free Postgres from 90 days to 30; Railway and Koyeb
+  ended their free tiers outright. Treat free hosting as a *phase*, not a
+  foundation — which is exactly why the deployment is now one portable
+  `Dockerfile`: moving to a ₹400/month VM later is an afternoon, not a rewrite.
+- **Free databases have no backups.** Schedule `pg_dump` to object storage
+  (Cloudflare R2 / Backblaze B2 free tiers) from day one, whatever the host.
