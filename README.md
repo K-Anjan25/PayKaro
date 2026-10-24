@@ -93,6 +93,8 @@ Two more targets are wired up in the repo:
 - **Vercel** — `vercel.json` + `api/index.php` for the serverless PHP runtime
   (§12). No persistent disk there, so the database must be an external
   Postgres/MySQL; SQLite (the local default) cannot be used.
+  [`DEPLOY-VERCEL.md`](DEPLOY-VERCEL.md) is the step-by-step: Neon database,
+  migrations from GitHub Actions, env vars, verification, troubleshooting.
 
 ## Tests
 

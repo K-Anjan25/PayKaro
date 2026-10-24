@@ -365,6 +365,11 @@ a database — every option above is a different way of providing those three.
 
 ## 12. Vercel
 
+> **Step-by-step:** [`DEPLOY-VERCEL.md`](DEPLOY-VERCEL.md) is the complete
+> walkthrough — Neon database, `APP_KEY`, migrations from GitHub Actions, the
+> environment-variable table, verification and a Vercel-specific troubleshooting
+> list. What follows is the summary and the reasoning.
+
 Yes — this repo is already wired for Vercel, but it is the **second-best** target
 for this app, and the trade-off is worth stating plainly before the how-to.
 
