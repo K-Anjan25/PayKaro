@@ -87,7 +87,9 @@ Two more targets are wired up in the repo:
   same image — see §13.
 - **Free, always on** — Oracle Cloud's Always Free tier (regions in Mumbai and
   Hyderabad) or Northflank's free Sandbox; §14 also covers Render + Neon and what
-  each free tier really costs you.
+  each free tier really costs you. [`DEPLOY-ORACLE.md`](DEPLOY-ORACLE.md) is the
+  step-by-step for the Oracle route: VM → firewall → Nginx → TLS on a free
+  `sslip.io` hostname → backups.
 - **Vercel** — `vercel.json` + `api/index.php` for the serverless PHP runtime
   (§12). No persistent disk there, so the database must be an external
   Postgres/MySQL; SQLite (the local default) cannot be used.

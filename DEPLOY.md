@@ -731,6 +731,10 @@ DB_URL="postgres://USER:PASSWORD@ep-xxx.REGION.aws.neon.tech/paykaro?sslmode=req
 
 ### 14A. The genuinely-free, genuinely-always-on option: Oracle Cloud Always Free
 
+> **Step-by-step:** [`DEPLOY-ORACLE.md`](DEPLOY-ORACLE.md) walks the whole thing —
+> signup, VM, firewall, Nginx, TLS on a free `sslip.io` hostname, backups and
+> troubleshooting. What follows is the summary and the limits.
+
 The only option that is $0 forever, always on, has **regions in Mumbai
 (`ap-mumbai-1`) and Hyderabad (`ap-hyderabad-1`)**, and keeps a local disk — so
 SQLite (the app's zero-config default) is back on the table, and cold starts and
