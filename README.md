@@ -142,3 +142,15 @@ queue and the claim packet cannot drift apart.
 ```
 PAYKARO_MSME_DUE_DAYS=60 PAYKARO_FINANCE_READY_SCORE=90 php artisan serve
 ```
+
+## Contributing
+
+Bug reports and pull requests are welcome — [`CONTRIBUTING.md`](CONTRIBUTING.md) has
+the setup, the checks CI runs (`php artisan test`, `pint --test`, and
+`bridge/overflow-sim.mjs` when a grid or `app.css` changes) and the rules the test
+suite enforces: derived money, fail-closed tenancy, policy-gated roles, token
+colours and no invented figures.
+
+## License
+
+MIT — see [`LICENSE`](LICENSE). `composer.json` already declares the same licence.
