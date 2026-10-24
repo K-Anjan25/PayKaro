@@ -1,5 +1,5 @@
 <x-layouts.public title="Brand" active="brand">
-<div class="container" style="padding:5rem 0 1rem;">
+<div class="container" style="padding-top:5rem; padding-bottom:1rem;">
     <div class="sec-head" style="grid-template-columns:1fr;">
         <div>
             <p class="eyebrow">Brand</p>
