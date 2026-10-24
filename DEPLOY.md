@@ -352,11 +352,11 @@ agreement, because it is what defines "overdue" and starts the clock.
 | **VPS** (Ubuntu + Nginx + PHP-FPM + MySQL) | The instructions above; the most predictable |
 | **Laravel Forge / Ploi** | Same `.env` and deploy script; the panel provides Nginx, TLS, PHP-FPM and queue supervision |
 | **Shared hosting / cPanel** | Works: PHP 8.3, `DocumentRoot` → `public/`, `mod_rewrite` (`.htaccess` is committed), MySQL, Composer. No daemons needed |
-| **Vercel** | Possible in two ways — the committed `vercel.json` + `api/index.php` (serverless PHP runtime), or Vercel's official Docker/FrankenPHP container. Both need an **external database**. See §12 |
-| **Docker / Fly.io / Render / Railway / Cloud Run** | Only Vercel has manifests committed (§12). Anywhere else the image needs `php:8.3-fpm` (or `-alpine`) with the extensions above, Nginx or Caddy in front, `root public/`, and the release commands from §5 as an entrypoint/release step |
+| **Vercel** | Possible in two ways — the committed `vercel.json` + `api/index.php` (serverless PHP runtime), or the container image from §13 via Vercel's Docker/FrankenPHP path. Both need an **external database**. See §12 |
+| **Fly.io / Render / Railway / DigitalOcean App Platform / Cloud Run / AWS / Azure** | The repo ships a `Dockerfile` (FrankenPHP + Caddy, one process on `$PORT`), so all of these deploy the same image — **Fly.io has a Mumbai region**, the others are Singapore/US/EU or their own India regions. See §13 for the shortlist and per-platform quickstarts |
 
-A container image is the natural next step if you want reproducible deploys; the
-app itself needs nothing beyond PHP-FPM, a writable `storage/`, and the database.
+The app itself needs nothing beyond a PHP 8.3 runtime, a writable `storage/`, and
+a database — every option above is a different way of providing those three.
 
 ---
 
@@ -556,3 +556,135 @@ database, `APP_KEY` from the dashboard, `PAYKARO_DEMO=false`.
 
 Either way the database, sessions and the `PAYKARO_*` numbers are configured the
 same way — and an external database is not optional on Vercel.
+
+---
+
+## 13. Other platforms — and why the repo now ships a container
+
+Everything below runs **one artifact**: the `Dockerfile` in the repo root
+(FrankenPHP + Caddy, PHP 8.3, one process, `$PORT`). The database is external on
+every one of them. For the bare-metal path nothing changed — §1–§10 still apply.
+
+### The shortlist for this app
+
+| Platform | India region | Smallest useful cost | Effort | Verdict for PayKaro |
+|---|---|---|---|---|
+| **Fly.io** | ✅ **Mumbai (`bom`)** | ~$3–7 compute + Postgres | `fly launch` + `fly secrets set` | **Best latency story.** App and DB inside India; 5–20 ms from Indian users |
+| **DigitalOcean App Platform** | ✅ **Bangalore (`blr1`)** | $5/app + $15 managed DB | connect repo | Good middle ground; INR billing, Indian region, one-click Postgres |
+| **Railway** | ✗ (Singapore is closest) | ~$5–25 all-in | connect repo | **Best DX of the lot.** Postgres one click, private network, no Dockerfile needed (though it uses ours) |
+| **Render** | ✗ (Singapore is closest) | $7/app + $6 DB | connect repo | Boring in the good way; free tier sleeps after 15 min — fine for a demo, not for a ledger |
+| **Google Cloud Run** | ✅ `asia-south1` Mumbai | ~$0 idle, ~$10–20 busy | `gcloud run deploy` | Scales to zero; needs Cloud SQL (or Neon) and a container registry |
+| **AWS (App Runner / ECS Fargate)** | ✅ `ap-south-1` Mumbai, `ap-south-2` Hyderabad | ~$15–25 | most setup | Right answer if the company is already on AWS and wants VPC/RDS |
+| **Azure App Service** | ✅ Central India (Pune) | ~$13 (B1) | zip/container deploy | Same reasoning for Microsoft shops |
+| **Hetzner / DigitalOcean Droplet + Forge or Ploi** | ✗ (EU/US only) | €4–6 box + $12–15 panel | panel handles it | **Cheapest at scale**; no India region, ~120–150 ms to Mumbai |
+| **Indian hosts (E2E Networks, Utho, Hostinger VPS)** | ✅ | ₹300–800/mo | manual, §1–§5 | INR billing and an India DC; you own the maintenance |
+| **Shared hosting / cPanel** | varies | ₹150–400/mo | upload + `public/` | Works (§11) but no Composer-free path, no long-running processes; fine for a pilot |
+| **Kubernetes** | depends on cluster | cluster cost | most | Only if you already run one |
+
+**Regions are not a detail for this product.** A supplier on a 4G phone in
+Hyderabad is the target user; Singapore adds 60–100 ms per round trip, Oregon
+200–300 ms. That is the difference between the invoice list feeling instant and
+feeling like a form submission. If you must pick one thing to optimise, pick
+`bom` / `blr1` / `asia-south1` / `ap-south-1`.
+
+### Deploying the image anywhere (the common part)
+
+```bash
+docker build -t paykaro .
+docker run --rm -p 8080:8080 \
+  -e APP_KEY="$(php artisan key:generate --show)" \
+  -e APP_URL=https://paykaro.example.com \
+  -e DB_CONNECTION=pgsql -e DB_URL='postgres://…?sslmode=require' \
+  -e SESSION_DRIVER=database -e CACHE_STORE=database \
+  -e TRUSTED_PROXIES='*' \
+  -e PAYKARO_DEMO=false \
+  -e RUN_MIGRATIONS=true \
+  paykaro
+```
+
+What the image does and does not do:
+
+| | |
+|---|---|
+| Serves | `public/` on `$PORT` (default 8080), PHP routes through `public/index.php` |
+| Writes | `storage/`, `bootstrap/cache/` — created and chowned at build time |
+| Migrates | only when `RUN_MIGRATIONS=true` (safe on one instance; use CI when you scale) |
+| Caches | only when `BUILD_CACHES=true` — deliberately not baked into the image, because env arrives at runtime |
+| Logs | app → stderr (`LOG_CHANNEL=stderr`), requests → stdout (Caddyfile) |
+| Does not contain | `.env`, SQLite files, `vendor/` from your laptop, tests |
+
+`TRUSTED_PROXIES=*` is what makes HTTPS work behind every one of these proxies —
+`bootstrap/app.php` now reads it, off by default. Without it Laravel sees plain
+HTTP and the secure session cookie can be dropped.
+
+Local parity check before pushing:
+
+```bash
+cp .env.example .env
+docker compose run --rm app php artisan key:generate --show   # paste APP_KEY into .env
+docker compose up --build                                     # app + Postgres on :8080
+```
+
+### Per-platform quickstart
+
+**Fly.io** — the only mainstream PaaS with a Mumbai region:
+
+```bash
+fly launch --dockerfile Dockerfile --region bom --no-deploy
+fly postgres create --name paykaro-db --region bom
+fly postgres attach paykaro-db            # sets DATABASE_URL
+fly secrets set APP_KEY="base64:…" APP_URL=https://paykaro.fly.dev \
+                TRUSTED_PROXIES='*' PAYKARO_DEMO=false RUN_MIGRATIONS=true
+fly deploy
+```
+
+Set `internal_port = 8080` in the generated `fly.toml`, and keep `min_machines_running = 1`
+(or Fly will stop the machine and the next request pays a cold start). `RUN_MIGRATIONS=true`
+is fine at one machine; move it to a `release_command` once you scale.
+
+**Render** — connect the repo, choose *Docker*, region **Singapore**, add a
+Postgres instance, then set `APP_KEY`, `APP_URL`, `TRUSTED_PROXIES=*`,
+`PAYKARO_DEMO=false`, `RUN_MIGRATIONS=true`, and point `DB_*` at the *internal*
+connection string. Free web services sleep after 15 minutes — acceptable for a
+demo, not for invoice reminders.
+
+**Railway** — new project → *Deploy from GitHub*; the Dockerfile is detected.
+Add Postgres from the template list, reference `${{Postgres.DATABASE_URL}}` as
+`DB_URL`, then set the same variables. Railway's private network means the DB
+traffic never leaves the project. Migration: `RUN_MIGRATIONS=true` on one
+replica, or add a one-off `php artisan migrate --force` deploy step.
+
+**DigitalOcean App Platform** — create an app from the repo, *Dockerfile* build,
+region **Bangalore (BLR1)**, add a Managed Postgres (same region), set the env
+vars, HTTP port 8080, health check `/up`.
+
+**Google Cloud Run** — build and push to Artifact Registry, then:
+
+```bash
+gcloud run deploy paykaro \
+  --image asia-south1-docker.pkg.dev/PROJECT/paykaro/paykaro:latest \
+  --region asia-south1 --port 8080 --allow-unauthenticated \
+  --set-env-vars APP_ENV=production,APP_DEBUG=false,LOG_CHANNEL=stderr,TRUSTED_PROXIES='*' \
+  --set-secrets APP_KEY=paykaro-app-key:latest,DB_URL=paykaro-db-url:latest
+```
+
+Migrations are not a cold-start job: run `php artisan migrate --force` from CI
+(or a Cloud Run Job) against Cloud SQL / Neon. Scale-to-zero is real, so set a
+minimum instance of 1 if invoice pages must stay warm.
+
+**AWS App Runner / ECS Fargate** — push the image to ECR, create an App Runner
+service with port 8080 and `APP_KEY`/`DB_URL` as secrets, RDS in `ap-south-1`.
+Fargate adds an ALB, a VPC and task definitions — worth it only if you already
+need them.
+
+### What none of them give you
+
+- **A queue worker or a scheduler.** PayKaro needs neither today (mail is sent
+  in-request). If you later queue mail, every platform above needs a second
+  process or a scheduled job — Fly `[processes]`, Railway/Render worker
+  services, Cloud Run Jobs + Cloud Scheduler.
+- **Persistent disk.** Object storage or an external database is the only
+  durable state; the app has no uploads, so this costs nothing today.
+- **Managed backups for less than a plan tier.** On Railway and Fly, Postgres is
+  something you operate: schedule `pg_dump` yourself, or use a managed provider
+  (Neon, Supabase, RDS) and keep only the app on the PaaS.

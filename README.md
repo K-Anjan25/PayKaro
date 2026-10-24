@@ -76,10 +76,18 @@ running `migrate --seed` against a real book.
 
 [`DEPLOY.md`](DEPLOY.md) is the runbook: server setup, a production `.env`, the
 Nginx/FPM config, the release script, verification, multi-server notes and the
-`APP_KEY` / bank-rate traps. It also covers **Vercel** (§12): `vercel.json` and
-`api/index.php` are committed for the serverless PHP runtime, with the caveat that
-Vercel has no persistent disk — so the database must be an external Postgres/MySQL,
-and SQLite (the local default) cannot be used there.
+`APP_KEY` / bank-rate traps.
+
+Two more targets are wired up in the repo:
+
+- **Any container platform** — `Dockerfile` (FrankenPHP + Caddy, PHP 8.3, one
+  process on `$PORT`), `Caddyfile`, `docker/entrypoint.sh` and a
+  `docker-compose.yml` for local parity. Fly.io (Mumbai), Railway, Render,
+  DigitalOcean App Platform (Bangalore), Cloud Run, AWS and Azure all deploy the
+  same image — see §13.
+- **Vercel** — `vercel.json` + `api/index.php` for the serverless PHP runtime
+  (§12). No persistent disk there, so the database must be an external
+  Postgres/MySQL; SQLite (the local default) cannot be used.
 
 ## Tests
 
