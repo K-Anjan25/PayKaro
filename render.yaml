@@ -56,9 +56,10 @@ services:
         value: sync
 
       # --- database --------------------------------------------------------
-      # Any Laravel driver. Paste the connection string here; Render's own
-      # Postgres calls it DATABASE_URL, other providers do the same, so copy that
-      # value into DB_URL.
+      # Any Laravel driver. Paste the connection string here — the value your
+      # provider labels DATABASE_URL. Leaving this empty is fine if you attach a
+      # database in the Render dashboard instead: that injects DATABASE_URL, and
+      # config/database.php reads it as the fallback for DB_URL.
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_URL
