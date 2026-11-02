@@ -108,14 +108,30 @@ services:
 
 databases:
   - name: paykaro-db
+    # Fixed rather than generated, so the connection string is predictable and
+    # a manual database created with the same names is adopted by a later sync
+    # instead of duplicated. Neither can be changed after creation.
+    databaseName: paykaro
+    user: paykaro
+    # Pinned: Render defaults to the newest major version, and a Blueprint is
+    # meant to be reproducible. 13–18 are all valid for a new instance.
+    postgresMajorVersion: "16"
     # **A free Render database is deleted 30 days after it is created** — fine
     # for a demo, wrong for a real book of business. Either change this to
     # `basic-256mb` (paid, from ~$6/mo) or point DB_URL at an external provider
     # (see below). Details in docs/DEPLOY.md.
+    #
+    # Two things stop this block creating the database, both outside the file:
+    # the Blueprint has to be synced after a change (Blueprints → Sync), and a
+    # workspace is limited to ONE free Postgres — if one already exists the sync
+    # reports a failure, so delete it or move this to a paid plan.
     plan: free
     # Must match the service's region: `connectionString` is a private-network
     # address, and Render's private network does not span regions.
     region: singapore
+    # Uncomment to make the database reachable only from Render services rather
+    # than from anywhere on the internet with the password:
+    # ipAllowList: []
 
 # To use an external Postgres/MySQL instead (Neon and Supabase are free and do
 # not expire), delete the `databases:` block above and swap the DB_URL variable

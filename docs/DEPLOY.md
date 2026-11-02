@@ -57,6 +57,27 @@ business. Two ways out, neither needing a code change:
 Remember to dump and reload the data when you move (`php artisan db:dump` /
 `pg_dump`, or Render's own backup for a paid instance).
 
+### If the database was not created
+
+`render.yaml` only describes the database; a **Blueprint sync** is what creates it.
+A push to the linked branch normally triggers one, but if the container starts and
+the entrypoint reports `neither DB_URL nor DB_HOST is set`, no sync has happened — or
+it failed. Open **Blueprints → <this blueprint> → Sync** and read what it reports:
+
+- **"Database creation failed" and the workspace already has a free Postgres** — the
+  usual cause. A workspace is limited to one free instance. Delete the old one and
+  sync again, or move this database to a paid plan.
+- **Nothing to sync** — the Blueprint is linked to a different branch than the one
+  you pushed, or auto-sync is off. Check the Blueprint's branch setting.
+- **A second, empty `paykaro-db` appeared** — a database was created by hand under a
+  different name, so the Blueprint made its own. Point `DB_URL` at whichever one
+  holds the data and delete the other.
+
+The build log will *not* tell you any of this: `render.yaml`, `docs/` and `*.md` are
+all excluded by `.dockerignore`, so a Blueprint-only change produces an image where
+every layer is `CACHED`. A fully cached build is not evidence that nothing changed —
+it is evidence that only the Blueprint changed.
+
 ## Deploy by hand
 
 If you would rather not use the Blueprint: **New → Web Service**, runtime **Docker**,
