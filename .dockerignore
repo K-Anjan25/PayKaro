@@ -1,16 +1,16 @@
-# Build context hygiene. The image installs dependencies itself; sending this
+# Build context hygiene. The image installs its own dependencies; sending this
 # machine's copies only makes the build slower.
 .git
 .github
 .gitignore
-.vercelignore
+.gitattributes
+.editorconfig
 
 # Secrets and local state
 .env
 .env.*
 !.env.example
-database/*.sqlite
-data/*.sqlite
+*.sqlite
 storage/logs/*
 storage/framework/cache/*
 storage/framework/sessions/*
@@ -19,14 +19,11 @@ bootstrap/cache/*.php
 
 vendor
 node_modules
-bridge/node_modules
+bridge
 
 # Not needed to serve a request
 tests
 phpunit.xml
+docs
 *.md
-!README.md
-
-# Deployment manifests for other targets
-vercel.json
-api
+render.yaml

@@ -1,6 +1,6 @@
 # FrankenPHP's Caddyfile: the document root is public/, every other path is a
-# Laravel route. `{$PORT:8080}` is what lets one image run unchanged on Railway,
-# Render, Fly.io, DigitalOcean, Cloud Run and a plain `docker run`.
+# Laravel route. `{$PORT:8080}` is what lets one image run unchanged on Render —
+# which injects $PORT — and on a plain `docker run`, which does not.
 :{$PORT:8080} {
 	root * /app/public
 

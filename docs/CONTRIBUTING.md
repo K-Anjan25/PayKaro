@@ -107,11 +107,11 @@ that page honest if your change alters any of it.
 
 ## Deployment changes
 
-Deployment lives in `DEPLOY.md` (hosts, proxies, the `PAYKARO_*` numbers),
-`DEPLOY-ORACLE.md`, `DEPLOY-VERCEL.md` and the container files (`Dockerfile`,
-`Caddyfile`, `docker-compose.yml`). If you change how the app is served, update the
-guide for the target you changed — a stale runbook is worse than none.
+Deployment lives in `DEPLOY.md` (the Render runbook and the `PAYKARO_*` numbers) and
+in the container files it describes (`render.yaml`, `Dockerfile`, `Caddyfile`,
+`docker/entrypoint.sh`). If you change how the app is served, update the guide with
+it — a stale runbook is worse than none.
 
 ## License
 
-Contributions are accepted under the MIT License in [`LICENSE`](LICENSE).
+Contributions are accepted under the MIT License in [`LICENSE`](../LICENSE).
