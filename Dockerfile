@@ -2,10 +2,10 @@
 
 # PayKaro in one container: FrankenPHP (Caddy + PHP) serving public/.
 #
-# One process, one port, no Nginx sidecar — which is what Railway, Render,
-# Fly.io, DigitalOcean App Platform, Google Cloud Run, Azure App Service and
-# AWS App Runner all expect. The database is external (see DEPLOY.md §13);
-# the container itself holds no state.
+# One process, one port, no Nginx sidecar — which is what Render's Docker runtime
+# expects: it injects $PORT and routes traffic to it once the health check passes.
+# The database is external and the container itself holds no state (see
+# docs/DEPLOY.md).
 #
 #   docker build -t paykaro .
 #   docker run --rm -p 8080:8080 --env-file .env -e RUN_MIGRATIONS=true paykaro
