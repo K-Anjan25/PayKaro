@@ -4,8 +4,9 @@
 # no PHP one — so this service builds the Dockerfile in this repo: FrankenPHP
 # (Caddy + PHP 8.3) serving `public/` on `$PORT`.
 #
-# New → Blueprint → pick this repo → Apply. Render asks for the three variables
-# marked `sync: false` (APP_KEY, APP_URL, DB_URL) and nothing else.
+# New → Blueprint → pick this repo → Apply. Render asks for the two variables it
+# cannot invent (APP_KEY, APP_URL); the Postgres instance is declared at the
+# bottom of this file and its connection string is wired into DB_URL.
 
 services:
   - type: web
@@ -56,14 +57,17 @@ services:
         value: sync
 
       # --- database --------------------------------------------------------
-      # Any Laravel driver. Paste the connection string here — the value your
-      # provider labels DATABASE_URL. Leaving this empty is fine if you attach a
-      # database in the Render dashboard instead: that injects DATABASE_URL, and
-      # config/database.php reads it as the fallback for DB_URL.
+      # The Blueprint creates the Postgres instance below and hands its private
+      # connection string straight to the app — no copy-paste, which is how this
+      # deployment keeps failing when the URL has to be moved by hand.
+      # `config/database.php` also accepts DATABASE_URL, so attaching a database
+      # from the dashboard instead works too.
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_URL
-        sync: false
+        fromDatabase:
+          name: paykaro-db
+          property: connectionString
 
       # --- container start-up (docker/entrypoint.sh) -----------------------
       # Migrate on boot. Correct while there is ONE instance; with more than one,
@@ -102,17 +106,20 @@ services:
       # - key: GOOGLE_REDIRECT_URI
       #   sync: false
 
-# To use Render's own Postgres instead of an external one, uncomment this and
-# replace the DB_URL variable above with the `fromDatabase` form shown. Note
-# that a free Render database is deleted 30 days after it is created, so a real
-# book of business belongs on a paid instance or an external provider.
+databases:
+  - name: paykaro-db
+    # **A free Render database is deleted 30 days after it is created** — fine
+    # for a demo, wrong for a real book of business. Either change this to
+    # `basic-256mb` (paid, from ~$6/mo) or point DB_URL at an external provider
+    # (see below). Details in docs/DEPLOY.md.
+    plan: free
+    # Must match the service's region: `connectionString` is a private-network
+    # address, and Render's private network does not span regions.
+    region: singapore
+
+# To use an external Postgres/MySQL instead (Neon and Supabase are free and do
+# not expire), delete the `databases:` block above and swap the DB_URL variable
+# for this:
 #
-# databases:
-#   - name: paykaro-db
-#     plan: free
-#
-# and, in the service's envVars:
 #   - key: DB_URL
-#     fromDatabase:
-#       name: paykaro-db
-#       property: connectionString
+#     sync: false            # paste the string your provider calls DATABASE_URL

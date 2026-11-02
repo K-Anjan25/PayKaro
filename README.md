@@ -19,16 +19,19 @@ Sign in at <http://localhost:8000/login> with `sunita@shreeprecision.in` / `demo
 
 ## Deploy to Render
 
-`render.yaml` is the whole deployment. Push this repo, then in Render:
-**New → Blueprint** → pick the repo → apply.
+`render.yaml` is the whole deployment — it also creates the Postgres database and
+wires it in, so there is no connection string to copy around. Push this repo, then
+in Render: **New → Blueprint** → pick the repo → apply.
 
-Set three values when it asks:
+Set two values when it asks:
 
 | Key | Value |
 |-----|-------|
 | `APP_KEY` | output of `php artisan key:generate --show` |
 | `APP_URL` | your `https://<service>.onrender.com` URL |
-| `DB_URL` | Postgres/MySQL connection string (Neon, Supabase, Render Postgres…) |
+
+Render's *free* Postgres is deleted 30 days after creation, so for anything real
+point `DB_URL` at Neon or Supabase, or put the database on a paid plan.
 
 Everything else has a production default. Details: [`docs/DEPLOY.md`](docs/DEPLOY.md).
 

@@ -20,7 +20,7 @@ Three things this app adds on top of a normal Laravel deploy:
 |---|---|
 | Runtime | **Docker** — Render's native runtimes are node, python, ruby, go, elixir and rust; there is no PHP one. `Dockerfile` builds FrankenPHP (Caddy + PHP 8.3) serving `public/` on `$PORT`. |
 | Region | `oregon`, `ohio`, `virginia`, `frankfurt` or `singapore`. There is no India region; `singapore` is the closest, and a service's region cannot be changed after creation. |
-| Database | **External.** The container's filesystem is ephemeral, so SQLite is not an option in production. Any Laravel driver works — Postgres (Neon, Supabase, Render Postgres) or MySQL. |
+| Database | **External to the container** — the filesystem is ephemeral, so SQLite is not an option in production. The Blueprint creates a **free Render Postgres** in `singapore` and passes its private connection string to the app as `DB_URL`. Any Laravel driver works; Neon/Supabase/MySQL are a one-line change. |
 | TLS | Render terminates it. The app must trust that proxy (`TRUSTED_PROXIES=*`) or it will generate `http://` URLs and drop the secure session cookie. |
 | Queue / cron | Not needed — mail is synchronous and `routes/console.php` schedules nothing. |
 
@@ -29,16 +29,33 @@ Three things this app adds on top of a normal Laravel deploy:
 `render.yaml` in the repo root is the whole deployment.
 
 1. **New → Blueprint** in the Render dashboard, pick this repository.
-2. Render reads `render.yaml` and asks for the three variables it cannot invent:
+2. Render reads `render.yaml` and asks for the two variables it cannot invent:
 
    | Key | Value |
    |-----|-------|
    | `APP_KEY` | output of `php artisan key:generate --show`, **including** the `base64:` prefix |
    | `APP_URL` | `https://<your-service>.onrender.com` |
-   | `DB_URL` | the connection string from your database provider |
 
+   The database needs no input: the Blueprint creates the `paykaro-db` Postgres
+   instance in the same region and maps its private `connectionString` to `DB_URL`.
 3. **Apply**. The first build takes a few minutes; Render then routes traffic only once
    `GET /up` answers 200.
+
+### The free database expires
+
+A free Render Postgres is **deleted 30 days after it is created** (14-day grace to
+upgrade), and a workspace gets one. Fine for a demo; wrong for a real book of
+business. Two ways out, neither needing a code change:
+
+- **Paid Render Postgres** — set `plan: basic-256mb` (from ~$6/mo) in the
+  `databases:` block of `render.yaml` and sync.
+- **External provider** — Neon and Supabase have free Postgres that does not expire.
+  Delete the `databases:` block, put `DB_URL` back to `sync: false`, and paste the
+  connection string. `DATABASE_URL` works too: `config/database.php` reads `DB_URL`
+  first and falls back to it, and `docker/entrypoint.sh` normalises the two.
+
+Remember to dump and reload the data when you move (`php artisan db:dump` /
+`pg_dump`, or Render's own backup for a paid instance).
 
 ## Deploy by hand
 
@@ -123,7 +140,9 @@ URLs in the page are `https://`, and a `POST` (save the invoice) does not come b
 | Build fails on `composer install` | The lock file resolves for PHP 8.3 (`composer.json` pins `config.platform.php`). The image installs 8.3; a hand-built image must too. |
 | App starts, every page 500s, logs show `No supported cipher…` | `APP_KEY` is missing or is not `base64:<44 chars>` |
 | `could not find driver` | `DB_CONNECTION` says `pgsql` but the URL is MySQL, or the driver is not in the image (all three PDO drivers are installed by the `Dockerfile`) |
-| Container dies on boot with `connection to server at "127.0.0.1", port 5432 failed … Database: laravel` | Neither `DB_URL` nor `DATABASE_URL` is set, so Laravel used the framework's own defaults. Set one of them; the entrypoint now refuses to start with a one-line message instead of letting PDO fail. |
+| Container dies on boot with `[paykaro] DB_CONNECTION=pgsql but neither DB_URL nor DB_HOST is set.` | No connection string reached the container. The Blueprint maps `DB_URL` from `paykaro-db`; if you deploy by hand, set `DB_URL` or `DATABASE_URL`. |
+| Container dies on boot with `connection to server at "127.0.0.1", port 5432 failed … Database: laravel` | Same cause on an older image: Laravel fell back to its own defaults. Set `DB_URL` (or `DATABASE_URL`) and redeploy. |
+| The database host is unreachable, or resolves but refuses the connection | The service and the database are in different regions — `connectionString` is a private-network address. Set `region:` to the same value on both. |
 | Sign-in succeeds and then bounces back to `/login` | session not sticking: `SESSION_DRIVER=database` and the `sessions` table exists; `TRUSTED_PROXIES` set |
 | Health check fails, deploy marked unhealthy | `healthCheckPath` must be `/up`; a 500 there is a missing `APP_KEY` or a database it cannot reach |
 | Sign-in page shows "Demo workspace" and the demo logins | `PAYKARO_DEMO` is still `true` |
