@@ -60,7 +60,7 @@ Everything not listed here already has a production default in the image or in
 | `TRUSTED_PROXIES` | `*` | Render terminates TLS in front of the app |
 | `LOG_CHANNEL` | `stderr` | Render collects stdout/stderr into its log stream |
 | `DB_CONNECTION` | `pgsql` (or `mysql`) | |
-| `DB_URL` | connection string | Laravel reads the URL from **`DB_URL`**, not `DATABASE_URL` — most providers label it `DATABASE_URL`, so copy the value across |
+| `DB_URL` | connection string | the value your provider labels `DATABASE_URL`. Either name works — `config/database.php` reads `DB_URL` and falls back to `DATABASE_URL` — but one of them must be set, or Laravel connects to `127.0.0.1`/`laravel` and the deploy dies in the migration |
 | `SESSION_DRIVER` | `database` | survives deploys and is shared between instances; the table ships in the base migration |
 | `CACHE_STORE` | `database` | same reason |
 | `SESSION_SECURE_COOKIE` | `true` | the site is HTTPS-only |
@@ -123,6 +123,7 @@ URLs in the page are `https://`, and a `POST` (save the invoice) does not come b
 | Build fails on `composer install` | The lock file resolves for PHP 8.3 (`composer.json` pins `config.platform.php`). The image installs 8.3; a hand-built image must too. |
 | App starts, every page 500s, logs show `No supported cipher…` | `APP_KEY` is missing or is not `base64:<44 chars>` |
 | `could not find driver` | `DB_CONNECTION` says `pgsql` but the URL is MySQL, or the driver is not in the image (all three PDO drivers are installed by the `Dockerfile`) |
+| Container dies on boot with `connection to server at "127.0.0.1", port 5432 failed … Database: laravel` | Neither `DB_URL` nor `DATABASE_URL` is set, so Laravel used the framework's own defaults. Set one of them; the entrypoint now refuses to start with a one-line message instead of letting PDO fail. |
 | Sign-in succeeds and then bounces back to `/login` | session not sticking: `SESSION_DRIVER=database` and the `sessions` table exists; `TRUSTED_PROXIES` set |
 | Health check fails, deploy marked unhealthy | `healthCheckPath` must be `/up`; a 500 there is a missing `APP_KEY` or a database it cannot reach |
 | Sign-in page shows "Demo workspace" and the demo logins | `PAYKARO_DEMO` is still `true` |
