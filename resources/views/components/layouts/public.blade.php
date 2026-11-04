@@ -73,10 +73,6 @@
 
 <header class="pkg-head">
     <div class="pkg-head-inner">
-        <div class="pkg-bars" aria-hidden="true">
-            <span class="bar-thick"></span>
-            <span class="bar-thin"></span>
-        </div>
         <a class="pkg-brand" href="{{ route('landing') }}" aria-label="{{ config('app.name') }} home">
             <div class="pkg-brand-text">
                 <div class="name"><x-brand-wordmark /></div>
@@ -111,22 +107,55 @@
     {{ $slot }}
 </main>
 
-@isset($footer)
-    {{ $footer }}
-@else
-    <footer class="page-footer">
-        {{-- The brand line, from config and nowhere else: BRAND_PLAN §1.1 — the
-             product had five wordings of this promise before it was one key. --}}
-        <div class="page-footer-line">{{ config('paykaro.headline') }}</div>
-        <div class="page-footer-bottom">
-            <span>© {{ now()->year }} {{ config('app.name') }} · Made for India's MSMEs</span>
-            <span>
-                <a href="{{ route('brand') }}" style="color:var(--n-gold);">Brand</a>
-                · <a href="{{ route('landing') }}" style="color:var(--n-gold);">Back to home</a>
-            </span>
+<footer class="page-footer">
+    <div class="container">
+        <div>
+            <a class="pkg-brand" href="{{ route('landing') }}" style="padding:0;color:#fff;" aria-label="{{ config('app.name') }} home">
+                <div class="pkg-brand-text">
+                    <div class="name" style="color:#fff;"><x-brand-wordmark /></div>
+                    <div class="sub" style="color:rgba(255,255,255,.6);">{{ config('paykaro.descriptor') }}</div>
+                </div>
+            </a>
+            <p class="meta">© {{ now()->year }} {{ config('app.name') }} · Made for India's MSMEs.</p>
         </div>
-    </footer>
-@endisset
+        <div>
+            <h4>Product</h4>
+            <ul>
+                <li><a href="{{ route('landing') }}#workflow">Workflow</a></li>
+                <li><a href="{{ route('landing') }}#finance">Financing</a></li>
+                <li><a href="{{ route('landing') }}#evidence">Evidence</a></li>
+                <li><a href="{{ route('landing') }}#claims">Claims</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Company</h4>
+            <ul>
+                <li><a href="{{ route('landing') }}#news">Product notes</a></li>
+                <li><a href="{{ route('landing') }}#impact">Impact</a></li>
+                <li><a href="{{ route('pricing') }}">Pricing</a></li>
+                <li><a href="{{ route('contact') }}">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="{{ route('terms') }}">Terms</a></li>
+                <li><a href="{{ route('privacy') }}">Privacy</a></li>
+                <li><a href="{{ route('security') }}">Security</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-footer-line">{{ config('paykaro.headline') }}</div>
+    <div class="page-footer-bottom">
+        <span>© {{ now()->year }} {{ config('app.name') }} · {{ config('paykaro.descriptor') }}</span>
+        <span>
+            @guest
+                <a href="{{ route('login') }}" style="color:var(--n-gold);">Sign in</a> ·
+            @endguest
+            <a href="{{ route('landing') }}" style="color:var(--n-gold);">Back to home</a>
+        </span>
+    </div>
+</footer>
 
 @include('partials.theme-toggle')
 </body>

@@ -89,7 +89,7 @@ final class Proof
     public static function limits(): array
     {
         return [
-            'No published customer count or tracked-value figure — the demo workspace is seeded, and we do not quote it as traction.',
+            'No published customer count or tracked-value figure — the seeded workspace is sample data, and we do not quote it as traction.',
             'No percentage claims about reconciliation, disbursal speed or accuracy: nothing in the product measures them.',
             'No bank, NBFC or TReDS partnership implied beyond what TReDS registration actually means.',
         ];

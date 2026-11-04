@@ -119,7 +119,7 @@ final class AuthenticityTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('What we do not claim')
-            ->assertSee('the demo workspace is seeded', false);
+            ->assertSee('the seeded workspace is sample data', false);
     }
 
     public function test_the_notes_from_the_team_are_labeled_as_notes(): void

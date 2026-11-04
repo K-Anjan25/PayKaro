@@ -31,18 +31,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Demo workspace
-    |
-    | The seeded workspace is labelled "Demo workspace" in the utility bar and
-    | the demo logins are printed by the seeder. Turn this off when the app is
-    | pointed at a real book of business.
-    |
-    */
-
-    'demo' => (bool) env('PAYKARO_DEMO', true),
-
-    /*
-    |--------------------------------------------------------------------------
     | Currency
     |--------------------------------------------------------------------------
     |

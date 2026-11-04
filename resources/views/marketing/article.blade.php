@@ -27,21 +27,9 @@
 			<p>Track what's owed, what's overdue and what you could finance today — with the evidence and interest numbers that make a claim stand.</p>
 			<div style="margin-top:1.3rem;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;">
 				<a class="pbtn pbtn-primary" href="{{ route('register') }}">Start free</a>
-				<a class="pbtn pbtn-ghost" href="{{ route('login') }}">Sign in to the demo</a>
+				<a class="pbtn pbtn-ghost" href="{{ route('login') }}">Sign in</a>
 			</div>
 		</div>
 	</div>
 </section>
-    <x-slot:footer>
-        <footer class="page-footer">
-            <div class="page-footer-bottom">
-                <span>© {{ now()->year }} {{ config('app.name') }} · Made for India's MSMEs</span>
-                <span>
-                    <a href="{{ route('landing') }}#news" style="color:var(--n-gold);">More news</a> ·
-                    <a href="{{ route('brand') }}" style="color:var(--n-gold);">Brand</a> ·
-                    <a href="{{ route('landing') }}" style="color:var(--n-gold);">Back to home</a>
-                </span>
-            </div>
-        </footer>
-    </x-slot:footer>
 </x-layouts.public>

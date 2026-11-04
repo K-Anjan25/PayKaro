@@ -250,9 +250,6 @@ html, body { margin:0; padding:0; }
 }
 
 /* Two vertical accent bars (UFL signature) on the left of the header */
-.pkg-bars { display:flex; align-items:stretch; gap:.35rem; padding:.75rem .9rem .75rem 0; }
-.pkg-bars .bar-thick { width:.55rem; background:var(--n-blue); border-radius:2px; align-self:stretch; }
-.pkg-bars .bar-thin  { width:.18rem; background:var(--n-gold); border-radius:2px; align-self:stretch; }
 
 /* Brand lockup */
 .pkg-brand { display:flex; align-items:center; gap:.65rem; padding-right:1.4rem; }
@@ -635,7 +632,6 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.pkg-nav { display:none; }
 	.pkg-menumob { display:flex; align-items:center; justify-content:center; width:2.4rem; height:2.4rem; border:1px solid var(--n-line); border-radius:8px; background:var(--n-paper); color:var(--n-ink); cursor:pointer; }
 	.pkg-head-inner { min-height:3.6rem; }
-	.pkg-bars { padding:.55rem .7rem .55rem 0; }
 }
 @media (max-width:780px) {
 	.pkg-util-inner { font-size:.7rem; padding:.4rem var(--n-gutter); gap:.8rem; }
@@ -698,19 +694,13 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
    HERO — full-bleed editorial hero (text + image with vertical bars)
    ========================================================================== */
 .hero { position:relative; overflow:hidden; background:var(--n-canvas); }
-.hero-grid {
-	background-image:
-		linear-gradient(rgba(29,78,216,.05) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(29,78,216,.05) 1px, transparent 1px);
-	background-size:36px 36px;
-}
 .hero-inner { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:3rem; padding:4rem 0 5rem; align-items:center; }
 .hero-eyebrow {
 	display:inline-flex;
 	align-items:center;
 	gap:.5rem;
 	background:var(--n-blue);
-	color:var(--n-gold);
+	color:#fff;
 	border-radius:999px;
 	padding:.42rem .85rem;
 	font-size:.72rem;
@@ -941,8 +931,9 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 
 /* Closing CTA banner (gold) */
 .cta-banner { background:linear-gradient(135deg, var(--n-blue) 0%, #1e3a8a 100%); color:#fff; border-radius:22px; padding:3rem 2.5rem; display:flex; gap:2rem; align-items:center; justify-content:space-between; flex-wrap:wrap; box-shadow:0 30px 60px rgba(2,132,199,.28); }
-.cta-banner h2 { font-family:var(--n-display); font-size:clamp(1.7rem,3vw,2.4rem); line-height:1.1; }
-.cta-banner p { color:rgba(11,19,43,.78); font-size:1rem; margin-top:.4rem; }
+.cta-banner h2 { color:#fff; font-family:var(--n-display); font-size:clamp(1.7rem,3vw,2.4rem); line-height:1.1; }
+.cta-banner .eyebrow { color:rgba(255,255,255,.85); }
+.cta-banner p { color:rgba(255,255,255,.85); font-size:1rem; margin-top:.4rem; }
 
 /* Footer */
 .page-footer { background:var(--n-blue-deep); color:rgba(255,255,255,.78); padding:2.5rem 0 1.5rem; }

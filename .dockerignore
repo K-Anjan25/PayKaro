@@ -19,11 +19,9 @@ bootstrap/cache/*.php
 
 vendor
 node_modules
-bridge
 
 # Not needed to serve a request
 tests
 phpunit.xml
 docs
 *.md
-render.yaml

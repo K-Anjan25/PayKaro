@@ -42,11 +42,4 @@
     </form>
 
     <div class="auth-alt">Don't have an account? <a href="{{ route('register') }}">Sign up</a></div>
-
-    @if (config('paykaro.demo'))
-        <div class="support-card support-card--inline" style="margin-top:1.2rem;">
-            <span>Demo access</span>
-            <strong>sunita@shreeprecision.in / demo1234</strong>
-        </div>
-    @endif
 </x-layouts.auth>

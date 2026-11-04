@@ -31,7 +31,7 @@ final class Pricing
                     '1 user (owner)',
                     'Invoice pipeline + interest',
                     'Evidence checklist',
-                    'Demo data included',
+                    'Sample data included',
                 ],
             ],
             [

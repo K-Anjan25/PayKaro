@@ -22,7 +22,7 @@ jobs:
       - name: Lint every PHP file
         run: |
           find . -name '*.php' \
-            -not -path './vendor/*' -not -path './bridge/node_modules/*' -print0 \
+            -not -path './vendor/*' -print0 \
             | xargs -0 -n1 php -l
 
   test:

@@ -1,0 +1,44 @@
+# PayKaro, one command: `docker compose up --build`.
+#
+# Two services — the FrankenPHP app image and Postgres — on one private network.
+# The app container is stateless: migrations and (optionally) the sample-workspace
+# seed run at boot, so a fresh clone serves on first start.
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    environment:
+      # The database is wired to the db service below; swap DB_URL for a managed
+      # Postgres (Neon, Supabase, RDS) by exporting it before `docker compose up`.
+      DB_CONNECTION: pgsql
+      DB_URL: ${DB_URL:-postgres://paykaro:paykaro@db:5432/paykaro}
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      RUN_MIGRATIONS: "true"
+      BUILD_CACHES: "true"
+      # Seeds the two sample workspaces once, only while the database is empty.
+      # The logins are printed to this container's log and never shown in the UI.
+      PAYKARO_SEED_DEMO: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: paykaro
+      POSTGRES_USER: paykaro
+      POSTGRES_PASSWORD: paykaro
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paykaro -d paykaro"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

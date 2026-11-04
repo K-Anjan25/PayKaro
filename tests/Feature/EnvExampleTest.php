@@ -58,7 +58,7 @@ final class EnvExampleTest extends TestCase
             'PAYKARO_INTEREST_MULTIPLIER',
             'PAYKARO_FINANCE_READY_SCORE',
             'PAYKARO_ALERT_LIMIT',
-            'PAYKARO_DEMO',
+            'PAYKARO_SEED_DEMO',
         ];
 
         foreach ($keys as $key) {
