@@ -20,6 +20,17 @@
 # Everything else is left to the app: APP_KEY, DB_*, PAYKARO_*, TRUSTED_PROXIES.
 set -eu
 
+# A missing APP_KEY is a white 500 on every page, not a boot failure, so it is
+# the one variable with a fallback: generate one for this container. It is
+# ephemeral — recreated with the container — which is correct for a first run
+# and a reason to set APP_KEY explicitly once you care about sessions and
+# encrypted cookies surviving a rebuild.
+if [ -z "${APP_KEY:-}" ]; then
+	APP_KEY="base64:$(php -r 'echo base64_encode(random_bytes(32));')"
+	export APP_KEY
+	echo "[paykaro] APP_KEY was empty — generated one for this container (set APP_KEY to persist it)"
+fi
+
 # Render, Neon, Supabase, Railway and Heroku all call the connection string
 # DATABASE_URL; Laravel reads DB_URL. `config/database.php` falls back to
 # DATABASE_URL for the server drivers, so this is belt and braces — it also

@@ -2,10 +2,9 @@
 
 # PayKaro in one container: FrankenPHP (Caddy + PHP) serving public/.
 #
-# One process, one port, no Nginx sidecar — which is what Render's Docker runtime
-# expects: it injects $PORT and routes traffic to it once the health check passes.
-# The database is external and the container itself holds no state (see
-# docs/DEPLOY.md).
+# One process, one port, no Nginx sidecar — the container is stateless and the
+# database is whatever DB_URL points at. `docker compose up --build` is the
+# whole deployment (app + Postgres); this file is what that builds.
 #
 #   docker build -t paykaro .
 #   docker run --rm -p 8080:8080 --env-file .env -e RUN_MIGRATIONS=true paykaro
