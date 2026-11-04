@@ -1,10 +1,8 @@
 <p align="center"><img src="public/assets/img/icon-512.png" width="88" alt="PayKaro logo"></p>
 
-# PayKaro
+<h1 align="center">PayKaro</h1>
 
-**MSME invoice & receivables tracker** — one pipeline for what is owed, what is
-overdue and what could be financed today, with the dated evidence and statutory
-interest that make a delayed-payment claim stand.
+<p align="center">MSME invoice &amp; receivables tracker — one pipeline for what is owed, what is overdue and what could be financed today, with the dated evidence and statutory interest that make a delayed-payment claim stand.</p>
 
 ## Run it
 
