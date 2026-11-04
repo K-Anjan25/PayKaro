@@ -7,7 +7,7 @@ namespace App\Support;
  *
  * Deliberately *not* boilerplate: every claim here is checkable against this
  * repository — a rule in a FormRequest, a middleware, a config key — and the
- * honest gaps (no CSP, no encryption at rest, demo data on by default) are
+ * honest gaps (no CSP, no encryption at rest, opt-in sample data via PAYKARO_SEED_DEMO) are
  * stated as plainly as the strengths. A hosted product's terms pasted onto a
  * self-hosted tool would be the one thing worse than no legal page: a wrong one.
  *
@@ -60,11 +60,11 @@ final class Legal
                 ],
                 [
                     'heading' => 'Third-party sign-in and third-party text',
-                    'body' => "Google sign-in is optional and inactive until you configure `GOOGLE_*` in `.env`. When you do, that authentication is Google's product under Google's terms and privacy policy, and the profile fields you approve — name, email, avatar, Google ID — are stored against your user row.\n\nMarketing copy, pricing tiers and news articles in this repository are illustrative content shipped for the demo. They are yours to rewrite before any public deployment.",
+                    'body' => "Google sign-in is optional and inactive until you configure `GOOGLE_*` in `.env`. When you do, that authentication is Google's product under Google's terms and privacy policy, and the profile fields you approve — name, email, avatar, Google ID — are stored against your user row.\n\nMarketing copy, pricing tiers and news articles in this repository are illustrative sample content. They are yours to rewrite before any public deployment.",
                 ],
                 [
-                    'heading' => 'The demo workspace',
-                    'body' => 'With `PAYKARO_DEMO=true` — the default — `migrate --seed` writes two fictional businesses with eighteen fictional invoices so the product is immediately legible. Those rows are not real counterparties and must never be mistaken for them: for a live workspace, set `PAYKARO_DEMO=false`, start from an empty database, and replace the sample identities outright.',
+                    'heading' => 'The sample workspace',
+                    'body' => 'The seeded sample workspace — two fictional businesses with fictional invoices — exists so the product is immediately legible. Those rows are not real counterparties and must never be mistaken for them: for a live workspace, start from an empty database and replace the sample identities outright.',
                 ],
                 [
                     'heading' => 'Changes, availability and ending this',
@@ -181,12 +181,12 @@ final class Legal
                 ],
                 [
                     'heading' => 'Configuration you are responsible for',
-                    'body' => 'The shipped `.env.example` is tuned for a zero-config local demo, which is precisely the wrong posture for a public deployment. Before serving this to anyone else:',
+                    'body' => 'The shipped `.env.example` is tuned for a zero-config local setup, which is precisely the wrong posture for a public deployment. Before serving this to anyone else:',
                     'list' => [
                         'Set `APP_ENV=production` and `APP_DEBUG=false` — debug pages echo environment values and stack frames to whoever can reach the app.',
                         'Generate a fresh `php artisan key:generate`; never reuse the key of another deployment.',
                         'Set `SESSION_SECURE_COOKIE=true` (and `SESSION_DOMAIN`) behind HTTPS, so the session cookie cannot travel in the clear.',
-                        "Set `PAYKARO_DEMO=false` and start from an empty database, so nobody inherits a second workspace's seeded book.",
+                        "Start from an empty database rather than a seeded one, so nobody inherits a second workspace's sample book.",
                         "Tighten filesystem permissions on `database/`, `storage/` and `.env`; the app's only secret store is a file on disk.",
                         'Do not leave `data/paykaro.sqlite` or a stale backup web-served next to `public/`; anything readable under the document root is published.',
                     ],

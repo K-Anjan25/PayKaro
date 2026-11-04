@@ -37,7 +37,6 @@
             <div class="app-util-left">
                 <span class="app-util-business">{{ $business?->name ?? config('app.name') }}</span>
                 <span class="app-util-dot">·</span>
-                <span class="app-util-chip">{{ config('paykaro.demo') ? 'Demo workspace' : 'Live workspace' }}</span>
                 <a class="app-util-link" href="{{ route('pricing') }}">Pricing</a>
                 <a class="app-util-link" href="{{ route('help') }}">Help</a>
             </div>

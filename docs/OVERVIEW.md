@@ -74,8 +74,9 @@ the flat-PHP implementation and what was deliberately kept.
 Production is the standard Laravel shape — PHP 8.3 + Composer, document root on
 `public/`, MySQL/PostgreSQL, SMTP — and nothing is built: the CSS is committed and
 there is no queue worker or scheduled task. The three deployment-specific steps are
-setting the `PAYKARO_*` statutory numbers, turning `PAYKARO_DEMO=false`, and never
-running `migrate --seed` against a real book.
+setting the `PAYKARO_*` statutory numbers, deciding whether `PAYKARO_SEED_DEMO`
+seeds the sample workspaces, and never running `migrate --seed` against a real
+book.
 
 The deployment target is **Render**, and it is one file: `render.yaml` in the repo
 root builds `Dockerfile` (FrankenPHP + Caddy, PHP 8.3, one process on `$PORT`),

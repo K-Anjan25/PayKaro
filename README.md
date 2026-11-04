@@ -1,7 +1,10 @@
+<p align="center"><img src="public/assets/img/icon-512.png" width="88" alt="PayKaro logo"></p>
+
 # PayKaro
 
-Invoice & receivables tracker for Indian B2B (MSME) businesses: one pipeline for
-what is owed, what is overdue and what could be financed today.
+**MSME invoice & receivables tracker** — one pipeline for what is owed, what is
+overdue and what could be financed today, with the dated evidence and statutory
+interest that make a delayed-payment claim stand.
 
 Laravel 12 · PHP 8.3 · Blade · SQLite or MySQL/Postgres · no build step.
 
@@ -15,7 +18,8 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-Sign in at <http://localhost:8000/login> with `sunita@shreeprecision.in` / `demo1234`.
+Sign in at <http://localhost:8000/login>. The seed command creates two sample
+workspaces; their logins are printed by the seeder and are not published here.
 
 ## Deploy to Render
 

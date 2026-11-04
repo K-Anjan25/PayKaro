@@ -5,18 +5,6 @@ PayKaro is a Laravel 12 application on PHP 8.3. Nothing needs a database server:
 
 ## Local
 
-Before pushing a dependency change, check the lock against the PHP CI actually runs:
-
-```
-node bridge/check-lock.mjs          # target defaults to composer.json's platform pin
-node bridge/check-lock.mjs 8.3.33
-```
-
-It exits non-zero and names every locked package whose `php` floor CI cannot satisfy — the
-failure a locally-green `composer install` cannot show you, because a lock always agrees
-with the machine that produced it.
-
-
 ```bash
 composer install     # from the committed composer.lock
 cp .env.example .env
@@ -81,81 +69,6 @@ php artisan test --filter=ReceivablesTest
 `sync` queue and a fixed `APP_KEY`, so no `.env` and no `key:generate` are needed to run
 the suite — which is what CI relies on.
 
-### The JS harness
-
-The date-field calendar popup is inline script with no build step, so nothing in the PHP
-suite can reach it. `bridge/datepicker-harness.mjs` mounts the include's own markup and
-script in jsdom and drives it (click, arrow, type), deriving every month length and cell
-count from the real calendar rather than hard-coded dates:
-
-```bash
-cd bridge && npm i jsdom          # dev-only, deliberately not in package.json
-node bridge/datepicker-harness.mjs
-PIN_TODAY=2024-02-29 node bridge/datepicker-harness.mjs   # edge days too
-```
-
-It earned its place: it caught a `parse()` regex that could never match (`/^\d{4}…/` in the
-source, so a literal backslash), a `Date` leaking into a `[y,m,d]` reader, an off-by-one
-weekday offset against the widget's own Monday-first header, and a null dereference that
-killed the popup whenever a field had been replaced by a re-render. `node --check` passed
-through every one of those.
-
-A green run does not cover visual alignment or the native picker — jsdom performs no
-layout. Check those in a browser.
-
-### The overflow sim
-
-Layout can't be tested in jsdom, but the *rules* that decide whether anything can
-overflow can be. `bridge/overflow-sim.mjs` parses `public/assets/app.css` (plus the
-datepicker include's own `<style>`) and asserts the structural facts that CSS overflow
-bugs are made of: every `fr` track is `minmax(0,…)`, scroll containers scroll instead
-of clipping, `overflow-wrap` is inherited from the page roots, no track is sized by
-`max-content` text, and the fixed-width popup has a viewport clamp.
-
-It also audits the printed claim packet, because that is the one artefact where a visual
-bug has legal consequence: the chrome is hidden, the light palette is re-asserted for
-`html.dark` (and compared token-by-token against `:root`, so a copy cannot quietly go
-stale), each schedule is kept off a page break, and the running footer that carries the
-GSTIN and invoice number is `position:fixed`.
-
-```bash
-node bridge/overflow-sim.mjs                                  # current sheet, 15 checks
-git show main:public/assets/app.css > /tmp/app.css.before
-CSS=/tmp/app.css.before INCLUDE=/dev/null node bridge/overflow-sim.mjs   # control: 2 hazards
-```
-
-Always run the control too. A checker that parses nothing reports nothing, so the tool
-aborts if it reads fewer than 60 rules and the control run is what proves the checks can
-fail. The control above is `main`'s sheet, taken before this work: it reports the two
-missing print facts, and it is also what the original 32-hazard run used. Most of those 32
-were the same single mistake repeated: the base rules guarded their tracks with
-`minmax(0,1fr)` but the responsive overrides re-wrote them as bare `1fr`, re-arming the
-blow-out at exactly the widths where text is most likely to spill. The refresh then
-re-introduced four of the same shape under new names — `auto minmax(18rem,1fr) auto` and
-friends — which is why the minimum now sits on the *item* (`min-width:18rem` on the side
-stack) and the track stays shrinkable.
-
-### The brand assets
-
-The favicon, the tab/home-screen icons and the 1200×630 share card are committed
-files — the app still has no build step — but they are *generated*, so they can be
-re-rendered when the palette or the wordmark changes instead of being binaries
-nobody can reproduce:
-
-```bash
-cd /tmp && npm pack @expo-google-fonts/plus-jakarta-sans && tar xzf *.tgz
-cd - && FONT_DIR=/tmp/package node bridge/brand-assets.mjs
-```
-
-It draws with the app's own brand font (Plus Jakarta Sans, the same family the
-layouts load from Google Fonts) and refuses to write a card whose copy overruns the
-text column. Outputs: `public/favicon.ico` (16/32/48), `public/assets/img/icon-32|180|512.png`
-and `public/assets/img/og-default.png`.
-
-`tests/Feature/BrandAssetsTest.php` pins what those files have to be — the ICO is
-not the 0-byte stub it used to be, the PNGs are the sizes their `sizes=` attributes
-claim, and every layout links them and publishes an absolute `og:image`.
-
 ## Printed documents
 
 Anything that leaves the product on paper goes through two shared pieces, so a
@@ -172,8 +85,7 @@ filing cannot carry the wrong claimant or the wrong number:
   tokens re-asserted under `html.dark`, schedules kept off page breaks, `@page`
   margin, and a fixed footer carrying the GSTIN and invoice number on every sheet.
 
-Both are audited by `bridge/overflow-sim.mjs` (the print section) and
-`tests/Feature/InvoicePipelineTest.php` (the strings a filing is cited by).
+The print sheet is audited by `tests/Feature/InvoicePipelineTest.php` (the strings a filing is cited by).
 
 ## What the marketing pages may claim
 
@@ -204,27 +116,6 @@ the workspace's own state by `App\Brand\Onboarding`. It is not stored, so a memb
 who inherits a populated workspace never sees it, one who starts fresh does, and
 the card disappears when the last step is done. Every step is a write, so a
 read-only member never sees it at all.
-
-## The brand book
-
-`/brand` is the brand guidelines, readable signed out and linked from every
-marketing footer. It is not a document that describes the product — it *renders*
-it: the tokens are read out of `public/assets/app.css`, the contrast ratios are
-measured by `App\Brand\Palette`, and the type scale is parsed from the same
-stylesheet. If the page and the app disagree, the app is right and the page is a
-bug report.
-
-Two classes back it, both §5.2's "guidelines as code":
-
-| Class | Owns | Guarded by |
-|-------|------|-----------|
-| `App\Brand\Palette` | the tokens, and the 31 colour pairings the product relies on with the ratio each must clear | `tests/Unit/BrandPaletteTest.php` — fails below a floor, and fails when a token is declared in `:root` but never restated in `html.dark` |
-| `App\Brand\Type` | the type scale, read from the stylesheet | `tests/Feature/BrandPageTest.php` — the page has to show what the CSS sets |
-
-Measuring is not decoration: the audit found six failing pairings in the shipped
-palette (see the comment beside the tokens in `app.css`). A new screen that needs a
-colour takes a token; a new pairing gets declared in `Palette::pairs()` with the
-reason it exists, and the test says whether it is legible.
 
 ## Email
 
@@ -349,64 +240,3 @@ Workspace: `/dashboard` · `/invoices` (list, `?status=` and `?q=`) · `/invoice
 Legacy addresses the flat-PHP app used, still honoured: `/invoices/new` →
 `/invoices/create`, `/invoice?id=N` → `/invoices/N`, `/invoice?edit=N` → `/invoices/N/edit`,
 `/claim?id=N` → `/invoices/N/claim`.
-
-## Sandbox (no native PHP)
-
-The agent sandbox has Node but no `php`/`composer` binary and no Packagist access, so the
-app is booted inside `@php-wasm/node` — PHP 8.3 compiled to WebAssembly — behind a small
-Node HTTP bridge. Laravel runs unmodified: `public/index.php` is the front controller and
-the bridge does only what a web server would.
-
-```bash
-cd bridge
-npm ci                                    # @php-wasm/node, pinned in package-lock.json
-node serve.mjs                            # http://127.0.0.1:8080
-```
-
-First boot copies `.env.example` → `.env`, generates an `APP_KEY`, runs `migrate --seed`
-and then serves; later boots go straight to serving, and `PAYKARO_SKIP_SEED=1` skips the
-database step entirely. The logins are the demo businesses the seeder prints, password
-`demo1234`.
-
-`bridge/serve.mjs`:
-
-- runs one request at a time through the front controller and states the SAPI variables a
-  web server would (`SCRIPT_NAME`, `DOCUMENT_ROOT`, `REQUEST_URI`, `HTTPS`) — php-wasm
-  otherwise reports the request path as the *script* name, and Laravel derives a bogus
-  base path from that, prefixing every route and URL;
-- serves `public/` itself for anything that exists on disk and is not PHP;
-- passes the visitor's origin down as `APP_URL` (from `X-Forwarded-Host`), so `asset()`,
-  `route()` and redirects point at the sandbox preview host instead of at `localhost`.
-
-Two runtime limitations are accommodated rather than fixed:
-
-- **`SESSION_DRIVER=database`**, rewritten in `.env` on boot. Laravel's *file* session
-  driver reads through `Filesystem::sharedGet()`, which needs `flock($handle, LOCK_SH)`;
-  WebAssembly refuses shared locks, that read comes back empty, and every request would
-  mint a fresh CSRF token — so `POST /login` answers `419 Page Expired` forever. The
-  `sessions` table is already part of the app's own migrations. On a real server `file`
-  (or Redis) stays the right driver; this is the runtime, not the app.
-- **No `intl`/`zip`/`curl` extensions** in the wasm build. Nothing the app itself renders
-  needs them — `bridge/check-lock.mjs` is the one script that wants `intl`, and it is run
-  on a machine that has it.
-
-The suite runs here too, but not through `php artisan test`: that command shells out to
-`vendor/bin/phpunit` through Symfony Process, and this runtime has no child process to
-spawn. `bridge/test.mjs` starts PHPUnit directly instead, through php-wasm's real CLI SAPI
-— which is where argv, exit codes and STDERR come from:
-
-```bash
-cd bridge && npm ci
-node test.mjs                              # whole suite
-node test.mjs --filter=WorkspacePagesTest  # any PHPUnit argument
-node test.mjs --testdox
-```
-
-Two accommodations are visible if you look for them. `bridge/bootstrap.mjs` writes a
-composer-compatible autoloader, not Composer's `vendor/bin` shims, so the launcher is
-named by its path. And the runner sets `PAYKARO_SANDBOX_PHPUNIT=1`, which
-`tests/TestCase.php` reads to skip Laravel's mocked console output: building that mock
-traps the WebAssembly runtime, and `RefreshDatabase` migrates through the exact call that
-builds it, so a database-backed test would die before its first assertion. On CI the
-variable is unset and the mock is used as normal — CI remains the authority: real PHP
-8.3, a real Composer, the whole suite, and every assertion on artisan output.

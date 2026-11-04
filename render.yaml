@@ -91,10 +91,11 @@ services:
         value: "85"
       - key: PAYKARO_ALERT_LIMIT
         value: "6"
-      # Off in production: `true` labels the workspace "Demo" and prints the
-      # seeded logins on the sign-in page.
-      - key: PAYKARO_DEMO
-        value: "false"
+      # Seeds the two sample workspaces once on boot, so the demo logins work
+      # without the logins ever being shown in the UI. The seeder skips itself
+      # when any user exists, so a real workspace can never be overwritten.
+      - key: PAYKARO_SEED_DEMO
+        value: "true"
 
       # --- Google Sign-In (optional) --------------------------------------
       # Unset means the "Continue with Google" button is not rendered and

@@ -1,6 +1,6 @@
 <x-layouts.public mode="landing" mainId="top" :search="true">
 <!-- HERO -->
-<section class="hero hero-grid">
+<section class="hero">
 	<div class="container">
 		<div class="hero-inner">
 			<div class="hero-text">
@@ -267,7 +267,7 @@
 	<div class="container">
 		<div class="cta-banner">
 			<div>
-				<p class="eyebrow" style="color:var(--n-ink);">Ready</p>
+				<p class="eyebrow">Ready</p>
 				{{-- The closing CTA repeats the brand line on purpose — it is the same
 				     promise, so it is the same key, not a retyped copy of it. --}}
 				<h2 style="margin-top:.5rem;">{{ config('paykaro.headline') }}</h2>
@@ -277,52 +277,4 @@
 		</div>
 	</div>
 </section>
-    <x-slot:footer>
-        <footer class="page-footer">
-<div class="container">
-	<div>
-		<a class="pkg-brand" href="{{ route('landing') }}" style="padding:0;color:#fff;" aria-label="PayKaro home">
-			<div class="pkg-brand-text">
-				<div class="name" style="color:#fff;"><x-brand-wordmark /></div>
-				<div class="sub" style="color:rgba(255,255,255,.6);">{{ config('paykaro.descriptor') }}</div>
-			</div>
-		</a>
-		<p class="meta">© {{ now()->year }} PayKaro · Made for India's MSMEs.</p>
-	</div>
-	<div>
-		<h4>Product</h4>
-		<ul>
-			<li><a href="#workflow">Workflow</a></li>
-			<li><a href="#finance">Financing</a></li>
-			<li><a href="#evidence">Evidence</a></li>
-			<li><a href="#claims">Claims</a></li>
-		</ul>
-	</div>
-	<div>
-		<h4>Company</h4>
-		<ul>
-			<li><a href="#news">Product notes</a></li>
-			<li><a href="#impact">Impact</a></li>
-			<li><a href="{{ route('pricing') }}">Pricing</a></li>
-			<li><a href="{{ route('login') }}">Sign in</a></li>
-		</ul>
-	</div>
-	<div>
-		<h4>Legal</h4>
-		<ul>
-			<li><a href="{{ route('terms') }}">Terms</a></li>
-			<li><a href="{{ route('privacy') }}">Privacy</a></li>
-			<li><a href="{{ route('security') }}">Security</a></li>
-		</ul>
-	</div>
-</div>
-<div class="page-footer-bottom">
-	<span>© {{ now()->year }} {{ config('app.name') }} · {{ config('paykaro.descriptor') }}</span>
-	<span>
-		<a href="{{ route('brand') }}" style="color:var(--n-gold);">Brand</a> ·
-		Demo workspace · <a href="{{ route('login') }}" style="color:var(--n-gold);">Sign in</a>
-	</span>
-</div>
-</footer>
-    </x-slot:footer>
 </x-layouts.public>

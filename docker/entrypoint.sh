@@ -12,6 +12,10 @@
 #                         Safe here, unlike in a Docker build: the environment
 #                         variables are present at this point. Skip it when the
 #                         platform rotates secrets without a restart.
+#   PAYKARO_SEED_DEMO=true  seed the sample workspaces once. The seeder skips
+#                         itself when any user exists, so this cannot duplicate
+#                         or overwrite a real book. Logins are never displayed
+#                         in the UI — read them from the deploy log if needed.
 #
 # Everything else is left to the app: APP_KEY, DB_*, PAYKARO_*, TRUSTED_PROXIES.
 set -eu
@@ -44,6 +48,11 @@ esac
 if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
 	echo "[paykaro] running migrations against ${DB_CONNECTION:-sqlite}"
 	php artisan migrate --force --no-interaction
+fi
+
+if [ "${PAYKARO_SEED_DEMO:-false}" = "true" ]; then
+	echo "[paykaro] seeding the sample workspaces (skips itself if any user exists)"
+	php artisan db:seed --force --no-interaction
 fi
 
 if [ "${BUILD_CACHES:-false}" = "true" ]; then

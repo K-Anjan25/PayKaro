@@ -31,8 +31,8 @@ final class News
                     ['type' => 'h2', 'text' => 'Why it matters for claims'],
                     ['type' => 'p', 'text' => 'Under the MSMED framework, interest on delayed payments runs at three times the bank rate, calculated from the agreed date or deemed acceptance — but only if you can prove acceptance happened. A delivery acknowledgement with a date on it turns "they took the goods in July" into a number the forum accepts.'],
                     ['type' => 'p', 'text' => 'The claim packet builder assembles the checklist into a filing-ready summary: invoice, buyer, amounts, days overdue, interest due and the evidence trail — with the deadline for the MSEFC forum or arbitration computed from the due date.'],
-                    ['type' => 'h2', 'text' => 'Try it in the demo'],
-                    ['type' => 'p', 'text' => 'Sign in to the demo workspace, open any invoice and tick the evidence items. Watch the readiness score and the finance queue react immediately.'],
+                    ['type' => 'h2', 'text' => 'Try it on your own book'],
+                    ['type' => 'p', 'text' => 'Sign up, open any invoice and tick the evidence items. Watch the readiness score and the finance queue react immediately.'],
                 ],
             ),
             new NewsArticle(
@@ -52,7 +52,7 @@ final class News
                     ['type' => 'h2', 'text' => 'Same week, cash in the bank'],
                     ['type' => 'p', 'text' => 'With the packet complete, their financier discounted the Delhi Metro invoice within days — no back-and-forth over documents, because every document was already attached, dated and checked. The disbursal was recorded against the invoice, moved it to "financed", and left the balance sheet honest.'],
                     ['type' => 'p', 'text' => 'The pattern is the point: complete evidence makes an invoice financeable the day it\'s raised. A TReDS-ready buyer makes it discountable. Everything else keeps earning interest.'],
-                    ['type' => 'p', 'text' => 'MetRow Ceramics is one of the two demo businesses seeded in the PayKaro workspace — sign in with the MetRow login and this exact book is sitting in the data.'],
+                    ['type' => 'p', 'text' => 'MetRow Ceramics is a worked example, not a named customer: the book described here is the sample data a fresh workspace can be seeded with.'],
                 ],
             ),
             new NewsArticle(
@@ -74,7 +74,7 @@ final class News
                     ['type' => 'h2', 'text' => 'What to do this quarter'],
                     ['type' => 'p', 'text' => 'One: audit your top buyers\' TReDS status before you plan financing around them. Two: close the evidence gaps on every open invoice — purchase order, delivery acknowledgement, GRN, GST-valid copy. Three: compute the interest you are owed from the invoice dates, so the number is ready the day you need it.'],
                     ['type' => 'p', 'text' => 'PayKaro bakes all three in: a 45-day due window on every invoice, daily interest accrual at three times the bank rate, a TReDS queue that separates ready from blocked, and a claim packet with the forum deadline computed for you.'],
-                    ['type' => 'p', 'text' => 'This article is a plain-language summary written for the PayKaro demo workspace, not legal advice. The interest rate (3× a 6.5% bank rate) and windows shown in the demo follow the app\'s configuration.'],
+                    ['type' => 'p', 'text' => 'This article is a plain-language summary, not legal advice. The interest rate (3× a 6.5% bank rate) and the windows shown follow the app\'s configuration.'],
                 ],
             ),
         ];

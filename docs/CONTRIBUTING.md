@@ -28,13 +28,6 @@ php artisan test                  # the whole suite
 ./vendor/bin/pint --test          # style; `composer format` applies it
 ```
 
-If you touched `public/assets/app.css` or a view's grid:
-
-```bash
-node bridge/overflow-sim.mjs      # the grid/overflow guards
-node bridge/test.mjs              # the JS side of the harness (cd bridge && npm ci once)
-```
-
 CI (`.github/workflows/ci.yml`) runs lint and the suite on every push; both must be
 green before merge.
 

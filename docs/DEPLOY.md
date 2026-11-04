@@ -9,8 +9,10 @@ Three things this app adds on top of a normal Laravel deploy:
 
 - the **statutory numbers** in `config/paykaro.php` are configuration, not code
   (`PAYKARO_BANK_RATE`, `PAYKARO_MSME_DUE_DAYS`, …);
-- the **demo flag** (`PAYKARO_DEMO`) has to be `false`, or the workspace is labelled
-  "Demo" and the seeded logins are printed on the sign-in page;
+- the **sample-workspace seed** (`PAYKARO_SEED_DEMO`) is opt-in per environment:
+  `true` seeds the two sample workspaces once on boot — the seeder skips itself
+  when any user exists, and the logins are never displayed in the UI. Leave it
+  `false` for a real book of business;
 - there are **no file uploads** — the evidence checklist records that a document
   exists, it does not store it — so `storage:link` is not part of the deploy.
 
@@ -105,7 +107,7 @@ Everything not listed here already has a production default in the image or in
 | `QUEUE_CONNECTION` | `sync` | nothing is queued |
 | `RUN_MIGRATIONS` | `true` | `docker/entrypoint.sh` runs `php artisan migrate --force` before serving |
 | `BUILD_CACHES` | `true` | `php artisan optimize` (config, routes, views) at start-up |
-| `PAYKARO_DEMO` | `false` | hides the demo banner and the seeded logins |
+| `PAYKARO_SEED_DEMO` | `true` | seeds the sample workspaces once on boot (skips itself if any user exists); logins are never shown in the UI |
 | `PAYKARO_MSME_DUE_DAYS` | `45` | the MSMED window the interest clock starts from |
 | `PAYKARO_BANK_RATE` | `5.5` | RBI bank rate; interest is `bank_rate × PAYKARO_INTEREST_MULTIPLIER` |
 | `PAYKARO_INTEREST_MULTIPLIER` | `3` | |
@@ -166,7 +168,7 @@ URLs in the page are `https://`, and a `POST` (save the invoice) does not come b
 | The database host is unreachable, or resolves but refuses the connection | The service and the database are in different regions — `connectionString` is a private-network address. Set `region:` to the same value on both. |
 | Sign-in succeeds and then bounces back to `/login` | session not sticking: `SESSION_DRIVER=database` and the `sessions` table exists; `TRUSTED_PROXIES` set |
 | Health check fails, deploy marked unhealthy | `healthCheckPath` must be `/up`; a 500 there is a missing `APP_KEY` or a database it cannot reach |
-| Sign-in page shows "Demo workspace" and the demo logins | `PAYKARO_DEMO` is still `true` |
+| The sample logins do not work | `PAYKARO_SEED_DEMO` is not `true`, or the database already had users on first boot (the seeder skips itself) — empty the database and redeploy |
 
 ## Local parity
 
