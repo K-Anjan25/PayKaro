@@ -1,0 +1,29 @@
+# Build context hygiene. The image installs its own dependencies; sending this
+# machine's copies only makes the build slower.
+.git
+.github
+.gitignore
+.gitattributes
+.editorconfig
+
+# Secrets and local state
+.env
+.env.*
+!.env.example
+*.sqlite
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+bootstrap/cache/*.php
+
+vendor
+node_modules
+bridge
+
+# Not needed to serve a request
+tests
+phpunit.xml
+docs
+*.md
+render.yaml

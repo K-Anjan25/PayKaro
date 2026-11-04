@@ -1,9 +1,9 @@
 <x-layouts.public title="Page not found" active="" mode="page">
     <section class="sec">
-        <div class="container" style="max-width:44rem;">
+        <div class="container">
             <p class="eyebrow">404</p>
             <h1 class="h1" style="margin-top:.6rem;">Nothing here</h1>
-            <p class="lead" style="margin-top:.8rem;">
+            <p class="lead" style="margin-top:.8rem;max-width:62ch;">
                 The page — or the invoice — you asked for doesn't exist in this workspace. Invoices from another
                 account are reported the same way, so nothing leaks across tenants.
             </p>
