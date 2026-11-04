@@ -250,9 +250,6 @@ html, body { margin:0; padding:0; }
 }
 
 /* Two vertical accent bars (UFL signature) on the left of the header */
-.pkg-bars { display:flex; align-items:stretch; gap:.35rem; padding:.75rem .9rem .75rem 0; }
-.pkg-bars .bar-thick { width:.55rem; background:var(--n-blue); border-radius:2px; align-self:stretch; }
-.pkg-bars .bar-thin  { width:.18rem; background:var(--n-gold); border-radius:2px; align-self:stretch; }
 
 /* Brand lockup */
 .pkg-brand { display:flex; align-items:center; gap:.65rem; padding-right:1.4rem; }
@@ -635,7 +632,6 @@ html.dark .pkg-badge--danger { color:#fda4af; background:#3a1519; border-color:#
 	.pkg-nav { display:none; }
 	.pkg-menumob { display:flex; align-items:center; justify-content:center; width:2.4rem; height:2.4rem; border:1px solid var(--n-line); border-radius:8px; background:var(--n-paper); color:var(--n-ink); cursor:pointer; }
 	.pkg-head-inner { min-height:3.6rem; }
-	.pkg-bars { padding:.55rem .7rem .55rem 0; }
 }
 @media (max-width:780px) {
 	.pkg-util-inner { font-size:.7rem; padding:.4rem var(--n-gutter); gap:.8rem; }

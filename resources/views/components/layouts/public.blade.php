@@ -73,10 +73,6 @@
 
 <header class="pkg-head">
     <div class="pkg-head-inner">
-        <div class="pkg-bars" aria-hidden="true">
-            <span class="bar-thick"></span>
-            <span class="bar-thin"></span>
-        </div>
         <a class="pkg-brand" href="{{ route('landing') }}" aria-label="{{ config('app.name') }} home">
             <div class="pkg-brand-text">
                 <div class="name"><x-brand-wordmark /></div>
